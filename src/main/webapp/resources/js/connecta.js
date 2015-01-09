@@ -1,5 +1,11 @@
 define([
     'angular',
+    // Módulos Angular Connecta
+    'connecta.portal',
+    'connecta.collector',
+    'connecta.presenter',
+    'connecta.maps',
+    // Dependências principais
     'angular-route',
     'angular-resource',
     'angular-ui-bootstrap',
@@ -10,12 +16,18 @@ define([
     'bower_components/angular-i18n/angular-locale_pt-br'
 ], function(angular) {
     var connecta = angular.module('connecta', [
+        'connecta.portal',
+        'connecta.collector',
+        'connecta.presenter',
+        'connecta.maps',
+        
         'ngRoute',
         'ngResource',
         'ngCookies',
         'ngAnimate',
         'ngTouch',
         'ngLocale',
+        
         'ngTable',
         'ui.bootstrap'
     ]);
@@ -23,7 +35,6 @@ define([
     // TODO Organizar as dependências e extrair código pro config do Angular
     connecta.appBootstrap = {
         run: function(config) {
-            console.log("bootstrap.run()");
             //Configuração da aplicaçao
             connecta.config([
                 '$routeProvider',
@@ -31,8 +42,6 @@ define([
                 '$compileProvider',
                 '$provide',
                 function($routeProvider, $controllerProvider, $compileProvider, $provide) {
-                    console.log("bootstrap.run() > connecta.config()");
-
                     connecta.conf = config;
 
                     // save references to the providers
@@ -99,24 +108,20 @@ define([
             //start
             require([
                 'domReady!',
-                'controllers/main'
+                'portal/controllers/main'
             ], function(doc) {
-                console.log("bootstrap.run() > require()");
                 angular.bootstrap(doc, [connecta.name]);
             });
         },
         init: function() {
-            console.log("bootstrap.init()");
             require([
                 'json!./../../services/rest/config.json',
                 'domReady!',
-                'services/applications',
-                'services/pages',
-                'services/layout',
-                'services/search'
+                'portal/services/applications',
+                'portal/services/pages',
+                'portal/services/layout',
+                'portal/services/search'
             ], function(config) {
-                console.log("bootstrap.init() > require()");
-
                 // Adiciona o path das aplicações na configuração do require, isso permite
                 // requisições simplificadas
                 var applicationsPaths = {};

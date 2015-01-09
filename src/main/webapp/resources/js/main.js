@@ -9,7 +9,15 @@ require.config({
         'angular-route': '../../bower_components/angular-route/angular-route.min',
         'angular-resource': '../../bower_components/angular-resource/angular-resource.min',
         'angular-ui-bootstrap': '../../bower_components/angular-bootstrap/ui-bootstrap-tpls.min',
-        'angular-ng-table':'../../bower_components/ng-table/ng-table.min'
+        'angular-ng-table':'../../bower_components/ng-table/ng-table.min',
+        'portal' : 'portal',
+        'collector' : 'collector',
+        'presenter' : 'presenter',
+        'maps' : 'maps',
+        'connecta.portal': 'portal/connecta.portal',
+        'connecta.collector': 'collector/connecta.collector',
+        'connecta.presenter': 'presenter/connecta.presenter',
+        'connecta.maps': 'maps/connecta.maps'
     },
     shim: {
         'angular': {

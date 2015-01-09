@@ -1,0 +1,226 @@
+/*Barra lateral*/
+#sidebar{
+    width: 250px;
+    background-color: #1B1E25;
+    position: fixed;
+    height: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    transition: left 0.3s;
+    padding-top: 59px;
+    z-index: 10;
+}
+
+/*Conteudo*/
+/*Permite ocultar o menu lateral*/
+.hide-sidebar #sidebar{
+    left: -250px;
+}
+
+#sidebar > ul.nav{
+    margin: 0;
+    transition: all 0.3s;
+    /* position: absolute; */
+    left: -250px;
+    top: 0;
+    display: block;
+    width: 250px;
+    padding: 0;
+}
+
+#sidebar ul.nav.active{
+    left: 0px;
+}
+
+
+/*** Page sidebar ***/
+#sidebar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    margin: 0;
+    padding: 0;
+}
+
+#sidebar ul > li {
+    display: block;
+    margin: 0;
+    padding: 0;
+    border: 0px;
+}
+
+#sidebar > ul > li ul {
+    background-color: #22262F;
+}
+
+#sidebar > ul > li.start > a {
+    border-top-color: transparent !important;
+}
+
+#sidebar > ul > li:last-child > a {
+    border-bottom: 1px solid transparent !important;
+}
+
+#sidebar ul > li > a {
+    display: block;
+    position: relative;
+    margin: 0;
+    border: 0px;
+    padding: 5px;
+    padding-left: 20px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: normal;
+}
+
+#sidebar > ul > li > a {
+    font-size: 14px;
+    padding: 10px;
+    padding-left: 20px;
+}
+
+#sidebar .menu-item {
+
+
+    color: #bbb;
+    border-left: 5px solid transparent;
+}
+
+#sidebar .menu-item .arrow{
+    display: none;
+}
+
+#sidebar .menu-item.has-child .arrow{
+    display: block;
+}
+
+#sidebar .menu-item:hover {
+    background-color: #343A46;
+    border-color: #297FB8;
+    color: #fff;
+}
+
+#sidebar .menu-item.has-child:hover {
+    background-color: #297FB8;
+}
+
+#sidebar > ul > li > a i {
+    font-size: 14px;
+    margin-right: 5px;
+    text-shadow:none;
+}
+
+#sidebar > ul > li.active > a {
+    border: none;
+    text-shadow:none;
+    /*border-left:4px solid  #0aa699;*/
+    /*padding: 10px 25px 10px 21px;*/
+}
+
+#sidebar > ul > li.active > a .selected {
+    display: block;
+    width: 8px;
+    height: 25px;
+    background-image: url("../img/sidebar-menu-arrow.png");
+    float: right;
+    position: absolute;
+    right:-8px;
+    top:8px;
+}
+
+#sidebar ul > li > a > .arrow {
+    content: '';
+    display: block;
+    position: absolute;
+    left: 210px;
+    width: 0;
+    height: 0;
+    border: 5px outset transparent;
+    top: 17px;
+    border-top: 5px solid black;
+    border-top-color: #fff;
+    opacity: 0.2;
+    transition: opacity 0.3s;
+}
+
+#sidebar > ul > li > a > .arrow.open {
+    opacity: 0;
+}
+
+#sidebar > ul > li > ul.sub-menu {
+    display: none;
+    list-style: none;
+    clear: both;
+    margin:0px;
+    background-color:#22262E;
+    padding:8px 0px 10px 0px;
+
+}
+
+#sidebar > ul > li.active > ul.sub-menu {
+    display: block;
+}
+
+#sidebar > ul > li > ul.sub-menu > li {
+    background: none;
+    margin: 0px;
+    padding: 0px;
+    margin-top: 1px !important;
+}
+
+#sidebar > ul > li > ul.sub-menu > li > a {
+    display: block;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 0px;
+    padding-left: 53px !important;
+    color: #e1eaf1;
+    text-decoration: none;
+    text-shadow: 0 1px 1px #000;
+    font-size: 13px;
+    font-weight: 300;
+    background: none;
+}
+
+/* Level 3 */
+#sidebar > ul > li > ul.sub-menu  > li ul.sub-menu {
+    display: none;
+    list-style: none;
+    clear: both;
+    margin: 0px 0px 0px 0px;
+    padding-left:0
+}
+
+
+#sidebar > ul > li.active > ul.sub-menu > li ul.sub-menu {
+    display: block;
+}
+
+#sidebar > ul > li > ul.sub-menu > li  ul.sub-menu li {
+    background: none;
+    margin: 0px;
+    padding: 0px;
+}
+
+#sidebar > ul > li > ul.sub-menu  li > ul.sub-menu > li > a {
+    display: block;
+    margin: 0px 0px 0px 0px;
+    padding: 5px 0px;
+    color: #ccc;
+    text-decoration: none;
+    text-shadow: 0 1px 1px #000;
+    font-size: 13px;
+    font-weight: 300;
+}
+
+#sidebar > ul > li > ul.sub-menu > li > ul.sub-menu > li > a {
+    padding-left: 70px;
+}
+
+#sidebar > ul > li > ul.sub-menu > li > ul.sub-menu > li > ul.sub-menu > li > a {
+    padding-left: 80px;
+}
+
+#sidebar > ul > li > ul.sub-menu  li > ul.sub-menu > li > a > i {
+    font-size: 13px;
+}

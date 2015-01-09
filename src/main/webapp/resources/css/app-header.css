@@ -1,0 +1,107 @@
+#menu-top{
+    background: #fff;
+    height: 60px;
+    margin: 0;
+}
+
+#menu-top .navbar-toggle .icon-bar {
+    background-color: #494F5B;
+    height: 3px;
+}
+#menu-top .navbar-toggle:hover .icon-bar {
+    background-color: #FFF;
+}
+
+#menu-top .navbar-toggle.toggle-menu {
+    display: block;
+    float: left;
+}
+
+#menu-top .icon-bar {
+    background-color: #494F5B;
+}
+
+#menu-top .navbar-header{
+    background-color: #22262F;
+    /* width: 250px; */
+}
+#menu-top .navbar-nav{
+    padding: 0;
+}
+#menu-top .navbar-nav li{
+    padding: 0;
+}
+
+#menu-top .navbar-nav>li>a {
+    line-height: 30px;
+}
+
+#menu-top .navbar-nav.menu > li > a{
+
+    font-size: 20px;
+    text-align: center;
+}
+
+#menu-top .navbar-header .navbar-brand{
+    height: 60px;
+    width: 250px;
+    padding: 0;
+}
+#menu-top .navbar-header .navbar-brand a{
+    line-height: 30px;
+    padding: 10px 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    display: block;
+    /* position: relative; */
+    float: left;
+    color: #fff;
+    width: 16px;
+    padding-left: 10px;
+}
+
+
+/*Ícones das aplicações*/
+.app-icon{
+    width: 60px;
+    height: 60px;
+    overflow: hidden;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0;
+    border: 0;
+    background-color: #fff;
+    color: #000;
+}
+
+a.app-icon{
+    transition: all 0.3s;
+}
+
+#menu-top a.app-icon:hover {
+    text-decoration: none;
+    background-color: #eee;
+}
+
+#menu-top .actual-app{
+    float: right;
+}
+
+#menu-top .actual-app .arrow{
+    display: block;
+    position: absolute;
+    left: 210px;
+    width: 0;
+    height: 0;
+    border: 10px outset transparent;
+    top: 60px;
+    border-top: 10px solid;
+    transition: top 0.1s;
+}
+
+.hide-sidebar #menu-top .actual-app .arrow{
+    top: 50px;
+    border-top: 0px;
+    border-bottom:10px solid;
+}
+

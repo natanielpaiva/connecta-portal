@@ -1,0 +1,39 @@
+{
+    "attributes": {
+        "app-sidebar": {},
+        "app-search": {},
+        "app-search-result-body": {},
+        "app-pages-tabs": {},
+        "app-pages": {},
+        "app-layout": {
+            "context": "div"
+        },
+        "app-header": {
+            "context": "div"
+        },
+        "portal-tabs-component": {},
+        "app-search-embedded": {},
+        "app-search-page": {}
+    },
+    "elements": {
+        "app-layout": {},
+        "pagination": {
+            "attributes": {
+                "total-items": {},
+                "next-text": {},
+                "page": {},
+                "previous-text": {},
+                "last-text": {},
+                "class": {},
+                "first-text": {},
+                "boundary-links": {}
+            }
+        },
+        "sidebar-navigation": {
+            "attributes": {
+                "menu": {}
+            }
+        },
+        "app-search-embedded": {}
+    }
+}

@@ -1,0 +1,1043 @@
+/*** Forms Elements***/
+label,
+input,
+button,
+select,
+textarea {
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 20px;
+
+}
+
+input,
+button,
+select,
+textarea {
+    font-family: "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+label.done{
+    color:#0090d9 !important;
+    text-decoration:line-through;
+}
+.uneditable-input,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"] {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    -webkit-appearance: none !important;
+    color: #282323;
+    outline: 0;
+    padding: 6px 9px !important;
+    line-height: 15px;
+    font-size: 13px;
+    font-weight: normal;
+    vertical-align: top;
+    background-color:#fff;
+    min-height: 20px;
+    filter: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+    border-radius: 2px!important;
+    -webkit-border-radius: 2px!important;
+    -moz-border-radius: 2px!important;
+    border: 1px solid #e5e9ec;
+    transition: background 0.2s linear 0s, box-shadow 0.2s linear 0s;
+}
+
+input.no-boarder {
+    border: none;
+}
+
+input.dark {
+    background-color:#e5e9ec;
+    border: none;
+}
+
+input {
+    border: 1px solid #cecece;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"]{
+    height: 34px !important;
+}
+
+.uneditable-input.focus,
+textarea:focus,
+select:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.m-uneditable-input:focus {
+    border-color: #e5e9ec;
+    background-color:#f4f5f7;
+    outline: 0 !important;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    background-color: #f4f5f7;
+}
+
+input[type="radio"],
+input[type="checkbox"] {
+    margin: 4px 0 0;
+    margin-top: 1px \9;
+    *margin-top: 0;
+    line-height: normal;
+    cursor: pointer;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+select,
+input[type="file"] {
+    height: 34px !important;
+    /* In IE7, the height of the select element cannot be changed by height, only font-size */
+    *margin-top: 4px;
+    /* For IE7, add top margin to align select with labels */
+    line-height: 30px;
+}
+
+select {
+    width: 220px;
+    background-color: #ffffff;
+    background-image: none !important;
+    filter: none !important;
+    border: 1px solid #e5e5e5;
+    outline: none;
+}
+
+select[multiple],
+select[size] {
+    height: auto !important;
+}
+
+select:focus,
+input[type="file"]:focus,
+input[type="radio"]:focus,
+input[type="checkbox"]:focus {
+    outline: thin dotted #333333;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+input[class*="col-md"]
+{
+    float: none;
+    height: 34px !important;
+    margin-left: 0;
+}
+
+select[class*="col-md"],
+textarea[class*="col-md"]
+{
+    float: none;
+    margin-left: 0;
+}
+
+.input-prepend,
+.input-append {
+    border: 0;
+    display: inline-block;
+}
+
+.input-append .add-on,
+.input-prepend .add-on {
+    display: inline-block;
+    width: auto;
+    height: 34px!important;
+    min-width: 16px;
+    padding: 4px 5px;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 24px;
+    text-align: center;
+    text-shadow: 0 1px 0 #ffffff;
+    background-color: #e5e5e5;
+    border: 1px solid #e5e5e5;
+}
+
+.input-append .add-on > .halflings-icon,
+.input-prepend .add-on > i,
+.input-prepend .add-on > [class^="icon-"]
+{
+    margin-top: 5px;
+    margin-left: 3px;
+}
+
+.input-append .add-on > .halflings-icon
+.input-append .add-on > i,
+.input-append .add-on > [class^="icon-"]
+{
+    margin-top: 5px;
+    margin-left: 0px;
+}
+
+.input-append ,
+.input-append :focus {
+    border-right: 0 !important;
+}
+
+
+
+.input-append input[class*="col-md"],
+.input-prepend input[class*="col-md"]
+{
+    display: inline-block !important;
+}
+
+.xsmall {
+    width: 50px !important;
+}
+
+.small {
+    width: 120px !important;
+}
+
+.medium {
+    width: 206px !important;
+}
+
+.large {
+    width: 320px !important;
+}
+
+.huge {
+    width: 480px !important;
+    font-size: 24px !important;
+    height: 36px !important;
+    line-height: 36px !important;
+    padding: 22px 8px !important;
+}
+
+.radio label {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    padding-left: 25px;
+    margin-right: 15px;
+    font-size: 13px;
+    margin-bottom:6px;
+    color: #777a80;
+}
+
+.radio input[type=radio] {
+    display: none;
+}
+.radio label:before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+    position: absolute;
+    left: 0;
+    bottom: 3px;
+    background-color: #fff;
+    border:1px solid #c2c6cb;
+    border-radius: 99px;
+}
+
+
+.radio label:after {
+    font-size: 13px;
+    content: "";
+    text-align: center;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    -o-transform: scale(0);
+    -ms-transform: scale(0);
+    -moz-transform: scale(0);
+    -webkit-transform: scale(0);
+    transform: scale(0);
+    border-radius: 99px;
+    left:0px;
+    top:1px;
+    background-color: #6f7b8a;
+    border:1px solid #6f7b8a;
+}
+.radio input[type=radio][disabled]+ label{
+    opacity: 0.65;
+}
+.checkbox input[type=radio][disabled]+ label:after {
+    background-color:#eceff3;
+}
+
+.radio.radio-success label:after {
+    background-color: #0090D9;
+    border:1px solid #0090D9;
+}
+
+.radio.radio-primary label:after {
+    background-color: #0AA699;
+    border:1px solid #0AA699;
+}
+
+.radio.radio-info label:after {
+    background-color: #1F3853;
+    border:1px solid #1F3853;
+}
+
+.radio.radio-warning label:after {
+    background-color: #FDD01C;
+    border:1px solid #FDD01C;
+}
+
+.radio.radio-danger label:after {
+    background-color: #F35958;
+    border:1px solid #F35958;
+}
+
+.radio input[type=radio]:checked + label{
+    color: #4d5056;
+}
+.radio input[type=radio]:checked + label:after {
+    -o-transform: scale(0.63);
+    -ms-transform: scale(0.63);
+    -moz-transform: scale(0.63);
+    -webkit-transform: scale(0.63);
+    transform:scale(0.63);
+    line-height: 18px;
+    -o-transition: -o-transform .1s 0s cubic-bezier(0.455, 0.030, 0.215, 1.330);
+    -ms-transition: -ms-transform .1s 0s cubic-bezier(0.455, 0.030, 0.215, 1.330);
+    -moz-transition: -moz-transform .1s 0s cubic-bezier(0.455, 0.030, 0.215, 1.330);
+    -webkit-transition: -webkit-transform .1s 0s cubic-bezier(0.455, 0.030, 0.215, 1.330);
+    -o-transition: transform .1s 0s cubic-bezier(0.455, 0.030, 0.215, 1.330);
+    -ms-transition: transform .1s 0s cubic-bezier(0.455, 0.030, 0.215, 1.330);
+    -moz-transition: transform .1s 0s cubic-bezier(0.455, 0.030, 0.215, 1.330);
+    -webkit-transition: transform .1s 0s cubic-bezier(0.455, 0.030, 0.215, 1.330);
+    transition: transform .1s 0s cubic-bezier(0.455, 0.030, 0.215, 1.330);
+}
+.radio input[type=radio]:checked + label:before {
+    border:1px solid #8e9095;
+}
+.radio.radio-success input[type=radio]:checked + label:before {
+    border:1px solid #0090D9;
+}
+.radio.radio-primary input[type=radio]:checked + label:before {
+    border:1px solid #0AA699;
+}
+.radio.radio-info label input[type=radio]:checked + :before {
+    border:1px solid #1F3853;
+}
+.radio.radio-warning input[type=radio]:checked + label:before {
+    border:1px solid #FDD01C;
+}
+.radio.radio-danger input[type=radio]:checked + label:before {
+    border:1px solid #F35958;
+}
+
+.checkbox label {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    padding-left: 25px;
+    margin-right: 15px;
+    font-size: 13px;
+    margin-bottom:6px;
+    color: #777a80;
+    transition: border 0.2s linear 0s,color 0.2s linear 0s;
+}
+table td .checkbox label {
+    padding-left: 0px;
+}
+table th .checkbox label {
+    padding-left: 0px;
+}
+.star label {
+    display: inline-block;
+    cursor: pointer;
+    position: relative;
+    font-size: 18px;
+    transition: border 0.2s linear 0s,color 0.2s linear 0s;
+}
+
+.star label:before {
+    font-family: 'FontAwesome';
+    content: "\F005";
+    display: inline-block;
+    margin-right: 10px;
+    position: absolute;
+    left: 0px;
+    top: -4px;
+    font-size: 18px;
+    color:#97a3b3;
+    transition: border 0.2s linear 0s,color 0.2s linear 0s;
+}
+
+.star label {
+    margin-bottom: 10px;
+}
+.star  input[type=checkbox] {
+    display: none;
+}
+
+.star input[type=checkbox]:checked + label:before  {
+    color:#ffd200;
+}
+
+.checkbox label:before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+    position: absolute;
+    left: 0;
+    top: 1.5px;
+    background-color: #fff;
+    border:1px solid #c2c6cb;
+    border-radius: 3px;
+    transition: border 0.2s linear 0s,color 0.2s linear 0s;
+}
+
+
+.checkbox label::after {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    left: 3px;
+    top: 1px;
+    font-size:11px;
+    transition: border 0.2s linear 0s,color 0.2s linear 0s;
+}
+
+.checkbox  input[type=checkbox] {
+    display: none;
+}
+.checkbox label {
+    margin-bottom: 10px;
+}
+.checkbox label:after {
+    border-radius: 3px;
+}
+.checkbox.checkbox-circle label:after {
+    border-radius: 99px;
+}
+.checkbox.checkbox-circle label:before {
+    border-radius: 99px;
+}
+
+.checkbox input[type=checkbox]:checked + label::after  {
+    font-family: 'FontAwesome';
+    content: "\F00C";
+}
+.checkbox input[type=checkbox]:checked + label{
+    color: #4d5056;
+}
+
+.checkbox input[type=checkbox][disabled]+ label{
+    opacity: 0.65;
+}
+.checkbox input[type=checkbox][disabled]+ label:before {
+    background-color:#eceff3;
+}
+
+.checkbox.check-success input[type=checkbox]:checked + label:before {
+    background-color:#0090D9;
+    border:1px solid #0090D9;
+}
+.checkbox.check-success input[type=checkbox]:checked + label::after {
+    color:#fff;
+}
+
+.checkbox.check-primary input[type=checkbox]:checked + label:before {
+    background-color:#0AA699;
+    border:1px solid #0AA699;
+}
+.checkbox.check-primary input[type=checkbox]:checked + label::after {
+    color:#fff;
+}
+
+.checkbox.check-info input[type=checkbox]:checked + label:before {
+    background-color:#1F3853;
+    border:1px solid #1F3853;
+}
+.checkbox.check-info input[type=checkbox]:checked + label::after {
+    color:#fff;
+}
+
+.checkbox.check-warning input[type=checkbox]:checked + label:before {
+    background-color:#FDD01C;
+    border:1px solid #FDD01C;
+}
+.checkbox.check-warning input[type=checkbox]:checked + label::after {
+    color:#fff;
+}
+
+.checkbox.check-danger input[type=checkbox]:checked + label:before {
+    background-color:#F35958;
+    border:1px solid #F35958;
+}
+.checkbox.check-danger input[type=checkbox]:checked + label::after {
+    color:#fff;
+}
+
+select.xsmall {
+    width: 64px !important;
+}
+
+select.small {
+    width: 134px !important;
+}
+
+select.medium {
+    width: 220px !important;
+}
+
+select.large {
+    width: 334px !important;
+}
+.wysihtml5-toolbar li{
+    padding-left: 0px;
+}
+.bootstrap-tagsinput{
+    border: 1px solid #E5E9EC;
+    border-radius: 3px;
+    box-shadow:none;
+    width:100%;
+    transition: background 0.2s linear 0s;
+}
+.bootstrap-tagsinput.active-element{
+    background-color:#f4f5f7;
+}
+.bootstrap-tagsinput input{
+    border:none;
+    margin-bottom:0px;
+}
+
+.bootstrap-tagsinput .tag{
+    margin-top: 4px;
+    padding: 4px 9px;
+}
+.bootstrap-tagsinput .tag [data-role="remove"]:hover:active,.bootstrap-tagsinput .tag [data-role="remove"]:hover{
+    box-shadow:none;
+}
+/*** Form stuff ***/
+form legend {
+    margin: 15px 0px 10px 0px !important;
+}
+.column-seperation > div[class*="col-md"]{
+    border-right:1px solid #ddd;
+}
+.column-seperation > div[class*="col-md"]:last-child{
+    border-right:0px;
+}
+.form-no-horizontal-spacing .row-fluid [class*="col-md"]{
+
+}
+.form-no-horizontal-spacing .row-fluid .side-label{
+    border-right:1px solid #dddddd;
+}
+
+.radio, .checkbox{
+    padding-left:0px
+}
+/*** General forms settings ***/
+input.placeholder,
+textarea.placeholder {
+    color: #aaa !important;
+}
+
+.help-block {
+    margin-top: 10px;
+}
+
+.form-inline input {
+    margin-bottom: 0px !important;
+}
+
+.control-label {
+    margin-top: 2px;
+}
+
+.control-label .required {
+    color: #e02222;
+    font-size: 12px;
+    padding-left: 2px;
+}
+
+.help-inline {
+    margin-top: 6px;
+}
+
+.help-small {
+    font-size: 12px;
+    padding-top: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.success .help-inline.ok:before {
+    content: "\f00c";
+    font-size: 16px;
+    font-family: FontAwesome;
+    font-weight: normal;
+    font-style: normal;
+    display: inline-block;
+}
+
+form legend,
+.form-view legend {
+    margin-bottom: 15px !important;
+}
+
+.controls > .radio .checker,
+.controls > .checkbox .checker {
+    margin-right: 2px !important;
+}
+
+.controls > .radio,
+.controls > .checkbox {
+    display: inline-block;
+    padding: 0 !important;
+    margin: 0 !important;
+    margin-top: 8px !important;
+    margin-right: 15px !important;
+}
+
+.controls > .radio.line,
+.controls > .checkbox.line {
+    display: block;
+    padding: 0 !important;
+    margin: 0 !important;
+    margin-top: 5px !important;
+}
+
+.controls .inline {
+    margin-top: 8px;
+}
+
+.form-view .control-group {
+    margin-top: 0px;
+    margin-bottom: 5px;
+}
+
+.uploader {
+    margin-top: 2px !important;
+}
+.hint{
+    padding:5px 0px 0px 10px;
+}
+
+.form form {
+    margin: 0px !important;
+    padding: 0px !important;
+}
+.form-actions {
+    padding: 19px 20px 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    background-color: #f5f5f5;
+    border-top: 1px solid #e5e5e5;
+}
+
+.form-actions{
+    background-color:#f5f5f5 !important;
+    margin-top: 0px !important;
+    margin-top: 40px;
+    padding-left: 190px;
+}
+.form-actions{
+    background-color: #F2F4F6;
+    border:0px;
+}
+/*** Bordered form layout ***/
+.form-horizontal.form-bordered .control-group:first-child {
+    border-bottom: 1px solid #eee !important;
+}
+
+.form-horizontal.form-bordered .control-group {
+    margin: 0;
+    padding: 0;
+    border-bottom: 1px solid #eee;
+}
+
+.form-horizontal.form-bordered .control-group.last {
+    border-bottom: 0;
+}
+
+.grid.box .form-horizontal.form-bordered .control-group {
+    margin-left: -10px;
+    margin-right: -10px;
+}
+
+.grid.box .form-horizontal.form-bordered .control-group:first-child {
+    margin-top: -10px;
+}
+
+.form-horizontal.form-bordered .control-group .controls {
+    padding: 10px;
+    position: relative;
+    border-left: 1px solid #eee;
+}
+
+.form-horizontal.form-bordered .control-group .controls .chosen-container  {
+    min-height: 32px;
+}
+
+.form-horizontal.form-bordered .control-group .controls .chosen-container .help-block {
+    clear: both;
+    padding-top: 10px !important;
+}
+
+.form-horizontal.form-bordered .control-group .control-label {
+    margin-top: 10px;
+}
+
+.form-horizontal.form-bordered.form-row-stripped .control-group:nth-child(even) {
+    background-color: #fcfcfc;
+}
+
+.form-horizontal.form-bordered.form-label-stripped .control-group:nth-child(even) {
+    background-color: #fcfcfc;
+}
+
+.form-horizontal.form-bordered.form-row-stripped .m-wrap {
+    background: #fff !important;
+}
+
+.form-horizontal.form-bordered.form-label-stripped .control-group:nth-child(even) .controls {
+    background-color: #ffffff;
+}
+
+.form-horizontal.form-bordered .help-inline,
+.form-horizontal.form-bordered .help-block {
+    padding-left: 0;
+}
+
+.grid .simple .form-actions{
+    margin-left:-20px !important;
+    margin-right:-20px !important;
+    margin-bottom: -20px !important;
+}
+.grid.box .form .form-actions,
+.grid.solid .form .form-actions {
+    margin-left:-10px !important;
+    margin-right:-10px !important;
+    margin-bottom: -10px !important;
+}
+
+/***  Form wizard  ***/
+.form-wizard-steps{
+
+}
+.wizard-steps {
+    display: block;
+    list-style: none outside none;
+    padding: 0;
+    position: relative;
+    width: 100%;
+    height: 100px;
+    margin-top: 40px;
+}
+.wizard-steps a:hover,.wizard-steps a:active,.wizard-steps a:focus{
+    text-decoration:none
+}
+.wizard-steps li {
+    display: block;
+    float: left;
+    max-width: 33%;
+    min-width: 33%;
+    text-align: center;
+    padding-left:0;
+}
+.wizard-steps li:before {
+    border-top: 6px solid #55606E;
+    content: "";
+    display: block;
+    font-size: 0;
+    overflow: hidden;
+    position: relative;
+    top: 13px;
+    right: 1px;
+    width: 100%;
+    z-index: 1;
+}
+.wizard-steps li:first-child:before {
+    left: 50%;
+    max-width: 50%;
+}
+.wizard-steps li:last-child:before {
+    max-width: 50%;
+    width: 50%;
+}
+.wizard-steps li.active .step,.wizard-steps li.active.complete .step  {
+    background-color: #0090D9;
+    color: #FFFFFF;
+    font-weight: bold;
+    padding: 10px 15px;
+    border:none;
+    font-size: 16px;
+}
+.wizard-steps li.complete .step {
+    background-color: #0aa699;
+    padding: 1px 6px;
+    border:4px solid #55606e;
+}
+.wizard-steps li  .step i{
+    font-size: 10px;
+    font-weight: normal;
+    position: relative;
+    top: -1.5px;
+}
+.wizard-steps li .step {
+    background-color: #D1DADE;
+    border-radius: 32px 32px 32px 32px;
+    color: #FFFFFF;
+    display: inline;
+    font-size: 15px;
+    font-weight: bold;
+    line-height: 12px;
+    padding: 4px 9px;
+    position: relative;
+    text-align: center;
+    z-index: 2;
+    transition: all 0.2s linear 0s;
+}
+.wizard-steps li.complete .title, .wizard-steps li.active .title {
+    color: #2B3D53;
+}
+.wizard-steps li .title {
+    color: #B1BCC5;
+    display: block;
+    font-size: 13px;
+    line-height: 15px;
+    max-width: 100%;
+    position: relative;
+    table-layout: fixed;
+    text-align: center;
+    top: 20px;
+    word-wrap: break-word;
+    z-index: 104;
+}
+.step-content {
+    margin-left: 60px;
+    margin-top: 40px;
+}
+.step-content .step-pane {
+    display: none;
+    min-height: 267px;
+}
+.step-content .active {
+    display: block;
+}
+.wizard-actions{
+    display: block;
+    list-style: none outside none;
+    padding: 0;
+    position: relative;
+    width: 100%;
+}
+.wizard-actions li{
+    display:inline;
+}
+
+.tab-content.transparent{
+    background-color:transparent;
+}
+
+/*** Form Input Appends and Prepends - Looks great **/
+.input-prepend.inside .add-on:first-child, .input-prepend .btn:first-child{
+    background-color:#fff;
+    border: 1px solid #e5e9ec;
+    position:relative;
+    left: 5px;
+    border-radius:2px;
+    padding-left:8px;
+    padding-right: 4px;
+    padding-top:4px;
+    top:0px;
+    transition: border 0.2s linear 0s, box-shadow 0.2s linear 0s,color 0.2s linear 0s, box-shadow 0.2s linear 0s, background 0.2s linear 0s;
+    color:#9ea9b2;
+}
+.input-prepend.inside.no-boarder .add-on:first-child, .input-prepend.no-boarder .btn:first-child{
+    border:none;
+}
+.input-append .add-on, .input-prepend .add-on{
+    position:relative;
+    background-color:#D1DADE;
+    color:#5E5E5E;
+    text-shadow:none;
+    border:#D1DADE;
+    border-radius: 0 2px 2px 0;
+    height: 24px;
+    padding-right: 10px;
+    padding-left: 10px;
+    padding-top:6px;
+}
+.input-append .add-on .arrow{
+    background-color:transparent !important;
+    position:absolute;
+    left:-6px;
+    color:#D1DADE;
+    z-index: 100;
+    font-size:26px;
+
+}
+
+.input-append.primary .add-on, .input-prepend .add-on{
+    background-color:#0aa699;
+    color:#fff;
+}
+.input-append.primary .add-on .arrow{
+    color:#0aa699;
+}
+.input-append.success .add-on, .input-prepend .add-on{
+    background-color:#0090D9;
+    color:#fff;
+}
+.input-append.success .add-on .arrow{
+    color:#0090D9;
+}
+.input-append.info .add-on, .input-prepend .add-on{
+    background-color:#1F3853;
+    color:#fff;
+}
+.input-append.info .add-on .arrow{
+    color:#1F3853;
+}
+.input-append.warning .add-on, .input-prepend .add-on{
+    background-color:#FDD01C;
+    color:#fff;
+}
+.input-append.warning .add-on .arrow{
+    color:#FDD01C;
+}
+.input-append.danger .add-on, .input-prepend .add-on{
+    background-color:#F35958;
+    color:#fff;
+}
+.input-append.danger .add-on .arrow{
+    color:#F35958;
+}
+
+.input-append .add-on .arrow:before{
+    font-family: 'FontAwesome';
+    content: "\f0d9 ";
+}
+.input-focus{
+    border: 1px solid #e5e9ec !important;
+    background-color:#f4f5f7 !important;
+    color:#56646e !important;
+}
+.no-boarder .input-focus{
+    border: none !important;
+}
+.input-append input[class*="span"]{
+    padding-left:16px;
+    border-right:0px;
+    -webkit-border-radius: 2px;
+    -webkit-border-top-right-radius: 0px;
+    -webkit-border-bottom-right-radius: 0px;
+    -moz-border-radius: 2px;
+    -moz-border-radius-topright: 0px;
+    -moz-border-radius-bottomright: 0px;
+    border-radius: 2px;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+}
+.input-prepend input[class*="span"]{
+    padding-left:16px;
+    border-left:0px;
+    -webkit-border-radius: 2px;
+    -webkit-border-top-left-radius: 0px;
+    -webkit-border-bottom-left-radius: 0px;
+    -moz-border-radius: 2px;
+    -moz-border-radius-topleft: 0px;
+    -moz-border-radius-bottomleft: 0px;
+    border-radius: 2px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon input {
+    padding-left: 32px !important;
+}
+
+.input-with-icon i {
+    color: #e5e9ec;
+    display: block;
+    position: absolute;
+    margin: 9px 2px 4px 10px;
+    width: 16px;
+    height: 16px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.input-with-icon.right input {
+    padding-left: 12px !important;
+    padding-right: 33px !important;
+}
+
+.input-with-icon.right i {
+    right: 8px;
+    float: right;
+}
+
+form{
+    /*border-top: 2px solid #fff;*/
+    /*border-bottom: 2px solid #fff;*/
+    /*background-color: #fff;*/
+    /*transition: all 0.3s;*/
+}
+
+form.ng-invalid {
+    /*border-top: 2px solid red;*/
+    /*border-bottom: 2px solid red;*/
+}

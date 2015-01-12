@@ -1,8 +1,8 @@
 package br.com.cds.portal.service.rest.dto;
 
-import br.com.cds.framework.core.services.dto.AbstractDTO;
+import br.com.cds.connecta.framework.core.entity.AbstractBaseEntity;
 
-public class ConfigApplicationDTO extends AbstractDTO {
+public class ApplicationConfiguration extends AbstractBaseEntity {
 
     private String name;
     private String title;
@@ -30,6 +30,11 @@ public class ConfigApplicationDTO extends AbstractDTO {
 
     public void setHost(String host) {
         this.host = host;
+    }
+
+    @Override
+    public Long getId() {
+        return null;
     }
 
 }

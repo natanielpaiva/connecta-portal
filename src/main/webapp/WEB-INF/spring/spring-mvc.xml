@@ -67,10 +67,10 @@
 
     <mvc:interceptors>
         <ref bean="localeChangeInterceptor" />
-        <bean class="br.com.cds.framework.core.services.RestServiceInterceptor">
+        <!--<bean class="br.com.cds.framework.core.services.RestServiceInterceptor">
             <property name="restServicePrefix" value="/services/rest/" />
             <property name="superClassRest" value="br.com.cds.framework.core.services.template.AbstractRestService" />
-        </bean>
+        </bean>-->
     </mvc:interceptors>
 
 </beans>

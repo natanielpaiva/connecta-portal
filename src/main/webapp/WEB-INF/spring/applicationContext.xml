@@ -31,8 +31,7 @@
         <property name="defaultEncoding" value="UTF-8" />
     </bean>
 
-    <bean name="applicationConfig" class="br.com.cds.framework.core.config.ApplicationPropertiesConfiguration">
+    <!--<bean name="applicationConfig" class="br.com.cds.framework.core.config.ApplicationPropertiesConfiguration">
         <property name="propertiesPath" value="br/com/cds/portal/resources/properties/sample-config" />
-    </bean>
-
+    </bean>-->
 </beans>

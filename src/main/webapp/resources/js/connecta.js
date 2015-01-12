@@ -115,7 +115,7 @@ define([
         },
         init: function() {
             require([
-                'json!./../../services/rest/config.json',
+                'json!./../../services/rest/applications',
                 'domReady!',
                 'portal/services/applications',
                 'portal/services/pages',

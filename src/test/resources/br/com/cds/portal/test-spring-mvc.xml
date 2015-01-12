@@ -63,12 +63,12 @@
         <property name="defaultLocale" value="pt_br"/>
     </bean>
 
-    <mvc:interceptors>
+    <!--<mvc:interceptors>
         <ref bean="localeChangeInterceptor" />
         <bean class="br.com.cds.framework.core.services.RestServiceInterceptor">
             <property name="restServicePrefix" value="/" />
             <property name="superClassRest" value="br.com.cds.framework.core.services.template.AbstractRestService" />
         </bean>
-    </mvc:interceptors>
+    </mvc:interceptors>-->
 
 </beans>

@@ -17,8 +17,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  *
  * @author pires
  */
-public class ConfigTest extends BaseTest {
-    static final String RESOURCE = REST_PATH.concat("config.json");
+public class ApplicationTest extends BaseTest {
+    static final String RESOURCE = REST_PATH.concat("application");
     
     @Test
     public void sucessoBuscarConfiguracao() throws Exception {
@@ -27,11 +27,11 @@ public class ConfigTest extends BaseTest {
         ).andDo(print())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$.applications", notNullValue()))
-            .andExpect(jsonPath("$.applications[*]", hasSize(greaterThan(1))))
-            .andExpect(jsonPath("$.applications[*].host", todosOsItens(notNullValue())))
-            .andExpect(jsonPath("$.applications[*].name", todosOsItens(notNullValue())))
-            .andExpect(jsonPath("$.applications[*].title", todosOsItens(notNullValue())));
+            .andExpect(jsonPath("$", notNullValue()))
+            .andExpect(jsonPath("$[*]", hasSize(greaterThan(1))))
+            .andExpect(jsonPath("$[*].host", todosOsItens(notNullValue())))
+            .andExpect(jsonPath("$[*].name", todosOsItens(notNullValue())))
+            .andExpect(jsonPath("$[*].title", todosOsItens(notNullValue())));
         
     }
     

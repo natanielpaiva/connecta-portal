@@ -115,13 +115,16 @@ define([
         },
         init: function() {
             require([
-                'json!./../../services/rest/applications',
+                'json!./../../services/rest/application',
                 'domReady!',
                 'portal/services/applications',
                 'portal/services/pages',
                 'portal/services/layout',
                 'portal/services/search'
-            ], function(config) {
+            ], function(applications) {
+                var config = {
+                    applications : applications
+                };
                 // Adiciona o path das aplicações na configuração do require, isso permite
                 // requisições simplificadas
                 var applicationsPaths = {};
@@ -138,7 +141,7 @@ define([
                         applicationsPaths[(item.name + "-config")] = [
                             item.host,
                             //@todo: recuperar daconfig
-                            'services/rest/config.json'
+                            'services/rest/application'
                         ].join('/');
                     }
                 });

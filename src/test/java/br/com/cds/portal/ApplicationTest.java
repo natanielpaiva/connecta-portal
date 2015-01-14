@@ -32,7 +32,6 @@ public class ApplicationTest extends BaseTest {
             .andExpect(jsonPath("$[*].host", todosOsItens(notNullValue())))
             .andExpect(jsonPath("$[*].name", todosOsItens(notNullValue())))
             .andExpect(jsonPath("$[*].title", todosOsItens(notNullValue())));
-        
     }
     
 }

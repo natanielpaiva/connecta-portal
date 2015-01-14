@@ -1,0 +1,65 @@
+<div id="menu-top" class="navbar navbar-static-top" role="navigation">
+
+    <div>
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" >
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <!--<a href="#" class="navbar-toggle collapsed connecta-ico-menu" ></a>-->
+
+            <div
+                class="navbar-brand {{appInstance.name}}"
+                >
+                <button type="button" class="navbar-toggle toggle-menu" ng-click="toggleSidebar()">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                <div class="actual-app app-icon logo"
+                     ng-if="(appInstance)"
+                     title="{{appInstance.title}}"
+                     >
+                    <div class="arrow"></div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav" ng-repeat="application in applications">
+                <li
+                    class="logo-app {{application.name}}"
+                    ng-if="(application.name !== appInstance.name)"
+                    >
+                    <a
+                        href="#/{{application.name}}"
+                        class="app-icon logo"
+                        title="{{application.title}}"
+                        >
+                        &nbsp;
+                    </a>
+                </li>
+            </ul>
+
+            <div class="pull-right">
+                <ul class="nav navbar-nav menu">
+                    <li>
+                        <button class="app-icon" ng-click="togglePageTabs()">
+                            <i class="fa fa-th-large"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>

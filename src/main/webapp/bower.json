@@ -18,7 +18,7 @@
     
     "jquery": "~1.11.0",
     "jquery-slimscroll": "~1.0.6",
-    "jquery-ui-custom": "./resources/lib/jquery-ui/jquery-ui.custom.min.js",
+    "jquery-ui-custom": "./assets/lib/jquery-ui/jquery-ui.custom.min.js",
     
     "requirejs": "2.1.10",
     "requirejs-text": "2.0.10",

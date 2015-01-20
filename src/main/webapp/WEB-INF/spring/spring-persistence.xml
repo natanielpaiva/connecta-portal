@@ -12,19 +12,22 @@
 
     <!-- DATABASE AND TX-->
     <!--<jee:jndi-lookup id="dataSource" jndi-name="jdbc/restful-sample" resource-ref="true"/>-->
-<!--    <jee:jndi-lookup id="dataSource" jndi-name="jdbc-Postgres-local" resource-ref="true"/>
+<!--    <jee:jndi-lookup id="dataSource" jndi-name="jdbc-Postgres-local" resource-ref="true"/>-->
 
-    <bean name="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="sample-PU" />
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="ConnectaPortalPU" />
     </bean>
-
-     Bean que configura o GenericDAO de acordo com o PersistenceProvider da aplicação
-    <bean class="br.com.cds.framework.core.persistence.GenericJPAPersistenceFactory" />
-
-    <bean name="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    
+    <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
+    
+    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="ConnectaPortalDS"/>
+    </bean>
 
+    <!-- Bean que configura o GenericDAO de acordo com o PersistenceProvider da aplicação
+    <bean class="br.com.cds.framework.core.persistence.GenericJPAPersistenceFactory" />
 
     <tx:advice id="txAdvice" transaction-manager="txManager">
         <tx:attributes>

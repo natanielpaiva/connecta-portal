@@ -1,7 +1,6 @@
 package br.com.cds.portal;
 
-
-import br.com.cds.portal.util.MockMvcProvider;
+import br.com.cds.connecta.framework.core.test.MockMvcProvider;
 import org.jboss.logging.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -12,15 +11,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
 /**
- *
+ * Teste base de todos os projetos
  * @author pires
  */
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -30,7 +22,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 public class BaseTest {
     @Autowired
     private MockMvcProvider mmp;
-    protected Logger LOGGER;
+    protected Logger logger;
     protected static final String REST_PATH = "/";
     
     /**
@@ -46,15 +38,14 @@ public class BaseTest {
      * @return 
      */
     protected Logger logger() {
-        if (LOGGER == null) {
-            LOGGER = Logger.getLogger(getClass());
+        if (logger == null) {
+            logger = Logger.getLogger(getClass());
         }
-        return LOGGER;
+        return logger;
     }
 
     /**
-     * Mantido apenas para execução do JUnit
-     * @throws Exception 
+     * Mantido apenas para execução do JUnit 
      */
     @Test
     public void baseTest() {}

@@ -15,7 +15,8 @@
     <artifactId>portal</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
-    <name>portal</name>
+    
+    <name>Connecta Portal</name>
 
     <properties>
         <!-- generic -->

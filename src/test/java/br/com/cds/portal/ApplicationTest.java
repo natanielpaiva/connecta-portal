@@ -19,10 +19,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 public class ApplicationTest extends BaseTest {
     static final String RESOURCE = REST_PATH.concat("application");
-    static final String RESOURCE_ID = RESOURCE.concat("/1");
+    static final String RESOURCE_ID = RESOURCE.concat("/{id}");
     
     @Test
-    public void sucessoBuscarConfiguracao() throws Exception {
+    public void sucessoBuscarAplicacoes() throws Exception {
         mockMvc().perform(get(RESOURCE)
             .contentType(MediaType.APPLICATION_JSON)
         ).andDo(print())
@@ -36,8 +36,8 @@ public class ApplicationTest extends BaseTest {
     }
     
     @Test
-    public void sucessoBuscarConfiguracaoPorID() throws Exception {
-        mockMvc().perform(get(RESOURCE_ID)
+    public void sucessoBuscarAplicacaoPorID() throws Exception {
+        mockMvc().perform(get(RESOURCE_ID, 1)
             .contentType(MediaType.APPLICATION_JSON)
         ).andDo(print())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -46,6 +46,45 @@ public class ApplicationTest extends BaseTest {
             .andExpect(jsonPath("$.host", allOf(notNullValue(), containsString("http://"), containsString("presenter"))))
             .andExpect(jsonPath("$.name", allOf(notNullValue(), equalTo("presenter"))))
             .andExpect(jsonPath("$.title", allOf(notNullValue(), equalToIgnoringCase("presenter"))));
+    }
+    
+    @Test
+    public void sucessoSalvarAplicacao() throws Exception {
+        mockMvc().perform(post(RESOURCE)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(getJson("application/new-application"))
+        ).andDo(print())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isCreated())
+            .andExpect(jsonPath("$", notNullValue()))
+            .andExpect(jsonPath("$.host", equalTo("http://speaknow.connecta.com")))
+            .andExpect(jsonPath("$.name", equalTo("speaknow")))
+            .andExpect(jsonPath("$.title", equalTo("SpeakNow")))
+            .andExpect(jsonPath("$.id", allOf(notNullValue(), isA(Integer.class), greaterThan(0))));
+    }
+    
+    @Test
+    public void sucessoAlterarAplicacao() throws Exception {
+        mockMvc().perform(put(RESOURCE_ID, 1)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(getJson("application/edit-application"))
+        ).andDo(print())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$", notNullValue()))
+            .andExpect(jsonPath("$.id", allOf(notNullValue(), isA(Integer.class), equalTo(1))))
+            .andExpect(jsonPath("$.host", equalTo("http://connectad.cds.com.br/presenter")))
+            .andExpect(jsonPath("$.name", equalTo("presenter")))
+            .andExpect(jsonPath("$.title", equalTo("Presentacion de Pelota")));
+    }
+    
+    @Test
+    public void sucessoExcluirAplicacao() throws Exception {
+        mockMvc().perform(delete(RESOURCE_ID, 99)
+            .contentType(MediaType.APPLICATION_JSON)
+        ).andDo(print())
+            .andExpect(status().isNoContent())
+            .andExpect(content().string(""));
     }
     
 }

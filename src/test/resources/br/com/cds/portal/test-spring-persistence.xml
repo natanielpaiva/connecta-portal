@@ -23,8 +23,8 @@
         <!--<property name="jndiName" value="ConnectaPortalDS" />-->
         <property name="driverClassName" value="org.h2.Driver" />
         <property name="url" value="jdbc:h2:mem:portalDB;INIT=create schema if not exists PRESENTER;MODE=Oracle;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE"/>
-        <property name="username" value="sa"/>
-        <property name="password" value="sa"/>
+        <property name="username" value="PRESENTER"/>
+        <property name="password" value="PRESENTER"/>
     </bean>
 
     <bean name="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
@@ -44,7 +44,16 @@
                 <entry key="hibernate.hbm2ddl.auto" value="create-drop" />
             </map>
         </property>
+        
     </bean>
+    
+    <bean name="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFactory" />
+    </bean>
+    
+    <tx:annotation-driven transaction-manager="txManager"/>
+    
+    <!--<tx:jta-transaction-manager />-->
     
     <jdbc:initialize-database data-source="dataSource">
         <jdbc:script location="classpath:sql/DML.sql" />
@@ -71,9 +80,7 @@
     <aop:config>
         <aop:pointcut id="defaultServiceOperation" expression="execution(* br.com.cds.restfulsample.core.business.*.*(..))" />
         <aop:advisor pointcut-ref="defaultServiceOperation" advice-ref="txAdvice" />
-    </aop:config>
-
-    <tx:annotation-driven transaction-manager="txManager"/>-->
+    </aop:config>-->
 
 
 </beans>

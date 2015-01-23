@@ -10,9 +10,15 @@
        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd"
        default-autowire="byName">
 
-    <!-- DATABASE AND TX-->
-    <!--<jee:jndi-lookup id="dataSource" jndi-name="jdbc/restful-sample" resource-ref="true"/>-->
-<!--    <jee:jndi-lookup id="dataSource" jndi-name="jdbc-Postgres-local" resource-ref="true"/>-->
+    <!--DATABASE AND TX-->
+     
+<!--    <jee:jndi-lookup id="dataSource" jndi-name="jdbc/restful-sample" resource-ref="true"/>
+    <jee:jndi-lookup id="dataSource" jndi-name="jdbc-Postgres-local" resource-ref="true"/>-->
+
+
+<!--    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName" value="ConnectaPortalDS"/>
+    </bean>-->
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
         <property name="persistenceUnitName" value="ConnectaPortalPU" />
@@ -22,9 +28,7 @@
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
     
-    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName" value="ConnectaPortalDS"/>
-    </bean>
+    <tx:annotation-driven transaction-manager="txManager"/>
 
     <!-- Bean que configura o GenericDAO de acordo com o PersistenceProvider da aplicação
     <bean class="br.com.cds.framework.core.persistence.GenericJPAPersistenceFactory" />
@@ -41,9 +45,7 @@
     <aop:config>
         <aop:pointcut id="defaultServiceOperation" expression="execution(* br.com.cds.restfulsample.core.business.*.*(..))" />
         <aop:advisor pointcut-ref="defaultServiceOperation" advice-ref="txAdvice" />
-    </aop:config>
-
-    <tx:annotation-driven transaction-manager="txManager"/>-->
+    </aop:config>-->
 
 
 </beans>

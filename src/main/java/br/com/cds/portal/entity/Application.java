@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -21,22 +22,27 @@ import javax.persistence.Table;
  * @author pires
  */
 @Entity
-@Table(name="C_APPLICATIONS")
+@Table(name = "C_APPLICATIONS")
 @NamedQueries({
-    @NamedQuery(name = "Application.findAll", query = "FROM Application a")
+    @NamedQuery(name = "Application.findAll", query = "FROM Application a ORDER BY a.id")
 })
 public class Application extends AbstractBaseEntity implements Serializable {
-    
+
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(
+        sequenceName="SEQ_APPLICATION",
+        name="SEQ_APPLICATION",
+        initialValue=1,
+        allocationSize=1 )
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_APPLICATION")
     private Long id;
-    
+
     @Column(name = "NAME")
     private String name;
-    
+
     @Column(name = "TITLE")
     private String title;
-    
+
     @Column(name = "HOST")
     private String host;
 
@@ -72,5 +78,5 @@ public class Application extends AbstractBaseEntity implements Serializable {
     public void setHost(String host) {
         this.host = host;
     }
-    
+
 }

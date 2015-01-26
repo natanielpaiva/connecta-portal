@@ -16,7 +16,7 @@
     <import resource="spring-persistence.xml" />
     <import resource="spring-ws.xml" />
     <import resource="spring-security.xml" />
-    <import resource="classpath:META-INF/br.com.cds.framework.core.xml" />
+    <import resource="classpath:META-INF/br.com.cds.connecta.framework.core.xml" />
 
     <context:component-scan base-package="br.com.cds.portal" />
 

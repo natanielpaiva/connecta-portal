@@ -12,26 +12,22 @@
 
     <aop:aspectj-autoproxy/>
 
-    <import resource="spring-mvc.xml" />
+    <import resource="classpath:META-INF/br.com.cds.connecta.framework.core.xml" />
+    
     <import resource="spring-persistence.xml" />
     <import resource="spring-ws.xml" />
     <import resource="spring-security.xml" />
-    <import resource="classpath:META-INF/br.com.cds.connecta.framework.core.xml" />
 
     <context:component-scan base-package="br.com.cds.portal" />
 
     <!-- Bundle de Mensagens -->
-    <bean id="messageSource"
-              class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
         <property name="basenames">
             <array>
-                <value>classpath:/br/com/cds/portal/resources/properties/message/messages</value>
+                <value>classpath:properties/message/messages</value>
             </array>
-        </property>
-        <property name="defaultEncoding" value="UTF-8" />
+        </property> 
+       <property name="defaultEncoding" value="UTF-8" />
     </bean>
-
-    <!--<bean name="applicationConfig" class="br.com.cds.framework.core.config.ApplicationPropertiesConfiguration">
-        <property name="propertiesPath" value="br/com/cds/portal/resources/properties/sample-config" />
-    </bean>-->
+    
 </beans>

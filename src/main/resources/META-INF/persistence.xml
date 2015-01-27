@@ -4,13 +4,13 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
     <persistence-unit name="ConnectaPortalPU" transaction-type="RESOURCE_LOCAL">
         <non-jta-data-source>ConnectaPortalDS</non-jta-data-source>
-        <!--<provider>org.hibernate.ejb.HibernatePersistence</provider>-->
+        
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        
         <properties>
             <property name="hibernate.show_sql" value="true" />
             <property name="hibernate.format_sql" value="true" />
-            <property name="hibernate.archive.autodetection" value="class, hbm" />
-<!--            <property name="hibernate.default_schema" value="PRESENTER"/>-->
+            <property name="hibernate.archive.autodetection" value="class" />
             <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
             <property name="hibernate.hbm2ddl.auto" value="update"/>
         </properties>

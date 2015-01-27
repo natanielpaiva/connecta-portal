@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.nio.charset.Charset;
 import org.apache.commons.io.IOUtils;
 import org.jboss.logging.Logger;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @EnableWebMvc
-@ContextConfiguration("test-application-context.xml")
+@ContextConfiguration("classpath:META-INF/br.com.cds.connecta.framework.test.xml")
 public class BaseTest {
     @Autowired
     private MockMvcProvider mmp;

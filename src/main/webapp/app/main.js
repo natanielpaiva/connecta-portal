@@ -12,10 +12,12 @@ require.config({
         'angular-ng-table':'../bower_components/ng-table/ng-table.min',
         'portal' : 'portal',
         'collector' : 'collector',
+        'speaknow' : 'speaknow',
         'presenter' : 'presenter',
         'maps' : 'maps',
         'connecta.portal': 'portal/connecta.portal',
         'connecta.collector': 'collector/connecta.collector',
+        'connecta.speaknow': 'speaknow/connecta.speaknow',
         'connecta.presenter': 'presenter/connecta.presenter',
         'connecta.maps': 'maps/connecta.maps'
     },

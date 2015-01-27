@@ -23,7 +23,10 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @EnableWebMvc
-@ContextConfiguration("classpath:META-INF/br.com.cds.connecta.framework.test.xml")
+@ContextConfiguration({
+    "classpath:META-INF/br.com.cds.connecta.framework.test.xml",
+    "test-application-context.xml"
+})
 public class BaseTest {
     @Autowired
     private MockMvcProvider mmp;

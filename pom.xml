@@ -20,7 +20,7 @@
 
     <properties>
         <!-- generic -->
-        <java.version>1.6</java.version>
+        <java.version>1.7</java.version>
         <context-web-portal>/portal</context-web-portal>
     </properties>
 

@@ -147,7 +147,7 @@ define([
         },
         init: function () {
             require([
-                'json!./../services/rest/application',
+                'json!./../application',
                 'domReady!',
                 'portal/services/applications',
                 'portal/services/pages',
@@ -157,29 +157,6 @@ define([
                 var config = {
                     applications: applications
                 };
-                // Adiciona o path das aplicações na configuração do require, isso permite
-                // requisições simplificadas
-                var applicationsPaths = {};
-                $.each(config.applications, function (i, item) {
-                    if (item.host && item.host !== '') {
-                        var baseHost = [
-                            item.host.replace(/\/+$/g, ''),
-                            'resources',
-                            'js'
-                        ].join('/');
-                        applicationsPaths[item.name] = baseHost;
-
-                        //path para o json de configuração da aplicaçao
-                        applicationsPaths[(item.name + "-config")] = [
-                            item.host,
-                            //@todo: recuperar daconfig
-                            'services/rest/application'
-                        ].join('/');
-                    }
-                });
-//                require.config({
-//                    paths: applicationsPaths
-//                });
 
                 connecta.appBootstrap.run(config);
             });

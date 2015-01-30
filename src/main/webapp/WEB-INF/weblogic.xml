@@ -7,5 +7,5 @@
   <container-descriptor>
     <prefer-web-inf-classes>true</prefer-web-inf-classes>
   </container-descriptor>
-  <context-root>${context-web-portal}</context-root>
+  <context-root>${project.artifactId}</context-root>
 </weblogic-web-app>

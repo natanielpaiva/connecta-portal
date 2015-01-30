@@ -46,6 +46,9 @@ require.config({
         'bower_components/angular-i18n/angular-locale_pt-br': {
             deps: ['angular']
         },
+        'bower_components/angular-translate/angular-translate.min': {
+            deps: ['angular']
+        },
         'angular-ng-table':{
             deps: ['angular']
         },

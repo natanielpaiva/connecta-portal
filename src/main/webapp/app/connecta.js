@@ -14,7 +14,8 @@ define([
     'bower_components/angular-animate/angular-animate.min',
     'bower_components/angular-cookies/angular-cookies.min',
     'bower_components/angular-touch/angular-touch.min',
-    'bower_components/angular-i18n/angular-locale_pt-br'
+    'bower_components/angular-i18n/angular-locale_pt-br',
+    'bower_components/angular-translate/angular-translate.min'
 ], function (angular, portal, collector, speaknow, presenter, maps) {
 
     var connecta = angular.module('connecta', [
@@ -30,7 +31,8 @@ define([
         'ngTouch',
         'ngLocale',
         'ngTable',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'pascalprecht.translate'
     ]);
 
     // TODO Organizar as dependências e extrair código pro config do Angular
@@ -38,7 +40,7 @@ define([
         run: function (config) {
             connecta.constant('applications', config.applications);
             //Configuração da aplicaçao
-            connecta.config(function ($routeProvider, $controllerProvider, $compileProvider, $provide, speaknowRoutes) {
+            connecta.config(function($routeProvider, $controllerProvider, $compileProvider, $provide, speaknowRoutes) {
                 connecta.conf = config;
 
                 // save references to the providers
@@ -56,46 +58,6 @@ define([
                 presenter.lazy = lazy;
                 maps.lazy = lazy;
 
-                // Páginas das aplicações
-                var routePage = {
-                    template: ' ',
-                    resolve: {
-                        load: [
-                            '$route',
-                            'pageService',
-                            function ($route, pageService) {
-                                var application = $route.current.params.app;
-                                var module = $route.current.params.module;
-                                var controller = $route.current.params.controller;
-                                var id = $route.current.params.id;
-                                return pageService.resolvePage(application, module, controller, id);
-                            }
-                        ]
-                    }
-                };
-
-                // Listagem padronizada de itens
-                var routeSearch = {
-                    template: ' ',
-                    resolve: {
-                        load: [
-                            '$route',
-                            'searchService',
-                            function ($route, searchService) {
-                                var application = $route.current.params.app;
-                                var item = $route.current.params.item;
-                                var child = $route.current.params.child;
-
-                                if (!($route.current.originalPath.match(/^\/search-a/))) {
-                                    return searchService.resolveEmbedded(application, item, child);
-                                } else {
-                                    return searchService.resolvePage(application, item, child);
-                                }
-                            }
-                        ]
-                    }
-                };
-
                 /**
                  * Usado pra resolver os caminhos das controllers
                  * @param {type} route
@@ -108,21 +70,62 @@ define([
                             route.resolve = {};
                         }
 
-                        route.resolve.load = function ($q, $rootScope) {
-                            var deferred = $q.defer();
-                            require([route.controllerUrl], function(){
-                                deferred.resolve();
-                                $rootScope.$apply();
-                            });
-                            return deferred.promise;
-                        };
-                        
+                        if ( !route.resolve.load ) {
+                            route.resolve.load = function ($q, $rootScope) {
+                                var deferred = $q.defer();
+                                require([route.controllerUrl], function(){
+                                    deferred.resolve();
+                                    $rootScope.$apply();
+                                });
+                                return deferred.promise;
+                            };
+                        }
                     }
                     
                     $routeProvider.when(url, route);
                 };
                 
                 angular.forEach(speaknowRoutes, registerResolver);
+                
+//                // Páginas das aplicações
+//                var routePage = {
+//                    template: ' ',
+//                    resolve: {
+//                        load: [
+//                            '$route',
+//                            'pageService',
+//                            function ($route, pageService) {
+//                                var application = $route.current.params.app;
+//                                var module = $route.current.params.module;
+//                                var controller = $route.current.params.controller;
+//                                var id = $route.current.params.id;
+//                                return pageService.resolvePage(application, module, controller, id);
+//                            }
+//                        ]
+//                    }
+//                };
+//
+//                // Listagem padronizada de itens
+//                var routeSearch = {
+//                    template: ' ',
+//                    resolve: {
+//                        load: [
+//                            '$route',
+//                            'searchService',
+//                            function ($route, searchService) {
+//                                var application = $route.current.params.app;
+//                                var item = $route.current.params.item;
+//                                var child = $route.current.params.child;
+//
+//                                if (!($route.current.originalPath.match(/^\/search-a/))) {
+//                                    return searchService.resolveEmbedded(application, item, child);
+//                                } else {
+//                                    return searchService.resolvePage(application, item, child);
+//                                }
+//                            }
+//                        ]
+//                    }
+//                };
                 
                 // @todo: Procurar forma de angular trazer parametro opcional (id)
                 // por enquanto é um gato
@@ -140,7 +143,7 @@ define([
             //start
             require([
                 'domReady!',
-                'portal/controllers/main'
+                'portal/layout/controller/main'
             ], function (doc) {
                 angular.bootstrap(doc, [connecta.name]);
             });
@@ -149,10 +152,10 @@ define([
             require([
                 'json!./../application',
                 'domReady!',
-                'portal/services/applications',
-                'portal/services/pages',
-                'portal/services/layout',
-                'portal/services/search'
+                'portal/layout/service/applications',
+                'portal/layout/service/pages',
+                'portal/layout/service/layout',
+                'portal/layout/service/search'
             ], function (applications) {
                 var config = {
                     applications: applications

@@ -6,8 +6,8 @@ define([
     speaknow.constant('speaknowRoutes', {
         '/speaknow/': {
             controller: 'ContactListController',
-            controllerUrl: 'speaknow/controllers/contact-list',
-            templateUrl: 'app/speaknow/partials/contact-list.html'
+            controllerUrl: 'speaknow/contact/controller/contact-list',
+            templateUrl: 'app/speaknow/contact/template/contact-list.html'
         }
     });
 

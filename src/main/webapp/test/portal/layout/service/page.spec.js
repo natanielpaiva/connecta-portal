@@ -3,8 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-module.exports = function(config) {
-    config.set({
+describe("PageService", function(){
+    
+    it("should be obvious", function(){
+        
+        expect(true).toBe(true);
         
     });
-};
+    
+});
+

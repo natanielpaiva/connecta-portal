@@ -4,7 +4,7 @@ define([
     var speaknow = angular.module('connecta.speaknow', []);
 
     speaknow.constant('speaknowRoutes', {
-        '/speaknow/': {
+        '/speaknow/contact': {
             controller: 'ContactListController',
             controllerUrl: 'speaknow/contact/controller/contact-list',
             templateUrl: 'app/speaknow/contact/template/contact-list.html'

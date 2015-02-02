@@ -50,13 +50,13 @@ define([
                     var searchConfig;
 
                     // encontra a configuração para o buscador
-                    for (var a = 0; a < appConfig.navigation.length; a++) {
-                        var menuParent = appConfig.navigation[a];
+                    for (var nav = 0; nav < appConfig.navigation.length; nav++) {
+                        var menuParent = appConfig.navigation[nav];
                         if (menuParent.name === item) {
 
                             if (child) {
-                                for (var b = 0; b < menuParent.children.length; b++) {
-                                    var menuChild = menuParent.children[b];
+                                for (var c = 0; c < menuParent.children.length; c++) {
+                                    var menuChild = menuParent.children[c];
                                     if (menuChild.name === child) {
                                         searchConfig = menuChild;
                                     }
@@ -106,16 +106,16 @@ define([
 
                         // corrige o mapeamento das controllers e ações
                         if (searchConfig.search.controllers) {
-                            for (var a in searchConfig.search.controllers) {
-                                if (!searchConfig.search.controllers.hasOwnProperty(a)) {
+                            for (var ctrl in searchConfig.search.controllers) {
+                                if (!searchConfig.search.controllers.hasOwnProperty(ctrl)) {
                                     continue;
                                 }
-                                var oldUrl = searchConfig.search.controllers[a];
+                                var oldUrl = searchConfig.search.controllers[ctrl];
                                 var newUrl = '/' + [
                                     application,
                                     oldUrl.replace(/^\/+/g, '')
                                 ].join('/');
-                                searchConfig.search.controllers[a] = newUrl;
+                                searchConfig.search.controllers[ctrl] = newUrl;
                             }
                         }
 
@@ -128,7 +128,7 @@ define([
                         searchConfig.search.doSearch = function(params) {
                             return $q.all([
                                 searchConfig.search.$resource.query(params),
-                                searchConfig.search.$resource.count(params),
+                                searchConfig.search.$resource.count(params)
                             ]).then(function(results) {
                                 var defer = $q.defer();
                                 results[0].$promise.then(function(res) {
@@ -189,7 +189,6 @@ define([
                  * @param {String} application
                  * @param {String} item
                  * @param {String} child
-                 * @param {String|null} id
                  * @returns {$q.promise}
                  */
                 resolvePage: function(application, item, child) {
@@ -239,7 +238,6 @@ define([
                  * @param {type} application
                  * @param {type} item
                  * @param {type} child
-                 * @param {type} isEmbedded
                  * @returns {$q@call;defer.promise}
                  */
                 resolveEmbedded: function(application, item, child) {

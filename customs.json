@@ -5,9 +5,7 @@
         "app-search-result-body": {},
         "app-pages-tabs": {},
         "app-pages": {},
-        "app-layout": {
-            "context": "div"
-        },
+        "app-layout": {},
         "app-header": {
             "context": "div"
         },

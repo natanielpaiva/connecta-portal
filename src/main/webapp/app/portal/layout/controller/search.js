@@ -36,7 +36,7 @@ define([
             if (searchTextParameters.length > 0) {
                 if ($scope.searchTxt !== '') {
                     for (var a in searchTextParameters) {
-                        expression.addValue(searchTextParameters[a], 'lk:%' + $scope.searchTxt + '%')
+                        expression.addValue(searchTextParameters[a], 'lk:%' + $scope.searchTxt + '%');
                     }
                 }
             }

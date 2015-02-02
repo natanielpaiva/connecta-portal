@@ -4,13 +4,27 @@
  * and open the template in the editor.
  */
 module.exports = function (grunt) {
-    grunt.loadNpmTasks('grunt-contrib-jshint');
-    
     grunt.initConfig({
         jshint: {
-            files: ['Gruntfile.js', 'src/main/webapp/**.js','src/test/javascript/**.js']
+            jshintrc:'.jshintrc',
+            files: ['app/**/*.js']
+        },
+        sass: {
+            dist: {
+                style:'compressed',
+                files: [{
+                    //expand: true,
+                    cwd: 'assets/scss',
+                    src: ['*.scss'],
+                    dest: 'assets/css',
+                    ext: '.css'
+                }]
+            }
         }
     });
     
-    grunt.registerTask('default', ['jshint']);
+    grunt.loadNpmTasks('grunt-contrib-jshint');
+    grunt.loadNpmTasks('grunt-contrib-sass');
+
+    grunt.registerTask('default', ['jshint', 'sass']);
 };

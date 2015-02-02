@@ -224,8 +224,8 @@
                             <goal>install-node-and-npm</goal>
                         </goals>
                         <configuration>
-                            <nodeVersion>v0.10.34</nodeVersion>
-                            <npmVersion>2.1.11</npmVersion>
+                            <nodeVersion>v0.10.36</nodeVersion>
+                            <npmVersion>2.1.17</npmVersion>
                         </configuration>
                     </execution>
                     
@@ -256,19 +256,15 @@
                         </goals>
                     </execution>
                     
-                    <!--
-                    FIXME Ainda não é possível instalar o Karma devido à um
-                    problema na instalação do PhantomJS por conta do Proxy da CDS
                     <execution>
                         <id>javascript tests</id>
                         <goals>
                             <goal>karma</goal>
                         </goals>
                         <configuration>
-                            <karmaConfPath>src/test/javascript/karma.conf.ci.js</karmaConfPath>
+                            <karmaConfPath>karma.conf.js</karmaConfPath>
                         </configuration>
                     </execution>
-                    -->
                 </executions>
             </plugin>
         </plugins>

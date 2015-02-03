@@ -1,1 +1,5 @@
-{ "hello": "Olá, mundo!" }
+{
+    "contacts": {
+        "contacts" : "Contatos"
+    }
+}

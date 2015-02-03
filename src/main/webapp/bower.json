@@ -9,6 +9,8 @@
     "angular-resource" : "~1.2.26",
     "angular-messages" : "https://raw.githubusercontent.com/angular/bower-angular-messages/v1.3.0/angular-messages.min.js",
     "angular-translate" : "~2.5.2",
+    "angular-translate-loader-partial" : "~2.5.2",
+    "angular-translate-storage-cookie" : "~2.5.2",
     "angular-animate" : "~1.2.26",
     "angular-cookies" : "~1.2.26",
     "angular-touch" : "~1.2.26",

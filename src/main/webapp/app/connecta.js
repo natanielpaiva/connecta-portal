@@ -1,11 +1,14 @@
 define([
     'angular',
+    'jquery',
     // Módulos Angular Connecta
     'connecta.portal',
     'connecta.collector',
     'connecta.speaknow',
     'connecta.presenter',
     'connecta.maps',
+    // Configuração dos módulos
+    'json!./../application',
     // Dependências principais
     'angular-route',
     'angular-resource',
@@ -15,8 +18,10 @@ define([
     'bower_components/angular-cookies/angular-cookies.min',
     'bower_components/angular-touch/angular-touch.min',
     'bower_components/angular-i18n/angular-locale_pt-br',
-    'bower_components/angular-translate/angular-translate.min'
-], function (angular, portal, collector, speaknow, presenter, maps) {
+    'bower_components/angular-translate/angular-translate.min',
+    'bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min',
+    'bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min'
+], function (angular, $, portal, collector, speaknow, presenter, maps, applications) {
 
     var connecta = angular.module('connecta', [
         'connecta.portal',
@@ -35,58 +40,138 @@ define([
         'pascalprecht.translate'
     ]);
 
-    // TODO Organizar as dependências e extrair código pro config do Angular
-    connecta.appBootstrap = {
-        run: function (config) {
-            connecta.constant('applications', config.applications);
-            //Configuração da aplicaçao
-            connecta.config(function($routeProvider, $controllerProvider, $compileProvider, $provide, speaknowRoutes) {
-                connecta.conf = config;
+    // Configuração do backend dos módulos
+    connecta.constant('applications', applications);
 
-                // save references to the providers
-                var lazy = {
-                    controller: $controllerProvider.register,
-                    directive: $compileProvider.directive,
-                    factory: $provide.factory,
-                    service: $provide.service
-                };
-                
-                connecta.lazy = lazy;
-                portal.lazy = lazy;
-                collector.lazy = lazy;
-                speaknow.lazy = lazy;
-                presenter.lazy = lazy;
-                maps.lazy = lazy;
+    /**
+     * Salva a referência dos providers em todos os módulos para poder
+     * registrar componentes por lazy loading
+     * 
+     * @param {type} $controllerProvider
+     * @param {type} $compileProvider
+     * @param {type} $provide
+     * @param {type} $filterProvider
+     * @returns {undefined}
+     */
+    function configureLazyProviders($controllerProvider, $compileProvider, $provide, $filterProvider) {
+        var lazy = {
+            controller: $controllerProvider.register,
+            directive: $compileProvider.directive,
+            constant: $provide.constant,
+            decorator: $provide.decorator,
+            factory: $provide.factory,
+            provider: $provide.provider,
+            service: $provide.service,
+            value: $provide.value,
+            filter: $filterProvider.register
+        };
 
-                /**
-                 * Usado pra resolver os caminhos das controllers
-                 * @param {type} route
-                 * @param {type} url
-                 * @returns {undefined}
-                 */
-                var registerResolver = function(route, url){
-                    if ( route.controllerUrl ) {
-                        if ( !route.resolve ) {
-                            route.resolve = {};
-                        }
+        connecta.lazy = lazy;
+        portal.lazy = lazy;
+        collector.lazy = lazy;
+        speaknow.lazy = lazy;
+        presenter.lazy = lazy;
+        maps.lazy = lazy;
+    }
+    
+    /**
+     * Configura as traduções da aplicação
+     * @param {type} $translateProvider
+     * @param {type} navigator
+     * @returns {undefined}
+     */
+    function configureTranslations($translateProvider, navigator){
+        $translateProvider.useLoader('$translatePartialLoader', {
+            urlTemplate: 'app/{part}/translate/{lang}.json'
+        });
 
-                        if ( !route.resolve.load ) {
-                            route.resolve.load = function ($q, $rootScope) {
-                                var deferred = $q.defer();
-                                require([route.controllerUrl], function(){
-                                    deferred.resolve();
-                                    $rootScope.$apply();
-                                });
-                                return deferred.promise;
-                            };
-                        }
-                    }
-                    
-                    $routeProvider.when(url, route);
-                };
-                
-                angular.forEach(speaknowRoutes, registerResolver);
-                
+        $translateProvider.determinePreferredLanguage(function(){
+            if ( navigator.userLanguage || navigator.language ) {
+                return navigator.userLanguage || navigator.language;
+            }
+            
+            return 'en-us';
+        });
+        
+        $translateProvider.fallbackLanguage('en-us');
+        
+        $translateProvider.useCookieStorage();
+    }
+    
+    /**
+     * Mescla todas as rotas passadas e retorna o objeto final das rotas
+     * @returns {object}
+     */
+    function buildRoutes() {
+        var finalRouteObject = {};
+        angular.forEach(arguments, function (module) {
+            $.extend(true, finalRouteObject, module._routes);
+        });
+        return finalRouteObject;
+    }
+    
+    /**
+     * Configura as rotas da aplicação
+     * @param {type} $routeProvider
+     * @returns {undefined}
+     */
+    function configureRoutes($routeProvider) {
+        var allRoutes = buildRoutes(portal, collector, speaknow, presenter, maps);
+        
+        angular.forEach(allRoutes, function (route, url) {
+            if (route.controllerUrl) {
+                if (!route.resolve) {
+                    route.resolve = {};
+                }
+
+                if (!route.resolve.load) {
+                    route.resolve.load = function ($q, $rootScope) {
+                        var deferred = $q.defer();
+                        require([route.controllerUrl], function () {
+                            deferred.resolve();
+                            $rootScope.$apply();
+                        });
+                        return deferred.promise;
+                    };
+                }
+            }
+
+            $routeProvider.when(url, route);
+        });
+    }
+
+    connecta.config(function ($controllerProvider, $compileProvider, $provide, $filterProvider, $translateProvider, $routeProvider) {
+
+        configureLazyProviders($controllerProvider, $compileProvider, $provide, $filterProvider);
+        configureTranslations($translateProvider, window.navigator);
+        configureRoutes($routeProvider);
+        
+    });
+
+    /**
+     * Inicia as dependências principais do módulo do Portal e inicia a aplicação
+     * 
+     * FIXME Devia apenas chamar as diretivas e cada uma delas declarar suas dependências
+     * 
+     * @param {type} doc
+     * @returns {undefined}
+     */
+    require([
+        'domReady!',
+        'portal/layout/controller/main',
+        'portal/layout/controller/home',
+        'portal/layout/service/applications',
+        'portal/layout/service/pages',
+        'portal/layout/service/layout',
+        'portal/layout/service/search'
+    ], function (doc) {
+        angular.bootstrap(doc, [connecta.name]);
+    });
+
+    return connecta;
+});
+
+// CÓDIGO DE ROTAS ANTIGO
 //                // Páginas das aplicações
 //                var routePage = {
 //                    template: ' ',
@@ -126,9 +211,9 @@ define([
 //                        ]
 //                    }
 //                };
-                
-                // @todo: Procurar forma de angular trazer parametro opcional (id)
-                // por enquanto é um gato
+
+// @todo: Procurar forma de angular trazer parametro opcional (id)
+// por enquanto é um gato
 //                $routeProvider
 //                        .when('/search/:app/:item', routeSearch)
 //                        .when('/search/:app/:item/:child', routeSearch)
@@ -138,33 +223,3 @@ define([
 //                        .when('/:app/:module', routePage)
 //                        .when('/:app/:module/:controller', routePage)
 //                        .when('/:app/:module/:controller/:id', routePage);
-            });
-
-            //start
-            require([
-                'domReady!',
-                'portal/layout/controller/main'
-            ], function (doc) {
-                angular.bootstrap(doc, [connecta.name]);
-            });
-        },
-        init: function () {
-            require([
-                'json!./../application',
-                'domReady!',
-                'portal/layout/service/applications',
-                'portal/layout/service/pages',
-                'portal/layout/service/layout',
-                'portal/layout/service/search'
-            ], function (applications) {
-                var config = {
-                    applications: applications
-                };
-
-                connecta.appBootstrap.run(config);
-            });
-        }
-    };
-
-    return connecta;
-});

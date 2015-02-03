@@ -1,6 +1,7 @@
 {
     "attributes": {
         "app-sidebar": {},
+        "translate": {},
         "app-search": {},
         "app-search-result-body": {},
         "app-pages-tabs": {},
@@ -15,6 +16,7 @@
     },
     "elements": {
         "app-layout": {},
+        "translate": {},
         "pagination": {
             "attributes": {
                 "total-items": {},

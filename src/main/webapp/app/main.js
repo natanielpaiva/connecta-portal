@@ -49,6 +49,18 @@ require.config({
         'bower_components/angular-translate/angular-translate.min': {
             deps: ['angular']
         },
+        'bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min': {
+            deps: [
+                'angular',
+                'bower_components/angular-translate/angular-translate.min'
+            ]
+        },
+        'bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min': {
+            deps: [
+                'angular',
+                'bower_components/angular-translate/angular-translate.min'
+            ]
+        },
         'angular-ng-table':{
             deps: ['angular']
         },
@@ -73,8 +85,4 @@ require.config({
     }
 });
 
-define([
-    'connecta'
-], function(connecta) {
-    connecta.appBootstrap.init();
-});
+require(['connecta']);

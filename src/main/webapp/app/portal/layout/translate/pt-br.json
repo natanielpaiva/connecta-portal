@@ -1,1 +1,16 @@
-{ "hello": "Olá, mundo!" }
+{
+    "hello": "Olá, mundo!",
+    "label": {
+        "name":"Nome",
+        "firstName":"Primeiro nome",
+        "lastName":"Sobrenome",
+        "fullName":"Nome completo",
+        "email":"Email"
+    },
+    "validation": {
+        "required": "Esse campo é obrigatório",
+        "email": "Deve ser um endereço de email válido",
+        "minlength": "Deve ter mais letras",
+        "maxlength": "Deve ter menos letras"
+    }
+}

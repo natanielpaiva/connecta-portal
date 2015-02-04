@@ -1,3 +1,16 @@
 {
-    "hello": "Hello World!"
+    "hello": "Hello World!",
+    "label": {
+        "name":"Name",
+        "firstName":"First name",
+        "lastName":"Last name",
+        "fullName":"Full name",
+        "email":"Email"
+    },
+    "validation":{
+        "required":"This field is required",
+        "email": "Must be a valid email address",
+        "minlength": "The field is too short",
+        "maxlength": "The field is too long"
+    }
 }

@@ -1,8 +1,67 @@
-<div class="col-md-offset-3 col-md-9">
-    <h1 translate>hello</h1>
+<div class="row">
+    <div class="col-md-offset-3 col-md-8">
+        <h1 translate>hello</h1>
 
-    <translate>hello</translate>
+        <translate>hello</translate>
 
-    <button class="btn btn-default" ng-click="setLang('pt-br')">Português</button>
-    <button class="btn btn-default" ng-click="setLang('en-us')">English</button>
+        <button class="btn btn-default" ng-click="setLang('pt-br')">Português</button>
+        <button class="btn btn-default" ng-click="setLang('en-us')">English</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-offset-3 col-md-8">
+        <form novalidate name="formulario">
+            <div class="form-group">
+                <label for="model-nome" translate>label.name</label>
+                <input type="text" name="nome" ng-model="model.nome"
+                       id="model-nome" required class="form-control" />
+                <div ng-if="formulario.$dirty" ng-messages="formulario.nome.$error"
+                     ng-messages-include="portal-validation-messages"></div>
+            </div>
+
+            <div class="form-group" ng-class="{ 'has-error': formulario.firstName.$invalid && formulario.$dirty }">
+                <label for="model-firstName" translate>label.firstName</label>
+                <input type="text" name="firstName" ng-model="model.firstName"
+                       id="model-firstName" required minlength="3" class="form-control" />
+                <div ng-messages="formulario.firstName.$error"
+                     ng-messages-include="portal-validation-messages"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="model-lastName" translate>label.lastName</label>
+                <input type="text" name="lastName" ng-model="model.lastName" maxlength="10"
+                       id="model-lastName" required class="form-control" />
+                <div ng-messages="formulario.lastName.$error"
+                     ng-messages-include="portal-validation-messages"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="model-email" translate>label.email</label>
+                <input type="email" name="email" ng-model="model.email"
+                       id="model-email" required class="form-control" />
+                <div ng-messages="formulario.email.$error" ng-messages-include="portal-validation-messages"></div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-offset-3 col-md-8">
+        Chosen type: {{datasource.type}}
+        <div ng-repeat="tp in types">
+            <label for="datasource-type-{{tp.id}}">
+                <span class="fa-icon" ng-class="datasource.type.class"></span>
+                <input type="radio" ng-model="datasource.type" name="type"
+                       id="datasource-type-{{tp.id}}" ng-value="tp" />
+                {{tp.name}}
+            </label>
+        </div>
+
+        Will include: {{datasource.type.template}}
+
+        <div ng-include="'app/presenter/datasource/template/'+datasource.type.template"></div>
+
+    </div>
 </div>

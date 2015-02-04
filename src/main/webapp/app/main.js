@@ -61,6 +61,9 @@ require.config({
                 'bower_components/angular-translate/angular-translate.min'
             ]
         },
+        'bower_components/angular-messages/angular-messages.min': {
+            deps: ['angular']
+        },
         'angular-ng-table':{
             deps: ['angular']
         },

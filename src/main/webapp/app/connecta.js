@@ -20,7 +20,8 @@ define([
     'bower_components/angular-i18n/angular-locale_pt-br',
     'bower_components/angular-translate/angular-translate.min',
     'bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min',
-    'bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min'
+    'bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min',
+    'bower_components/angular-messages/angular-messages.min'
 ], function (angular, $, portal, collector, speaknow, presenter, maps, applications) {
 
     var connecta = angular.module('connecta', [
@@ -36,6 +37,7 @@ define([
         'ngTouch',
         'ngLocale',
         'ngTable',
+        'ngMessages',
         'ui.bootstrap',
         'pascalprecht.translate'
     ]);

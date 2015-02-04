@@ -5,7 +5,7 @@
     <head>
         <meta charset="utf-8" />
 
-        <title>Connecta Portal</title>
+        <title>Connecta</title>
 
         <link rel="stylesheet" href="assets/css/app.css" />
     </head>

@@ -4,7 +4,7 @@
 <html lang="en" ng-controller="appMain">
     <head>
         <meta charset="utf-8" />
-        <title>Connecta</title>
+        <title>${name}</title>
         <link rel="stylesheet" href="assets/css/login.css" />
     </head>
     <body>

@@ -1,11 +1,11 @@
 {
     "hello": "Olá, mundo!",
     "label": {
-        "name":"Nome",
-        "firstName":"Primeiro nome",
-        "lastName":"Sobrenome",
-        "fullName":"Nome completo",
-        "email":"Email"
+        "name": "Nome",
+        "firstName": "Primeiro nome",
+        "lastName": "Sobrenome",
+        "fullName": "Nome completo",
+        "email": "Email"
     },
     "validation": {
         "required": "Esse campo é obrigatório",

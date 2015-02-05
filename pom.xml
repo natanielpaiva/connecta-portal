@@ -13,10 +13,10 @@
 
     <groupId>br.com.cds.connecta</groupId>
     <artifactId>connecta-portal</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
     <packaging>war</packaging>
     
-    <name>Connecta Portal</name>
+    <name>Connecta</name>
 
     <properties>
         <java.version>1.7</java.version>

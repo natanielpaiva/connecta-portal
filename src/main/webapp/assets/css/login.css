@@ -22,37 +22,48 @@ body {
 section {
   width: 270px;
   margin: 0 auto;
-  margin-top: 100px;
-  color: white; }
+  color: white;
+  height: 310px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  margin-left: -135px;
+  margin-top: -155px; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000328}}
+  section:after {
+    content: '';
+    display: block;
+    clear: both; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000321}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000336}}
 #header-login #logo {
   text-align: center; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000323}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000338}}
   #header-login #logo img {
     width: 100%; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000327}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000342}}
 #header-login #version-app {
-  text-align: right; }
+  text-align: right;
+  margin-top: -1.5em; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000332}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000348}}
 #form-login {
   float: left;
   width: 100%;
   margin-top: 40px; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000338}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000354}}
 .line-form {
   border-top: 1px solid #fff;
   float: left;
   width: 100%;
   display: block; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000344}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000360}}
   .line-form img {
     width: 19px;
     margin-top: 15px;
     float: left; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000350}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000366}}
   .line-form input.field-text {
     width: 230px;
     float: left;
@@ -64,18 +75,17 @@ section {
     border: none;
     margin-left: 14px;
     outline: none; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000363}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000379}}
   .line-form #btn-login {
     background-color: #c2c2c2;
     border: none;
     width: 270px;
     height: 40px;
     font-size: 16px;
-    text-shadow: 1px 1px 1px white;
     color: #0a0a0a;
     margin-top: 20px;
     transition: background-color 0.6s; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000374}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000389}}
     .line-form #btn-login:hover {
       background-color: #e8e8e8;
       cursor: pointer;

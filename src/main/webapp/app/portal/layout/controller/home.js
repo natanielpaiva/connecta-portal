@@ -30,7 +30,7 @@ require([
         ];
         
         $scope.datasource = {
-            type:null
+            type:$scope.types[0]
         };
     });
 });

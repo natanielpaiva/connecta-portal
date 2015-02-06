@@ -1,1 +1,19 @@
-{ "hello": "Hello World!" }
+{
+    "datasource":
+            {
+                "registerSourceAnalysis": "Register source analysis",
+                "name": "Name",
+                "typeFont":"Type font",
+                "address": "Address",
+                "path":"Path",
+                "userName": "User name",
+                "password": "Password",
+                "driverName": "Driver name",
+                "host": "Host",
+                "port": "Port",
+                "database":"Database",
+                "schema":"Schema",
+                "method":"Method",
+                "url":"URL"
+            }
+}

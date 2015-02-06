@@ -14,7 +14,8 @@
                 "database":"Banco de Dados",
                 "schema":"Schema",
                 "method":"Método",
-                "url":"URL"
+                "url":"URL",
+                "server": "Servidor"
                 
             }
 }

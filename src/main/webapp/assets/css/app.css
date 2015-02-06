@@ -12,6 +12,15 @@ and open the template in the editor.
     Created on : 04/02/2015, 17:16:07
     Author     : vinicius.pires
 */
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 05/02/2015, 18:24:02
+    Author     : pires
+*/
 /*** grids ***/
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/portal\/_grid\.scss}line{font-family:\000032}}
 .grid {
@@ -2330,6 +2339,7 @@ body.show-app-search .app-search {
 #sidebar > ul > li > ul.sub-menu li > ul.sub-menu > li > a > i {
   font-size: 13px; }
 
+/*$loadingColor:#36D0B0;*/
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/portal\/_pace-flash\.scss}line{font-family:\000031}}
 .pace {
   -webkit-pointer-events: none;
@@ -2344,7 +2354,7 @@ body.show-app-search .app-search {
 
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/portal\/_pace-flash\.scss}line{font-family:\0000313}}
 .pace .pace-progress {
-  background: #36D0B0;
+  background: #53b8fc;
   position: fixed;
   z-index: 2000;
   top: 0;
@@ -2359,7 +2369,7 @@ body.show-app-search .app-search {
   right: 0px;
   width: 100px;
   height: 100%;
-  box-shadow: 0 0 10px #36D0B0, 0 0 5px #36D0B0;
+  box-shadow: 0 0 10px #53b8fc, 0 0 5px #53b8fc;
   opacity: 1.0;
   -webkit-transform: rotate(3deg) translate(0px, -4px);
   -moz-transform: rotate(3deg) translate(0px, -4px);

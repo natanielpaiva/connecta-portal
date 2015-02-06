@@ -8,85 +8,182 @@ and open the template in the editor.
     Created on : 04/02/2015, 17:16:07
     Author     : vinicius.pires
 */
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\000033}}
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 05/02/2015, 18:24:02
+    Author     : pires
+*/
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/portal\/_pace-flash\.scss}line{font-family:\000031}}
+.pace {
+  -webkit-pointer-events: none;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/portal\/_pace-flash\.scss}line{font-family:\000039}}
+.pace-inactive {
+  display: none; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/portal\/_pace-flash\.scss}line{font-family:\0000313}}
+.pace .pace-progress {
+  background: #d30f0f;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  right: 100%;
+  width: 100%;
+  height: 2px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/portal\/_pace-flash\.scss}line{font-family:\0000323}}
+.pace .pace-progress-inner {
+  display: block;
+  position: absolute;
+  right: 0px;
+  width: 100px;
+  height: 100%;
+  box-shadow: 0 0 10px #d30f0f, 0 0 5px #d30f0f;
+  opacity: 1.0;
+  -webkit-transform: rotate(3deg) translate(0px, -4px);
+  -moz-transform: rotate(3deg) translate(0px, -4px);
+  -ms-transform: rotate(3deg) translate(0px, -4px);
+  -o-transform: rotate(3deg) translate(0px, -4px);
+  transform: rotate(3deg) translate(0px, -4px); }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/portal\/_pace-flash\.scss}line{font-family:\0000338}}
+.pace .pace-activity {
+  display: block;
+  position: fixed;
+  z-index: 2000;
+  top: 15px;
+  right: 15px;
+  width: 14px;
+  height: 14px;
+  border: solid 2px transparent;
+  border-top-color: #d30f0f;
+  border-left-color: #d30f0f;
+  border-radius: 10px;
+  -webkit-animation: pace-spinner 400ms linear infinite;
+  -moz-animation: pace-spinner 400ms linear infinite;
+  -ms-animation: pace-spinner 400ms linear infinite;
+  -o-animation: pace-spinner 400ms linear infinite;
+  animation: pace-spinner 400ms linear infinite; }
+
+@-webkit-keyframes pace-spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg); }
+
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+
+@-moz-keyframes pace-spinner {
+  0% {
+    -moz-transform: rotate(0deg);
+    transform: rotate(0deg); }
+
+  100% {
+    -moz-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+
+@-o-keyframes pace-spinner {
+  0% {
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg); }
+
+  100% {
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+
+@-ms-keyframes pace-spinner {
+  0% {
+    -ms-transform: rotate(0deg);
+    transform: rotate(0deg); }
+
+  100% {
+    -ms-transform: rotate(360deg);
+    transform: rotate(360deg); } }
+
+@keyframes pace-spinner {
+  0% {
+    transform: rotate(0deg);
+    transform: rotate(0deg); }
+
+  100% {
+    transform: rotate(360deg);
+    transform: rotate(360deg); } }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\000037}}
 * {
   margin: 0;
   padding: 0;
   font-family: 'Open Sans'; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\000039}}
-body {
-  background-color: #0a0a0a; }
-
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000313}}
+body {
+  background-color: #0a0a0a;
+  font-size: 14px; }
+
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000319}}
 section {
-  width: 270px;
+  width: 20em;
   margin: 0 auto;
   color: white;
-  height: 310px;
+  height: 22em;
   position: fixed;
   left: 50%;
   top: 50%;
-  margin-left: -135px;
-  margin-top: -155px; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000328}}
-  section:after {
-    content: '';
-    display: block;
-    clear: both; }
+  margin-left: -10em;
+  margin-top: -11em; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000336}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000337}}
 #header-login #logo {
   text-align: center; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000338}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000339}}
   #header-login #logo img {
     width: 100%; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000342}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000343}}
 #header-login #version-app {
   text-align: right;
   margin-top: -1.5em; }
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000348}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000349}}
 #form-login {
-  float: left;
   width: 100%;
-  margin-top: 40px; }
-
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000354}}
-.line-form {
-  border-top: 1px solid #fff;
-  float: left;
-  width: 100%;
-  display: block; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000360}}
-  .line-form img {
-    width: 19px;
-    margin-top: 15px;
-    float: left; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000366}}
-  .line-form input.field-text {
-    width: 230px;
-    float: left;
-    height: 45px;
-    font-size: 16px;
-    color: #fff;
-    padding: 3px;
-    background-color: transparent;
-    border: none;
-    margin-left: 14px;
-    outline: none; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000379}}
-  .line-form #btn-login {
-    background-color: #c2c2c2;
-    border: none;
-    width: 270px;
-    height: 40px;
-    font-size: 16px;
-    color: #0a0a0a;
-    margin-top: 20px;
-    transition: background-color 0.6s; }
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000389}}
-    .line-form #btn-login:hover {
-      background-color: #e8e8e8;
-      cursor: pointer;
-      transition: background-color 0.6s; }
+  margin-top: 3em; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000353}}
+  #form-login .line-form {
+    border-top: 0.1em solid white;
+    width: 100%;
+    line-height: 3em; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000359}}
+    #form-login .line-form img {
+      display: inline-block;
+      width: 1em; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000364}}
+    #form-login .line-form input.field-text {
+      display: inline-block;
+      color: white;
+      background-color: transparent;
+      border: none;
+      margin-left: 1em;
+      outline: none; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000373}}
+    #form-login .line-form #btn-login {
+      background-color: #c2c2c2;
+      border: none;
+      width: 100%;
+      height: 3em;
+      color: #0a0a0a;
+      margin-top: 1.5em;
+      transition: background-color 250ms; }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/pires\/NetBeansProjects\/connecta-portal\/src\/main\/webapp\/assets\/scss\/login\.scss}line{font-family:\0000382}}
+      #form-login .line-form #btn-login:hover, #form-login .line-form #btn-login:focus {
+        background-color: whitesmoke;
+        cursor: pointer;
+        transition: background-color 250ms; }

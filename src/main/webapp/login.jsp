@@ -8,7 +8,6 @@
         <link rel="stylesheet" href="assets/css/login.css" />
     </head>
     <body>
-
         <section>
             <div id="header-login">
                 <div id="logo">
@@ -31,13 +30,11 @@
                                placeholder="Password" />
                     </div>
                     <div class="line-form">
-                        <button id="btn-login">
-                            Login
-                        </button>
+                        <button id="btn-login">Login</button>
                     </div>
                 </form>
             </div>
-        </section> 
-
+        </section>
+        <script type="text/javascript" src="bower_components/pace/pace.js"></script>
     </body>
 </html>

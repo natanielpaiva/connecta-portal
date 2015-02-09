@@ -4,5 +4,5 @@
     <keepgenerated>true</keepgenerated>
     <debug>true</debug>
   </jsp-descriptor>
-  <context-root>/${project.artifactId}</context-root>
+  <context-root>connecta-portal</context-root>
 </weblogic-web-app>

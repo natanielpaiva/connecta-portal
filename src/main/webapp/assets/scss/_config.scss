@@ -10,6 +10,10 @@ and open the template in the editor.
 
 @import '../fonts/open-sans/style.css';
 
-$black: #0a0a0a;
-$lightGray: #c2c2c2;
-$white: #fff;
+$defaultLight:  8%;
+
+$black:         #0A0A0A;
+$lightGray:     #CCC; //204,204,204 / 225, 225, 225
+$lighterGray:   lighten($lightGray, $defaultLight);
+$white:         #FFF;
+$red:           #5F0202;

@@ -6,23 +6,25 @@
 module.exports = function (grunt) {
     grunt.initConfig({
         jshint: {
-            jshintrc:'.jshintrc',
+            jshintrc: '.jshintrc',
             files: ['app/**/*.js']
         },
         sass: {
             dist: {
-                style:'compressed',
+                options: {
+                    style: 'compressed'
+                },
                 files: [{
-                    //expand: true,
+                    expand: true,
                     cwd: 'assets/scss',
-                    src: ['*.scss'],
+                    src: ['**/**.scss'],
                     dest: 'assets/css',
                     ext: '.css'
                 }]
             }
         }
     });
-    
+
     grunt.loadNpmTasks('grunt-contrib-jshint');
     grunt.loadNpmTasks('grunt-contrib-sass');
 

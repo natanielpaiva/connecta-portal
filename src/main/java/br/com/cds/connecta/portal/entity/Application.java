@@ -24,7 +24,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "C_APPLICATIONS")
 @NamedQueries({
-    @NamedQuery(name = "Application.findAll", query = "FROM Application a ORDER BY a.id")
+    @NamedQuery(name = "Application.findAll", query = "SELECT a FROM Application a ORDER BY a.id")
 })
 public class Application extends AbstractBaseEntity implements Serializable {
 

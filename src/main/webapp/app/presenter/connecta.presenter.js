@@ -9,7 +9,7 @@ define([
     
     presenter.run(function(applications){
         var appPresenter = applications.filter(function(app){
-            return app.name == 'presenter';
+            return app.name === 'presenter';
         }).pop();
         
         presenter.lazy.value('presenterConfig', appPresenter);

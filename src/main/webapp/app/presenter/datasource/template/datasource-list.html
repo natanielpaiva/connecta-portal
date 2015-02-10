@@ -1,8 +1,25 @@
 <div class="col-md-offset-3 col-md-9">
-    <h3 translate>hello</h3>
+    <h3 translate>datasource.datasources</h3>
+    
+    <a class="btn btn-default" href="#/presenter/datasource/new"
+       translate>
+        datasource.new
+    </a>
 
-    <translate>hello</translate>
-
-    <button class="btn btn-default" ng-click="setLang('pt-br')">Português</button>
-    <button class="btn btn-default" ng-click="setLang('en-us')">English</button>
+    <table ng-table class="table">
+        <thead>
+            <tr>
+                <th><input type="checkbox" name="" ></th>
+                <th>datasource.name</th>
+                <th>datasource.type</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="ds in [1,2,3,4,5,6,7,8,9,0]">
+                <td><input type="checkbox" name=""  /></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
 </div>

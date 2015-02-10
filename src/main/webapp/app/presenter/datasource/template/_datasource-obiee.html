@@ -1,19 +1,31 @@
 <!-- OBIEE -->
 <div class="form-group">
-    <label for="txtAddress" translate>datasource.address</label>
-    <input type="text" name="txtAddress" id="txtAddress" class="form-control"  >
+    <label for="address" translate>datasource.address</label>
+    <input type="text" name="address" id="address" class="form-control"
+           ng-model="typedDatasource.address"/>
+    <div ng-if="formulario.$dirty" ng-messages="formulario.addrss.$error"
+             ng-messages-include="portal-validation-messages"></div>
 </div>
 <div class="form-group">
-    <label for="txtPath" translate>datasource.path</label>
-    <input type="text" name="txtPath" id="txtPath" class="form-control"  >
+    <label for="path" translate>datasource.path</label>
+    <input type="text" name="path" id="path" class="form-control"
+           ng-model="typedDatasource.path" />
+    <div ng-if="formulario.$dirty" ng-messages="formulario.path.$error"
+             ng-messages-include="portal-validation-messages"></div>
 </div>
-<div class="row">
+<div class="row" >
     <div class="col-xs-6 form-group">
-        <label for="nome" translate>datasource.userName</label>
-        <input type="text" class="form-control" id="name" >
+        <label for="user" translate>datasource.userName</label>
+        <input type="text" name="user" id="user" class="form-control" 
+               ng-model="typedDatasource.datasource.user" />
+        <div ng-if="formulario.$dirty" ng-messages="formulario.user.$error"
+             ng-messages-include="portal-validation-messages"></div>
     </div>
     <div class="col-xs-6 form-group">
         <label for="password" translate>datasource.password</label>
-        <input type="text" name="password" class="form-control" id="password" >
+        <input type="text" name="password" id="password" class="form-control"
+               ng-model="typedDatasource.datasource.password" />
+        <div ng-if="formulario.$dirty" ng-messages="formulario.password.$error"
+             ng-messages-include="portal-validation-messages"></div>
     </div>
 </div>

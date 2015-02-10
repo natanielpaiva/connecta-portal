@@ -1,21 +1,24 @@
 <!-- Endeca -->
 <div class="form-group">
     <label for="txtAddress" translate>datasource.address</label>
-    <input type="text" name="txtAddress" id="txtAddress" class="form-control"  >
-    <div ng-if="formulario.$dirty" ng-messages="formulario.txtAddress.$error"
+    <input type="text" name="address" id="address" class="form-control"  
+           ng-model="typedDatasource.address" />
+    <div ng-if="formulario.$dirty" ng-messages="formulario.address.$error"
          ng-messages-include="portal-validation-messages"></div>
 </div>
 <div class="row" >
     <div class="col-xs-6 form-group">
         <label for="user" translate>datasource.userName</label>
-        <input type="text" name="user" id="user" class="form-control"  >
+        <input type="text" name="user" id="user" class="form-control" 
+               ng-model="typedDatasource.datasource.user" />
         <div ng-if="formulario.$dirty" ng-messages="formulario.user.$error"
              ng-messages-include="portal-validation-messages"></div>
     </div>
     <div class="col-xs-6 form-group">
         <label for="password" translate>datasource.password</label>
-        <input type="text" name="password" id="password" class="form-control">
-        <div ng-if="formulario.$dirty" ng-messages="formulario.passwort.$error"
+        <input type="text" name="password" id="password" class="form-control"
+               ng-model="typedDatasource.datasource.password" />
+        <div ng-if="formulario.$dirty" ng-messages="formulario.password.$error"
              ng-messages-include="portal-validation-messages"></div>
     </div>
 </div>

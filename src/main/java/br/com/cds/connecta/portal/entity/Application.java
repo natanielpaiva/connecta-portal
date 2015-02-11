@@ -22,7 +22,7 @@ import javax.persistence.Table;
  * @author pires
  */
 @Entity
-@Table(name = "C_APPLICATIONS")
+@Table(name = "APPLICATIONS")
 @NamedQueries({
     @NamedQuery(name = "Application.findAll", query = "SELECT a FROM Application a ORDER BY a.id")
 })

@@ -64,6 +64,9 @@ require.config({
         'bower_components/angular-messages/angular-messages.min': {
             deps: ['angular']
         },
+        'bower_components/ng-file-upload/angular-file-upload.min': {
+            deps: ['angular']
+        },
         'angular-ng-table':{
             deps: ['angular']
         },

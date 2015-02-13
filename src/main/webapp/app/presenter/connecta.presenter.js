@@ -1,7 +1,7 @@
 define([
     'angular'
 ], function (angular) {
-    var presenter = angular.module('connecta.presenter', []);
+    var presenter = angular.module('connecta.presenter', ['angularFileUpload']);
     
     presenter.config(function($translatePartialLoaderProvider){
         $translatePartialLoaderProvider.addPart('presenter/datasource');
@@ -31,7 +31,12 @@ define([
             controller: 'DatasourceFormController',
             controllerUrl: 'presenter/datasource/controller/datasource-form',
             templateUrl: 'app/presenter/datasource/template/datasource-form.html'
-        }
+        },
+        '/presenter/single-source/new': {
+            controller: 'SingleSourceFormController',
+            controllerUrl: 'presenter/single-source/controller/single-source-form',
+            templateUrl: 'app/presenter/single-source/template/single-source-form.html'
+        },
     };
 
     return presenter;

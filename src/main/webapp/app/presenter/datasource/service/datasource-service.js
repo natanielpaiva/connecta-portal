@@ -20,7 +20,7 @@ define([
                 template: '_datasource-hdfs.html'
             },
             {
-                id: 'obiee',
+                id: 'bi',
                 name: 'OBIEE',
                 template: '_datasource-obiee.html'
             },
@@ -41,17 +41,28 @@ define([
         };
         
         var getTypeUrl = function(datasource) {
-            return presenterResources.datasource+'/'+datasource.datasource.type.id;
+            return presenterResources.datasource+'/'+datasource.type.id;
         };
         
         this.save = function(datasource){
             var url = getTypeUrl(datasource);
             
             var datasourceCopy = angular.copy(datasource);
-            datasourceCopy.datasource.type = datasourceCopy.datasource.type.id.toUpperCase();
+            datasourceCopy.type = datasourceCopy.type.id.toUpperCase();
             
             return $http.post(url, datasourceCopy);
         };
+        
+        this.list = function(){
+            var url = presenterResources.datasource ;
+            return $http.get(url);
+        };
+        
+        this.excluir = function(id){
+            var url = presenterResources.datasource +'/'+id;
+            return $http.delete(url);
+        };
+        
     });
     
 });

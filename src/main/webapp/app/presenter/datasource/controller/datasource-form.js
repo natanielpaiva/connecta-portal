@@ -7,10 +7,8 @@ define([
         $scope.types = DatasourceService.getTypes();
 
         $scope.typedDatasource = {
-            datasource: {
                 name: '',
                 type: $scope.types[0]
-            }
         };
 
         $scope.submit = function () {
@@ -27,7 +25,7 @@ define([
          */
         $scope.typedDatasource.parameters = [
             { 
-                key: '',
+                params: '',
                 value: ''
             }
         ];
@@ -35,8 +33,14 @@ define([
         $scope.addMethodParam = function(){
             $scope.typedDatasource.parameters.push({});
         };
-        $scope.removeMethodParam = function(index){
-            $scope.typedDatasource.parameters.splice(index, 1);
+        $scope.removeMethodParam = function(param){
+             /**
+              *sempre deve manter um campo
+              */
+            if($scope.typedDatasource.parameters.length !== 1){
+                $scope.typedDatasource.parameters.splice(
+                    $scope.typedDatasource.parameters.indexOf(param), 1);
+             }
         };
         
 

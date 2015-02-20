@@ -9,17 +9,21 @@
     <table ng-table class="table">
         <thead>
             <tr>
-                <th><input type="checkbox" name="" ></th>
-                <th>datasource.name</th>
-                <th>datasource.type</th>
+                <th></th>
+                <th translate>datasource.name</th>
+                <th translate>datasource.type</th>
+                <th translate>.</th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="ds in [1,2,3,4,5,6,7,8,9,0]">
-                <td><input type="checkbox" name=""  /></td>
-                <td></td>
-                <td></td>
+            <tr ng-repeat="ds in datasource">
+                <td>{{ds.id}}<input type="checkbox" name=""/></td>
+                <td>{{ds.name}}</td>
+                <td>{{ds.type}}</td>
+                <td><button type="button" class="btn btn-danger" ng-click="excluir(ds.id)">X</button></td>
+                
             </tr>
         </tbody>
     </table>
 </div>
+{{datasource|json}}

@@ -11,34 +11,13 @@
            ng-model="typedDatasource.address"/>
 </div>
 
-<div class="row well" >
-    <!--    <div class="col-xs-5 form-group">
-            <label for="user" translate>Parametros</label>
-            <input type="text" name="params" id="params" class="form-control" 
-                   ng-model="typedDatasource.webservice.params" />
-            <div ng-if="formulario.$dirty" ng-messages="formulario.params.$error"
-                 ng-messages-include="portal-validation-messages"></div>
-        </div>
-        <div class="col-xs-5 form-group">
-            <label for="password" translate>valor</label>
-            <input type="text" name="method" id="method" class="form-control"
-                   ng-model="typedDatasource.webservice.method" />
-            <div ng-if="formulario.$dirty" ng-messages="formulario.method.$error"
-                 ng-messages-include="portal-validation-messages"></div>
-        </div>
-        <div class="col-xs-2 form-group">
-            <label for="password" translate>valor</label>
-            <p>
-                <button class="btn btn-large btn-primary" type="button">+</button>
-                <button class="btn btn-large btn-primary" type="button">-</button>
-            </p>
-        </div>-->
+<div class="clearfix well">
 
     <div ng-repeat="p in typedDatasource.parameters">
         <div class="col-xs-5 form-group">
             <label for="user" translate>Parametro</label>
             <input type="text" name="params" id="params" class="form-control" 
-                   ng-model="p.key" />
+                   ng-model="p.params" />
             <div ng-if="formulario.$dirty" ng-messages="formulario.params.$error"
                  ng-messages-include="portal-validation-messages"></div>
         </div>
@@ -59,5 +38,3 @@
     </div> 
 
 </div>
-
-<pre>{{typedDatasource|json}}</pre>

@@ -11,15 +11,15 @@
             <div class="form-group">
                 <label for="nome" translate>datasource.name</label>
                 <input type="text" class="form-control" id="name" name="name"
-                       ng-model="typedDatasource.datasource.name" />
+                       ng-model="typedDatasource.name" />
             </div>
 
             <label ng-repeat="tp in types"  class="radio-inline form-group">
-                <input type="radio" ng-model="typedDatasource.datasource.type" name="type" 
+                <input type="radio" ng-model="typedDatasource.type" name="type" 
                        id="datasource-type-{{tp.id}}" ng-value="tp" /> 
                 {{tp.name}}
             </label>
-            <div ng-include="'app/presenter/datasource/template/' + typedDatasource.datasource.type.template"></div>
+            <div ng-include="'app/presenter/datasource/template/' + typedDatasource.type.template"></div>
             
             <button type="button" class="btn btn-default">Cancelar</button>
             <button class="btn btn-primary">Salvar</button>

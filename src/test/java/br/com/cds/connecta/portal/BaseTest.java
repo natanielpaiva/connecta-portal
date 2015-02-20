@@ -1,12 +1,14 @@
 package br.com.cds.connecta.portal;
 
-import br.com.cds.connecta.framework.core.test.MockMvcProvider;
+
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+
 import org.apache.commons.io.IOUtils;
-import org.jboss.logging.Logger;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import br.com.cds.connecta.framework.core.test.MockMvcProvider;
 
 /**
  * Teste base de todos os projetos

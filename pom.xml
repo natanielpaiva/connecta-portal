@@ -47,49 +47,17 @@
     </profiles>
 
     <dependencies>
+        
         <dependency>
             <groupId>br.com.cds.connecta.framework</groupId>
             <artifactId>connecta-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
-		<!-- <dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-core</artifactId>
-			
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-config</artifactId>
-			
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-jwt</artifactId>
-			
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-web</artifactId>
-			
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-tx</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency> -->
-		
-		 
         
         <dependency>
             <groupId>javax.annotation</groupId>
             <artifactId>jsr250-api</artifactId>
         </dependency>
-        
                  
     </dependencies>
 
@@ -193,7 +161,7 @@
                             <goal>karma</goal>
                         </goals>
                         <configuration>
-                            <karmaConfPath>karma.conf.js</karmaConfPath>
+                            <karmaConfPath>test/karma.conf.js</karmaConfPath>
                         </configuration>
                     </execution>
                 </executions>

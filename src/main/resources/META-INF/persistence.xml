@@ -5,15 +5,20 @@
     <persistence-unit name="ConnectaPortalPU" transaction-type="RESOURCE_LOCAL">
     	<provider>org.hibernate.ejb.HibernatePersistence</provider>
         <non-jta-data-source>ConnectaPortalDS</non-jta-data-source>
-        
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
-        
         <properties>
-            <property name="hibernate.show_sql" value="true" />
-            <property name="hibernate.format_sql" value="true" />
-            <property name="hibernate.archive.autodetection" value="class" />
+            <property name="hibernate.hbm2ddl.auto" value="validate"/>
             <property name="hibernate.dialect" value="org.hibernate.dialect.Oracle10gDialect"/>
-            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.archive.autodetection" value="class, hbm" />
+            <property name="hibernate.use_sql_comments" value="false"/>
+            <property name="hibernate.c3p0.min_size" value="5"/>
+            <property name="hibernate.c3p0.max_size" value="35"/>
+            <property name="hibernate.c3p0.timeout" value="30000"/>
+            <property name="hibernate.c3p0.max_statements" value="180"/>
+            <property name="hibernate.c3p0.idle_test_period" value="30000"/>
+            <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.WeblogicTransactionManagerLookup"/>
         </properties>
     </persistence-unit>
 </persistence>

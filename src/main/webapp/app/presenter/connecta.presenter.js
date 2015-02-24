@@ -23,12 +23,22 @@ define([
 
     presenter._routes = {
 //        Utilizar esse formato        
-        '/presenter/datasource': {
+       '/presenter/datasource': {
             controller: 'DatasourceListController',
             controllerUrl: 'presenter/datasource/controller/datasource-list',
             templateUrl: 'app/presenter/datasource/template/datasource-list.html'
         },
         '/presenter/datasource/new': {
+            controller: 'DatasourceFormController',
+            controllerUrl: 'presenter/datasource/controller/datasource-form',
+            templateUrl: 'app/presenter/datasource/template/datasource-form.html'
+        },
+        '/presenter/datasource/view/:id': {
+            controller: 'DatasourceViewController',
+            controllerUrl: 'presenter/datasource/controller/datasource-view',
+            templateUrl: 'app/presenter/datasource/template/datasource-view.html'
+        },
+        '/presenter/datasource/:id': {
             controller: 'DatasourceFormController',
             controllerUrl: 'presenter/datasource/controller/datasource-form',
             templateUrl: 'app/presenter/datasource/template/datasource-form.html'

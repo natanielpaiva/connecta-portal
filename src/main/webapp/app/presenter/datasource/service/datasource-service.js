@@ -61,7 +61,6 @@ define([
         this.excluir = function(id){
             var url = presenterResources.datasource +'/'+id;
             return $http.delete(url);
-            return true
         };
         
         this.getById = function(id){

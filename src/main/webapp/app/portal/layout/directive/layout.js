@@ -8,7 +8,6 @@ define([
     /**
      * Componente usado para renderizar e manter o header do portal
      *
-     * @param {type} angular
      * @returns {undefined}
      */
     return portal.directive('appLayout', function () {

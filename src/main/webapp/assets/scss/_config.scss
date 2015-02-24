@@ -9,11 +9,19 @@ and open the template in the editor.
 */
 
 @import '../fonts/open-sans/style.css';
+@import '../fonts/connecta/style.css';
 
 $defaultLight:  8%;
 
 $black:         #0A0A0A;
-$lightGray:     #CCC; //204,204,204 / 225, 225, 225
-$lighterGray:   lighten($lightGray, $defaultLight);
-$white:         #FFF;
+$lightBlack:    #111111;
+$darkerGray:    #222222;
+$darkGray:      #252525;
+$gray:          #333333;
+$lightGray:     #CCCCCC; //204,204,204
+$lighterGray:   #E1E1E1; //225,225,225
+$white:         #FFFFFF;
+
 $red:           #5F0202;
+
+$defaultAnimationDuration:250ms;

@@ -38,7 +38,6 @@ define([
                     // Adiciona os estilos personalizados da aplicação atual
                     var appInstance = applicationsService.getInstance();
                     scope.appInstance = appInstance;
-
                 });
             }
         };

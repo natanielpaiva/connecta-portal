@@ -1,93 +1,89 @@
-#menu-top{
-    background: #fff;
-    height: 60px;
-    margin: 0;
-}
+$headerHeight: 4em;
 
-#menu-top .navbar-toggle .icon-bar {
-    background-color: #494F5B;
-    height: 3px;
-}
-#menu-top .navbar-toggle:hover .icon-bar {
-    background-color: #FFF;
-}
+#menu-top {
+    background: $white;
 
-#menu-top .navbar-toggle.toggle-menu {
-    display: block;
-    float: left;
-}
+    box-shadow: 0em 0em 1em $black;
 
-#menu-top .icon-bar {
-    background-color: #494F5B;
-}
+    line-height: $headerHeight;
+    border: none;
 
-#menu-top .navbar-header{
-    background-color: #22262F;
-    /* width: 250px; */
-}
-#menu-top .navbar-nav{
-    padding: 0;
-}
-#menu-top .navbar-nav li{
-    padding: 0;
-}
+    .navbar-toggle {
+        padding:0;
+        margin:0;
+        width:1.5em;
+        height:100%;
+        color: $white;
+        font-size: 2.8em;
+        
+        &:hover {
+            color: $lighterGray;
+        }
 
-#menu-top .navbar-nav>li>a {
-    line-height: 30px;
-}
+        &.toggle-menu {
+            display: block;
+            float: left;
+        }
 
-#menu-top .navbar-nav.menu > li > a{
+    }
 
-    font-size: 20px;
-    text-align: center;
-}
+    .navbar-nav {
 
-#menu-top .navbar-header .navbar-brand{
-    height: 60px;
-    width: 250px;
-    padding: 0;
-}
-#menu-top .navbar-header .navbar-brand a{
-    line-height: 30px;
-    padding: 10px 15px;
-    padding-top: 15px;
-    padding-bottom: 15px;
-    display: block;
-    /* position: relative; */
-    float: left;
-    color: #fff;
-    width: 16px;
-    padding-left: 10px;
-}
+        li {
+            padding: 0;
 
+            & > a {
+                line-height: 30px;
+            }
+        }
+
+        &.menu > li > a {
+            font-size: 14px;
+            text-align: center;
+        }
+    }
+
+    .navbar-header {
+        background-color: $lightBlack;
+
+        .navbar-brand {
+            font-size: 13px;
+            height: 60px;
+            width: 20em;
+
+            margin:0;padding:0;
+
+            a {
+                line-height: 30px;
+
+                padding: 15px;
+                padding-left: 10px;
+
+                display: block;
+                float: left;
+                color: $white;
+                width: 16px;
+            }
+        }
+    }
+}
 
 /*Ícones das aplicações*/
-.app-icon{
-    width: 60px;
-    height: 60px;
+.current-app {
+    width: 11em;
+    height: 100%;
     overflow: hidden;
     background-repeat: no-repeat;
     background-position: center;
-    margin: 0;
-    border: 0;
-    background-color: #fff;
-    color: #000;
-}
-
-a.app-icon{
+    background-size: 11em auto;
+    margin-right: 3em;
     transition: all 0.3s;
-}
-
-#menu-top a.app-icon:hover {
-    text-decoration: none;
-    background-color: #eee;
-}
-
-#menu-top .actual-app{
     float: right;
+    //Temporário
+    background-image: url('../img/logo-connecta.png');
 }
 
-#menu-top .actual-app .arrow{
+/*#menu-top .actual-app .arrow{
     display: block;
     position: absolute;
     left: 210px;
@@ -103,5 +99,4 @@ a.app-icon{
     top: 50px;
     border-top: 0px;
     border-bottom:10px solid;
-}
-
+}*/

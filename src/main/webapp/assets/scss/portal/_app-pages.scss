@@ -1,16 +1,18 @@
-.page-container{
-    margin-left: 270px;
-    transition: all 0.3s;
-    margin-top: 50px;
-    margin-right: 0px;
+$pageGutter:1em;
+
+// Configurando o container das views para 
+.page-container {
+    margin-left: $sidebarSize + $pageGutter;
+    margin-top: $headerHeight + $pageGutter;
+    transition: margin $defaultAnimationDuration;
 }
 
-.hide-sidebar .page-container{
-    margin-left: 20px;
+.hide-sidebar .page-container {
+    margin-left: $miniSidebarSize + $pageGutter;
 }
 
-.show-tabs .page-container{
-    margin-right: 250px;
+.show-tabs .page-container {
+    margin-right: $sidebarSize;
 }
 
 #page-switcher-wrapper {
@@ -30,8 +32,6 @@
 .show-tabs #page-switcher-wrapper{
     right: 0px;
 }
-
-
 
 #page-switcher-wrapper h3{
     font-size: 18px;

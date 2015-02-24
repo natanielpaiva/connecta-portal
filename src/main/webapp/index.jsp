@@ -5,9 +5,10 @@
     <head>
         <meta charset="utf-8" />
 
-        <title>${name}</title>
+        <title>${project.name}</title>
 
         <link rel="stylesheet" href="assets/css/app.css" />
+        <link rel="icon" href="assets/img/favicon-128.png" />
     </head>
     <body>
 
@@ -16,7 +17,7 @@
         <script type="text/javascript" src="bower_components/pace/pace.js"></script>
         <script type="text/javascript" src="bower_components/requirejs/require.js" data-main="app/main.js"></script>
         
-        <script type="text/ng-template" id="portal-validation-messages" ng>
+        <script type="text/ng-template" id="portal-validation-messages">
             <p ng-message="required" class="help-block">
                 {{'validation.required' | translate}}
             </p>

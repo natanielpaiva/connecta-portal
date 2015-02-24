@@ -1,53 +1,52 @@
 /*Barra lateral*/
-#sidebar{
-    width: 250px;
-    background-color: #1B1E25;
-    position: fixed;
-    height: 100%;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    transition: left 0.3s;
-    padding-top: 59px;
-    z-index: 10;
+
+$sidebarSize: 20em;
+$miniSidebarSize: 4em;
+
+#sidebar {
+    width: $sidebarSize;
+    background-color: $black;
+    
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+    
+    transition: width $defaultAnimationDuration;
+
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        margin: 0;
+        padding: 0;
+
+        & > li {
+            display: block;
+            margin: 0;
+            padding: 0;
+            border: 0px;
+        }
+    }
+
+    & > ul.nav {
+        margin: 0;
+        transition: all 0.3s;
+        left: -250px;
+        top: 0;
+        display: block;
+        width: 250px;
+        padding: 0;
+
+        &.active{
+            left: 0px;
+        }
+    }
 }
 
-/*Conteudo*/
-/*Permite ocultar o menu lateral*/
+// Minimiza a barra lateral para mostrar apenas os ícones
 .hide-sidebar #sidebar{
-    left: -250px;
-}
-
-#sidebar > ul.nav{
-    margin: 0;
-    transition: all 0.3s;
-    /* position: absolute; */
-    left: -250px;
-    top: 0;
-    display: block;
-    width: 250px;
-    padding: 0;
-}
-
-#sidebar ul.nav.active{
-    left: 0px;
-}
-
-
-/*** Page sidebar ***/
-#sidebar ul {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    margin: 0;
-    padding: 0;
-}
-
-#sidebar ul > li {
-    display: block;
-    margin: 0;
-    padding: 0;
-    border: 0px;
+    width: $miniSidebarSize;
 }
 
 #sidebar > ul > li ul {

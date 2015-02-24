@@ -2,20 +2,23 @@
     "datasource":
             {
                 "registerSourceAnalysis": "Cadastro fonte de análises",
+                "SourceAnalysis": "Fontes de análises",
                 "name": "Nome",
-                "typeFont":"Tipo de fonte",
+                "description": "Descrição",
+                "typeFont": "Tipo de fonte",
                 "address": "Endereço",
-                "path":"Caminho",
+                "path": "Caminho",
                 "userName": "Nome de usuário",
                 "password": "Senha",
                 "driverName": "Nome do Driver",
                 "host": "Endereço (Host)",
                 "port": "Porta",
-                "database":"Banco de Dados",
-                "schema":"Schema",
-                "method":"Método",
-                "url":"URL",
-                "server": "Servidor"
+                "database": "Banco de Dados",
+                "schema": "Schema",
+                "method": "Método",
+                "url": "URL",
+                "server": "Servidor",
+                "searchTerm": "Termo da Busca"
                 
             }
 }

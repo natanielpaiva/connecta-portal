@@ -2,7 +2,6 @@
 <div class="row">
     <div class="col-md-offset-3 col-md-8">
         <h3 translate>datasource.registerSourceAnalysis</h3>
-       <!-- <pre>{{typedDatasource | json}}</pre> -->
     </div>
 </div>
 <div class="row">
@@ -12,6 +11,13 @@
                 <label for="nome" translate>datasource.name</label>
                 <input type="text" class="form-control" id="name" name="name"
                        ng-model="typedDatasource.name" />
+            </div>
+            
+            <div class="form-group">
+                <label for="description" translate>datasource.description</label>
+                <textarea class="form-control" id="description" name="description"
+                       ng-model="typedDatasource.description"></textarea>
+               
             </div>
 
             <label ng-repeat="tp in types"  class="radio-inline form-group">

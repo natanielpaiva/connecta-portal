@@ -2,19 +2,22 @@
     "datasource":
             {
                 "registerSourceAnalysis": "Register source analysis",
+                "SourceAnalysis": "Source Analysis",
                 "name": "Name",
-                "typeFont":"Type font",
+                "description": "Description", 
+                "typeFont": "Type font",
                 "address": "Address",
-                "path":"Path",
+                "path": "Path",
                 "userName": "User name",
                 "password": "Password",
                 "driverName": "Driver name",
                 "host": "Host",
                 "port": "Port",
-                "database":"Database",
-                "schema":"Schema",
-                "method":"Method",
-                "url":"URL",
-                "server":"Server"
+                "database": "Database",
+                "schema": "Schema",
+                "method": "Method",
+                "url": "URL",
+                "server": "Server",
+                "searchTerm": "Search Term"
             }
 }

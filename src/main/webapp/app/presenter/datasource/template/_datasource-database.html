@@ -48,14 +48,14 @@
     <div class="col-xs-6 form-group">
         <label for="user" translate>datasource.userName</label>
         <input type="text" name="user" id="user" class="form-control" 
-               ng-model="typedDatasource.datasource.user" />
+               ng-model="typedDatasource.user" />
         <div ng-if="formulario.$dirty" ng-messages="formulario.user.$error"
              ng-messages-include="portal-validation-messages"></div>
     </div>
     <div class="col-xs-6 form-group">
         <label for="password" translate>datasource.password</label>
         <input type="text" name="password" id="password" class="form-control"
-               ng-model="typedDatasource.datasource.password" />
+               ng-model="typedDatasource.password" />
         <div ng-if="formulario.$dirty" ng-messages="formulario.password.$error"
              ng-messages-include="portal-validation-messages"></div>
     </div>

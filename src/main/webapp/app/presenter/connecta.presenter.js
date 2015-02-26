@@ -5,6 +5,7 @@ define([
     
     presenter.config(function($translatePartialLoaderProvider){
         $translatePartialLoaderProvider.addPart('presenter/datasource');
+        $translatePartialLoaderProvider.addPart('presenter/analysis');
     });
     
     presenter.run(function(applications){

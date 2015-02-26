@@ -47,7 +47,7 @@ define([
             controller: 'SingleSourceFormController',
             controllerUrl: 'presenter/single-source/controller/single-source-form',
             templateUrl: 'app/presenter/single-source/template/single-source-form.html'
-        },
+        }
     };
 
     return presenter;

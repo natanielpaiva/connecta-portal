@@ -18,8 +18,7 @@ define([
         // Configurando os resources do backend
         presenter.lazy.value('presenterResources', {
             datasource: appPresenter.host+'/datasource',
-            singlesource: appPresenter.host+'/media',
-            analysis: appPresenter.host+'/analysis'
+            singlesource: appPresenter.host+'/media'
         });
     });
 
@@ -50,12 +49,6 @@ define([
             controllerUrl: 'presenter/single-source/controller/single-source-form',
             templateUrl: 'app/presenter/single-source/template/single-source-form.html'
         },
-        '/presenter/analysis/new': {
-            controller: 'AnalysisFormController',
-            controllerUrl: 'presenter/analysis/controller/analysis-form',
-            templateUrl: 'app/presenter/analysis/template/analysis-form.html'
-        }
-        
     };
 
     return presenter;

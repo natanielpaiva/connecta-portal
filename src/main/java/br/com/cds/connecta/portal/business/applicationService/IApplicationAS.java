@@ -6,7 +6,9 @@
 package br.com.cds.connecta.portal.business.applicationService;
 
 import br.com.cds.connecta.portal.entity.Application;
+import br.com.cds.connecta.framework.core.filter.PaginationFilter;
 import java.util.List;
+import org.springframework.data.domain.Page;
 
 /**
  *
@@ -14,14 +16,16 @@ import java.util.List;
  */
 public interface IApplicationAS {
 
-    public Application get(Long id);
+    Application get(Long id);
 
-    public List<Application> list();
+    List<Application> list();
+    
+    Page<Application> list(PaginationFilter filter);
 
-    public Application save(Application application);
+    Application save(Application application);
 
-    public Application update(Application application);
+    Application update(Application application);
 
-    public void delete(Long id);
+    void delete(Long id);
     
 }

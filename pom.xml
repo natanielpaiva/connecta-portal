@@ -1,7 +1,6 @@
-<project
-    xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -22,7 +21,7 @@
         <java.version>1.7</java.version>
     </properties>
 
-    <profiles>
+    <!--    <profiles>
         <profile>
             <id>development</id>
             <activation>
@@ -44,7 +43,7 @@
                 <environment>production</environment>
             </properties>
         </profile>
-    </profiles>
+    </profiles>-->
 
     <dependencies>
         
@@ -55,33 +54,24 @@
         </dependency>
         
         <dependency>
-            <groupId>javax.annotation</groupId>
-            <artifactId>jsr250-api</artifactId>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>4.0.0.RC2</version>
+        </dependency>
+	  
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>4.0.0.RC2</version>
+        </dependency>
+	  
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>2.0.6.RELEASE</version>
         </dependency>
         
-        
-      <dependency>
-	    <groupId>org.springframework.security</groupId>
-	    <artifactId>spring-security-web</artifactId>
-	    <version>4.0.0.RC2</version>
-	  </dependency>
-	  
-	  <dependency>
-	    <groupId>org.springframework.security</groupId>
-	    <artifactId>spring-security-config</artifactId>
-	    <version>4.0.0.RC2</version>
-	  </dependency>
-	  
-	  <dependency>
-        <groupId>org.springframework.security.oauth</groupId>
-        <artifactId>spring-security-oauth2</artifactId>
-        <version>2.0.6.RELEASE</version>
-    </dependency>
-	  
-	  
     </dependencies>
-    
-   
 
     <repositories>
         <repository>
@@ -89,16 +79,14 @@
             <name>Archiva Managed Internal Repository</name>
             <url>http://archiva.cds.com.br/archiva/repository/internal/</url>
         </repository>
-         <repository>
-		    <id>spring-milestone</id>
-		    <name>Spring Milestone Repository</name>
-		    <url>http://repo.springsource.org/milestone</url>
-		  </repository>
+        <repository>
+            <id>spring-milestone</id>
+            <name>Spring Milestone Repository</name>
+            <url>http://repo.springsource.org/milestone</url>
+        </repository>
     </repositories>
 
     <build>
-        <directory>build</directory>
-        <outputDirectory>build/classes</outputDirectory>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

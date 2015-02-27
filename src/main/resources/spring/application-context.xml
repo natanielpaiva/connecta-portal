@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    
+    <import resource="classpath:META-INF/br.com.cds.connecta.framework.core.xml" />
+    <!--  <import resource="spring-security.xml" /> -->
+
+    <context:component-scan base-package="br.com.cds.connecta.portal" />
+    
+    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+        <property name="persistenceUnitName" value="ConnectaPortalPU" />
+    </bean>
+
+    <!--TRANSACTION-->
+    <import resource="classpath:META-INF/br.com.cds.connecta.framework.transaction.xml" />
+    
+    <mvc:resources mapping="/assets/**" location="/assets/" />
+    <mvc:resources mapping="/app/**" location="/app/" />
+    <mvc:resources mapping="/bower_components/**" location="/bower_components/" />
+    
+</beans>

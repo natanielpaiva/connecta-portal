@@ -29,8 +29,10 @@ import br.com.cds.connecta.framework.core.test.MockMvcProvider;
 @EnableWebMvc
 @ContextConfiguration("classpath:META-INF/br.com.cds.connecta.framework.test.xml")
 public class BaseTest {
+    
     @Autowired
     private MockMvcProvider mmp;
+    
     protected Logger logger;
     protected static final String REST_PATH = "/";
     protected static final String TEST_RESOURCE_FOLDER = "src/test/resources/";

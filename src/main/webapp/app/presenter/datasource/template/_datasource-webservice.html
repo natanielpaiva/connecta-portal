@@ -1,21 +1,21 @@
 <!-- WebService -->
 
 <div class="form-group">
-    <label for="address" translate>datasource.method</label>
+    <label for="address" translate>DATASOURCE.METHOD</label>
     <input type="text" name="method" id="method" class="form-control"
            ng-model="typedDatasource.method" />
 </div>
 <div class="form-group">
-    <label for="path" translate>datasource.url</label>
+    <label for="path" translate>DATASOURCE.URL</label>
     <input type="text" name="address" id="address" class="form-control"
            ng-model="typedDatasource.address"/>
 </div>
 
 <div class="clearfix well">
-
+    
     <div ng-repeat="p in typedDatasource.parameters">
         <div class="col-xs-5 form-group">
-            <label for="user" translate>Parametro</label>
+            <label for="user" translate>DATASOURCE.PARAMETER</label>
             <input type="text" name="params" id="params" class="form-control" 
                    ng-model="p.params" />
             <div ng-if="formulario.$dirty" ng-messages="formulario.params.$error"
@@ -29,8 +29,7 @@
                  ng-messages-include="portal-validation-messages"></div>
         </div>
         <div class="col-xs-2 form-group">
-            <label for="password" translate>.</label>
-            <p>
+            <p class="margin-top-triple">
                 <button class="btn btn-large btn-primary" type="button" ng-click="addMethodParam()">+</button>
                 <button class="btn btn-large btn-primary" type="button" ng-click="removeMethodParam(p)">-</button>
             </p>

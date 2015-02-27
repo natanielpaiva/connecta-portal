@@ -1,23 +1,23 @@
 {
-    "datasource":
-            {
-                "registerSourceAnalysis": "Register source analysis",
-                "SourceAnalysis": "Source Analysis",
-                "name": "Name",
-                "description": "Description", 
-                "typeFont": "Type font",
-                "address": "Address",
-                "path": "Path",
-                "userName": "User name",
-                "password": "Password",
-                "driverName": "Driver name",
-                "host": "Host",
-                "port": "Port",
-                "database": "Database",
-                "schema": "Schema",
-                "method": "Method",
-                "url": "URL",
-                "server": "Server",
-                "searchTerm": "Search Term"
-            }
+    "DATASOURCE": {
+        "REGISTER_ANALYSIS_SOURCE": "Register analysis source",
+        "ANALYSIS_SOURCE": "Analysis Source",
+        "NAME": "Name",
+        "DESCRIPTION": "Description",
+        "DATASOURCE_TYPE": "Datasource Type",
+        "ADDRESS": "Address",
+        "PATH": "Path",
+        "USERNAME": "User name",
+        "PASSWORD": "Password",
+        "DRIVER_NAME": "Driver name",
+        "HOST": "Host",
+        "PORT": "Port",
+        "DATABASE": "Database",
+        "SCHEMA": "Schema",
+        "METHOD": "Method",
+        "URL": "URL",
+        "SERVER": "Server",
+        "SEARCH_TERM": "Search Term",
+        "PARAMETERS": "Parameters"
+    }
 }

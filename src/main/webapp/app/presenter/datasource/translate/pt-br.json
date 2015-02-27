@@ -1,25 +1,23 @@
 {
-    "datasource":
-            {
-                "registerSourceAnalysis": "Cadastro fonte de análises",
-                "SourceAnalysis": "Fontes de análises",
-                "name": "Nome",
-                "description": "Descrição",
-                "typeFont": "Tipo de fonte",
-                "address": "Endereço",
-                "path": "Caminho",
-                "userName": "Nome de usuário",
-                "password": "Senha",
-                "driverName": "Nome do Driver",
-                "host": "Endereço (Host)",
-                "port": "Porta",
-                "database": "Banco de Dados",
-                "schema": "Schema",
-                "method": "Método",
-                "url": "URL",
-                "server": "Servidor",
-                "searchTerm": "Termo da Busca"
-                
-            }
+    "DATASOURCE": {
+        "REGISTER_ANALYSIS_SOURCE": "Cadastro fonte de análises",
+        "ANALYSIS_SOURCE": "Fontes de análises",
+        "NAME": "Nome",
+        "DESCRIPTION": "Descrição",
+        "DATASOURCE_TYPE": "Tipo de fonte",
+        "ADDRESS": "Endereço",
+        "PATH": "Caminho",
+        "USERNAME": "Nome de usuário",
+        "PASSWORD": "Senha",
+        "DRIVER_NAME": "Nome do Driver",
+        "HOST": "Endereço (Host)",
+        "PORT": "Porta",
+        "DATABASE": "Banco de Dados",
+        "SCHEMA": "Schema",
+        "METHOD": "Método",
+        "URL": "URL",
+        "SERVER": "Servidor",
+        "SEARCH_TERM": "Termo da Busca",
+        "PARAMETERS": "Parâmetros"
+    }
 }
-

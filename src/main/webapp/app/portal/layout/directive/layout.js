@@ -3,7 +3,8 @@ define([
     'portal/layout/directive/header',
     'portal/layout/directive/sidebar',
     'portal/layout/directive/pages',
-    'portal/layout/directive/search-embedded'
+    'portal/layout/directive/search-embedded',
+    'portal/layout/service/layout'
 ], function (portal) {
     /**
      * Componente usado para renderizar e manter o header do portal
@@ -15,22 +16,23 @@ define([
             restrict: 'A',
             replace: true,
             templateUrl: 'app/portal/layout/directive/template/layout.html',
-            link: function (scope, element) {
-
+            controller:function($scope, layoutService) {
+                $scope.showSidebar = layoutService.isSidebarVisible();
                 /**
                  * Evento para exibir a barra lateral
                  */
-                scope.$on('sidebar.show', function () {
-                    element.removeClass('hide-sidebar');
+                $scope.$on('sidebar.show', function () {
+                    $scope.showSidebar = true;
                 });
 
                 /**
                  * Evento para ocultar a barra lateral
                  */
-                scope.$on('sidebar.hide', function () {
-                    element.addClass('hide-sidebar');
+                $scope.$on('sidebar.hide', function () {
+                    $scope.showSidebar = false;
                 });
-
+            },
+            link: function (scope, element) {
                 /**
                  * Evento para ocultar a lista de tabs
                  */

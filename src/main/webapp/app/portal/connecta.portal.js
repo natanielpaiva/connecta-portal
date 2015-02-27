@@ -2,7 +2,8 @@ define([
     'angular'
 ], function (angular) {
     var portal = angular.module('connecta.portal', [
-        'pascalprecht.translate'
+        'pascalprecht.translate',
+        'ngCookies'
     ]);
     
     portal.config(function($translatePartialLoaderProvider){

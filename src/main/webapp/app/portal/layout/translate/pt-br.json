@@ -12,5 +12,10 @@
         "email": "Deve ser um endereço de email válido",
         "minlength": "Deve ter mais letras",
         "maxlength": "Deve ter menos letras"
+    },
+    "LAYOUT": {
+        "SAVE":  "Salvar",
+        "BACK":  "Voltar",
+        "CANCEL":"Cancelar"
     }
 }

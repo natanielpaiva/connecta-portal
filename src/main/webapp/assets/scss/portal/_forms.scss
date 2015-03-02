@@ -1,4 +1,17 @@
-/*** Forms Elements***/
+.mandatory {
+    &:before {
+        border-width:0.35em;
+        border-color:transparent transparent transparent darken(red, 15%);
+        border-style: solid;
+        height:0;
+        width:0;
+        display:inline-block;
+        content:' ';
+        line-height: 100%;
+    }
+}
+
+// Forms Elements
 label,
 input,
 button,

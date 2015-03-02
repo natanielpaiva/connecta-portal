@@ -18,6 +18,7 @@
         "URL": "URL",
         "SERVER": "Server",
         "SEARCH_TERM": "Search Term",
-        "PARAMETERS": "Parameters"
+        "PARAMETERS": "Parameters",
+        "PARAMETER": "Parameter"
     }
 }

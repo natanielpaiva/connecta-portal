@@ -13,22 +13,22 @@
     <body>
 
         <div ng-cloak app-layout></div>
-        
+
         <script type="text/javascript" src="bower_components/pace/pace.js"></script>
         <script type="text/javascript" src="bower_components/requirejs/require.js" data-main="app/main.js"></script>
-        
+
         <script type="text/ng-template" id="portal-validation-messages">
             <p ng-message="required" class="help-block">
-                {{'validation.required' | translate}}
+            {{'validation.required' | translate}}
             </p>
             <p ng-message="email" class="help-block">
-                {{'validation.email' | translate}}
+            {{'validation.email' | translate}}
             </p>
             <p ng-message="minlength" class="help-block">
-                {{'validation.minlength' | translate:{minlength:getAttr('minlength')} }}
+            {{'validation.minlength' | translate:{minlength:getAttr('minlength')} }}
             </p>
             <p ng-message="maxlength" class="help-block">
-                {{'validation.maxlength' | translate}}
+            {{'validation.maxlength' | translate}}
             </p>
         </script>
     </body>

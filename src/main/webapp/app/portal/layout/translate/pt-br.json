@@ -1,17 +1,9 @@
 {
-    "hello": "Olá, mundo!",
-    "label": {
-        "name": "Nome",
-        "firstName": "Primeiro nome",
-        "lastName": "Sobrenome",
-        "fullName": "Nome completo",
-        "email": "Email"
-    },
-    "validation": {
-        "required": "Esse campo é obrigatório",
-        "email": "Deve ser um endereço de email válido",
-        "minlength": "Deve ter mais letras",
-        "maxlength": "Deve ter menos letras"
+    "VALIDATION": {
+        "REQUIRED": "Esse campo é obrigatório",
+        "EMAIL": "Deve ser um endereço de email válido",
+        "MINLENGTH": "Deve ter mais letras",
+        "MAXLENGTH": "Deve ter menos letras"
     },
     "LAYOUT": {
         "SAVE":  "Salvar",

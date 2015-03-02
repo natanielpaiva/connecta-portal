@@ -19,16 +19,16 @@
 
         <script type="text/ng-template" id="portal-validation-messages">
             <p ng-message="required" class="help-block">
-            {{'validation.required' | translate}}
+            {{'VALIDATION.REQUIRED' | translate}}
             </p>
             <p ng-message="email" class="help-block">
-            {{'validation.email' | translate}}
+            {{'VALIDATION.EMAIL' | translate}}
             </p>
             <p ng-message="minlength" class="help-block">
-            {{'validation.minlength' | translate:{minlength:getAttr('minlength')} }}
+            {{'VALIDATION.MINLENGTH' | translate:{minlength:getAttr('minlength')} }}
             </p>
             <p ng-message="maxlength" class="help-block">
-            {{'validation.maxlength' | translate}}
+            {{'VALIDATION.MAXLENGTH' | translate}}
             </p>
         </script>
     </body>

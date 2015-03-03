@@ -5,6 +5,7 @@ define([
     
     presenter.config(function($translatePartialLoaderProvider){
         $translatePartialLoaderProvider.addPart('presenter/datasource');
+        $translatePartialLoaderProvider.addPart('presenter/singlesource');
         $translatePartialLoaderProvider.addPart('presenter/analysis');
     });
     
@@ -18,7 +19,8 @@ define([
         // Configurando os resources do backend
         presenter.lazy.value('presenterResources', {
             datasource: appPresenter.host+'/datasource',
-            singlesource: appPresenter.host+'/media'
+            singlesource: appPresenter.host+'/media',
+            attribute:appPresenter.host+'/attribute'
         });
     });
 
@@ -44,10 +46,20 @@ define([
             controllerUrl: 'presenter/datasource/controller/datasource-form',
             templateUrl: 'app/presenter/datasource/template/datasource-form.html'
         },
-        '/presenter/single-source/new': {
+        '/presenter/singlesource/new': {
             controller: 'SingleSourceFormController',
-            controllerUrl: 'presenter/single-source/controller/single-source-form',
-            templateUrl: 'app/presenter/single-source/template/single-source-form.html'
+            controllerUrl: 'presenter/singlesource/controller/single-source-form',
+            templateUrl: 'app/presenter/singlesource/template/single-source-form.html'
+        },
+        '/presenter/singlesource/:id': {
+            controller: 'SingleSourceFormController',
+            controllerUrl: 'presenter/singlesource/controller/single-source-form',
+            templateUrl: 'app/presenter/singlesource/template/single-source-form.html'
+        },
+        '/presenter/singlesource': {
+            controller: 'SingleSourceListController',
+            controllerUrl: 'presenter/singlesource/controller/single-source-list',
+            templateUrl: 'app/presenter/singlesource/template/single-source-list.html'
         },
     };
 

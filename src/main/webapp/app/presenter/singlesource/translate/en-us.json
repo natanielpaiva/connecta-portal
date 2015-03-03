@@ -1,0 +1,10 @@
+{
+    "singlesource":
+            {
+                "registerMedia": "Media",
+                "name": "Name",
+                "file" : "File",
+                "dropFileHere":"Drop file here"
+            }
+}
+

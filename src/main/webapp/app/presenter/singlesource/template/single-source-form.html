@@ -1,0 +1,55 @@
+<div class="row">
+    <div class="col-md-12">
+        <h3 translate>singlesource.registerMedia</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <form novalidate name="formulario" ng-submit="submit()">
+
+            <div class="form-group">
+                <label for="nome" translate>singlesource.name</label>
+                <input type="text" class="form-control" id="name" name="name"
+                       ng-model="typeSingleSource.name" />
+            </div>
+
+            <label ng-repeat="tp in types"  class="radio-inline form-group">
+                <input type="radio" ng-model="typeSingleSource.type" name="type" 
+                       id="single-source-type-{{tp.id}}" ng-value="tp" /> 
+                {{tp.name}}
+            </label>
+            <div ng-include="'app/presenter/singlesource/template/' + typeSingleSource.type.template"></div>
+            <pre>{{ typeSingleSource | json }}</pre>
+            <div class="clearfix well">
+
+                <div ng-repeat="ssattr in typeSingleSource.singleSourceAttributes">
+                    <div class="col-xs-5 form-group">
+                        <label for="user" translate>Atributos</label>
+                        <input type="text" name="singleSourceAttributes" id="singleSourceAttributes" class="form-control" 
+                               ng-model="ssattr.attribute" typeahead="attribute as attribute.name for attribute in getAttributes($viewValue)" typeahead-loading="loadingAttributes"  />
+                        <i ng-show="loadingAttributes" class="glyphicon glyphicon-refresh"></i>
+                    </div>
+                    <div class="col-xs-5 form-group">
+                        <label for="valor" translate>Valor</label>
+                        <input type="text" class="form-control"
+                               ng-model="ssattr.value"  />
+
+
+                    </div>
+                    <div class="col-xs-2 form-group">
+                        <label for="password" translate>.</label>
+                        <p>
+                            <button class="btn btn-large btn-primary" type="button" ng-click="addSingleSourceAttribute()">+</button>
+                            <button class="btn btn-large btn-primary" type="button" ng-click="removeSingleSourceAttribute(ssattr)">-</button>
+                        </p>
+                    </div>
+                </div> 
+
+            </div>
+
+            <button type="button" class="btn btn-default">Cancelar</button>
+            <button class="btn btn-primary">Salvar</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+{
+    "singlesource":
+            {
+                "registerMedia": "Cadastro de Mídias",
+                "name": "Nome *:",
+                "file" : "Arquivo",
+                "dropFileHere":"Arraste ou clique aqui"
+            }
+}
+

@@ -19,6 +19,8 @@ define([
         // Configurando os resources do backend
         presenter.lazy.value('presenterResources', {
             datasource: appPresenter.host+'/datasource',
+            analysis: appPresenter.host+'/analysis',
+            database: appPresenter.host+'/database',
             singlesource: appPresenter.host+'/media',
             attribute:appPresenter.host+'/attribute'
         });

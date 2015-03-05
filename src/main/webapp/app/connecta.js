@@ -90,7 +90,8 @@ define([
 
         $translateProvider.determinePreferredLanguage(function(){
             if ( navigator.userLanguage || navigator.language ) {
-                return navigator.userLanguage || navigator.language;
+                var lang = navigator.userLanguage || navigator.language;
+                return lang.toLowerCase();
             }
             
             return 'en-us';

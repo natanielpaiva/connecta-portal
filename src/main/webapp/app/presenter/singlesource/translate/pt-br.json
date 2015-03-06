@@ -1,10 +1,17 @@
 {
-    "singlesource":
+    "SINGLESOURCE":
             {
-                "registerMedia": "Cadastro de Mídias",
-                "name": "Nome *:",
-                "file" : "Arquivo",
-                "dropFileHere":"Arraste ou clique aqui"
+                "REGISTER_MEDIA": "Cadastro de Mídias",
+                "NAME": "Nome",
+                "FILE": "Arquivo",
+                "DROP_FILE_HERE": "Arraste ou clique aqui",
+                "TYPE": "Tipo",
+                "TYPE_MEDIA":"Tipo de mídia",
+                "MEDIA":"Mídia",
+                "ATTRIBUTE_NAME" : "Nome do atributo",
+                "ATTRIBUTE_VALUE" : "Valor do atributo"
+                
             }
+
 }
 

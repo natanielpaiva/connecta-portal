@@ -8,7 +8,7 @@ define([
         $scope.types = SingleSourceService.getTypes();
         $scope.typeSingleSource = {};
         $scope.file = "";
-        
+
         $scope.getAttributes = function (val) {
             return SingleSourceService.getAttribute(val);
         };
@@ -28,7 +28,7 @@ define([
                 if ($scope.typeSingleSource.singleSourceAttributes.length === 0) {
                     $scope.typeSingleSource.singleSourceAttributes = [
                         {
-                            attribute: {description:''},
+                            attribute: "",
                             value: ''
                         }
                     ];
@@ -42,7 +42,7 @@ define([
              */
             $scope.typeSingleSource.singleSourceAttributes = [
                 {
-                    attribute: {description:''},
+                    attribute: "",
                     value: ''
                 }
             ];

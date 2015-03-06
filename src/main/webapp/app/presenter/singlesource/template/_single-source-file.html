@@ -1,5 +1,5 @@
 <div class="form-group">
-    <label for="nome" translate>singlesource.file</label>
+    <label for="nome" translate>SINGLESOURCE.FILE</label>
     <label for="file"
            class="well drop-box set-file"
            
@@ -9,14 +9,14 @@
            
            ng-file-change="fileDropped($files, $event, $rejectedFiles)" 
            ng-multiple="false"
-           ng-accept="'.pdf,.jpg,.png'" 
+           ng-accept="'.doc,.docx,.xls,.ppt,.pptx,.jpeg,.jpg,.png,.mp4'" 
            ng-model-rejected="rejFiles" 
            allow-dir="false" 
            drag-over-class="{accept:'acceptClass', reject:'rejectClass'}" 
            drop-available="dropSupported" 
            translate
            >
-        singlesource.dropFileHere
+        SINGLESOURCE.DROP_FILE_HERE
     </label>
     
     <div  ng-no-file-drop>File Drag/drop is not supported</div>

@@ -2,7 +2,7 @@ define([
     'connecta.presenter',
     'presenter/singlesource/service/singlesource-service'
 ], function (presenter) {
-    return presenter.lazy.controller('SingleSourceListController', function ($scope, SingleSourceService) {
+    return presenter.lazy.controller('SingleSourceListController', function ($scope, SingleSourceService, $location) {
         $scope.types = SingleSourceService.getTypes();
 
         $scope.filter = false;
@@ -16,13 +16,8 @@ define([
         });
 
         $scope.excluir = function (id) {
-            SingleSource.delete(id).then(function (response) {
-                //Retira um item da lista de datasource
-                $scope.singlesource.splice(
-                        $scope.singlesource.indexOf(id), 1);
-
-            }, function (response) {
-                //console.log(response);
+            SingleSourceService.delete(id).then(function () {
+                $location.path('presenter/singlesource');
             });
         };
     });

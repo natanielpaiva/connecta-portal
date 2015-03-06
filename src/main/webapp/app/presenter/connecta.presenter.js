@@ -67,6 +67,11 @@ define([
             controllerUrl: 'presenter/analysis/controller/analysis-form',
             templateUrl: 'app/presenter/analysis/template/analysis-form.html'
         }
+        '/presenter/singlesource/view/:id': {
+            controller: 'SingleSourceViewController',
+            controllerUrl: 'presenter/singlesource/controller/single-source-view',
+            templateUrl: 'app/presenter/singlesource/template/single-source-view.html'
+        },
     };
 
     return presenter;

@@ -1,10 +1,15 @@
 {
-    "singlesource":
+    "SINGLESOURCE":
             {
-                "registerMedia": "Media",
-                "name": "Name",
-                "file" : "File",
-                "dropFileHere":"Drop file here"
+                "REGISTER_MEDIA": "Register Media",
+                "NAME": "Name",
+                "FILE" : "File",
+                "DROP_FILE_HERE":"Drop or click here",
+                "TYPE" : "Type",
+                "TYPE_MEDIA":"Media Type",
+                "MEDIA":"Media",
+                "ATTRIBUTE_NAME" : "Attribute Name",
+                "ATTRIBUTE_VALUE" : "Attribute Value"
             }
 }
 

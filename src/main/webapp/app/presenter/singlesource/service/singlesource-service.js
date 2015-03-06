@@ -6,21 +6,21 @@ define([
     return presenter.lazy.service('SingleSourceService', function ($autocomplete, presenterResources, $http, $upload) {
         var types = [
             {
-                id: 'URL',
-                name: 'URL',
-                template: '_single-source-url.html'
-            },
-            {
                 id: 'FILE',
                 name: 'FILE',
                 template: '_single-source-file.html'
+            },
+            {
+                id: 'URL',
+                name: 'URL',
+                template: '_single-source-url.html'
             }
         ];
 
         var _fixAttributes = function (singlesource) {
             angular.forEach(singlesource.singleSourceAttributes, function (attribute) {
                 if (angular.isString(attribute.attribute)) {
-                    attribute.attribute = {name: attribute.attribute};
+                    attribute.attribute = {name: attribute.attribute, description:""};
                 }
             });
         };
@@ -73,7 +73,13 @@ define([
         };
 
         var getTypeUrl = function (singlesource) {
-            return presenterResources.singlesource + '/' + singlesource.type.id.toLowerCase();
+            var nameType = "";
+            if( singlesource.type.id === undefined ){
+                nameType = singlesource.type.toLowerCase();
+            }else{
+                nameType = singlesource.type.id.toLowerCase();
+            }
+            return presenterResources.singlesource + '/' + nameType;
         };
 
         this.getTypes = function () {
@@ -93,6 +99,10 @@ define([
         this.getById = function (id) {
             var url = presenterResources.singlesource + '/' + id;
             return $http.get(url);
+        };
+        
+        this.getFileById = function (id) {
+            return presenterResources.singlesource + '/' + id + '/binary';
         };
 
     });

@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-md-12">
-        <h3 translate>singlesource.registerMedia</h3>
+        <h3 translate>SINGLESOURCE.REGISTER_MEDIA</h3>
     </div>
 </div>
 
@@ -9,29 +9,32 @@
         <form novalidate name="formulario" ng-submit="submit()">
 
             <div class="form-group">
-                <label for="nome" translate>singlesource.name</label>
+                <label for="nome" translate>SINGLESOURCE.NAME</label>
                 <input type="text" class="form-control" id="name" name="name"
                        ng-model="typeSingleSource.name" />
             </div>
 
-            <label ng-repeat="tp in types"  class="radio-inline form-group">
-                <input type="radio" ng-model="typeSingleSource.type" name="type" 
-                       id="single-source-type-{{tp.id}}" ng-value="tp" /> 
-                {{tp.name}}
-            </label>
+            <div class="portal-type-switcher">
+                <label for="nome" translate>SINGLESOURCE.TYPE_MEDIA</label>
+                <label ng-repeat="tp in types"  class="radio-inline portal-type-switcher-item">
+                    <input type="radio" ng-model="typeSingleSource.type" name="type" 
+                           class="portal-type-switcher-input" id="single-source-type-{{tp.id}}" ng-value="tp" /> 
+                    <span ng-if="tp.id === 'FILE'" class="icon-file"></span>
+                    <span ng-if="tp.id === 'URL'" class="icon-link"></span>
+                </label>
+            </div>
             <div ng-include="'app/presenter/singlesource/template/' + typeSingleSource.type.template"></div>
-            <pre>{{ typeSingleSource | json }}</pre>
             <div class="clearfix well">
 
                 <div ng-repeat="ssattr in typeSingleSource.singleSourceAttributes">
                     <div class="col-xs-5 form-group">
-                        <label for="user" translate>Atributos</label>
+                        <label for="user" translate>SINGLESOURCE.ATTRIBUTE_NAME</label>
                         <input type="text" name="singleSourceAttributes" id="singleSourceAttributes" class="form-control" 
                                ng-model="ssattr.attribute" typeahead="attribute as attribute.name for attribute in getAttributes($viewValue)" typeahead-loading="loadingAttributes"  />
                         <i ng-show="loadingAttributes" class="glyphicon glyphicon-refresh"></i>
                     </div>
                     <div class="col-xs-5 form-group">
-                        <label for="valor" translate>Valor</label>
+                        <label for="valor" translate>SINGLESOURCE.ATTRIBUTE_VALUE</label>
                         <input type="text" class="form-control"
                                ng-model="ssattr.value"  />
 
@@ -48,8 +51,13 @@
 
             </div>
 
-            <button type="button" class="btn btn-default">Cancelar</button>
-            <button class="btn btn-primary">Salvar</button>
+            <a href="#/presenter/singlesource"
+               class="btn btn-default" translate>
+                LAYOUT.CANCEL
+            </a>
+            <button class="btn btn-primary" translate>
+                LAYOUT.SAVE
+            </button>
         </form>
     </div>
 </div>

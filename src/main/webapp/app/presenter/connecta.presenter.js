@@ -1,7 +1,10 @@
 define([
     'angular'
 ], function (angular) {
-    var presenter = angular.module('connecta.presenter', ['angularFileUpload']);
+    var presenter = angular.module('connecta.presenter', [
+        'angularFileUpload',
+        'ngAnimate'
+    ]);
     
     presenter.config(function($translatePartialLoaderProvider){
         $translatePartialLoaderProvider.addPart('presenter/datasource');

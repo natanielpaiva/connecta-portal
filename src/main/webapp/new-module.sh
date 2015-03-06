@@ -42,13 +42,19 @@ echo "Criando arquivos de internacionalização..."
 
 read -d '' EN_JSON << EOF
 {
+
+
     "hello": "Hello World!"
+
+
 }
 EOF
 read -d '' PT_JSON << EOF
 {
 
+
     "hello": "Olá, mundo!"
+
 
 }
 EOF

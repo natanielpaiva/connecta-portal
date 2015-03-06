@@ -22,10 +22,32 @@ $lightGray:     #CCCCCC; //204,204,204
 $lighterGray:   #E1E1E1; //225,225,225
 $white:         #FFFFFF;
 
+$backgroundGray:#E2E2E2;
+
 $presenterBlue: #297EB8;
 
 $red:           #5F0202;
 
 $defaultAnimationDuration:250ms;
 
+// Bootstrap Colors
+$bs-gray-base:             #000;
+$bs-gray-darker:           lighten($bs-gray-base, 13.5%); // #222
+$bs-gray-dark:             lighten($bs-gray-base, 20%);   // #333
+$bs-gray:                  lighten($bs-gray-base, 33.5%); // #555
+$bs-gray-light:            lighten($bs-gray-base, 46.7%); // #777
+$bs-gray-lighter:          lighten($bs-gray-base, 93.5%); // #eee
+
+$bs-brand-primary:         darken(#428bca, 6.5%); // #337ab7
+$bs-brand-success:         #5cb85c;
+$bs-brand-info:            #5bc0de;
+$bs-brand-warning:         #f0ad4e;
+$bs-brand-danger:          #d9534f;
+
+$bs-text-color:            $bs-gray-dark;
+$bs-link-color:            $bs-brand-primary;
+$bs-link-hover-color:      darken($bs-link-color, 15%);
+$defaultAnimationDuration:250ms;
+
 $imagePath:'../img/';
+

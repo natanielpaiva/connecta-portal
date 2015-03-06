@@ -15,11 +15,8 @@ html{
     font-size: 100%;
     height:100%;
 }
-body {
-    background-color:#1B1E24 ;
-}
 
-body{
+body {
     color: #6f7b8a;
     font-family: Arial, sans-serif;
     font-size: 13px;
@@ -29,8 +26,9 @@ body{
     font-style: normal;
     font-weight: normal;
     background-repeat: no-repeat;
-    background-color: #E5E9EC;
+    background-color: $backgroundGray;
     background-position-y: 60px;
+    overflow-x: hidden;
 }
 
 /* Typography */
@@ -195,4 +193,13 @@ blockquote small{
     background-position: center;
     background-size: 90px;
     opacity: 0.6;
+}
+
+// Utilizar em links para usar o tamanho todo do container
+.full-size-block {
+    display: block;
+    width: 100%;
+    color: inherit;
+    height: 100%;
+    
 }

@@ -2,7 +2,6 @@
     "CONTACT": {
         "CONTACTS" : "Contatos",
         "NAME": "Nome",
-        "APPLY": "Aplicar",
         "EMAIL":"Email",
         "PHONE":"Telefone",
         "REGISTER_CONTACT": "Adicionar Contato"

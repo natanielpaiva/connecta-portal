@@ -5,9 +5,13 @@ define([
 
     speaknow.config(function ($translatePartialLoaderProvider) {
         $translatePartialLoaderProvider.addPart('speaknow/contact');
+        $translatePartialLoaderProvider.addPart('speaknow/interaction');
     });
 
     speaknow._routes = {
+        /**
+         * URL CONTACTS
+         */
         '/speaknow/contact': {
             controller: 'ContactListController',
             controllerUrl: 'speaknow/contact/controller/contact-list',
@@ -17,6 +21,19 @@ define([
             controller: 'ContactFormController',
             controllerUrl: 'speaknow/contact/controller/contact-form',
             templateUrl: 'app/speaknow/contact/template/contact-form.html'
+        },
+        /**
+         * URL INTERACTIONS
+         */
+        '/speaknow/interaction': {
+            controller: 'InteractionListController',
+            controllerUrl: 'speaknow/interaction/controller/interaction-list',
+            templateUrl: 'app/speaknow/interaction/template/interaction-list.html'
+        },
+        '/speaknow/interaction/new':{
+            controller: 'InteractionFormController',
+            controllerUrl: 'speaknow/interaction/controller/interaction-form',
+            templateUrl: 'app/speaknow/interaction/template/interaction-form.html'
         }
     };
 
@@ -26,7 +43,8 @@ define([
         }).pop();
 
         speaknow.lazy.value('speaknowResources', {
-            contact: appSpeaknow.host + '/contact'
+            contact: appSpeaknow.host + '/contact',
+            interaction: appSpeaknow.host + '/interaction'
         });
     });
 

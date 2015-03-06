@@ -8,6 +8,8 @@
     "LAYOUT": {
         "SAVE":  "Salvar",
         "BACK":  "Voltar",
-        "CANCEL":"Cancelar"
+        "CANCEL":"Cancelar",
+        "APPLY": "Aplicar",
+        "FILTER": "Filtro"
     }
 }

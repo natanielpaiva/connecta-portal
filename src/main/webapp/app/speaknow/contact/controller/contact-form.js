@@ -3,7 +3,7 @@ define([
     'speaknow/contact/service/contact-service'
 ], function (presenter) {
     return presenter.lazy.controller('ContactFormController', function ($scope, ContactService, $location, $routeParams) {
-        $scope.contact;
+        $scope.contact = null;
         
         if ($routeParams.id) {
             //TOOD: Implementar update

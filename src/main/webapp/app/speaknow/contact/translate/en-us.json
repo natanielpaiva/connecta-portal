@@ -2,7 +2,6 @@
     "CONTACT": {
         "CONTACTS" : "Contacts",
         "NAME": "Name",
-        "APPLY": "Apply",
         "EMAIL":"Email",
         "PHONE":"Phone",
         "REGISTER_CONTACT": "Register Contact"

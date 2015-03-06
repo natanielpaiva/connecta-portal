@@ -1,0 +1,27 @@
+{
+    "INTERACTION": {
+        "INTERACTIONS": "Interactions",
+        "NAME": "Name",
+        "EMAIL": "Email",
+        "PHONE": "Phone",
+        "HASHTAG": "Hashtag",
+        "MESSAGE": "Message",
+        "INTERACTION_DATA": "Interaction Data",
+        "ANSWER_CONFIG": "Answer Configuration",
+        "RECIPIENT": "Recipients",
+        "REGISTER_INTERACTION": "Register Interaction",
+        "QUESTION": "Question",
+        "ANSWER": "Answer",
+        "QUESTION_TYPE": "Answer Type",
+        "ADD_QUESTION": "Add Question",
+        "SEPARATOR_QUESTION": "Separator between questions",
+        "SEPARATOR_ANSWER": "Separator between responses",
+        "SELECT_CONTACT": "Choose contacts",
+        "ALL_CONTACTS": "Send to all contacts",
+        "SAVE":"Finish",
+        "NEXT":"Next",
+        "PREVIOUS":"Previous",
+        "CONFIG_TWITTER":"Config Twitter",
+        "CONFIG_TWITTER_EXE":"Informe abaixo uma hashtag para acompanhar as interações do Twitter "
+    }
+}

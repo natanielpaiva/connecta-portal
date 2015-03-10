@@ -81,22 +81,22 @@
                             </select>
                         </div>
                         
-                        <key-value ng-model="question.items">
-                            <key-value-item class="row">
+                        <div key-value class="well well-sm clearfix" ng-model="question.items">
+                            <div key-value-item class="row">
                                 <div class="col-md-6">
-                                    <div class="form-group">
+                                    <div class="form-group margin-bottom-zero">
                                         <label translate>INTERACTION.QUESTION_ITEM</label>
                                         <input type="text" class="form-control" ng-model="$parent.$parent.$item.key" />
                                     </div>
                                 </div>
                                 <div class="col-md-6">
-                                    <div class="form-group">
+                                    <div class="form-group margin-bottom-zero">
                                         <label translate>INTERACTION.QUESTION_VALUE</label>
                                         <input type="text" class="form-control" ng-model="$parent.$parent.$item.value" />
                                     </div>
                                 </div>
-                            </key-value-item>
-                        </key-value>
+                            </div>
+                        </div>
                         
                         <div class="btn btn-primary" id="add-question" ng-click="addQuestion()" translate>
                             INTERACTION.ADD_QUESTION

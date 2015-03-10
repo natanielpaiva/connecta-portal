@@ -1,13 +1,10 @@
-<div class="well clearfix">
-    <div class="text-right">
-        <button class="btn btn-default" translate ng-click="keyValueAddItem()">
-            LAYOUT.ADD
-        </button>
-    </div>
+<button class="btn btn-default" ng-click="keyValueAddItem()">
+    <span class="icon-plus"></span>
+    <translate>LAYOUT.ADD</translate>
+</button>
 
-    <ng-transclude ng-repeat="$item in $model"></ng-transclude>
-    
-    <div class="text-center" ng-show="!$model.length" translate>
-        LAYOUT.NO_ITEM
-    </div>
+<ng-transclude ng-repeat="$item in $model"></ng-transclude>
+
+<div class="text-center" ng-show="!$model.length" translate>
+    LAYOUT.NO_ITEM
 </div>

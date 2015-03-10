@@ -4,6 +4,7 @@ define([
 ], function(portal){
     return portal.directive('keyValue', function(){
         return {
+            restrict:'AE',
             templateUrl: "app/portal/layout/directive/template/key-value.html",
             transclude: true,
             scope:{

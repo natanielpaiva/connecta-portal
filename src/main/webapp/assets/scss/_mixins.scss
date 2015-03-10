@@ -17,6 +17,9 @@
     margin-top: $em*1em;
 }
 // Expõe classes utilitárias para uso rápido no HTML
+.margin-top-zero {
+    @include margin-top(0);
+}
 .margin-top-single {
     @include margin-top(1);
 }
@@ -32,6 +35,9 @@
     margin-bottom: $em*1em;
 }
 // Expõe uma classe para uso rápido no HTML
+.margin-bottom-zero {
+    @include margin-bottom(0);
+}
 .margin-bottom-single {
     @include margin-bottom(1);
 }

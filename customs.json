@@ -1,22 +1,38 @@
 {
     "attributes": {
         "app-sidebar": {},
-        "translate": {},
-        "app-search": {},
         "app-search-result-body": {},
+        "app-search": {},
         "app-pages-tabs": {},
-        "app-pages": {},
         "app-layout": {},
+        "app-pages": {},
+        "translate": {},
         "app-header": {
             "context": "div"
         },
+        "key-value-item": {},
         "portal-tabs-component": {},
-        "app-search-embedded": {},
-        "app-search-page": {}
+        "app-search-page": {},
+        "app-search-embedded": {}
     },
     "elements": {
-        "app-layout": {},
+        "key-value": {
+            "attributes": {
+                "ng-model": {}
+            }
+        },
+        "ng-transclude": {
+            "attributes": {
+                "ng-repeat": {}
+            }
+        },
         "translate": {},
+        "app-layout": {},
+        "key-value-item": {
+            "attributes": {
+                "class": {}
+            }
+        },
         "pagination": {
             "attributes": {
                 "total-items": {},

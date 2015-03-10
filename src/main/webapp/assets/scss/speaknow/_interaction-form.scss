@@ -192,6 +192,47 @@
     background-color: white;
 }
 
-.panel-default .panel-heading {
-    padding: 0px;
+.questions {
+
+    width: 40%;
+
+    .question-answer {
+        position: relative;
+        top: 5px;
+    }
+
+    .question-type {
+        background-color: #ccc;
+        padding: 5px;
+    }
+
+    .glyphicon {
+        padding: 5px;
+        position: relative;
+        top: 5px;
+    }
+
+    .panel-body{
+        padding: 0px;
+        background-color: #ebebeb;
+    }
+
+    .panel-default .panel-heading {
+        padding: 0px;
+        padding-bottom: 10px;
+    }   
+
+    .btn {
+        position: relative;
+        float: right;
+        margin: 5px;
+    }
+
+    ul{
+        float: left;
+        margin: 4px;
+        list-style: none;
+        padding: 0px;
+    }
+
 }

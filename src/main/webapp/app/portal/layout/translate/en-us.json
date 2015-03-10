@@ -6,10 +6,12 @@
         "MAXLENGTH": "The field is too long"
     },
     "LAYOUT": {
+        "ADD" : "Add",
         "SAVE":  "Save",
         "BACK":  "Back",
         "CANCEL":"Cancel",
         "APPLY": "Apply",
-        "FILTER": "Filter"
+        "FILTER": "Filter",
+        "NO_ITEM" : "Nothing yet. Click the 'Add' button to add an item."
     }
 }

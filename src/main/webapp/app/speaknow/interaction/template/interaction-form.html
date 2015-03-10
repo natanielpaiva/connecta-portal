@@ -76,11 +76,29 @@
                         </div>
                         <div class="form-group">
                             <label for="answer" translate>INTERACTION.QUESTION_TYPE</label>
-                            <select ng-model="question.type" id="categoria" ng-options="ans.name for ans in answersType">
-                                <option value=""></option>
+                            <select ng-model="question.type" id="categoria" ng-options="ans.name as ans.name for ans in answersType">
+                                <option value="" translate></option>
                             </select>
                         </div>
-                        <div class="btn btn-primary" id="add-question" translate>
+                        
+                        <key-value ng-model="question.items">
+                            <key-value-item class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label translate>INTERACTION.QUESTION_ITEM</label>
+                                        <input type="text" class="form-control" ng-model="$parent.$parent.$item.key" />
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label translate>INTERACTION.QUESTION_VALUE</label>
+                                        <input type="text" class="form-control" ng-model="$parent.$parent.$item.value" />
+                                    </div>
+                                </div>
+                            </key-value-item>
+                        </key-value>
+                        
+                        <div class="btn btn-primary" id="add-question" ng-click="addQuestion()" translate>
                             INTERACTION.ADD_QUESTION
                         </div>
                     </fieldset>
@@ -101,8 +119,8 @@
                     <accordion class="accordion-question-title">
                         <accordion-group is-open="status.open" ng-repeat="question in questions">
                             <accordion-heading>
-                                <i class="pull-left glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-left': !status.open}"></i> 
-                                <span>{{question.answer}} </span>
+                                <i class="pull-left glyphicon" ng-class="{'glyphicon-chevron-down': status.open, 'glyphicon-chevron-right': !status.open}"></i> 
+                                <span class="question-answer">{{question.answer}} </span>
                                 <a role="button" class="btn btn-xs btn-info" ng-click="removeQuestion(question)">
                                     <span class="icon-trash"></span>
                                 </a>
@@ -110,8 +128,8 @@
                             <div class="question-type">
                                 {{question.type}}
                             </div>
-                            <ul ng-repeat="item in question.itens">
-                                <li>
+                            <ul>
+                                <li ng-repeat="item in question.itens" >
                                     {{item.name + " - " + item.value}}
                                 </li>
                             </ul>
@@ -171,7 +189,7 @@
                         <span translate>INTERACTION.ALL_CONTACTS</span>
                     </div>
 
-                    <div class="table-contacts">
+                    <div class="table-contacts" ng-show="!interaction.allContacts">
                         <table class="table table-condensed">
                             <thead>
                                 <tr>

@@ -22,7 +22,7 @@ define([
     'bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min',
     'bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min',
     'bower_components/angular-messages/angular-messages.min',
-    'bower_components/ng-file-upload/angular-file-upload.min',
+    'bower_components/ng-file-upload/angular-file-upload.min'
 ], function (angular, $, portal, collector, speaknow, presenter, maps, applications) {
 
     var connecta = angular.module('connecta', [
@@ -167,7 +167,8 @@ define([
         'portal/layout/service/applications',
         'portal/layout/service/pages',
         'portal/layout/service/layout',
-        'portal/layout/service/search'
+        'portal/layout/service/search',
+        'portal/layout/directive/key-value'
     ], function (doc) {
         angular.bootstrap(doc, [connecta.name]);
     });

@@ -4,16 +4,20 @@ define([
 ], function (speaknow) {
     return speaknow.lazy.controller('InteractionFormController', function ($scope, InteractionService, $location, $routeParams) {
         $scope.interaction = null;
-        $scope.question = null;
-        $scope.questions = [{answer:"Pergunta", type:"Unica resposat", itens:[{name:"a", value:"resposta a"}]}];
-        $scope.contacts = [{name: "raphael", email:"raphael.vtr@gmail.com",phone:"99103322"},{name: "teste5", email:"raphael.vtr@gmail.com",phone:"99103322"},
-        {name: "teste", email:"raphael.vtr@gmail.com",phone:"99103322"},{name: "mouse", email:"raphael.vtr@gmail.com",phone:"99103322"}];
+        $scope.question = {};
+        $scope.questions = [{answer:"Pergunta", type:"Unica resposat", itens:[{name:"a", value:"resposta a"}, {name:"b", value:"resposta b"}]}];
+        $scope.contacts = [{name: "raphael", email:"raphael.vtr@gmail.com",phone:"99103322"}];
         //Variável usada para ativar e desativar os steps
         $scope.steps = [true, false, false];
         //Variável usada para ativar e desativar ícones dos steps
         $scope.stepsIcons = [true, false, false];
         //Variável com o step atual
         $scope.currentStep = 0;
+        
+        $scope.question.items = [
+            { key:'batata', value:'frita' },
+            { key:'pão', value:'de batata' }
+        ];
 
         $scope.answersType = [{name:"Tipo 1"},{name:"Tipo 2"}];
         
@@ -61,8 +65,9 @@ define([
             $scope.contacts.splice(index, 1);
         };
         
-        $scope.addQuestion = function(contact){
+        $scope.addContact = function(){
             $scope.contacts.push($scope.contact);
+            $scope.contact = null;
         };
     });
 });

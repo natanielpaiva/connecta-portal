@@ -22,6 +22,8 @@
         "NEXT":"Próximo",
         "PREVIOUS":"Anterior",
         "CONFIG_TWITTER":"Configurar Twitter",
-        "CONFIG_TWITTER_EXE":"Informe abaixo uma hashtag para acompanhar as interações do Twitter "
+        "CONFIG_TWITTER_EXE":"Informe abaixo uma hashtag para acompanhar as interações do Twitter ",
+        "QUESTION_ITEM" : "Item",
+        "QUESTION_VALUE" : "Valor"
     }
 }

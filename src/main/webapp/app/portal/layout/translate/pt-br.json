@@ -6,10 +6,12 @@
         "MAXLENGTH": "Deve ter menos letras"
     },
     "LAYOUT": {
+        "ADD" : "Adicionar",
         "SAVE":  "Salvar",
         "BACK":  "Voltar",
         "CANCEL":"Cancelar",
         "APPLY": "Aplicar",
-        "FILTER": "Filtro"
+        "FILTER": "Filtro",
+        "NO_ITEM" : "Nada ainda. Clique no botão 'Adicionar' para adicionar um item."
     }
 }

@@ -9,7 +9,8 @@
                 "TYPE_MEDIA":"Media Type",
                 "MEDIA":"Media",
                 "ATTRIBUTE_NAME" : "Attribute Name",
-                "ATTRIBUTE_VALUE" : "Attribute Value"
+                "ATTRIBUTE_VALUE" : "Attribute Value",
+                "ATTRIBUTE TYPE" : "Attribute Type"
             }
 }
 

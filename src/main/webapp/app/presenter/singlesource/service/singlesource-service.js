@@ -16,11 +16,31 @@ define([
                 template: '_single-source-url.html'
             }
         ];
+        
+        var attributeTypes = [
+            {
+                value: 5,
+                label: 'TEXT'
+            },
+            {
+                value: 'MAP',
+                label: 'MAP'
+            },
+            {
+                value: 'DATE',
+                label: 'DATE'
+            }
+            
+        ];
 
         var _fixAttributes = function (singlesource) {
             angular.forEach(singlesource.singleSourceAttributes, function (attribute) {
                 if (angular.isString(attribute.attribute)) {
-                    attribute.attribute = {name: attribute.attribute, description:""};
+                    attribute.attribute = {name: attribute.attribute, description:"", type:attribute.attributeType.label};
+                    delete attribute.attributeType;
+                }else{
+                    attribute.attribute.type = attribute.attributeType.label;
+                    delete attribute.attributeType;
                 }
             });
         };
@@ -84,6 +104,10 @@ define([
 
         this.getTypes = function () {
             return types;
+        };
+        
+        this.getAttributeTypes = function(){
+            return attributeTypes;
         };
 
         this.list = function () {

@@ -6,6 +6,7 @@ define([
 
         $scope.myFiles = [];
         $scope.types = SingleSourceService.getTypes();
+        $scope.optionsAttributeTypes = SingleSourceService.getAttributeTypes();
         $scope.typeSingleSource = {};
         $scope.file = "";
 
@@ -13,8 +14,12 @@ define([
             return SingleSourceService.getAttribute(val);
         };
 
+        $scope.closeFile = function () {
+            $scope.typeSingleSource.path = "";
+        };
 
         if ($routeParams.id) {
+
             $scope.typeSingleSource.type = $scope.types[0];
             SingleSourceService.getById($routeParams.id).then(function (response) {
                 var type = $scope.types.filter(function (value) {
@@ -23,7 +28,7 @@ define([
 
                 $scope.typeSingleSource = response.data;
                 $scope.typeSingleSource.type = type;
-
+                $scope.typeSingleSource.path = SingleSourceService.getFileById($routeParams.id);
 
                 if ($scope.typeSingleSource.singleSourceAttributes.length === 0) {
                     $scope.typeSingleSource.singleSourceAttributes = [
@@ -32,10 +37,23 @@ define([
                             value: ''
                         }
                     ];
+                } else {
+                     for (var key in $scope.typeSingleSource.singleSourceAttributes) {
+
+                        var value = 0;
+                        for (var v in $scope.optionsAttributeTypes) {
+                            if ($scope.optionsAttributeTypes[v].label === $scope.typeSingleSource.singleSourceAttributes[key].attribute.type)
+                                value = v;
+                        }
+
+                        $scope.typeSingleSource.singleSourceAttributes[key].attributeType = $scope.optionsAttributeTypes[value];
+                    }
                 }
             });
         } else {
+            $scope.typeSingleSource.path = "";
             $scope.typeSingleSource.type = $scope.types[0];
+            $scope.attributeType = $scope.optionsAttributeTypes[0];
 
             /**
              * Parâmetros do singleSourceAttributes
@@ -43,7 +61,8 @@ define([
             $scope.typeSingleSource.singleSourceAttributes = [
                 {
                     attribute: "",
-                    value: ''
+                    value: "",
+                    attributeType: $scope.optionsAttributeTypes[0]
                 }
             ];
         }
@@ -89,20 +108,23 @@ define([
                 }
             }
 
-            console.log($scope.typeSingleSource);
+        };
 
-            //SingleSourceService.save($scope.file, $scope.singlesource);
-            //console.log($scope.typeSingleSource);
-//            DatasourceService.save($scope.typedDatasource).then(function () {
-//                $location.path('presenter/datasource');
-//                //console.log(argument);
-//            }, function (response) {
-//                //console.log(response);
-//            });
+        $scope.change = function () {
+            for (var key in $scope.typeSingleSource.singleSourceAttributes) {
+
+                var value = 0;
+                for (var v in $scope.optionsAttributeTypes) {
+                    if ($scope.optionsAttributeTypes[v].label === $scope.typeSingleSource.singleSourceAttributes[key].attribute.type)
+                        value = v;
+                }
+
+                $scope.typeSingleSource.singleSourceAttributes[key].attributeType = $scope.optionsAttributeTypes[value];
+            }
         };
 
         $scope.addSingleSourceAttribute = function () {
-            $scope.typeSingleSource.singleSourceAttributes.push({});
+            $scope.typeSingleSource.singleSourceAttributes.push({attributeType: $scope.optionsAttributeTypes[0]});
         };
         $scope.removeSingleSourceAttribute = function (param) {
             /**

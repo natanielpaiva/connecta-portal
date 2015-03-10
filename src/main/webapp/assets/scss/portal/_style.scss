@@ -201,5 +201,22 @@ blockquote small{
     width: 100%;
     color: inherit;
     height: 100%;
-    
+}
+
+.image-on-background {
+    display: block;
+    background-size: cover;
+    background-position: center center;
+}
+
+.font-size-big {
+    font-size: $fontSizeBig !important;
+}
+
+.font-white {
+    color:$white;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }

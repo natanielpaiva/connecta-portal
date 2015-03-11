@@ -5,7 +5,7 @@ define([
     return speaknow.lazy.controller('InteractionFormController', function ($scope, InteractionService, $location, $routeParams) {
         $scope.interaction = null;
         $scope.question = {};
-        $scope.questions = [{answer:"Pergunta", type:"Unica resposat", itens:[{name:"a", value:"resposta a"}, {name:"b", value:"resposta b"}]}];
+        $scope.questions = [];
         $scope.contacts = [{name: "raphael", email:"raphael.vtr@gmail.com",phone:"99103322"}];
         //Variável usada para ativar e desativar os steps
         $scope.steps = [true, false, false];
@@ -15,11 +15,11 @@ define([
         $scope.currentStep = 0;
         
         $scope.question.items = [
-            { key:'batata', value:'frita' },
-            { key:'pão', value:'de batata' }
+            { key:'A', value:'Select 01' },
+            { key:'B', value:'Select 02' }
         ];
 
-        $scope.answersType = [{name:"Tipo 1"},{name:"Tipo 2"}];
+        $scope.answersType = [{name:""},{name:"Tipo 2"}];
         
         if ($routeParams.id) {
             //TOOD: Implementar update
@@ -52,7 +52,9 @@ define([
         
         $scope.addQuestion = function(){
             $scope.questions.push($scope.question);
-            $scope.question = null;
+            //Zera o objeto question e adiciona uma array de items
+            $scope.question = {};
+            $scope.question.items = [];
         };
         
         $scope.removeQuestion = function(question){

@@ -72,7 +72,7 @@
                         <div class="form-group">
                             <label for="answer" translate>INTERACTION.ANSWER</label>
                             <input type="text" class="form-control" id="answer" name="answer"
-                                   ng-model="question.name" />
+                                   ng-model="question.answer" />
                         </div>
                         <div class="form-group">
                             <label for="answer" translate>INTERACTION.QUESTION_TYPE</label>
@@ -129,8 +129,8 @@
                                 {{question.type}}
                             </div>
                             <ul>
-                                <li ng-repeat="item in question.itens" >
-                                    {{item.name + " - " + item.value}}
+                                <li ng-repeat="item in question.items" >
+                                    {{item.key + " - " + item.value}}
                                 </li>
                             </ul>
                         </accordion-group>

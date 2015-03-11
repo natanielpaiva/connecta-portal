@@ -1,24 +1,15 @@
 {
-    "attributes": {
-        "app-sidebar": {},
-        "app-search-result-body": {},
-        "app-search": {},
-        "app-pages-tabs": {},
-        "app-layout": {},
-        "app-pages": {},
-        "translate": {},
-        "app-header": {
-            "context": "div"
-        },
-        "key-value-item": {},
-        "portal-tabs-component": {},
-        "app-search-page": {},
-        "app-search-embedded": {}
-    },
     "elements": {
-        "key-value": {
+        "pagination": {
             "attributes": {
-                "ng-model": {}
+                "total-items": {},
+                "first-text": {},
+                "last-text": {},
+                "boundary-links": {},
+                "next-text": {},
+                "page": {},
+                "class": {},
+                "previous-text": {}
             }
         },
         "ng-transclude": {
@@ -26,30 +17,41 @@
                 "ng-repeat": {}
             }
         },
-        "translate": {},
-        "app-layout": {},
-        "key-value-item": {
-            "attributes": {
-                "class": {}
-            }
-        },
-        "pagination": {
-            "attributes": {
-                "total-items": {},
-                "next-text": {},
-                "page": {},
-                "previous-text": {},
-                "last-text": {},
-                "class": {},
-                "first-text": {},
-                "boundary-links": {}
-            }
-        },
         "sidebar-navigation": {
             "attributes": {
                 "menu": {}
             }
         },
-        "app-search-embedded": {}
+        "key-value-item": {
+            "attributes": {
+                "class": {}
+            }
+        },
+        "key-value": {
+            "attributes": {
+                "ng-model": {},
+                "class": {}
+            }
+        },
+        "app-search-embedded": {},
+        "app-layout": {},
+        "translate": {}
+    },
+    "attributes": {
+        "app-pages-tabs": {},
+        "app-sidebar": {},
+        "key-value-item": {},
+        "portal-tabs-component": {},
+        "app-header": {
+            "context": "div"
+        },
+        "app-search-embedded": {},
+        "app-layout": {},
+        "app-search": {},
+        "translate": {},
+        "app-search-result-body": {},
+        "app-pages": {},
+        "app-search-page": {},
+        "key-value": {}
     }
 }

@@ -19,7 +19,8 @@ define([
         
         var attributeTypes = [
             {
-                value: 5,
+                
+                value: 'TEXT',
                 label: 'TEXT'
             },
             {

@@ -38,7 +38,7 @@ define([
                         }
                     ];
                 } else {
-                     for (var key in $scope.typeSingleSource.singleSourceAttributes) {
+                    for (var key in $scope.typeSingleSource.singleSourceAttributes) {
 
                         var value = 0;
                         for (var v in $scope.optionsAttributeTypes) {
@@ -58,13 +58,7 @@ define([
             /**
              * Parâmetros do singleSourceAttributes
              */
-            $scope.typeSingleSource.singleSourceAttributes = [
-                {
-                    attribute: "",
-                    value: "",
-                    attributeType: $scope.optionsAttributeTypes[0]
-                }
-            ];
+            $scope.typeSingleSource.singleSourceAttributes = [{}];
         }
 
         $scope.fileDropped = function (files) {
@@ -113,30 +107,15 @@ define([
         $scope.change = function () {
             for (var key in $scope.typeSingleSource.singleSourceAttributes) {
 
-                var value = 0;
+                var value = "";
                 for (var v in $scope.optionsAttributeTypes) {
                     if ($scope.optionsAttributeTypes[v].label === $scope.typeSingleSource.singleSourceAttributes[key].attribute.type)
                         value = v;
+
+                    if (value !== "")
+                        $scope.typeSingleSource.singleSourceAttributes[key].attributeType = $scope.optionsAttributeTypes[value];
                 }
-
-                $scope.typeSingleSource.singleSourceAttributes[key].attributeType = $scope.optionsAttributeTypes[value];
             }
         };
-
-        $scope.addSingleSourceAttribute = function () {
-            $scope.typeSingleSource.singleSourceAttributes.push({attributeType: $scope.optionsAttributeTypes[0]});
-        };
-        $scope.removeSingleSourceAttribute = function (param) {
-            /**
-             *sempre deve manter um campo
-             */
-            if ($scope.typeSingleSource.singleSourceAttributes.length !== 1) {
-                $scope.typeSingleSource.singleSourceAttributes.splice(
-                        $scope.typeSingleSource.singleSourceAttributes.indexOf(param), 1);
-            }
-        };
-
     });
-
-
 });

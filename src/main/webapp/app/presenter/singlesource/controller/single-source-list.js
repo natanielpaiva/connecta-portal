@@ -15,9 +15,10 @@ define([
             //console.log(response);
         });
 
-        $scope.excluir = function (id) {
-            SingleSourceService.delete(id).then(function () {
-                $location.path('presenter/singlesource');
+        $scope.excluir = function (singlesource) {
+            SingleSourceService.delete(singlesource.id).then(function () {
+                var index = $scope.singlesource.indexOf(singlesource);
+                $scope.singlesource.splice(index, 1);
             });
         };
     });

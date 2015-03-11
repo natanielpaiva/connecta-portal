@@ -12,6 +12,7 @@
         "CANCEL":"Cancel",
         "APPLY": "Apply",
         "FILTER": "Filter",
-        "NO_ITEM" : "Nothing yet. Click the 'Add' button to add an item."
+        "NO_ITEM" : "Nothing yet. Click the 'Add' button to add an item.",
+        "SELECT" : "Choose an option"
     }
 }

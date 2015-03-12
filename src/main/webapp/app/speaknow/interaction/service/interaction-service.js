@@ -13,5 +13,10 @@ define([
             return $http.post(url, interaction);
         };
         
+        this.getQuestionTypes = function(){
+            var url = speaknowResources.interaction + "/poll/question/types";
+            return $http.get(url);
+        };
+        
     });
 });

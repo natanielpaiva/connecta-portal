@@ -12,7 +12,7 @@
         "REGISTER_INTERACTION": "Register Interaction",
         "QUESTION": "Question",
         "ANSWER": "Answer",
-        "QUESTION_TYPE": "Answer Type",
+        "QUESTION_TYPE": "Question Type",
         "ADD_QUESTION": "Add Question",
         "SEPARATOR_QUESTION": "Separator between questions",
         "SEPARATOR_ANSWER": "Separator between responses",

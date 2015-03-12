@@ -41,10 +41,10 @@ define([
         var appSpeaknow = applications.filter(function (app) {
             return app.name === 'speaknow';
         }).pop();
-
+        appSpeaknow.host = appSpeaknow.host.replace("7002", "7001");
         speaknow.lazy.value('speaknowResources', {
-            contact: appSpeaknow.host + '/contact',
-            interaction: appSpeaknow.host + '/interaction'
+            contact: appSpeaknow.host + '/resource/contact',
+            interaction: appSpeaknow.host + '/resource/interaction'
         });
     });
 

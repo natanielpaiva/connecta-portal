@@ -44,25 +44,22 @@
                 {{singlesource.type}}
             </p>
             <div ng-if="singlesource.type === 'FILE'" >
-                <span ng-switch="singlesource.fileType">
-                    <span class ng-switch-when="application/msword" >
+                <div ng-switch="fileExtensions.fileType">
+                    <div  class="col-md-10 font-size-big" ng-switch-when="BINARY" >
                         <a href="{{singlesource.binaryFile}}">
-                            <span class="icon-file3"></span>
+                            <span  class="icon-file3"></span>
                         </a>
-                    </span>
-                    <span class ng-switch-when="application/vnd.openxmlformats-officedocument.wordprocessingml.document" >
-                        <a href="{{singlesource.binaryFile}}">
-                            <span class="icon-file3"></span>
-                        </a>
-                    </span>
-
-                    <span ng-switch-when="video/mp4" >
+                    </div>
+                    <div ng-switch-when="IMAGE" >
+                        <img style="width: 340px;" alt="" src="{{singlesource.binaryFile}}" />
+                    </div>
+                    <div ng-switch-when="VIDEO" >
                         <video controls>
                             <source src="{{singlesource.binaryFile}}" type="video/mp4">
                             Your browser does not support HTML5 video.
                         </video>
-                    </span>
-                </span>
+                    </div>
+                </div>
             </div>
 
             <table class="table">

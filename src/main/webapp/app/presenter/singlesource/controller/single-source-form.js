@@ -2,7 +2,7 @@ define([
     'connecta.presenter',
     'presenter/singlesource/service/singlesource-service'
 ], function (presenter) {
-    return presenter.lazy.controller('SingleSourceFormController', function ($scope, SingleSourceService, $routeParams, $location, $http) {
+    return presenter.lazy.controller('SingleSourceFormController', function ($scope, SingleSourceService, $routeParams, $location, fileExtensions) {
 
         $scope.myFiles = [];
         $scope.types = SingleSourceService.getTypes();
@@ -49,6 +49,12 @@ define([
                         $scope.typeSingleSource.singleSourceAttributes[key].attributeType = $scope.optionsAttributeTypes[value];
                     }
                 }
+
+                $scope.fileExtensions = "";
+                if ($scope.typeSingleSource.fileType !== undefined) {
+                    $scope.fileExtensions = fileExtensions[$scope.typeSingleSource.fileType];
+                }
+
             });
         } else {
             $scope.typeSingleSource.path = "";
@@ -72,7 +78,6 @@ define([
 
             if ($scope.typeSingleSource.type.id === "FILE") {
                 if ($scope.file !== "") {
-                    $scope.typeSingleSource.fileType = $scope.file.type;
                     $scope.typeSingleSource.type = "FILE";
                     $scope.typeSingleSource.filename = $scope.file.name;
 

@@ -5,33 +5,44 @@ define([
         'angularFileUpload',
         'ngAnimate'
     ]);
-    
-    presenter.config(function($translatePartialLoaderProvider){
+
+    presenter.config(function ($translatePartialLoaderProvider) {
         $translatePartialLoaderProvider.addPart('presenter/datasource');
         $translatePartialLoaderProvider.addPart('presenter/singlesource');
         $translatePartialLoaderProvider.addPart('presenter/analysis');
     });
-    
-    presenter.run(function(applications){
-        var appPresenter = applications.filter(function(app){
+
+    presenter.value("fileExtensions", {
+        JPG: {fileType: 'IMAGE', mimeTypes: ["image/jpeg", "image/pjpeg"]},
+        PNG: {fileType: 'IMAGE', mimeTypes: ["image/png"]},
+        MP4: {fileType: 'VIDEO', mimeTypes: ["video/mp4"]},
+        XLS: {fileType: 'BINARY', mimeTypes: ["application/excel"]},
+        DOC: {fileType: 'BINARY', mimeTypes: ["application/msword"]},
+        DOCX: {fileType: 'BINARY', mimeTypes: ["application/vnd.openxmlformats-officedocument.wordprocessingml.document"]},
+        PPT: {fileType: 'BINARY'},
+        PPTX: {fileType: 'BINARY'}
+    });
+
+    presenter.run(function (applications) {
+        var appPresenter = applications.filter(function (app) {
             return app.name === 'presenter';
         }).pop();
-        
+
         presenter.lazy.value('presenterConfig', appPresenter);
-        
+
         // Configurando os resources do backend
         presenter.lazy.value('presenterResources', {
-            datasource: appPresenter.host+'/datasource',
-            analysis: appPresenter.host+'/analysis',
-            database: appPresenter.host+'/database',
-            singlesource: appPresenter.host+'/media',
-            attribute:appPresenter.host+'/attribute'
+            datasource: appPresenter.host + '/datasource',
+            analysis: appPresenter.host + '/analysis',
+            database: appPresenter.host + '/database',
+            singlesource: appPresenter.host + '/media',
+            attribute: appPresenter.host + '/attribute'
         });
     });
 
     presenter._routes = {
 //        Utilizar esse formato        
-       '/presenter/datasource': {
+        '/presenter/datasource': {
             controller: 'DatasourceListController',
             controllerUrl: 'presenter/datasource/controller/datasource-list',
             templateUrl: 'app/presenter/datasource/template/datasource-list.html'

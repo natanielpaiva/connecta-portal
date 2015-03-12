@@ -9,10 +9,13 @@
         <form novalidate name="formulario" ng-submit="submit()">
 
             <div class="form-group">
-                <label for="nome" translate>SINGLESOURCE.NAME</label>
-                <input type="text" class="form-control" id="name" name="name"
-                       ng-model="typeSingleSource.name" />
+                <label for="model-nome" translate>SINGLESOURCE.NAME</label>
+                <input type="text" name="nome" ng-model="typeSingleSource.name"
+                       id="model-nome" required class="form-control" />
+                <div ng-if="formulario.nome.$dirty" ng-messages="formulario.nome.$error"
+                     ng-messages-include="portal-validation-messages"></div>
             </div>
+            
 
             <div class="portal-type-switcher">
                 <label for="nome" translate>SINGLESOURCE.TYPE_MEDIA</label>

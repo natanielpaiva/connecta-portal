@@ -2,7 +2,7 @@ define([
     'connecta.presenter',
     'presenter/singlesource/service/singlesource-service'
 ], function (presenter) {
-    return presenter.lazy.controller('SingleSourceListController', function ($scope, SingleSourceService, $location) {
+    return presenter.lazy.controller('SingleSourceListController', function ($scope, SingleSourceService, fileExtensions) {
         $scope.types = SingleSourceService.getTypes();
 
         $scope.filter = false;
@@ -15,6 +15,8 @@ define([
             //console.log(response);
         });
 
+        console.log(fileExtensions['PNG']); 
+         
         $scope.excluir = function (singlesource) {
             SingleSourceService.delete(singlesource.id).then(function () {
                 var index = $scope.singlesource.indexOf(singlesource);

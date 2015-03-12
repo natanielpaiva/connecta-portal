@@ -17,25 +17,39 @@
            translate
            >
         SINGLESOURCE.DROP_FILE_HERE
-        
+
     </label>
 
     <div  ng-no-file-drop>File Drag/drop is not supported</div>
 </div>
 <div  ng-if="typeSingleSource.path !== ''" class="form-group am-flip-x">
     <div ng-if="typeSingleSource.type.name === 'FILE'" >
-        <div ng-switch="typeSingleSource.fileType">
-            <div class ng-switch-when="application/msword" >
-                <a href="{{typeSingleSource.path}}">
-                    <span class="icon-file3"></span>
-                </a>
+        <div ng-switch="fileExtensions.fileType">
+            <div ng-switch-when="BINARY" >
+                <label for="nome" translate>SINGLESOURCE.FILE</label>
+                <label for="file"
+                       class="well drop-box set-file"
+
+                       ng-file-drop 
+                       ng-file-select
+                       ng-model="myFiles" 
+
+                       ng-file-change="fileDropped($files, $event, $rejectedFiles)" 
+                       ng-multiple="false"
+                       ng-accept="'.doc,.docx,.xls,.ppt,.pptx,.jpeg,.jpg,.png,.mp4'" 
+                       ng-model-rejected="rejFiles" 
+                       allow-dir="false" 
+                       drag-over-class="{accept:'acceptClass', reject:'rejectClass'}" 
+                       drop-available="dropSupported" 
+                       translate
+                       >
+                    SINGLESOURCE.DROP_FILE_HERE
+
+                </label>
+
+                <div  ng-no-file-drop>File Drag/drop is not supported</div>
             </div>
-            <div class ng-switch-when="application/vnd.openxmlformats-officedocument.wordprocessingml.document" >
-                <a href="{{typeSingleSource.path}}">
-                    <span class="icon-file3"></span>
-                </a>
-            </div>
-            <div ng-switch-when="video/mp4">
+            <div ng-switch-when="VIDEO">
                 <label translate>SINGLESOURCE.VIDEO</label>
                 <div  class="portal-hover-container image-on-background"
                       ng-attr-style="background-image:url({{typeSingleSource.path}});width:20em;height:10em;line-height:10em;"
@@ -48,7 +62,7 @@
                     <span class="icon-trash portal-hover-item font-size-big text-danger font-white cursor-pointer"></span>
                 </div>
             </div>
-            <div ng-switch-when="image/png">
+            <div ng-switch-when="IMAGE">
                 <label>SINGLESOURCE.IMAGE</label>
                 <div  class="portal-hover-container image-on-background"
                       ng-attr-style="background-image:url({{typeSingleSource.path}});width:20em;height:10em;line-height:10em;"

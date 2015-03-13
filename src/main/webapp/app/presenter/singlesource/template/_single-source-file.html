@@ -1,4 +1,4 @@
-<div ng-if="fileExtensions.fileType === ''" class="form-group">
+<div ng-if="fileExtensions.fileType !== '' && typeSingleSource.path === ''" class="form-group">
     <label for="nome" translate>SINGLESOURCE.FILE</label>
     <label for="file"
            class="well drop-box set-file"

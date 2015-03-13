@@ -9,6 +9,7 @@ define([
         $scope.optionsAttributeTypes = SingleSourceService.getAttributeTypes();
         $scope.typeSingleSource = {};
         $scope.file = "";
+        $scope.fileExtensions = "";
 
         $scope.getAttributes = function (val) {
             return SingleSourceService.getAttribute(val);
@@ -50,7 +51,6 @@ define([
                     }
                 }
 
-                $scope.fileExtensions = "";
                 if ($scope.typeSingleSource.fileType !== undefined) {
                     $scope.fileExtensions = fileExtensions[$scope.typeSingleSource.fileType];
                 }

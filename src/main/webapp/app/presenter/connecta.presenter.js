@@ -10,6 +10,7 @@ define([
         $translatePartialLoaderProvider.addPart('presenter/datasource');
         $translatePartialLoaderProvider.addPart('presenter/singlesource');
         $translatePartialLoaderProvider.addPart('presenter/analysis');
+        $translatePartialLoaderProvider.addPart('presenter/hierarchy');
     });
 
     presenter.value("fileExtensions", {
@@ -34,9 +35,9 @@ define([
         presenter.lazy.value('presenterResources', {
             datasource: appPresenter.host + '/datasource',
             analysis: appPresenter.host + '/analysis',
-            database: appPresenter.host + '/database',
             singlesource: appPresenter.host + '/media',
-            attribute: appPresenter.host + '/attribute'
+            attribute: appPresenter.host + '/attribute',
+            hierarchy: appPresenter.host + '/hierarchy'
         });
     });
 
@@ -86,6 +87,11 @@ define([
             controller: 'AnalysisFormController',
             controllerUrl: 'presenter/analysis/controller/analysis-form',
             templateUrl: 'app/presenter/analysis/template/analysis-form.html'
+        },
+        '/presenter/hierarchy/new': {
+            controller: 'HierarchyFormController',
+            controllerUrl: 'presenter/hierarchy/controller/hierarchy-form',
+            templateUrl: 'app/presenter/hierarchy/template/hierarchy-form.html'
         }
     };
 

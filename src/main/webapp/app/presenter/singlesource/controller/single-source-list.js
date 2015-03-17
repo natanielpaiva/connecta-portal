@@ -15,7 +15,6 @@ define([
             //console.log(response);
         });
 
-        console.log(fileExtensions['PNG']); 
          
         $scope.excluir = function (singlesource) {
             SingleSourceService.delete(singlesource.id).then(function () {

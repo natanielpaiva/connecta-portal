@@ -9,8 +9,8 @@ define([
     return portal.lazy.factory('$autocomplete', function ($http) {
         return function(resource, parameters){
             var params = {
-                page:0,
-                size:5
+                page:1,
+                count:5
             };
             
             angular.extend(params, parameters);

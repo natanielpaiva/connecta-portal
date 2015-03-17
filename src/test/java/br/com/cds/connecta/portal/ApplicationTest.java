@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package br.com.cds.connecta.portal;
 
 import static br.com.cds.connecta.framework.core.test.ConnectaMatchers.todosOsItens;
@@ -35,7 +30,7 @@ public class ApplicationTest extends BaseTest {
     static final String RESOURCE_ID = RESOURCE.concat("/{id}");
     
     @Test
-    public void sucessoBuscarAplicacoes() throws Exception {
+    public void listApplications() throws Exception {
         mockMvc().perform(get(RESOURCE)
             .contentType(MediaType.APPLICATION_JSON)
         ).andDo(print())
@@ -49,7 +44,7 @@ public class ApplicationTest extends BaseTest {
     }
     
     @Test
-    public void sucessoBuscarAplicacaoPorID() throws Exception {
+    public void getApplication() throws Exception {
         mockMvc().perform(get(RESOURCE_ID, 1)
             .contentType(MediaType.APPLICATION_JSON)
         ).andDo(print())
@@ -62,7 +57,7 @@ public class ApplicationTest extends BaseTest {
     }
     
     @Test
-    public void sucessoSalvarAplicacao() throws Exception {
+    public void saveApplication() throws Exception {
         mockMvc().perform(post(RESOURCE)
             .contentType(MediaType.APPLICATION_JSON)
             .content(getJson("application/new-application"))
@@ -77,22 +72,22 @@ public class ApplicationTest extends BaseTest {
     }
     
     @Test
-    public void sucessoAlterarAplicacao() throws Exception {
-        mockMvc().perform(put(RESOURCE_ID, 1)
+    public void updateApplication() throws Exception {
+        mockMvc().perform(put(RESOURCE_ID, 2)
             .contentType(MediaType.APPLICATION_JSON)
             .content(getJson("application/edit-application"))
         ).andDo(print())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", notNullValue()))
-            .andExpect(jsonPath("$.id", allOf(notNullValue(), isA(Integer.class), equalTo(1))))
+            .andExpect(jsonPath("$.id", allOf(notNullValue(), isA(Integer.class), equalTo(2))))
             .andExpect(jsonPath("$.host", equalTo("http://connectad.cds.com.br/presenter")))
             .andExpect(jsonPath("$.name", equalTo("presenter")))
             .andExpect(jsonPath("$.title", equalTo("Presentacion de Pelota")));
     }
     
     @Test
-    public void sucessoExcluirAplicacao() throws Exception {
+    public void deleteApplication() throws Exception {
         mockMvc().perform(delete(RESOURCE_ID, 99)
             .contentType(MediaType.APPLICATION_JSON)
         ).andDo(print())

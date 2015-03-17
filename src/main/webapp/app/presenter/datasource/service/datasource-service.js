@@ -1,6 +1,7 @@
 define([
+    'angular',
     'connecta.presenter'
-], function (presenter) {
+], function (angular, presenter) {
     
     return presenter.lazy.service('DatasourceService', function(presenterResources, $http){
         var types = [
@@ -53,9 +54,11 @@ define([
             return $http.post(url, datasourceCopy);
         };
         
-        this.list = function(){
-            var url = presenterResources.datasource ;
-            return $http.get(url);
+        this.list = function(params){
+            var url = presenterResources.datasource;
+            return $http.get(url, {
+                params: params
+            });
         };
         
         this.excluir = function(id){

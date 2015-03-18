@@ -10,7 +10,7 @@ define([
         $translatePartialLoaderProvider.addPart('presenter/datasource');
         $translatePartialLoaderProvider.addPart('presenter/singlesource');
         $translatePartialLoaderProvider.addPart('presenter/analysis');
-        $translatePartialLoaderProvider.addPart('presenter/hierarchy');
+//        $translatePartialLoaderProvider.addPart('presenter/hierarchy');
     });
 
     presenter.value("fileExtensions", {

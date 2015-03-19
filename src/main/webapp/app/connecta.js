@@ -168,7 +168,8 @@ define([
         'portal/layout/service/pages',
         'portal/layout/service/layout',
         'portal/layout/service/search',
-        'portal/layout/directive/key-value'
+        'portal/layout/directive/key-value',
+        'portal/layout/directive/file-model'
     ], function (doc) {
         angular.bootstrap(doc, [connecta.name]);
     });

@@ -69,6 +69,9 @@ require.config({
         'bower_components/ng-file-upload/angular-file-upload.min': {
             deps: ['angular']
         },
+        'bower_components/angular-ui-tree/dist/angular-ui-tree.min': {
+            deps: ['angular']
+        },
         'angular-ng-table':{
             deps: ['angular']
         },

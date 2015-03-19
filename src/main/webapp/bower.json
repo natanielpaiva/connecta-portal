@@ -32,7 +32,8 @@
     "pace": "1.0.2",
     "font-awesome": "4.0.3",
     "animate.css": "~3.2.1",
-    "angular-motion": "~0.3.4"
+    "angular-motion": "~0.3.4",
+    "angular-ui-tree": "~2.1.5"
   },
   "authors": [],
   "moduleType": [

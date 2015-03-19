@@ -2,8 +2,7 @@ define([
     'angular'
 ], function (angular) {
     var presenter = angular.module('connecta.presenter', [
-        'angularFileUpload',
-        'ngAnimate'
+        
     ]);
 
     presenter.config(function ($translatePartialLoaderProvider) {
@@ -37,7 +36,8 @@ define([
             analysis: appPresenter.host + '/analysis',
             singlesource: appPresenter.host + '/media',
             attribute: appPresenter.host + '/attribute',
-            hierarchy: appPresenter.host + '/hierarchy'
+            hierarchy: appPresenter.host + '/hierarchy',
+            hierarchyItem: appPresenter.host + '/hierarchy/hierarchy-item'
         });
     });
 
@@ -89,6 +89,11 @@ define([
             templateUrl: 'app/presenter/analysis/template/analysis-form.html'
         },
         '/presenter/hierarchy/new': {
+            controller: 'HierarchyFormController',
+            controllerUrl: 'presenter/hierarchy/controller/hierarchy-form',
+            templateUrl: 'app/presenter/hierarchy/template/hierarchy-form.html'
+        },
+        '/presenter/hierarchy/:id': {
             controller: 'HierarchyFormController',
             controllerUrl: 'presenter/hierarchy/controller/hierarchy-form',
             templateUrl: 'app/presenter/hierarchy/template/hierarchy-form.html'

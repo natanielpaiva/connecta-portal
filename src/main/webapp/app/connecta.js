@@ -1,14 +1,14 @@
 define([
     'angular',
     'jquery',
+    // Configuração dos módulos
+    'json!./../application',
     // Módulos Angular Connecta
     'connecta.portal',
     'connecta.collector',
     'connecta.speaknow',
     'connecta.presenter',
     'connecta.maps',
-    // Configuração dos módulos
-    'json!./../application',
     // Dependências principais
     'angular-route',
     'angular-resource',
@@ -22,9 +22,9 @@ define([
     'bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min',
     'bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min',
     'bower_components/angular-messages/angular-messages.min',
-    'bower_components/ng-file-upload/angular-file-upload.min'
+    'bower_components/ng-file-upload/angular-file-upload.min',
     'bower_components/angular-ui-tree/dist/angular-ui-tree.min'
-], function (angular, $, portal, collector, speaknow, presenter, maps, applications) {
+], function (angular, $, applications, portal, collector, speaknow, presenter, maps) {
 
     var connecta = angular.module('connecta', [
         'connecta.portal',
@@ -220,56 +220,3 @@ define([
 
     return connecta;
 });
-
-// CÓDIGO DE ROTAS ANTIGO
-//                // Páginas das aplicações
-//                var routePage = {
-//                    template: ' ',
-//                    resolve: {
-//                        load: [
-//                            '$route',
-//                            'pageService',
-//                            function ($route, pageService) {
-//                                var application = $route.current.params.app;
-//                                var module = $route.current.params.module;
-//                                var controller = $route.current.params.controller;
-//                                var id = $route.current.params.id;
-//                                return pageService.resolvePage(application, module, controller, id);
-//                            }
-//                        ]
-//                    }
-//                };
-//
-//                // Listagem padronizada de itens
-//                var routeSearch = {
-//                    template: ' ',
-//                    resolve: {
-//                        load: [
-//                            '$route',
-//                            'searchService',
-//                            function ($route, searchService) {
-//                                var application = $route.current.params.app;
-//                                var item = $route.current.params.item;
-//                                var child = $route.current.params.child;
-//
-//                                if (!($route.current.originalPath.match(/^\/search-a/))) {
-//                                    return searchService.resolveEmbedded(application, item, child);
-//                                } else {
-//                                    return searchService.resolvePage(application, item, child);
-//                                }
-//                            }
-//                        ]
-//                    }
-//                };
-
-// @todo: Procurar forma de angular trazer parametro opcional (id)
-// por enquanto é um gato
-//                $routeProvider
-//                        .when('/search/:app/:item', routeSearch)
-//                        .when('/search/:app/:item/:child', routeSearch)
-//                        .when('/search-a/:app/:item', routeSearch)
-//                        .when('/search-a/:app/:item/:child', routeSearch)
-//                        .when('/:app', routePage)
-//                        .when('/:app/:module', routePage)
-//                        .when('/:app/:module/:controller', routePage)
-//                        .when('/:app/:module/:controller/:id', routePage);

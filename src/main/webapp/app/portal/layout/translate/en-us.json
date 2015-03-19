@@ -9,6 +9,7 @@
         "ADD" : "Add",
         "SAVE":  "Save",
         "BACK":  "Back",
+        "NEXT": "Next",
         "CANCEL":"Cancel",
         "APPLY": "Apply",
         "FILTER": "Filter",

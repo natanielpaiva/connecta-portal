@@ -97,6 +97,11 @@ define([
             controller: 'HierarchyFormController',
             controllerUrl: 'presenter/hierarchy/controller/hierarchy-form',
             templateUrl: 'app/presenter/hierarchy/template/hierarchy-form.html'
+        },
+        '/presenter/hierarchy/': {
+            controller: 'HierarchyListController',
+            controllerUrl: 'presenter/hierarchy/controller/hierarchy-list',
+            templateUrl: 'app/presenter/hierarchy/template/hierarchy-list.html'
         }
     };
 

@@ -1,23 +1,22 @@
 define([
-    'connecta.portal',
-    'angular'
-], function (portal, angular) {
+    'connecta.portal'
+], function (portal) {
     /**
      * Serviço de gerenciamento do layout
      *
      * Aqui ficam as funcionalidades compartilhadas do layout
      *
      * @param {type} $rootScope
-     * @param {type} $cookie
+     * @param {type} $cookieStore
      * @returns {undefined}
      */
-    return portal.service('layoutService', function ($rootScope, $cookieStore, $timeout) {
-        var SIDEBAR = 'connecta.portal.layout.sidebar';
+    return portal.service('layoutService', function ($rootScope, $cookieStore) {
+        var SIDEBAR = 'connecta.portal.layout.menu';
         
         var isShowPageTabs = false;
         
         var broadcastEvent = function(show){
-            var eventName = show ? 'sidebar.show' : 'sidebar.hide';
+            var eventName = show ? 'menu.show' : 'menu.hide';
             
             $rootScope.$broadcast(eventName);
         };

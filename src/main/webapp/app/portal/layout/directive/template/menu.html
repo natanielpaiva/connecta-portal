@@ -1,0 +1,22 @@
+<div class="connecta-menu">
+    <ul class="nav">
+        <li ng-repeat="item in menu">
+            <a ng-class="{'has-child': (item.children && item.children.length > 0)}"
+               ng-href="#{{item.href}}" class="menu-item">
+                <span class="menu-item-icon {{item.icon}}"></span>
+                <span class="menu-item-title" translate>{{item.title}}</span>
+                <span class="menu-item-arrow"></span>
+            </a>
+
+            <ul class="nav active" ng-if="item.children.length">
+                <li ng-repeat="child in item.children">
+                    <a ng-class="{'has-child': (child.children && child.children.length > 0)}"
+                       href="#{{child.href}}" class="menu-item">
+                        <span class="menu-item-title" translate>{{child.title}}</span>
+                        <span class="menu-item-arrow arrow"></span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+    </ul>
+</div>

@@ -1,11 +1,11 @@
-/**
- * Controller principal da aplicação
- */
 define([
     'connecta.portal',
     'portal/layout/directive/layout'
 ], function(portal) {
 
+    /**
+     * Controller principal da aplicação
+     */
     return portal.controller('appMain', function($scope, applicationsService, applications) {
         // Atualiza a lista de aplicações do portal
         applicationsService.setApplications(applications);

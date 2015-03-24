@@ -1,5 +1,4 @@
 /* global require */
-
 require.config({
     paths: {
         'bower_components':'../bower_components',

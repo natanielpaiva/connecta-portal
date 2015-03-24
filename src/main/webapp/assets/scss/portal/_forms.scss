@@ -1,4 +1,5 @@
-.mandatory {
+// Classe para ser utilizada nas labels de campos obrigatórios
+.required {
     &:before {
         border-width:0.35em;
         border-color:transparent transparent transparent darken(red, 15%);

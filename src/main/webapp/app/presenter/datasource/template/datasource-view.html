@@ -4,7 +4,6 @@
     </div>
 </div>
 
-
 <div class="row">
     <div class="col-md-2">
         <div class="btn-group">
@@ -28,7 +27,6 @@
     </div>
 </div>
 
-
 <div class="row">
     <div class="col-md-12">
         <div class="well margin-top-single margin-bottom-single">
@@ -44,7 +42,8 @@
 
             <p ng-if="datasource.type" >
                 <strong translate>DATASOURCE.DATASOURCE_TYPE</strong>:
-                {{datasource.type}}
+                <span class="{{types[datasource.type].icon}}"></span>
+                {{types[datasource.type].name}}
             </p>
 
             <!-- banco de dados-->
@@ -55,7 +54,9 @@
 
             <p ng-if="datasource.server">
                 <strong translate>DATASOURCE.SERVER</strong>:
-                {{datasource.server}}
+                <a href="{{datasource.server}}" target="_blank">
+                    {{datasource.server}}
+                </a>
             </p>
 
             <p ng-if="datasource.port">
@@ -72,7 +73,9 @@
             <!-- endeca webservice-->
             <p ng-if="datasource.address"> 
                 <strong translate>DATASOURCE.ADDRESS</strong>:
-                {{datasource.address}}
+                <a href="{{datasource.address}}" target="_blank">
+                    {{datasource.address}}
+                </a>
             </p>
             <!-- endeca -->
 
@@ -87,11 +90,17 @@
                 {{datasource.method}}
             </p>
 
-            <p ng-if="datasource.parameters">
+            <p ng-if="datasource.parameters && datasource.parameters.length">
                 <strong translate>DATASOURCE.PARAMETERS</strong>:
             </p>
 
-            <p ng-if="datasource.parameters" ng-repeat="pr in datasource.parameters" > {{pr.params}} : {{pr.value}} </p>
+            <ul ng-if="datasource.parameters" class="list-unstyled">
+                <li ng-repeat="p in datasource.parameters">
+                    <kbd>{{p.params}}</kbd>
+                    =
+                    <code>{{p.value}}</code>
+                </li>
+            </ul>
 
             <!--webservice-->
             <p ng-if="datasource.user">

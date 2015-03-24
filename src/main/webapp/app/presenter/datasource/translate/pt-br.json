@@ -20,6 +20,8 @@
         "SERVER": "Servidor",
         "SEARCH_TERM": "Termo da Busca",
         "PARAMETERS": "Parâmetros",
-        "PARAMETER": "Parâmetro"
+        "PARAMETER": "Parâmetro",
+        "PARAMETER_VALUE": "Valor",
+        "DATASOURCE": "Fonte de dados"
     }
 }

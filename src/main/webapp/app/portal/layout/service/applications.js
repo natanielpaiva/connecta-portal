@@ -1,11 +1,10 @@
-/**
- * Serviço de gerenciamento das aplicações diversas (presenter, collector, etc)
- */
 define([
     'connecta.portal'
 ], function (portal) {
+    /**
+     * Serviço de gerenciamento das aplicações
+     */
     return portal.factory('applicationsService', function ($q, $rootScope, $resource) {
-
         var applications = [];
         var instance = null;
 

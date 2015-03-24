@@ -1,5 +1,4 @@
 /* Font Import */
-@import url(./../fonts/open-sans/style.css);
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
     color:#333843! important;
 }
@@ -8,6 +7,22 @@
 }
 :-ms-input-placeholder { /* Internet Explorer 10+ */
     color:#333843! important;
+}
+
+// Scrollbar
+::-webkit-scrollbar {
+    width:0.6em;
+    background-color:transparent;
+}
+::-webkit-scrollbar-thumb {
+    background-color: lighten($bs-gray-light, 25%);
+    border-radius:1em;
+    &:hover {
+        background-color: $bs-gray-light;
+    }
+    &:active {
+        background-color: $bs-gray;
+    }
 }
 
 /* Reset */
@@ -26,12 +41,14 @@ body {
     font-style: normal;
     font-weight: normal;
     background-repeat: no-repeat;
-    background-color: $backgroundGray;
+    background-color: $bs-gray-lighter;
     background-position-y: 60px;
+    // Necessário para as animações de slide-out
+    // não gerarem uma barra de rolagem momentânea
     overflow-x: hidden;
 }
 
-/* Typography */
+/* Typography 
 h1, h2, h3, h4, h5, h6{
     margin:10px 0;
 }
@@ -46,7 +63,7 @@ h3{
 }
 h4{
     line-height:22px
-}
+}*/
 
 h3 small, h4 small, h5 small {
     font-family: 'Open Sans';
@@ -219,4 +236,26 @@ blockquote small{
 
 .cursor-pointer {
     cursor: pointer;
+}
+
+// Usar para inverter um ícone horizontalmente
+.icon-invert-horizontal {
+    transform: scaleX(-1);
+}
+// Usar para inverter um ícone verticalmente
+.icon-invert-vertical {
+    transform: scaleY(-1);
+}
+
+// Usar para rodar um ícone
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+.icon-rotate-infinite {
+    animation: rotate infinite 1s;
 }

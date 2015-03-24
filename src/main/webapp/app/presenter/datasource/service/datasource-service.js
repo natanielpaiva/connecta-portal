@@ -4,52 +4,51 @@ define([
 ], function (angular, presenter) {
     
     return presenter.lazy.service('DatasourceService', function(presenterResources, $http){
-        var types = [
-            {
-                id: 'database',
+        var typeConfig = {
+            DATABASE: {
                 name: 'Database',
-                template: '_datasource-database.html'
+                template: 'app/presenter/datasource/template/_datasource-database.html',
+                icon:'icon-database2'
             },
-            {
-                id: 'endeca',
+            ENDECA: {
                 name: 'Endeca',
-                template: '_datasource-endeca.html'
+                template: 'app/presenter/datasource/template/_datasource-endeca.html',
+                icon:'icon-endeca'
             },
-            {
-                id: 'hdfs',
+            HDFS: {
                 name: 'HDFS',
-                template: '_datasource-hdfs.html'
+                template: 'app/presenter/datasource/template/_datasource-hdfs.html',
+                icon:'icon-hadoop'
             },
-            {
-                id: 'bi',
+            BI: {
                 name: 'OBIEE',
-                template: '_datasource-obiee.html'
+                template: 'app/presenter/datasource/template/_datasource-obiee.html',
+                icon:'icon-obiee'
             },
-            {
-                id: 'solr',
+            SOLR: {
                 name: 'SOLR',
-                template: '_datasource-solr.html'
+                template: 'app/presenter/datasource/template/_datasource-solr.html',
+                icon:'icon-solr'
             },
-            {
-                id: 'webservice',
+            WEBSERVICE: {
                 name: 'WebService',
-                template: '_datasource-webservice.html'
+                template: 'app/presenter/datasource/template/_datasource-webservice.html',
+                icon:'icon-webservice' // Capitão Planeta?
             }
-        ];
-        
-        this.getTypes = function() {
-            return types;
         };
         
         var getTypeUrl = function(datasource) {
-            return presenterResources.datasource+'/'+datasource.type.id;
+            return presenterResources.datasource+'/'+datasource.type.toLowerCase();
+        };
+        
+        this.getTypes = function() {
+            return typeConfig;
         };
         
         this.save = function(datasource){
             var url = getTypeUrl(datasource);
             
             var datasourceCopy = angular.copy(datasource);
-            datasourceCopy.type = datasourceCopy.type.id.toUpperCase();
             
             return $http.post(url, datasourceCopy);
         };
@@ -61,7 +60,7 @@ define([
             });
         };
         
-        this.excluir = function(id){
+        this.remove = function(id){
             var url = presenterResources.datasource +'/'+id;
             return $http.delete(url);
         };

@@ -1,7 +1,7 @@
 define([
     'connecta.portal',
     'portal/layout/directive/header',
-    'portal/layout/directive/sidebar',
+    'portal/layout/directive/menu',
     'portal/layout/directive/pages',
     'portal/layout/directive/search-embedded',
     'portal/layout/service/layout'
@@ -21,14 +21,14 @@ define([
                 /**
                  * Evento para exibir a barra lateral
                  */
-                $scope.$on('sidebar.show', function () {
+                $scope.$on('menu.show', function () {
                     $scope.showSidebar = true;
                 });
 
                 /**
                  * Evento para ocultar a barra lateral
                  */
-                $scope.$on('sidebar.hide', function () {
+                $scope.$on('menu.hide', function () {
                     $scope.showSidebar = false;
                 });
             },

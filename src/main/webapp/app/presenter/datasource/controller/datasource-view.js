@@ -5,16 +5,15 @@ define([
     return presenter.lazy.controller('DatasourceViewController', function ($scope, DatasourceService, $routeParams, $location) {
 
         DatasourceService.getById($routeParams.id).then(function (response) {
-
             $scope.datasource = response.data;
             
+            $scope.types = DatasourceService.getTypes();
+
             $scope.excluir = function (id) {
-            DatasourceService.excluir(id).then(function (response) {
-                     $location.path('presenter/datasource');
-            }, function (response) {
-                
-            });
-        };
+                DatasourceService.remove(id).then(function(){
+                    $location.path('presenter/datasource');
+                });
+            };
         });
 
     });

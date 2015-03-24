@@ -1,0 +1,135 @@
+/*Barra lateral*/
+
+$sidebarSize: 20em;
+$miniSidebarSize: 4em;
+
+.connecta-menu {
+    > * {
+        font-family: 'Open Sans';
+    }
+
+    width: $sidebarSize;
+    background-color: $black;
+    margin-top:4.6em;
+
+    position:fixed;
+    left:0;
+    top:0;
+    bottom:0;
+
+    transition: width $defaultAnimationDuration;
+
+    & > ul {
+        margin-top:1em;
+
+        & > li ul {
+            background-color: $darkerGray;
+        }
+    }
+
+    ul {
+        li {
+            display: block;
+            margin: 0;
+            padding: 0;
+            border: none;
+            .menu-item {
+                display: block;
+                margin: 0;
+                padding: 0;
+                border: none;
+                color: $white;
+                line-height:2em;
+
+                @include clearfix;
+
+                &:hover, &:active, &:focus, &:visited {
+                    background-color: $red;
+                }
+
+                &.has-child {
+                    &:hover {
+                        background-color: $red;
+                    }
+
+                    .menu-item-arrow {
+                        display: block;
+                    }
+                }
+
+                .menu-item-icon {
+                    /*display:inline-block;*/
+                    float:left;
+                    padding: 0;
+                    margin:0;
+                    line-height:2em;
+                    text-align: center;
+                    width: 2.22em;
+                    color: white;
+                    font-size: 1.8em;
+                }
+
+                .menu-item-title {
+                    float:left;
+                    /*display:inline-block;*/
+                    padding: 0;
+                    margin:0;
+                    font-size:1.2em;
+                    line-height:3em;
+                    transition:opacity linear $defaultAnimationDuration;
+                    transition-delay: $defaultAnimationDuration;
+                    /*opacity:1;*/
+                    /*transition:opacity $defaultAnimationDuration;*/
+                }
+
+                .menu-item-arrow {
+                    line-height:2em;
+                    padding: 0;
+                    margin:0;
+                    /*opacity:1;*/
+                    /*transition:opacity $defaultAnimationDuration;*/
+                }
+            }
+        }
+    }
+}
+
+@keyframes menuShowText {
+    0% {
+        opacity:0;
+        display: none;
+    }
+    50% {
+        opacity:0;
+        display: none;
+    }
+    100% {
+        opacity:1;
+        /*display: block;*/
+    }
+}
+
+// Minimiza a barra lateral para mostrar apenas os ícones
+.hide-sidebar {
+    .connecta-menu {
+        width: $miniSidebarSize;
+
+        .menu-item {
+            .menu-item-title {
+                opacity:0;
+                width:0;
+                height:0;
+                /*display:none;*/
+                transition:opacity linear $defaultAnimationDuration,
+                    width linear $defaultAnimationDuration/2,
+                    height linear $defaultAnimationDuration/2;
+                transition-delay: 0;
+
+            }
+            .menu-item-arrow {
+                opacity:0;
+                animation-delay: $defaultAnimationDuration;
+            }
+        }
+    }
+}

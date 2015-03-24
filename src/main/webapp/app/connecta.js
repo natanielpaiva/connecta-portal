@@ -14,6 +14,7 @@ define([
     'angular-resource',
     'angular-ui-bootstrap',
     'angular-ng-table',
+    'bower_components/prefix-free/prefixfree.min',
     'bower_components/angular-animate/angular-animate.min',
     'bower_components/angular-cookies/angular-cookies.min',
     'bower_components/angular-touch/angular-touch.min',
@@ -156,7 +157,7 @@ define([
         $httpProvider.interceptors.push(function ($log, $q) {
             return {
                 'request': function (config) {
-                    Pace.restart();
+//                    Pace.restart();
                     return config;
                 },
                 'response': function (response) {
@@ -208,6 +209,7 @@ define([
         'domReady!',
         'portal/layout/controller/main',
         'portal/layout/controller/home',
+        'portal/layout/directive/debug',
         'portal/layout/service/applications',
         'portal/layout/service/pages',
         'portal/layout/service/layout',

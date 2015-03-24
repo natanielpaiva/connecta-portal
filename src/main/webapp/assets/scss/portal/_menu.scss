@@ -58,7 +58,6 @@ $miniSidebarSize: 4em;
                 }
 
                 .menu-item-icon {
-                    /*display:inline-block;*/
                     float:left;
                     padding: 0;
                     margin:0;
@@ -71,41 +70,27 @@ $miniSidebarSize: 4em;
 
                 .menu-item-title {
                     float:left;
-                    /*display:inline-block;*/
                     padding: 0;
                     margin:0;
                     font-size:1.2em;
                     line-height:3em;
-                    transition:opacity linear $defaultAnimationDuration;
+                    transition:opacity linear $defaultAnimationDuration,
+                        font-size ease-in 0,
+                        line-height ease-in 0;
                     transition-delay: $defaultAnimationDuration;
-                    /*opacity:1;*/
-                    /*transition:opacity $defaultAnimationDuration;*/
                 }
 
                 .menu-item-arrow {
                     line-height:2em;
                     padding: 0;
                     margin:0;
-                    /*opacity:1;*/
-                    /*transition:opacity $defaultAnimationDuration;*/
+                    transition:opacity linear $defaultAnimationDuration,
+                        font-size ease-in 0,
+                        line-height ease-in 0;
+                    transition-delay: $defaultAnimationDuration;
                 }
             }
         }
-    }
-}
-
-@keyframes menuShowText {
-    0% {
-        opacity:0;
-        display: none;
-    }
-    50% {
-        opacity:0;
-        display: none;
-    }
-    100% {
-        opacity:1;
-        /*display: block;*/
     }
 }
 
@@ -117,18 +102,20 @@ $miniSidebarSize: 4em;
         .menu-item {
             .menu-item-title {
                 opacity:0;
-                width:0;
-                height:0;
-                /*display:none;*/
-                transition:opacity linear $defaultAnimationDuration,
-                    width linear $defaultAnimationDuration/2,
-                    height linear $defaultAnimationDuration/2;
+                font-size:0;
+                line-height:0;
+                transition:opacity linear 0s,
+                    font-size linear $defaultAnimationDuration*2,
+                    line-height linear $defaultAnimationDuration*2;
                 transition-delay: 0;
 
             }
             .menu-item-arrow {
                 opacity:0;
-                animation-delay: $defaultAnimationDuration;
+                transition:opacity linear 0s,
+                    font-size linear $defaultAnimationDuration*2,
+                    line-height linear $defaultAnimationDuration*2;
+                transition-delay: 0;
             }
         }
     }

@@ -30,26 +30,6 @@ define([
                                 title: 'SINGLESOURCE.MEDIA'
                             }
                         ]
-                    },
-                    {
-                        href: 'presenter/analysis',
-                        title: 'ANALYSIS.ANALYSIS',
-                        icon: 'icon-bar-graph icon-invert-horizontal',
-                        children: []
-                    },
-                    {
-                        title: 'DATASOURCE.DATASOURCE',
-                        icon: 'icon-database2',
-                        children: [
-                            {
-                                href: 'presenter/datasource',
-                                title: 'DATASOURCE.ANALYSIS_SOURCE'
-                            },
-                            {
-                                href: 'presenter/singlesource',
-                                title: 'SINGLESOURCE.MEDIA'
-                            }
-                        ]
                     }
                 ];
 

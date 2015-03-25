@@ -1,0 +1,33 @@
+<style>
+    .gallery{
+        margin: 5px;
+        padding: 1px;
+        border: 1px solid #0000ff;
+        height: 200px;
+        width: 200px;
+        float: left;
+        text-align: center;
+    }
+</style>
+<div class="form-group">
+    <label for="nome" translate>GROUP.SELECT_MEDIA</label>
+    <input type="text" name="media" 
+           ng-change="change()" ng-blur="change()"
+           ng-model="attribute.name"
+           typeahead="attribute as attribute.name for attribute in getAttributes($viewValue)"
+           typeahead-loading="loadingAttributes"/>
+</div>
+
+<div ng-repeat="path in paths">
+    <div  ng-if="path.fileType === 'IMAGE'" class="gallery"
+          ng-drag="true" ng-drag-data="singleSources" ng-drag-success="onDragComplete($data,$event)" >
+        <img width="180" height="180" alt="" src="{{path.path}}"/>
+    </div>
+    <div ng-if="path.fileType === 'VIDEO'" class="gallery"
+         ng-drag="true" ng-drag-data="singleSources" ng-drag-success="onDragComplete($data,$event)" >
+        <video width="180" height="180" controls>
+            <source src="{{path.path}}" type="video/mp4">
+            Your browser does not support HTML5 video.
+        </video>
+    </div>
+</div>

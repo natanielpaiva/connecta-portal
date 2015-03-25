@@ -1,0 +1,135 @@
+<style>
+    .drop-area{
+        position:inherit;
+        width: 300px;
+        height: 300px;
+        background-color: #000080;
+        float: left;
+    }
+    *{
+        -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;
+    }
+    [ng-drag]{
+        -moz-user-select: -moz-none;
+        -khtml-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    [ng-drag]{
+        width: 100px;
+        height: 100px;
+        background: rgba(255,0,0, 0.5);
+        color:white;
+        text-align: center;
+        padding-top:40px;
+        display: inline-block;
+        margin:0 10px;
+        cursor: move;
+    }
+    ul.draggable-objects:after{
+        display: block;
+        content:"";
+        clear:both;
+    }
+    .draggable-objects li{
+        float:left;
+        display: block;
+        width: 120px;
+        height:100px;
+    }
+    [ng-drag].drag-over{
+        border:solid 1px red;
+    }
+    [ng-drag].dragging{
+        opacity: 0.5;
+    }
+    [ng-drop]{
+        background: rgba(0,255,0, 0.5);
+        text-align: center;
+        width: 600px;
+        height: 200px;
+        padding-top:90px;
+        display: block;
+        margin:20px auto;
+        position: relative;
+    }
+    [ng-drop].drag-enter{
+        border:solid 5px red;
+    }
+    [ng-drop] span.title{
+        display: block;
+        position: absolute;
+        top:50%;
+        left:50%;
+        width: 200px;
+        height: 20px;
+        margin-left: -100px;
+        margin-top: -10px;
+    }
+    [ng-drop] div{
+        position: relative;
+        z-index: 2;
+    }
+</style>
+<div class="row">
+    <div class="col-md-12">
+        <h3 translate>GROUP.REGISTER_GROUP</h3>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <form novalidate name="formulario" ng-submit="submit()">
+
+            <div class="form-group">
+                <label for="model-nome" translate>GROUP.NAME</label>
+                <input type="text" name="nome" ng-model="group.name"
+                       id="model-nome" required class="form-control" />
+                <div ng-if="formulario.nome.$dirty" ng-messages="formulario.nome.$error"
+                     ng-messages-include="portal-validation-messages"></div>
+            </div>
+
+
+            <div class="portal-type-switcher ">
+                <label for="nome" translate>GROUP.TYPE</label>
+                <label ng-repeat="tp in types"  class="radio-inline portal-type-switcher-item">
+                    <input type="radio" ng-model="group.type" name="type" 
+                           class="portal-type-switcher-input" id="single-source-type-{{tp.id}}" ng-value="tp" /> 
+                    <span ng-if="tp.id === 'GALLERY'" class="icon-photo-library"></span>
+                    <span ng-if="tp.id === 'FOLDER'" class="icon-folder-open"></span>
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="nome" translate>GROUP.DESCRIPTION</label>
+                <textarea rows="10" cols="60" ng-model="group.description"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label ng-repeat="tp in typeFilter"  class="radio-inline portal-type-switcher-item">
+                    <input type="radio"  name="typeFilter" ng-model="group.typeFilter" class="portal-type-switcher-input" 
+                           id="single-source-type-{{tp.id}}" ng-value="tp" />
+                    <span translate="">{{tp.name}}</span>
+
+                </label>
+            </div>
+
+            <div width="100%" class="am-collapse form-group" ng-include="'app/presenter/group/template/' + group.typeFilter.template">
+            </div>
+
+            <div class="form-group drop-area" ng-drop="true" ng-drop-success="onDropComplete($data,$event)" >
+                Drop area
+            </div>
+
+            <div class="form-group" style="float: left;">
+                <a href="#/presenter/group"
+                   class="btn btn-default" translate>
+                    LAYOUT.CANCEL
+                </a>
+                <button class="btn btn-primary" translate>
+                    LAYOUT.SAVE
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

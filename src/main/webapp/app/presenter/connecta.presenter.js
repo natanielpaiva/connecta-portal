@@ -11,6 +11,8 @@ define([
         $translatePartialLoaderProvider.addPart('presenter/analysis');
         $translatePartialLoaderProvider.addPart('presenter/group');
 //        $translatePartialLoaderProvider.addPart('presenter/hierarchy');
+        $translatePartialLoaderProvider.addPart('presenter/network');
+        $translatePartialLoaderProvider.addPart('presenter/viewer');
     });
 
     presenter.value("fileExtensions", {

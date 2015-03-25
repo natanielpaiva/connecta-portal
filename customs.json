@@ -1,15 +1,26 @@
 {
+    "attributes": {
+        "key-value": {},
+        "app-sidebar": {},
+        "app-search-result-body": {},
+        "app-search": {},
+        "app-pages-tabs": {},
+        "app-layout": {},
+        "translate": {},
+        "app-pages": {},
+        "key-value-item": {},
+        "app-header": {
+            "context": "div"
+        },
+        "portal-tabs-component": {},
+        "app-search-embedded": {},
+        "app-search-page": {}
+    },
     "elements": {
-        "pagination": {
+        "key-value": {
             "attributes": {
-                "total-items": {},
-                "first-text": {},
-                "last-text": {},
-                "boundary-links": {},
-                "next-text": {},
-                "page": {},
-                "class": {},
-                "previous-text": {}
+                "ng-model": {},
+                "class": {}
             }
         },
         "ng-transclude": {
@@ -17,41 +28,31 @@
                 "ng-repeat": {}
             }
         },
-        "sidebar-navigation": {
-            "attributes": {
-                "menu": {}
-            }
-        },
+        "app-layout": {},
+        "translate": {},
         "key-value-item": {
             "attributes": {
                 "class": {}
             }
         },
-        "key-value": {
+        "pagination": {
             "attributes": {
-                "ng-model": {},
-                "class": {}
+                "total-items": {},
+                "next-text": {},
+                "page": {},
+                "previous-text": {},
+                "last-text": {},
+                "class": {},
+                "first-text": {},
+                "boundary-links": {}
             }
         },
-        "app-search-embedded": {},
-        "app-layout": {},
-        "translate": {}
-    },
-    "attributes": {
-        "app-pages-tabs": {},
-        "app-sidebar": {},
-        "key-value-item": {},
-        "portal-tabs-component": {},
-        "app-header": {
-            "context": "div"
+        "sidebar-navigation": {
+            "attributes": {
+                "menu": {}
+            }
         },
-        "app-search-embedded": {},
-        "app-layout": {},
-        "app-search": {},
-        "translate": {},
-        "app-search-result-body": {},
-        "app-pages": {},
-        "app-search-page": {},
-        "key-value": {}
+        "heading": {},
+        "app-search-embedded": {}
     }
 }

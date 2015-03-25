@@ -4,11 +4,11 @@ define([
     /**
      * Componente usado para renderizar e manter o header do portal
      */
-    return portal.directive('appHeader', function(layoutService, applicationsService) {
+    return portal.directive('heading', function(layoutService, applicationsService) {
         return {
-            restrict: 'A',
+            restrict: 'AE',
             replace: true,
-            templateUrl: 'app/portal/layout/directive/template/header.html',
+            templateUrl: 'app/portal/layout/directive/template/heading.html',
             link: function(scope) {
 
                 // adiciona a lista de aplicações no escopo

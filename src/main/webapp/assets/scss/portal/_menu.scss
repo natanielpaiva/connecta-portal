@@ -1,4 +1,4 @@
-/*Barra lateral*/
+// Menu do Connecta
 
 $sidebarSize: 20em;
 $miniSidebarSize: 4em;
@@ -22,16 +22,25 @@ $miniSidebarSize: 4em;
     & > ul {
         margin-top:1em;
 
-        & > li ul {
-            background-color: $darkerGray;
+        & > li {
+            padding: 0;
+            margin: 0;
+            ul {
+                background-color: $darkerGray;
+
+                li .menu-item {
+                    display:block;
+                    padding-left:4em;
+                }
+            }
         }
     }
 
     ul {
         li {
             display: block;
-            margin: 0;
             padding: 0;
+            margin: 0;
             border: none;
             .menu-item {
                 display: block;
@@ -81,13 +90,17 @@ $miniSidebarSize: 4em;
                 }
 
                 .menu-item-arrow {
-                    line-height:2em;
-                    padding: 0;
-                    margin:0;
-                    transition:opacity linear $defaultAnimationDuration,
-                        font-size ease-in 0,
-                        line-height ease-in 0;
-                    transition-delay: $defaultAnimationDuration;
+                    text-align: center;
+                    font-size:1.8em;
+                        line-height:2em;
+                        width:1.5em;
+                        float:right;
+                        padding: 0;
+                        margin:0;
+                        transition:opacity linear $defaultAnimationDuration,
+                            font-size ease-in 0,
+                            line-height ease-in 0;
+                        transition-delay: $defaultAnimationDuration;
                 }
             }
         }
@@ -105,16 +118,18 @@ $miniSidebarSize: 4em;
                 font-size:0;
                 line-height:0;
                 transition:opacity linear 0s,
-                    font-size linear $defaultAnimationDuration*2,
-                    line-height linear $defaultAnimationDuration*2;
+                    font-size linear $defaultAnimationDuration,
+                    line-height linear $defaultAnimationDuration;
                 transition-delay: 0;
 
             }
             .menu-item-arrow {
                 opacity:0;
+                font-size:0;
+                line-height:0;
                 transition:opacity linear 0s,
-                    font-size linear $defaultAnimationDuration*2,
-                    line-height linear $defaultAnimationDuration*2;
+                    font-size linear $defaultAnimationDuration,
+                    line-height linear $defaultAnimationDuration;
                 transition-delay: 0;
             }
         }

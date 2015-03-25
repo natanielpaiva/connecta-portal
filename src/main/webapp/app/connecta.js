@@ -211,11 +211,11 @@ define([
         'domReady!',
         'portal/layout/controller/main',
         'portal/layout/controller/home',
-        'portal/layout/directive/debug',
         'portal/layout/service/applications',
         'portal/layout/service/pages',
         'portal/layout/service/layout',
         'portal/layout/service/search',
+        'portal/layout/directive/debug',
         'portal/layout/directive/key-value',
         'portal/layout/directive/file-model'
     ], function (doc) {

@@ -26,10 +26,30 @@ define([
                                 title: 'DATASOURCE.ANALYSIS_SOURCE'
                             },
                             {
+                                href: 'presenter/group',
+                                title: 'GROUP.GROUPS'
+                            },
+                            {
+                                href: 'presenter/hierarchy',
+                                title: 'HIERARCHY.HIERARCHY_LIST'
+                            },
+                            {
                                 href: 'presenter/singlesource',
                                 title: 'SINGLESOURCE.MEDIA'
                             }
                         ]
+                    },
+                    {
+                        href: 'presenter/viewer',
+                        title: 'VIEWER.VIEWERS',
+                        icon: 'icon-blackboard',
+                        children: []
+                    },
+                    {
+                        href: 'presenter/network',
+                        title: 'NETWORK.NETWORKS',
+                        icon: 'icon-flow-tree',
+                        children: []
                     }
                 ];
 

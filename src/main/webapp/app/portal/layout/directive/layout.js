@@ -1,6 +1,6 @@
 define([
     'connecta.portal',
-    'portal/layout/directive/header',
+    'portal/layout/directive/heading',
     'portal/layout/directive/menu',
     'portal/layout/directive/pages',
     'portal/layout/directive/search-embedded',

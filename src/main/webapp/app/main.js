@@ -74,6 +74,9 @@ require.config({
         'angular-ng-table':{
             deps: ['angular']
         },
+        'bower_components/ngDraggable/ngDraggable':{
+            deps: ['angular']
+        },
         'bower_components/jquery-ui-custom/index': {
             deps: ['jquery']
         },

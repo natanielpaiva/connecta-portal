@@ -9,6 +9,7 @@ define([
         $translatePartialLoaderProvider.addPart('presenter/datasource');
         $translatePartialLoaderProvider.addPart('presenter/singlesource');
         $translatePartialLoaderProvider.addPart('presenter/analysis');
+        $translatePartialLoaderProvider.addPart('presenter/group');
 //        $translatePartialLoaderProvider.addPart('presenter/hierarchy');
     });
 
@@ -87,6 +88,16 @@ define([
             controller: 'AnalysisFormController',
             controllerUrl: 'presenter/analysis/controller/analysis-form',
             templateUrl: 'app/presenter/analysis/template/analysis-form.html'
+        },
+        '/presenter/group': {
+            controller: 'GroupListController',
+            controllerUrl: 'presenter/group/controller/group-list',
+            templateUrl: 'app/presenter/group/template/group-list.html'
+        },
+        '/presenter/group/new': {
+            controller: 'GroupFormController',
+            controllerUrl: 'presenter/group/controller/group-form',
+            templateUrl: 'app/presenter/group/template/group-form.html'
         },
         '/presenter/hierarchy/new': {
             controller: 'HierarchyFormController',

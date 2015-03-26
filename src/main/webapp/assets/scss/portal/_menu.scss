@@ -4,9 +4,7 @@ $sidebarSize: 20em;
 $miniSidebarSize: 4em;
 
 .connecta-menu {
-    > * {
-        font-family: 'Open Sans';
-    }
+    font-family: 'Open Sans';
 
     width: $sidebarSize;
     background-color: $black;
@@ -92,15 +90,15 @@ $miniSidebarSize: 4em;
                 .menu-item-arrow {
                     text-align: center;
                     font-size:1.8em;
-                        line-height:2em;
-                        width:1.5em;
-                        float:right;
-                        padding: 0;
-                        margin:0;
-                        transition:opacity linear $defaultAnimationDuration,
-                            font-size ease-in 0,
-                            line-height ease-in 0;
-                        transition-delay: $defaultAnimationDuration;
+                    line-height:2em;
+                    width:1.5em;
+                    float:right;
+                    padding: 0;
+                    margin:0;
+                    transition:opacity linear $defaultAnimationDuration,
+                        font-size ease-in 0,
+                        line-height ease-in 0;
+                    transition-delay: $defaultAnimationDuration;
                 }
             }
         }

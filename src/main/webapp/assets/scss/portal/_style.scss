@@ -41,7 +41,7 @@ body {
     font-style: normal;
     font-weight: normal;
     background-repeat: no-repeat;
-    background-color: $bs-gray-lighter;
+    background-color: $backgroundGray;
     background-position-y: 60px;
     // Necessário para as animações de slide-out
     // não gerarem uma barra de rolagem momentânea
@@ -57,7 +57,7 @@ h1{
 }
 h2{
     line-height:35px
-}
+}b
 h3{
     line-height:30px
 }
@@ -199,7 +199,7 @@ blockquote small{
     /* margin-left: -15px; */
 }
 
-.loading {
+/*.loading {
     width: 100%;
     position: absolute;
     background-image: url(../img/loading.gif);
@@ -210,7 +210,7 @@ blockquote small{
     background-position: center;
     background-size: 90px;
     opacity: 0.6;
-}
+}*/
 
 // Utilizar em links para usar o tamanho todo do container
 .full-size-block {

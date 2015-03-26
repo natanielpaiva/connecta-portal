@@ -8,7 +8,7 @@
         <title>Connecta</title>
 
         <link rel="stylesheet" href="assets/css/app.css" />
-        <link rel="icon" href="assets/img/favicon-128.png" />
+        <link rel="icon" href="assets/img/favicon.png" />
     </head>
     <body>
 

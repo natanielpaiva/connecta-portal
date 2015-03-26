@@ -2,13 +2,21 @@ $pageGutter:1em;
 
 // Configurando o container das views para 
 .page-container {
-    margin-left: $sidebarSize + $pageGutter;
-    margin-top: $headerHeight + $pageGutter;
+    background-color: rgba($bs-gray-light, 0.1);
+    margin-left: $sidebarSize;
+    margin-top: $headerHeight + (2*$pageGutter);
     transition: margin $defaultAnimationDuration;
+    padding:$pageGutter;
+    border-radius:0.25em;
+    
+    h3 {
+        @extend .margin-top-zero;
+    }
+    
+    /*@extend .margin-bottom-double;*/
 }
-
 .hide-sidebar .page-container {
-    margin-left: $miniSidebarSize + $pageGutter;
+    margin-left: $miniSidebarSize;
 }
 
 .show-tabs .page-container {

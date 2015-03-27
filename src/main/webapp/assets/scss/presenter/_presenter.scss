@@ -1,21 +1,4 @@
 /**
 arquivo base de estilo da aplicação, define aqui as cores e outros elementos
 */
-
-.presenter .logo {
-    background-image: url(./../img/logo-presenter.png);
-    background-color: #53B8FC;
-}
-
-.presenter .base-color{
-    color: #53B8FC;
-}
-
-.presenter .base-color-bg {
-    background-color: #53B8FC;
-    color: #000;
-}
-
-.presenter .app-icon .arrow{
-    border-top-color: #53B8FC!important;
-}
+@import "group-form";

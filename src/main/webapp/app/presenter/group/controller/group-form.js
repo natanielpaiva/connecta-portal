@@ -10,14 +10,19 @@ define([
         $scope.group = {};
         $scope.attribute = {name: ""};
         $scope.paths = [];
-        $scope.singleSources = {};
 
-        $scope.onDragComplete = function (data, evt) {
-            console.log("drag success, data:", data);
+        $scope.models = {
+            selected: null,
+            lists: {"A": [], "B": []}
         };
-        $scope.onDropComplete = function (data, evt) {
-            console.log("drop success, data:", data);
-        };
+
+        // Generate initial model
+        for (var i = 1; i <= 9; ++i) {
+            $scope.models.lists.A.push({label: "Item A" + i});
+            $scope.models.lists.B.push({label: "Item B" + i});
+        }
+
+
 
         $scope.getAttributes = function (value) {
             return $autocomplete(presenterResources.singlesource + "/auto-complete", {
@@ -71,22 +76,29 @@ define([
             $scope.group.typeFilter = $scope.typeFilter[0];
             $scope.group.path = "";
             $scope.group.type = $scope.types[0];
+            $scope.group.singleSource = {
+                selected: null,
+                lists: {
+                    singleSourceGet: [],
+                    singleSourceSet: []
+                }
+            };
 
         }
 
         $scope.change = function () {
             if ($scope.attribute.name.id !== undefined) {
 
-                $scope.paths = [];
+                $scope.group.singleSource.lists.singleSourceGet = [];
                 GroupService.getSingleSourceAttributeById($scope.attribute.name.id)
                         .then(function (response) {
                             if (response.data.type === 'FILE') {
-                                $scope.paths[0] = {};
-                                $scope.paths[0].path = GroupService
+                                $scope.group.singleSource.lists.singleSourceGet[0] = {};
+                                $scope.group.singleSource.lists.singleSourceGet[0].path = GroupService
                                         .getFileById(response.data.id);
-                                $scope.paths[0].fileType = fileExtensions[response.data.fileType].fileType;
-                                $scope.paths[0].id = response.data.id;
-                                $scope.paths[0].tamanho = 0;
+                                $scope.group.singleSource.lists.singleSourceGet[0].fileType = fileExtensions[response.data.fileType].fileType;
+                                $scope.group.singleSource.lists.singleSourceGet[0].id = response.data.id;
+                                $scope.group.singleSource.lists.singleSourceGet[0].tamanho = 0;
                             }
 
                         }, function (response) {
@@ -96,23 +108,32 @@ define([
         };
 
         $scope.setGallery = function (data) {
-            var indice = $scope.paths.length;
+            var indice = $scope.group.singleSource.lists.singleSourceGet.length;
 
             if (data.id !== undefined) {
                 GroupService.getSingleSourceAttributeById(data.id)
                         .then(function (response) {
                             if (response.data.type === 'FILE') {
-                                $scope.paths[indice] = {};
-                                $scope.paths[indice].path = GroupService
-                                        .getFileById(response.data.id);
-                                $scope.paths[indice].fileType = fileExtensions[response.data.fileType].fileType;
-                                $scope.paths[indice].id = data.id;
-                                $scope.paths[indice].tamanho = 0;
-                                for (var path in $scope.paths) {
-                                    if ($scope.paths[path].id === $scope.paths[indice].id) {
-                                        $scope.paths[indice].tamanho++;
-                                        if ($scope.paths[indice].tamanho > 1) {
-                                            $scope.paths.splice(indice, 1);
+                                $scope.group.singleSource.lists.singleSourceGet[indice] = {};
+                                $scope.group.singleSource.lists
+                                        .singleSourceGet[indice].path = GroupService
+                                                        .getFileById(response.data.id);
+                                $scope.group.singleSource.lists
+                                        .singleSourceGet[indice].fileType = 
+                                        fileExtensions[response.data.fileType].fileType;
+                                $scope.group.singleSource.lists
+                                        .singleSourceGet[indice].id = data.id;
+                                $scope.group.singleSource.lists
+                                        .singleSourceGet[indice].tamanho = 0;
+                                
+                                $scope.group.singleSource.lists
+                                        .singleSourceGet[indice].name = response.data.name;
+                                
+                                for (var path in $scope.group.singleSource.lists.singleSourceGet) {
+                                    if ($scope.group.singleSource.lists.singleSourceGet[path].id === $scope.group.singleSource.lists.singleSourceGet[indice].id) {
+                                        $scope.group.singleSource.lists.singleSourceGet[indice].tamanho++;
+                                        if ($scope.group.singleSource.lists.singleSourceGet[indice].tamanho > 1) {
+                                            $scope.group.singleSource.lists.singleSourceGet.splice(indice, 1);
                                         }
                                     }
 

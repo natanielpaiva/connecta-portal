@@ -77,6 +77,9 @@ require.config({
         'bower_components/ngDraggable/ngDraggable':{
             deps: ['angular']
         },
+        'bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.min':{
+            deps: ['angular']
+        },
         'bower_components/jquery-ui-custom/index': {
             deps: ['jquery']
         },

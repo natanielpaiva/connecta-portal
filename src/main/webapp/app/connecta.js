@@ -23,6 +23,7 @@ define([
     'bower_components/angular-translate-loader-partial/angular-translate-loader-partial.min',
     'bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.min',
     'bower_components/ngDraggable/ngDraggable',
+    'bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.min',
     'bower_components/angular-messages/angular-messages.min',
     'bower_components/ng-file-upload/angular-file-upload.min',
     'bower_components/angular-ui-tree/dist/angular-ui-tree.min'
@@ -42,6 +43,7 @@ define([
         'ngLocale',
         'ngTable',
         'ngDraggable',
+        'dndLists',
         'ngMessages',
         'ui.bootstrap',
         'ui.tree',

@@ -1,19 +1,19 @@
 $pageGutter:1em;
 
-// Configurando o container das views para 
+// Configurando o container das views
 .page-container {
-    background-color: rgba($bs-gray-light, 0.1);
+    background-color: rgba($white, 0.9);
     margin-left: $sidebarSize;
     margin-top: $headerHeight + (2*$pageGutter);
     transition: margin $defaultAnimationDuration;
     padding:$pageGutter;
     border-radius:0.25em;
+    /*@extend .margin-bottom-double;*/
+    @include clearfix();
     
-    h3 {
+   h1, h3 {
         @extend .margin-top-zero;
     }
-    
-    /*@extend .margin-bottom-double;*/
 }
 .hide-sidebar .page-container {
     margin-left: $miniSidebarSize;

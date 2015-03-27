@@ -40,8 +40,10 @@ define([
                     attribute.attribute = {name: attribute.attribute, description:"", type:attribute.attributeType.label};
                     delete attribute.attributeType;
                 }else{
-                    attribute.attribute.type = attribute.attributeType.label;
-                    delete attribute.attributeType;
+                    if(attribute.attributeType !== undefined){
+                        attribute.attribute.type = attribute.attributeType.label;
+                        delete attribute.attributeType;
+                    }
                 }
             });
         };

@@ -9,20 +9,6 @@ define([
         $scope.typeFilter = GroupService.getTypeFilter();
         $scope.group = {};
         $scope.attribute = {name: ""};
-        $scope.paths = [];
-
-        $scope.models = {
-            selected: null,
-            lists: {"A": [], "B": []}
-        };
-
-        // Generate initial model
-        for (var i = 1; i <= 9; ++i) {
-            $scope.models.lists.A.push({label: "Item A" + i});
-            $scope.models.lists.B.push({label: "Item B" + i});
-        }
-
-
 
         $scope.getAttributes = function (value) {
             return $autocomplete(presenterResources.singlesource + "/auto-complete", {

@@ -220,6 +220,7 @@ define([
         'portal/layout/controller/home',
         'portal/layout/service/applications',
         'portal/layout/service/pages',
+        'portal/layout/service/menu',
         'portal/layout/service/layout',
         'portal/layout/service/search',
         'portal/layout/directive/debug',

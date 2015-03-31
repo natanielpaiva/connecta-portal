@@ -5,13 +5,14 @@ define([
      * Componente usado para renderizar e manter o menu
      * @param {type} applicationsService
      */
-    return portal.directive('menu', function (applicationsService) {
+    return portal.directive('menu', function () {
         return {
             replace: true,
             templateUrl: 'app/portal/layout/directive/template/menu.html',
-            controller: function ($scope, $location) {
+            controller: function ($scope, $location, $menu) {
                 /**
                  * Testa se esse menu é o ativo atualmente
+                 * 
                  * @param {type} item
                  * @returns {Boolean}
                  */
@@ -22,14 +23,14 @@ define([
                         active = new RegExp(item.href).test($location.url().replace('/', ''));
                     }
 
+                    // Caso o menu tenha filhos, verifica recursivamente se
+                    // algum deles é o ativo
                     if (item.children && item.children.length) {
-                        console.log(item.title, 'has children');
-                        console.log('active flag was: ', active);
-                        active = active && item.children.filter(function(child) {
-                            console.log('found an active child: ', child.title);
+                        var activeChildren = item.children.filter(function (child) {
                             return $scope.isActive(child);
-                        }).length > 0;
-                        console.log('active flag is now: ', active);
+                        });
+                        
+                        active = active || activeChildren.length > 0;
                     }
 
                     return active;
@@ -37,16 +38,17 @@ define([
 
                 $scope.toggle = function (item) {
                     if (item.children && item.children.length) {
-                        console.log('trying to open');
                         item.opened = !item.opened;
                     }
                 };
 
                 $scope.isOpened = function (item) {
-                    return item.opened || $scope.isActive(item);
+                    return item.opened;
                 };
 
-                $scope.menu = [
+                $scope.menu = [];
+
+                $menu.setMenu([
                     {
                         href: 'presenter/analysis',
                         title: 'ANALYSIS.ANALYSIS',
@@ -87,9 +89,9 @@ define([
                         icon: 'icon-networks',
                         children: []
                     }
-                ];
+                ]);
 
-                $scope.$on('menu.change', function (newMenu) {
+                $scope.$on('menu.change', function (event, newMenu) {
                     $scope.menu = newMenu;
                 });
             }

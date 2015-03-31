@@ -248,6 +248,15 @@ blockquote small{
     animation: rotate infinite 1s linear;
 }
 
+// Usar para preencher a div pai que tem position: relative;
+.fill-parent {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
 .btn {
     border-radius: 0.15em;
     border-color: transparent;

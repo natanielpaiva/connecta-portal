@@ -199,19 +199,6 @@ blockquote small{
     /* margin-left: -15px; */
 }
 
-/*.loading {
-    width: 100%;
-    position: absolute;
-    background-image: url(../img/loading.gif);
-    height: 100%;
-    background-color: black;
-    z-index: 9999;
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: 90px;
-    opacity: 0.6;
-}*/
-
 // Utilizar em links para usar o tamanho todo do container
 .full-size-block {
     display: block;
@@ -239,11 +226,11 @@ blockquote small{
 }
 
 // Usar para inverter um ícone horizontalmente
-.icon-invert-horizontal {
+.invert-horizontal {
     transform: scaleX(-1);
 }
 // Usar para inverter um ícone verticalmente
-.icon-invert-vertical {
+.invert-vertical {
     transform: scaleY(-1);
 }
 
@@ -256,11 +243,16 @@ blockquote small{
         transform: rotate(360deg);
     }
 }
-.icon-rotate-infinite {
+
+.rotate-infinite {
     animation: rotate infinite 1s linear;
 }
 
 .btn {
-    border-radius: 0.25em;
+    border-radius: 0.15em;
     border-color: transparent;
+    &:hover, &:active {
+        border-color: transparent !important;
+        outline:0 !important;
+    }
 }

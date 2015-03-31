@@ -1,20 +1,34 @@
 <div class="connecta-menu">
     <ul class="nav">
         <li ng-repeat="item in menu">
-            <a ng-class="{'has-child': item.children && item.children.length > 0}"
-               ng-href="#{{item.href}}" class="menu-item">
+            <a ng-class="{
+                'has-child': item.children && item.children.length > 0,
+                'active' : isActive(item)
+            }"
+               href="{{item.href ? '#/' + item.href : 'javascript'+':void(0)' }}"
+               class="menu-item"
+               ng-click="toggle(item)">
                 <span class="menu-item-icon {{item.icon}}"></span>
                 <span class="menu-item-title" translate>{{item.title}}</span>
-                <span class="menu-item-arrow icon-chevron-down"></span>
+                <span class="menu-item-arrow"
+                      ng-class="{
+                        'icon-chevron-down':isOpened(item),
+                        'icon-chevron-right':!isOpened(item)
+                      }"></span>
             </a>
 
-            <ul class="nav active" ng-if="item.children.length">
+            <ul class="nav" ng-if="item.children.length && isOpened(item)">
                 <li ng-repeat="child in item.children">
-                    <a ng-class="{'has-child': child.children && child.children.length > 0}"
-                       href="#{{child.href}}" class="menu-item">
+                    <a class="menu-item" ng-class="{
+                        'has-child': child.children && child.children.length > 0,
+                        'active'   : isActive(child)
+                    }"
+                       href="#{{child.href}}">
                         <span class="menu-item-title" translate>{{child.title}}</span>
-                        <span class="menu-item-arrow icon-chevron-down"
-                              ng-show="child.children && child.children.length > 0"></span>
+                        <span class="menu-item-arrow" ng-class="{
+                                'icon-chevron-down':isOpened(child),
+                                'icon-chevron-right':!isOpened(child)
+                              }"></span>
                     </a>
                 </li>
             </ul>

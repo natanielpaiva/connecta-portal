@@ -185,11 +185,15 @@ define([
                     if (responseInterceptors[ rejection.status ]) {
                         responseInterceptors[ rejection.status ](rejection);
                     }
-                    
+
                     return $q.reject(rejection);
                 }
             };
         });
+    }
+
+    function configureProtocolWhitelist($compileProvider) {
+        $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|javascript):/);
     }
 
     connecta.config(function ($controllerProvider, $compileProvider, $provide, $filterProvider, $translateProvider, $routeProvider, $httpProvider) {
@@ -198,6 +202,7 @@ define([
         configureTranslations($translateProvider, window.navigator);
         configureRoutes($routeProvider);
         configureRequestInterceptors($httpProvider);
+        configureProtocolWhitelist($compileProvider);
 
     });
 

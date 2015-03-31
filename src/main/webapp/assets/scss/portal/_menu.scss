@@ -3,6 +3,7 @@
 $sidebarSize: 20em;
 $miniSidebarSize: 4em;
 
+
 .connecta-menu {
     font-family: 'Open Sans';
 
@@ -22,46 +23,20 @@ $miniSidebarSize: 4em;
 
         & > li {
             padding: 0;
-            margin: 0;
-            ul {
-                background-color: $darkerGray;
 
-                li .menu-item {
-                    display:block;
-                    padding-left:4em;
-                }
-            }
-        }
-    }
-
-    ul {
-        li {
-            display: block;
-            padding: 0;
-            margin: 0;
-            border: none;
             .menu-item {
-                display: block;
-                margin: 0;
+                @include clearfix;
                 padding: 0;
                 border: none;
                 color: $white;
                 line-height:2em;
 
-                @include clearfix;
-
-                &:hover, &:active, &:focus, &:visited {
-                    background-color: $red;
+                &:visited, &:focus {
+                    background: transparent;
                 }
 
-                &.has-child {
-                    &:hover {
-                        background-color: $red;
-                    }
-
-                    .menu-item-arrow {
-                        display: block;
-                    }
+                &:hover, &.active {
+                    background-color: $red;
                 }
 
                 .menu-item-icon {
@@ -88,9 +63,10 @@ $miniSidebarSize: 4em;
                 }
 
                 .menu-item-arrow {
+                    display:none;
                     text-align: center;
-                    font-size:1.8em;
-                    line-height:2em;
+                    font-size:1.5em;
+                    line-height:2.4em;
                     width:1.5em;
                     float:right;
                     padding: 0;
@@ -99,6 +75,28 @@ $miniSidebarSize: 4em;
                         font-size ease-in 0,
                         line-height ease-in 0;
                     transition-delay: $defaultAnimationDuration;
+                }
+                
+                &.has-child {
+                    .menu-item-arrow {
+                        display: block;
+                    }
+                }
+            }
+
+            // Subitem
+            ul {
+                li {
+                    padding: 0;
+
+                    .menu-item {
+                        padding-left:4em;
+                        background-color: $darkerGray;
+
+                        &:hover, &.active {
+                            background-color: $gray;
+                        }
+                    }
                 }
             }
         }

@@ -40,7 +40,8 @@ define([
             singlesource: appPresenter.host + '/media',
             attribute: appPresenter.host + '/attribute',
             hierarchy: appPresenter.host + '/hierarchy',
-            hierarchyItem: appPresenter.host + '/hierarchy/hierarchy-item'
+            hierarchyItem: appPresenter.host + '/hierarchy/hierarchy-item',
+            group: appPresenter.host + '/group'
         });
     });
 

@@ -98,7 +98,7 @@ define([
             templateUrl: 'app/presenter/group/template/group-list.html'
         },
         '/presenter/group/:id': {
-            controller: 'GroupListController',
+            controller: 'GroupFormController',
             controllerUrl: 'presenter/group/controller/group-form',
             templateUrl: 'app/presenter/group/template/group-form.html'
         },

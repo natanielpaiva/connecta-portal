@@ -1,35 +1,21 @@
-
 <div class="form-group">
     <label for="nome" translate>GROUP.SELECT_MEDIA</label>
-    <input type="text" name="media" 
+    <input type="text" name="media"
+           class="form-control"
            ng-change="change()" ng-blur="change()"
            ng-model="attribute.name"
-           typeahead="attribute as attribute.name for attribute in getAttributes($viewValue)"
+           typeahead="singleSource as singleSource.name for singleSource in getSingleSources($viewValue)"
            typeahead-loading="loadingAttributes"
            typeahead-min-length="3"
            typeahead-wait-ms="600"/>
 </div>
 
-<ul class="draggable-objects">
-    <li  ng-repeat="obj in paths" >
-        <div 
-            ng-if="obj.fileType === 'IMAGE'" > 
-            <img width="70" height="70" alt="" src="{{obj.path}}"/>
-        </div>
-        <div ng-if="obj.fileType === 'VIDEO'"> 
-            <video width="70" height="70" controls>
-                <source src="{{obj.path}}" type="video/mp4">
-                Your browser does not support HTML5 video.
-            </video>
-        </div>
-    </li>
-</ul>
-
-
-<div class="gallery row">
+<div class="form-group">
     <div >
         <label>GROUP.GET_MEDIA</label>
     </div>
+</div>
+<div class="gallery row">
     <div class="container-gallery">
         <div class="row">
             <div  class="col-md-12">
@@ -42,17 +28,17 @@
                             dnd-effect-allowed="move"
                             dnd-selected="group.singleSource.selected = item"
                             ng-class="{'selected': group.singleSource.selected === item}"
-                            >
-                            {{item.name}}
-                            <div 
-                                ng-if="item.fileType === 'IMAGE'" > 
-                                <img width="70" height="70" alt="" src="{{item.path}}"/>
-                            </div>
+                            ng-style="{'background-image': 'url({{item.path}})'}">
                             <div ng-if="item.fileType === 'VIDEO'"> 
-                                <video width="70" height="70" controls>
+                                <video width="120" height="100" >
                                     <source src="{{item.path}}" type="video/mp4">
                                     Your browser does not support HTML5 video.
                                 </video>
+                                <div class="fill-parent"></div>
+                            </div>
+
+                            <div class="media-item">
+                                {{item.name}}
                             </div>
                         </li>
                     </ul>
@@ -63,11 +49,12 @@
 
     </div>
 </div>
-
-<div class="gallery row">
+<div class="form-group">
     <div >
         <label>GROUP.SET_MEDIA</label>
     </div>
+</div>
+<div class="gallery row">
     <div class="container-gallery">
         <div class="row">
             <div  class="col-md-12">
@@ -80,18 +67,19 @@
                             dnd-effect-allowed="move"
                             dnd-selected="group.singleSource.selected = item"
                             ng-class="{'selected': group.singleSource.selected === item}"
-                            >
-                            {{item.name}}
-                            <div 
-                                ng-if="item.fileType === 'IMAGE'" > 
-                                <img width="50" height="50" alt="" src="{{item.path}}"/>
-                            </div>
+                            ng-style="{'background-image': 'url({{item.path}})'}">
                             <div ng-if="item.fileType === 'VIDEO'"> 
-                                <video width="50" height="50" controls>
+                                <video width="120" height="100" >
                                     <source src="{{item.path}}" type="video/mp4">
                                     Your browser does not support HTML5 video.
                                 </video>
+                                <div class="fill-parent"></div>
                             </div>
+                            
+                            <div class="media-item">
+                                {{item.name}}
+                            </div>
+                            
                         </li>
                     </ul>
 
@@ -101,7 +89,6 @@
 
     </div>
 </div>
-
 
 
 

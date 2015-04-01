@@ -65,8 +65,10 @@
     height:100px;
     cursor: move;
     text-align: center;
-    padding-top:5px;
-    margin: 2px;
+    padding: 0px;
+    margin: 5px;
+    background-size: cover;
+    position: relative;
 }
 
 /**
@@ -84,4 +86,17 @@
 .container-gallery{
     background: #ddd;
     padding: 5px;
+    margin-left:2%;
+}
+
+.media-item{
+    background-color: rgba(33,33,33,0.8);
+    color: white;
+    margin: 0;
+    padding: 0;
+    bottom: 0;
+    position: absolute;
+    right: 0;
+    left: 0;
+    line-height: 2.5em;
 }

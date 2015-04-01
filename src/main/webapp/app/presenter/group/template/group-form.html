@@ -7,7 +7,6 @@
 <div class="row">
     <div class="col-md-12">
         <form novalidate name="formulario" ng-submit="submit()">
-
             <div class="form-group">
                 <label for="model-nome" translate>GROUP.NAME</label>
                 <input type="text" name="nome" ng-model="group.name"
@@ -39,7 +38,7 @@
 
                 </label>
             </div>
-            
+           
             <div width="100%" class="am-collapse form-group" ng-include="'app/presenter/group/template/' + group.typeFilter.template">
             </div>
 

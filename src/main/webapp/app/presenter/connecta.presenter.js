@@ -97,12 +97,12 @@ define([
             controllerUrl: 'presenter/group/controller/group-list',
             templateUrl: 'app/presenter/group/template/group-list.html'
         },
-        '/presenter/group/:id': {
+        '/presenter/group/new': {
             controller: 'GroupFormController',
             controllerUrl: 'presenter/group/controller/group-form',
             templateUrl: 'app/presenter/group/template/group-form.html'
         },
-        '/presenter/group/new': {
+        '/presenter/group/:id': {
             controller: 'GroupFormController',
             controllerUrl: 'presenter/group/controller/group-form',
             templateUrl: 'app/presenter/group/template/group-form.html'

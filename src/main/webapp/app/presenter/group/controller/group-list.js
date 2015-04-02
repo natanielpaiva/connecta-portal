@@ -14,9 +14,9 @@ define([
             console.log(response);
         });
 
-         
+
         $scope.excluir = function (group) {
-            group.delete(group.id).then(function () {
+            GroupService.delete(group.id).then(function () {
                 var index = $scope.group.indexOf(group);
                 $scope.group.splice(index, 1);
             });

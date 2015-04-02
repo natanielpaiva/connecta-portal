@@ -137,8 +137,7 @@ define([
                         var singleSourceGroup = response.data.singleSourceGroup;
                         for (var indice in singleSourceGroup ) {
                                 $scope.group.singleSource
-                                        .lists.singleSourceSet[singleSourceGroup[indice].numOrder]
-                                         = {}; 
+                                        .lists.singleSourceSet[singleSourceGroup[indice].numOrder] = {}; 
                                 $scope.group.singleSource
                                 .lists.singleSourceSet[singleSourceGroup[indice].numOrder]
                                 .path = GroupService.getFileById(

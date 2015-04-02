@@ -8,6 +8,18 @@ define([
         $translatePartialLoaderProvider.addPart('speaknow/interaction');
         $translatePartialLoaderProvider.addPart('speaknow/company');
     });
+    
+    speaknow.run(function (applications) {
+        var appSpeaknow = applications.filter(function (app) {
+            return app.name === 'speaknow';
+        }).pop();
+        appSpeaknow.host = appSpeaknow.host.replace("7002", "7001");
+        speaknow.lazy.value('speaknowResources', {
+            contact: appSpeaknow.host + '/contact',
+            interaction: appSpeaknow.host + '/interaction',
+            company: appSpeaknow.host + '/company'
+        });
+    });
 
     speaknow._routes = {
         /**
@@ -50,18 +62,29 @@ define([
             templateUrl: 'app/speaknow/company/template/company-form.html'
         }
     };
-
-    speaknow.run(function (applications) {
-        var appSpeaknow = applications.filter(function (app) {
-            return app.name === 'speaknow';
-        }).pop();
-        appSpeaknow.host = appSpeaknow.host.replace("7002", "7001");
-        speaknow.lazy.value('speaknowResources', {
-            contact: appSpeaknow.host + '/contact',
-            interaction: appSpeaknow.host + '/interaction',
-            company: appSpeaknow.host + '/company'
-        });
-    });
+    
+    speaknow._menu = [
+        {
+            href: 'speaknow/contact',
+            title: 'CONTACT.CONTACTS',
+            icon: 'icon-user',
+            children: []
+        },
+        {
+            title: 'INTERACTION.INTERACTIONS',
+            icon: 'icon-target',
+            children: [
+                {
+                    href: 'speaknow/interaction',
+                    title: 'INTERACTION.INTERACTIONS'
+                },
+                {
+                    href: 'speaknow/action',
+                    title: 'INTERACTION.ACTIONS'
+                }
+            ]
+        }
+    ];
 
     return speaknow;
 });

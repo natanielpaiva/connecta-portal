@@ -1,6 +1,7 @@
 {
     "INTERACTION": {
         "INTERACTIONS" : "Interações",
+        "ACTIONS": "Ações",
         "NAME": "Nome",
         "EMAIL": "Email",
         "PHONE": "Telefone",

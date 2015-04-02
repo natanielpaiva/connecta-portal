@@ -14,7 +14,7 @@ define([
     'angular-resource',
     'angular-ui-bootstrap',
     'angular-ng-table',
-//    'bower_components/prefix-free/prefixfree.min',
+    'bower_components/prefix-free/prefixfree.min',
     'bower_components/angular-animate/angular-animate.min',
     'bower_components/angular-cookies/angular-cookies.min',
     'bower_components/angular-touch/angular-touch.min',
@@ -117,6 +117,10 @@ define([
     function buildRoutes() {
         var finalRouteObject = {};
         angular.forEach(arguments, function (module) {
+            angular.forEach(module._routes, function(value){
+                value.module = module.name;
+            });
+            
             $.extend(true, finalRouteObject, module._routes);
         });
         return finalRouteObject;
@@ -149,6 +153,16 @@ define([
             }
 
             $routeProvider.when(url, route);
+        });
+    }
+    
+    /**
+     * Configura o listener da mudança de rotas para recarregar o menu
+     * específico da aplicação
+     */
+    function configureMenuRouteChangeListener($rootScope, $menu) {
+        $rootScope.$on('$routeChangeSuccess', function($event, $route) {
+            $menu.set(angular.module($route.$$route.module)._menu);
         });
     }
 
@@ -202,6 +216,10 @@ define([
         });
     }
 
+    /**
+     * Configura o whitelist de todos os protocolos que podem ser usados
+     * em links no HTML (retira o unsafe:... da frente do protocolo)
+     */
     function configureProtocolWhitelist($compileProvider) {
         $compileProvider.aHrefSanitizationWhitelist(/^\s*(https?|ftp|mailto|chrome-extension|javascript):/);
     }
@@ -214,6 +232,12 @@ define([
         configureRequestInterceptors($httpProvider);
         configureProtocolWhitelist($compileProvider);
 
+    });
+    
+    connecta.run(function($rootScope, $menu) {
+        
+        configureMenuRouteChangeListener($rootScope, $menu);
+        
     });
 
     /**

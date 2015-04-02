@@ -48,49 +48,6 @@ define([
 
                 $scope.menu = [];
 
-                $menu.setMenu([
-                    {
-                        href: 'presenter/analysis',
-                        title: 'ANALYSIS.ANALYSIS',
-                        icon: 'icon-analysis',
-                        children: []
-                    },
-                    {
-                        title: 'DATASOURCE.DATASOURCE',
-                        icon: 'icon-database2',
-                        children: [
-                            {
-                                href: 'presenter/datasource',
-                                title: 'DATASOURCE.ANALYSIS_SOURCE'
-                            },
-                            {
-                                href: 'presenter/group',
-                                title: 'GROUP.GROUPS'
-                            },
-                            {
-                                href: 'presenter/hierarchy',
-                                title: 'HIERARCHY.HIERARCHY_LIST'
-                            },
-                            {
-                                href: 'presenter/singlesource',
-                                title: 'SINGLESOURCE.MEDIA'
-                            }
-                        ]
-                    },
-                    {
-                        href: 'presenter/viewer',
-                        title: 'VIEWER.VIEWERS',
-                        icon: 'icon-viewer',
-                        children: []
-                    },
-                    {
-                        href: 'presenter/network',
-                        title: 'NETWORK.NETWORKS',
-                        icon: 'icon-networks',
-                        children: []
-                    }
-                ]);
-
                 $scope.$on('menu.change', function (event, newMenu) {
                     $scope.menu = newMenu;
                 });

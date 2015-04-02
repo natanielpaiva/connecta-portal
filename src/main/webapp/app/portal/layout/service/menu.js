@@ -5,13 +5,12 @@ define([
      * Serviço de gerenciamento do menu
      * 
      * @param {type} $rootScope
+     * @param {type} $timeout
      * @returns {undefined}
      */
     return portal.service('$menu', function ($rootScope, $timeout) {
-        this.setMenu = function (menu) {
-            $timeout(function() {
-                $rootScope.$broadcast('menu.change', menu);
-            });
+        this.set = function (menu) {
+            $rootScope.$broadcast('menu.change', menu);
         };
     });
 });

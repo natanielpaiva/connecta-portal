@@ -1,7 +1,6 @@
 <div ng-if="fileExtensions.fileType !== '' && typeSingleSource.path === ''" class="form-group">
-    <label for="nome" translate>SINGLESOURCE.FILE</label>
-    <label for="file"
-           class="well drop-box set-file"
+    <p class="bold" translate>SINGLESOURCE.FILE<p>
+    <label for="file" class="set-file dropzone"
 
            ng-file-drop 
            ng-file-select
@@ -12,12 +11,10 @@
            ng-accept="'.doc,.docx,.xls,.ppt,.pptx,.jpeg,.jpg,.png,.mp4'" 
            ng-model-rejected="rejFiles" 
            allow-dir="false" 
-           drag-over-class="{accept:'acceptClass', reject:'rejectClass'}" 
+           drag-over-class="{accept:'accept', reject:'reject'}" 
            drop-available="dropSupported" 
-           translate
-           >
+           translate>
         SINGLESOURCE.DROP_FILE_HERE
-
     </label>
 
     <div  ng-no-file-drop>File Drag/drop is not supported</div>

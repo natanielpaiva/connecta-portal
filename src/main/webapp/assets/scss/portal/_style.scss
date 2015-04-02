@@ -1,14 +1,3 @@
-/* Font Import */
-:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color:#333843! important;
-}
-::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color:#333843! important;
-}
-:-ms-input-placeholder { /* Internet Explorer 10+ */
-    color:#333843! important;
-}
-
 // Scrollbar
 ::-webkit-scrollbar {
     width:0.6em;
@@ -32,8 +21,7 @@ html{
 }
 
 body {
-    color: #6f7b8a;
-    font-family: Arial, sans-serif;
+    font-family: 'Open Sans';
     font-size: 13px;
     padding: 0px !important;
     margin: 0px !important;
@@ -48,23 +36,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Typography 
-h1, h2, h3, h4, h5, h6{
-    margin:10px 0;
-}
-h1{
-    line-height:43px
-}
-h2{
-    line-height:35px
-}b
-h3{
-    line-height:30px
-}
-h4{
-    line-height:22px
-}*/
-
 h3 small, h4 small, h5 small {
     font-family: 'Open Sans';
     font-weight: 300;
@@ -74,7 +45,8 @@ h3 small, h4 small, h5 small {
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Open Sans';
     font-weight: 300;
-    color: #505458;}
+    /*color: #505458;*/
+}
 
 h1.block, h2.block, h3.block, h4.block, h5.block, h6.block {
     padding-bottom: 10px;
@@ -207,6 +179,12 @@ blockquote small{
     height: 100%;
 }
 
+.link-no-state {
+    &:hover, &:active {
+        color:initial;
+    }
+}
+
 .image-on-background {
     display: block;
     background-size: cover;
@@ -257,11 +235,63 @@ blockquote small{
     right: 0;
 }
 
+// Gatos feiosos enquanto não adiciona o bootstrap-sass
 .btn {
     border-radius: 0.15em;
-    border-color: transparent;
-    &:hover, &:active {
-        border-color: transparent !important;
+
+    &.btn-default {
+        border-color: $lightGray;
+        background-color: lighten($lighterGray, 4%);
+        &:hover, &:active {
+            border-color: $lightGray;
+        }
+    }
+
+    &:not(.btn-default):hover, &:not(.btn-default):active {
         outline:0 !important;
+    }
+}
+
+.well {
+    box-shadow: none;
+}
+
+.reset-spacing {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.table {
+    thead {
+        tr {
+            td, th {
+                background-color: $black;
+                color: white;
+                font-weight: normal;
+                border: none !important;
+            }
+        }
+    }
+    thead, tbody, tfoot {
+        tr {
+            td {
+                border: none !important;
+                padding:0;
+                line-height: 3em;
+            }
+        }
+    }
+    &.table-striped {
+        & > tbody > tr:nth-of-type(even) td {
+            background-color: $table-bg-accent;
+        }
+        & > tbody > tr:nth-of-type(odd) td {
+            background-color: transparent;
+        }
+    }
+    &.table-hover {
+        & > tbody > tr:hover td {
+            background-color: $table-bg-hover;
+        }
     }
 }

@@ -14,7 +14,7 @@ define([
     'angular-resource',
     'angular-ui-bootstrap',
     'angular-ng-table',
-    'bower_components/prefix-free/prefixfree.min',
+//    'bower_components/prefix-free/prefixfree.min',
     'bower_components/angular-animate/angular-animate.min',
     'bower_components/angular-cookies/angular-cookies.min',
     'bower_components/angular-touch/angular-touch.min',
@@ -161,7 +161,6 @@ define([
         $httpProvider.interceptors.push(function ($log, $q) {
             return {
                 'request': function (config) {
-//                    Pace.restart();
                     return config;
                 },
                 'response': function (response) {
@@ -173,11 +172,22 @@ define([
                     var responseInterceptors = {
                         400: function (rejection) {
                             // BAD REQUEST
+                            $log.debug('Erro de neǵocio: ', rejection.data);
+                        },
+                        401: function (rejection) {
+                            // UNAUTHORIZED
+                            $log.debug('Não autorizado: ', rejection.data);
+                        },
+                        403: function (rejection) {
+                            // FORBIDDEN
+                            $log.debug('Acesso negado: ', rejection.data);
                         },
                         404: function (rejection) {
-                            // NOT FOUND
+                            // PAGE NOT FOUND
+                            $log.debug('Recurso não encontrado: ', rejection.data);
                         },
                         500: function (rejection) {
+                            // INTERNAL SERVER ERROR
                             $log.debug('Ocorreu um erro: ', rejection.data);
                         }
                     };

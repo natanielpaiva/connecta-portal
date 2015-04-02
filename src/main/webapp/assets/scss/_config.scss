@@ -45,5 +45,9 @@ $bs-text-color:            $bs-gray-dark;
 $bs-link-color:            $bs-brand-primary;
 $bs-link-hover-color:      darken($bs-link-color, 15%);
 
+    // Estilos das tabelas do Bootstrap
+$table-bg-accent:          lighten($lighterGray, 5%);
+$table-bg-hover:           $lighterGray;
+
 $imagePath:'../img/';
 

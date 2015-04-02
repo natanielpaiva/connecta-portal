@@ -10,8 +10,8 @@ $pageGutter:1em;
     border-radius:0.25em;
     /*@extend .margin-bottom-double;*/
     @include clearfix();
-    
-   h1, h3 {
+
+    h1, h3 {
         @extend .margin-top-zero;
     }
 }

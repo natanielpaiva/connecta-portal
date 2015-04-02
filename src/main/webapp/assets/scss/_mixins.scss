@@ -29,6 +29,11 @@
 .margin-top-triple {
     @include margin-top(3);
 }
+// Utilitário para os botões que ficam do lado de forms,
+// para adicionar o espaçamento no topo
+.margin-top-label {
+    @include margin-top(2.75);
+}
 
 // Margem bottom padronizada
 @mixin margin-bottom($em) {

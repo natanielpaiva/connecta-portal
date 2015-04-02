@@ -17,7 +17,7 @@
 
 
             <div class="portal-type-switcher ">
-                <label for="nome" translate>GROUP.TYPE</label>
+                <p class="bold" translate>GROUP.TYPE</p>
                 <label ng-repeat="tp in types"  class="radio-inline portal-type-switcher-item">
                     <input type="radio" ng-model="group.type" name="type" 
                            class="portal-type-switcher-input" id="single-source-type-{{tp.id}}" ng-value="tp" /> 
@@ -26,8 +26,8 @@
                 </label>
             </div>
             <div class="form-group">
-                <label for="nome" translate>GROUP.DESCRIPTION</label>
-                <textarea rows="10" cols="60" ng-model="group.description"></textarea>
+                <label for="description" translate>GROUP.DESCRIPTION</label>
+                <textarea id="description" rows="5" cols="60" ng-model="group.description" class="form-control"></textarea>
             </div>
 
             <div class="form-group">

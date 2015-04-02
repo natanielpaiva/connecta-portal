@@ -46,7 +46,6 @@ define([
     });
 
     presenter._routes = {
-//        Utilizar esse formato        
         '/presenter/datasource': {
             controller: 'DatasourceListController',
             controllerUrl: 'presenter/datasource/controller/datasource-list',
@@ -57,15 +56,20 @@ define([
             controllerUrl: 'presenter/datasource/controller/datasource-form',
             templateUrl: 'app/presenter/datasource/template/datasource-form.html'
         },
-        '/presenter/datasource/view/:id': {
+        '/presenter/datasource/:id': {
             controller: 'DatasourceViewController',
             controllerUrl: 'presenter/datasource/controller/datasource-view',
             templateUrl: 'app/presenter/datasource/template/datasource-view.html'
         },
-        '/presenter/datasource/:id': {
+        '/presenter/datasource/:id/edit': {
             controller: 'DatasourceFormController',
             controllerUrl: 'presenter/datasource/controller/datasource-form',
             templateUrl: 'app/presenter/datasource/template/datasource-form.html'
+        },
+        '/presenter/singlesource': {
+            controller: 'SingleSourceListController',
+            controllerUrl: 'presenter/singlesource/controller/single-source-list',
+            templateUrl: 'app/presenter/singlesource/template/single-source-list.html'
         },
         '/presenter/singlesource/new': {
             controller: 'SingleSourceFormController',
@@ -73,19 +77,14 @@ define([
             templateUrl: 'app/presenter/singlesource/template/single-source-form.html'
         },
         '/presenter/singlesource/:id': {
-            controller: 'SingleSourceFormController',
-            controllerUrl: 'presenter/singlesource/controller/single-source-form',
-            templateUrl: 'app/presenter/singlesource/template/single-source-form.html'
-        },
-        '/presenter/singlesource': {
-            controller: 'SingleSourceListController',
-            controllerUrl: 'presenter/singlesource/controller/single-source-list',
-            templateUrl: 'app/presenter/singlesource/template/single-source-list.html'
-        },
-        '/presenter/singlesource/view/:id': {
             controller: 'SingleSourceViewController',
             controllerUrl: 'presenter/singlesource/controller/single-source-view',
             templateUrl: 'app/presenter/singlesource/template/single-source-view.html'
+        },
+        '/presenter/singlesource/:id/edit': {
+            controller: 'SingleSourceFormController',
+            controllerUrl: 'presenter/singlesource/controller/single-source-form',
+            templateUrl: 'app/presenter/singlesource/template/single-source-form.html'
         },
         '/presenter/analysis/new': {
             controller: 'AnalysisFormController',
@@ -97,35 +96,35 @@ define([
             controllerUrl: 'presenter/group/controller/group-list',
             templateUrl: 'app/presenter/group/template/group-list.html'
         },
-        '/presenter/group/view/:id': {
-            controller: 'GroupViewController',
-            controllerUrl: 'presenter/group/controller/group-view',
-            templateUrl: 'app/presenter/group/template/group-view.html'
-        },
         '/presenter/group/new': {
             controller: 'GroupFormController',
             controllerUrl: 'presenter/group/controller/group-form',
             templateUrl: 'app/presenter/group/template/group-form.html'
         },
         '/presenter/group/:id': {
+            controller: 'GroupViewController',
+            controllerUrl: 'presenter/group/controller/group-view',
+            templateUrl: 'app/presenter/group/template/group-view.html'
+        },
+        '/presenter/group/:id/edit': {
             controller: 'GroupFormController',
             controllerUrl: 'presenter/group/controller/group-form',
             templateUrl: 'app/presenter/group/template/group-form.html'
+        },
+        '/presenter/hierarchy': {
+            controller: 'HierarchyListController',
+            controllerUrl: 'presenter/hierarchy/controller/hierarchy-list',
+            templateUrl: 'app/presenter/hierarchy/template/hierarchy-list.html'
         },
         '/presenter/hierarchy/new': {
             controller: 'HierarchyFormController',
             controllerUrl: 'presenter/hierarchy/controller/hierarchy-form',
             templateUrl: 'app/presenter/hierarchy/template/hierarchy-form.html'
         },
-        '/presenter/hierarchy/:id': {
+        '/presenter/hierarchy/:id/edit': {
             controller: 'HierarchyFormController',
             controllerUrl: 'presenter/hierarchy/controller/hierarchy-form',
             templateUrl: 'app/presenter/hierarchy/template/hierarchy-form.html'
-        },
-        '/presenter/hierarchy/': {
-            controller: 'HierarchyListController',
-            controllerUrl: 'presenter/hierarchy/controller/hierarchy-list',
-            templateUrl: 'app/presenter/hierarchy/template/hierarchy-list.html'
         }
     };
 

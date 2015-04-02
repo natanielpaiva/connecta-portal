@@ -7,13 +7,18 @@
     },
     "LAYOUT": {
         "ADD" : "Adicionar",
+        "EDIT" : "Editar",
+        "DELETE" : "Excluir",
         "SAVE":  "Salvar",
         "BACK":  "Voltar",
         "NEXT": "Avançar",
         "CANCEL":"Cancelar",
         "APPLY": "Aplicar",
         "FILTER": "Filtro",
-        "NO_ITEM" : "Nada ainda. Clique no botão 'Adicionar' para adicionar um item.",
-        "SELECT" : "Selecione"
+        "SELECT" : "Selecione",
+        "SEARCH" : "Buscar"
+    },
+    "KEY_VALUE": {
+        "NO_ITEM" : "Nada ainda. Clique no botão 'Adicionar' para adicionar um item."
     }
 }

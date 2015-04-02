@@ -44,7 +44,7 @@ read -d '' EN_JSON << EOF
 {
 
 
-    "hello": "Hello World!"
+    "HELLO": "Hello World!"
 
 
 }
@@ -53,7 +53,7 @@ read -d '' PT_JSON << EOF
 {
 
 
-    "hello": "Olá, mundo!"
+    "HELLO": "Olá, mundo!"
 
 
 }

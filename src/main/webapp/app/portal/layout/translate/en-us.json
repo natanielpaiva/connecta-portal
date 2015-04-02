@@ -6,6 +6,7 @@
         "MAXLENGTH": "The field is too long"
     },
     "LAYOUT": {
+        "HOME" : "Home",
         "ADD" : "Add",
         "EDIT" : "Edit",
         "DELETE" : "Delete",

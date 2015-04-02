@@ -6,6 +6,7 @@
         "MAXLENGTH": "Deve ter menos letras"
     },
     "LAYOUT": {
+        "HOME" : "Página inicial",
         "ADD" : "Adicionar",
         "EDIT" : "Editar",
         "DELETE" : "Excluir",

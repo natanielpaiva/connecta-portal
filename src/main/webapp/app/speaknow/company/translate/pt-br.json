@@ -1,5 +1,6 @@
-{
+    {
     "COMPANY": {
+        "COMPANY": "Empresa",
         "NAME": "Nome",
         "EMAIL": "Email",
         "PHONE": "Telefone",

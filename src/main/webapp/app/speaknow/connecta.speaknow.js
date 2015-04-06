@@ -103,16 +103,14 @@ define([
         {
             title: 'INTERACTION.INTERACTIONS',
             icon: 'icon-target',
-            children: [
-                {
-                    href: 'speaknow/interaction',
-                    title: 'INTERACTION.INTERACTIONS'
-                },
-                {
-                    href: 'speaknow/action',
-                    title: 'INTERACTION.ACTIONS'
-                }
-            ]
+            href: 'speaknow/interaction',
+            children: []
+        },
+        {
+            href: 'speaknow/company',
+            title: 'COMPANY.COMPANY',
+            icon: 'icon-user',
+            children: []
         }
     ];
 

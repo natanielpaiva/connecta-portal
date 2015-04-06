@@ -1,10 +1,15 @@
 define([
     'connecta.speaknow'
-], function (presenter) {
-    return presenter.lazy.service('InteractionService', function (speaknowResources, $http, $upload) {
+], function (speaknow) {
+    return speaknow.lazy.service('InteractionService', function (speaknowResources, $http) {
 
         this.list = function () {
-            var url = speaknowResources.interaction;
+            var url = speaknowResources.interaction + "/list";
+            return $http.get(url);
+        };
+        
+        this.get = function(id){
+            var url = speaknowResources.interaction +"/"+ id;
             return $http.get(url);
         };
 
@@ -13,26 +18,9 @@ define([
             return $http.post(url, interaction);
         };
 
-        this.upload = function (file, company) {
-            var url = speaknowResources.company + "/save";
-            return $upload.upload({
-                url: url,
-                method: 'POST',
-                fields: {
-                    'company': company
-                },
-                file: file
-            }).progress(function (evt) {
-                var progressPercentage = parseInt(100.0 * evt.loaded / evt.total);
-                console.log('progress: ' + progressPercentage + '% ' + evt.config.file.name);
-            }).success(function (data, status, headers, config) {
-                console.log(data);
-            });
-        };
-
-        this.getQuestionTypes = function () {
-            var url = speaknowResources.interaction + "/poll/question/types";
-            return $http.get(url);
+        this.delete = function (id){
+            var url = speaknowResources.interaction + "/" + id;
+            return $http.delete(url);
         };
 
     });

@@ -2,7 +2,6 @@
 {
     "INTERACTION": {
         "ADD_INTERACTION": "Adicionar Interação",
-        "ACTIONS": "Ações",
         "NAME": "Nome",
         "MESSAGE": "Mensagem",
         "IMAGE" : "Imagem",

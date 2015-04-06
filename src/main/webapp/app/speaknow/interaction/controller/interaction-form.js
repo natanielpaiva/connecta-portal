@@ -1,77 +1,88 @@
 define([
     'connecta.speaknow',
-    'speaknow/interaction/service/interaction-service'
+    'speaknow/interaction/service/interaction-service',
+    'speaknow/action/service/action-service',
+    'speaknow/action/controller/action-modal'
 ], function (speaknow) {
-    return speaknow.lazy.controller('InteractionFormController', function ($scope, InteractionService, $location, $routeParams) {
-        $scope.interaction = {};
-        $scope.interaction.questions = [];
-        $scope.interaction.contacts = [];
-        $scope.question = {};
-        $scope.question.questionItems = [];
-        
-        //Variável usada para ativar e desativar os steps
-        $scope.steps = [true, false, false];
-        //Variável usada para ativar e desativar ícones dos steps
-        $scope.stepsIcons = [true, false, false];
-        //Variável com o step atual
-        $scope.currentStep = 0;
-        
-        InteractionService.getQuestionTypes().then(function (response) {
-            $scope.questionTypes = response.data;
-        }, function (response) {});
-        
-        
+    /**
+     * //TODO
+     * Criar diretiva para modal para o portal, e para modal de icones do speaknow
+     */
+    return speaknow.lazy.controller('InteractionFormController', function ($scope,
+            InteractionService, ActionService, $location, $routeParams, $translate,
+            $modal) {
+
+        $scope.interaction = {
+            icon: "dump"
+        };
+
+        $translate('INTERACTION.DROP_FILE_HERE').then(function (text) {
+            $scope.interactionImg = text;
+        });
+
+        // Recupera os tipo de interações disponíveis (enum InteractionType)
+        $scope.interactionTypes = [];
+        ActionService.getActionTypes().then(function (response) {
+            $scope.interactionTypes = response.data;
+            $scope.interaction.type = $scope.interactionTypes[0];
+        });
+
+        $scope.isEditing = false;
+
         if ($routeParams.id) {
-            //TOOD: Implementar update
+            $scope.isEditing = true;
+            InteractionService.get($routeParams.id).success(function (data) {
+                $scope.interaction = data;
+            });
         }
 
-        $scope.submit = function () {
-            InteractionService.save($scope.interaction).then(function () {
-                $location.path('speaknow/interaction');
-            }, function (response) {
-            });
-        };
+        $scope.icons = [];
+        //Recupera a lista de icones do selection.json
+        ActionService.getIcons().success(function (data) {
+            $scope.icons = data.icons.slice(0, 100);
+        });
 
-        /**
-         * Método responsável por ativar e desativar os steps
-         * @param {int} step: Número do step a ser atualizado
-         */
-        $scope.activeStep = function (step) {
-            $scope.steps[$scope.currentStep] = false;
-            $scope.steps[step] = true;
-            $scope.currentStep = step;
-
-            //Deixa os ícones do steps azuis
-            angular.forEach($scope.stepsIcons, function (value, key) {
-                if (key <= step) {
-                    $scope.stepsIcons[key] = true;
-                } else {
-                    $scope.stepsIcons[key] = false;
+        // Executa a modal para escolha de ícones
+        $scope.openIconModal = function () {
+            var modalIcon = $modal.open({
+                templateUrl: 'app/speaknow/action/template/modal.html',
+                controller: 'ActionFormModalController',
+                windowClass: 'connecta-modal',
+                resolve: {
+                    items: function () {
+                        return $scope.icons;
+                    },
+                    selected: function () {
+                        return $scope.interaction.icon;
+                    }
                 }
             });
+
+            modalIcon.result.then(function (selectedItem) {
+                $scope.interaction.icon = selectedItem;
+            });
         };
 
-        $scope.addQuestion = function () {
-            $scope.interaction.questions.push($scope.question);
-            //Zera o objeto question e adiciona uma array de items
-            $scope.question = {};
-            $scope.question.items = [];
+        //TODO: Implementar regras de upload de arquivo
+        $scope.onFileSelected = function (files) {
+            var file = files[0];
+            if (file) {
+                $scope.interaction.image = file.name;
+                $scope.image = file;
+            }
         };
 
-        $scope.removeQuestion = function (question) {
-            var index = $scope.questions.indexOf(question);
-            $scope.questions.splice(index, 1);
+        $scope.nextStep = function () {
+            ActionService.setInteraction($scope.interaction);
+            $location.path('speaknow/action/new');
         };
 
-        $scope.addContact = function () {
-            $scope.contacts.push($scope.contact);
-            $scope.contact = null;
+        $scope.save = function () {
+            InteractionService.save($scope.interaction).success(function () {
+                console.info("Interaction Salva com sucesso!");
+                $location.path('speaknow/interaction');
+            });
         };
 
-        $scope.removeContact = function (contact) {
-            var index = $scope.contacts.indexOf(contact);
-            $scope.contacts.splice(index, 1);
-        };
-        
     });
 });

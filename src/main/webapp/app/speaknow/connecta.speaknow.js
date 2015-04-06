@@ -14,6 +14,7 @@ define([
         var appSpeaknow = applications.filter(function (app) {
             return app.name === 'speaknow';
         }).pop();
+        appSpeaknow.host = appSpeaknow.host.replace("7002", "7001"); 
         speaknow.lazy.value('speaknowResources', {
             action: appSpeaknow.host + '/action',
             contact: appSpeaknow.host + '/contact',

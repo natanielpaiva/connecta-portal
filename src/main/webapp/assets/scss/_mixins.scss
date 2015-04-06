@@ -52,3 +52,38 @@
 .margin-bottom-triple {
     @include margin-bottom(3);
 }
+// Margem left padronizada
+@mixin margin-left($em) {
+    margin-left: $em*1em;
+}
+// Expõe classes utilitárias para uso rápido no HTML
+.margin-left-zero {
+    @include margin-left(0);
+}
+.margin-left-single {
+    @include margin-left(1);
+}
+.margin-left-double {
+    @include margin-left(2);
+}
+.margin-left-triple {
+    @include margin-left(3);
+}
+
+// Margem right padronizada
+@mixin margin-right($em) {
+    margin-right: $em*1em;
+}
+// Expõe uma classe para uso rápido no HTML
+.margin-right-zero {
+    @include margin-right(0);
+}
+.margin-right-single {
+    @include margin-right(1);
+}
+.margin-right-double {
+    @include margin-right(2);
+}
+.margin-right-triple {
+    @include margin-right(3);
+}

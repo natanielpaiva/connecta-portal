@@ -1,23 +1,33 @@
 define([
     'connecta.speaknow'
-], function (presenter) {
-    return presenter.lazy.service('CompanyService', function (speaknowResources, $http, $upload) {
+], function (speaknow) {
+    return speaknow.lazy.service('CompanyService', function (speaknowResources, $http, $upload) {
 
-        this.list = function (page, size) {
-            var url = speaknowResources.company + "/list?page=" + page + "&size=" + size;
+        this.list = function () {
+            var url = speaknowResources.company + "/list";
+            return $http.get(url);
+        };
+        
+        this.get = function (id) {
+            var url = speaknowResources.company + '/' + id;
             return $http.get(url);
         };
 
-        this.save = function (fileQuad, fileRect, company) {
-            var url = speaknowResources.company + "/save";
-            var fd = new FormData();
-            fd.append('fileQuad', fileQuad);
-            fd.append('fileRect', fileRect);
-            fd.append('company', JSON.stringify(company));
-            return $http.post(url, fd, {
-                transformRequest: angular.identity,
-                headers: {'Content-Type': undefined}
-            });
+//        this.save = function (fileQuad, fileRect, company) {
+//            var url = speaknowResources.company + "/save";
+//            var fd = new FormData();
+//            fd.append('fileQuad', fileQuad);
+//            fd.append('fileRect', fileRect);
+//            fd.append('company', JSON.stringify(company));
+//            return $http.post(url, fd, {
+//                transformRequest: angular.identity,
+//                headers: {'Content-Type': undefined}
+//            });
+//        };
+        
+        this.save = function (company) {
+            var url = speaknowResources.company + "/saveTest";
+            return $http.post(url, company);
         };
 
         this.getQuestionTypes = function () {

@@ -1,6 +1,6 @@
     {
-    "COMPANY": {
-        "COMPNANIES": "Empresas",
+    "COMPANYGROUP": {
+        "COMPANYGROUP": "Grupo de empresas",
         "COMPANY": "Empresa",
         "NAME": "Nome",
         "EMAIL": "Email",

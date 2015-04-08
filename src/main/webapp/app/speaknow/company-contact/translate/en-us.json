@@ -1,11 +1,6 @@
 {
-    "COMPANY": {
-        "COMPNANIES": "Companies",
-        "COMPANY": "Company",
-        "NAME": "Name",
-        "EMAIL": "Email",
-        "PHONE": "Phone",
-        "ADDRESS": "Address",
+    "COMPANY_CONTACT": {
+        "COMPANY_CONTACT": "Company Groups",
         "TYPE": "Type",
         "IMAGE_QUAD": "Image Square",
         "IMAGE_RECT": "Image Rectangle",

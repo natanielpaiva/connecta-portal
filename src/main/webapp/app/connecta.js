@@ -259,6 +259,7 @@ define([
         'portal/layout/service/search',
         'portal/layout/directive/debug',
         'portal/layout/directive/key-value',
+        'portal/layout/filter/data-uri',
         'portal/layout/directive/file-model'
     ], function (doc) {
         angular.bootstrap(doc, [connecta.name]);

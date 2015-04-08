@@ -2,12 +2,22 @@ define([
     'connecta.speaknow',
     'speaknow/company/service/company-service'
 ], function (speaknow) {
-    return speaknow.lazy.controller('CompanyListController', function ($scope, CompanyService) {
+    return speaknow.lazy.controller('CompanyListController', function ($scope, CompanyService, ngTableParams) {
+        
         $scope.companies = null;
-        
-        CompanyService.list(1, 10).then(function(response){
-            $scope.companies = response.data;
+        $scope.tableParams = new ngTableParams({
+            count: 10,
+            page: 1,
+            filter: $scope.search
+        }, {
+            getData: function ($defer, params) {
+                return CompanyService.list(params.url()).then(function (response) {
+                    params.total(response.data.totalElements);
+                    $defer.resolve(response.data);
+                });
+            },
+            counts: [10, 30, 50, 100]
         });
-        
+
     });
 });

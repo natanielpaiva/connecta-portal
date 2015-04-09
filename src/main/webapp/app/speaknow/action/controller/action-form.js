@@ -5,34 +5,72 @@ define([
     'speaknow/action/controller/action-modal'
 ], function (speaknow) {
     /* //TODO
-     * tirar bind qnd editar
-     * validar parametro antes de adicionar (param e section)
-     * regras para adicionar (substituir ou negar adição)
+     * validar formulario
+     * regras de uplaod de arquivo
      */
     return speaknow.lazy.controller('ActionFormController', function ($scope,
-            InteractionService, ActionService, $location, $routeParams, $modal) {
+            InteractionService, ActionService, $location, $routeParams, $modal, $translate) {
 
         $scope.interaction = ActionService.getInteraction();
 
+        var param = {
+            type: "TEXT",
+            options: []
+        };
+
+        var section = {
+            params: [angular.copy(param)]
+        };
+
         $scope.action = {
-            steps: [],
+            steps: [
+                {
+                    sections: [angular.copy(section)],
+                    name: "Step One",
+                    type: "POLL"
+                }
+            ],
             icon: "dump"
         };
+        
+        if($scope.interaction){
+        $scope.interaction.action = $scope.action;
+        }else{
+            $location.path('/speaknow/interaction');
+            console.error('Interaction não informada');
+        }
+        
+        $translate('ACTION.SECTION.TITLE').then(function(value){
+            $scope.newSectionStr = value;
+        });
+        
+        $translate('ACTION.SECTION.PARAM.TITLE').then(function(value){
+            $scope.newParamStr = value;
+        });
 
-        $scope.step = {
-            sections: [],
-            name: "Step One",
-            type: "POLL"
+        $scope.addParam = function (section) {
+            $scope.minifyCard(section.params);
+            section.params.push(angular.copy(param));
         };
 
-        $scope.action.steps.push($scope.step);
-
-        $scope.section = {
-            params: []
+        $scope.removeParam = function (section, param) {
+            section.params.splice(section.params.indexOf(param), 1);
         };
 
-        $scope.param = {
-            options: []
+        var sections = $scope.action.steps[0].sections;
+        $scope.addSection = function () {
+            $scope.minifyCard(sections);
+            sections.push(angular.copy(section));
+        };
+
+        $scope.removeSection = function (section) {
+            sections.splice(sections.indexOf(section), 1);
+        };
+
+        $scope.minifyCard = function (itemArr) {
+            itemArr.forEach(function (item) {
+                item.min = true;
+            });
         };
 
         $scope.icons = [];
@@ -47,9 +85,6 @@ define([
             $scope.isEditing = true;
             ActionService.get($routeParams.id).success(function (data) {
                 $scope.action = data;
-                $scope.step = data.steps[0];
-                console.log($scope.action);
-                $scope.interaction = data.interaction;
             });
         }
 
@@ -78,103 +113,18 @@ define([
         $scope.actionTypes = [];
         ActionService.getActionTypes().then(function (response) {
             $scope.actionTypes = response.data;
-            $scope.action.type = $scope.actionTypes[0];
+            $scope.action.type = response.data[0];
         });
 
         // Recupera os tipos de parametros (enum InteractionParameterType)
         $scope.paramTypes = [];
         ActionService.getParamTypes().then(function (response) {
             $scope.paramTypes = response.data;
-            $scope.param.type = $scope.paramTypes[0];
         });
-
-
-        $scope.addSection = function () {
-            var hasSection = false;
-            for (var key in $scope.step.sections) {
-                var value = $scope.step.sections[key];
-                if ($scope.section.title === value.title) {
-                    value = $scope.section;
-                    hasSection = true;
-                    break;
-                }
-            }
-            if (!hasSection) {
-                $scope.step.sections.push($scope.section);
-            }
-
-            $scope.section = {
-                params: []
-            };
-        };
-
-        $scope.removeSection = function (section) {
-            $scope.step.sections.splice($scope.step.sections.indexOf(section), 1);
-        };
-
-        $scope.editSection = function (section) {
-            $scope.section = section;
-            $scope.param = {
-                type: $scope.paramTypes[0],
-                options: []
-            };
-        };
-
-        $scope.addParam = function () {
-            var hasParam = false;
-            for (var key in $scope.section.params) {
-                var value = $scope.section.params[key];
-                if (value.title === $scope.param.title) {
-                    hasParam = true;
-                    value = $scope.param;
-                }
-            }
-            if (!hasParam) {
-                $scope.section.params.push($scope.param);
-            }
-
-            $scope.param = {
-                type: $scope.paramTypes[0],
-                options: []
-            };
-        };
-
-        $scope.removeParam = function (param) {
-            $scope.section.params.splice($scope.section.params.indexOf(param), 1);
-        };
-
-        $scope.editParam = function (param) {
-            $scope.param = param;
-        };
-
-        //Função de change para mostrar lista de adição de options dependendo
-        //do tipo de parametro que for escolhido
-        var paramOptsTypes = ["MULTI_SELECT", "MULTI_CHECKBOX", "RADIO"];
-        $scope.showParamOpts = false;
-
-        $scope.$watch('param.type', function (newValue, oldValue) {
-            $scope.showParamOpts = paramOptsTypes.indexOf(newValue) > -1;
-        });
-
-        $scope.option = "";
-
-        $scope.addParamOpt = function () {
-            var index = $scope.param.options.indexOf($scope.option);
-            if (index > -1) {
-                $scope.param.options[index] = $scope.option;
-            } else {
-                $scope.param.options.push($scope.option);
-            }
-            $scope.option = "";
-        };
-
-        $scope.removeParamOption = function (option) {
-            $scope.param.options.splice($scope.param.options.indexOf(option), 1);
-        };
 
         $scope.submit = function () {
             if (!$scope.isEditing) {
-                $scope.interaction.actions = [$scope.action];
+                //TODO trazer a company da Grid
                 $scope.interaction.company = {id: 1};
 
                 InteractionService.save($scope.interaction).success(function (response) {
@@ -182,7 +132,7 @@ define([
                     $location.path('/speaknow/interaction');
                 });
             } else {
-                ActionService.save($scope.action).success(function(response){
+                ActionService.save($scope.action).success(function (response) {
                     ActionService.clearInteraction();
                     $location.path('/speaknow/interaction/' + $scope.action.interaction.id);
                 });

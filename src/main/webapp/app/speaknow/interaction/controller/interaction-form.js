@@ -67,8 +67,13 @@ define([
         $scope.onFileSelected = function (files) {
             var file = files[0];
             if (file) {
-                $scope.interaction.image = file.name;
-                $scope.image = file;
+                $scope.imgName = file.name;
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    $scope.interaction.image = e.target.result;
+                    $scope.$apply();
+                };
+                reader.readAsDataURL(files[0]);
             }
         };
 
@@ -76,7 +81,7 @@ define([
             ActionService.setInteraction($scope.interaction);
             $location.path('speaknow/action/new');
         };
-
+        
         $scope.save = function () {
             InteractionService.save($scope.interaction).success(function () {
                 console.info("Interaction Salva com sucesso!");

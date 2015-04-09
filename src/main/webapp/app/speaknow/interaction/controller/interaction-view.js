@@ -1,12 +1,13 @@
 define([
     'connecta.speaknow',
-    'speaknow/interaction/service/interaction-service'
+    'speaknow/interaction/service/interaction-service',
+    'speaknow/action/service/action-service'
 ], function (speaknow) {
     return speaknow.lazy.controller('InteractionViewController', function (
-            $scope, InteractionService, $routeParams, $location, ngTableParams
+            $scope, InteractionService, ActionService, $routeParams, $location, ngTableParams
             ) {
 
-        redirectToInteraction = function () {
+        var redirectToInteraction = function () {
             $location.path('speaknow/interaction');
         };
 
@@ -46,6 +47,21 @@ define([
         $scope.editInteraction = function (id) {
             $location.path('speaknow/interaction/' + id);
         };
+
+        $scope.redirectToAction = function (id) {
+            ActionService.setInteraction($scope.interaction);
+
+            var url;
+            if (!id) {
+                url = '#/speaknow/action/new';
+            } else {
+                url = '#/speaknow/action/' + id + '/edit';
+            }
+            
+            return url;
+        };
+
+
 
     });
 });

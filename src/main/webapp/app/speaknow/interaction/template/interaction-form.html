@@ -23,7 +23,7 @@
                        ng-model-rejected="rejFiles" 
                        allow-dir="false" 
                        drag-over-class="{accept:'acceptClass', reject:'rejectClass'}">
-                    {{interaction.image}}
+                    {{imgName || interactionImg}}
                 </label>
             </div>
 
@@ -64,5 +64,7 @@
                 LAYOUT.SAVE
             </a>
         </form>
+        <pre>{{interaction | json}}</pre>
+        
     </div>
 </div>

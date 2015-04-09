@@ -1,6 +1,7 @@
 {
     "INTERACTION": {
         "INTERACTIONS": "Interactions",
+        "ACTIONS": "Actions",
         "ADD": "Add Interaction",
         "EDIT": "Edit Interaction",
         "VIEW": "View Interaction",

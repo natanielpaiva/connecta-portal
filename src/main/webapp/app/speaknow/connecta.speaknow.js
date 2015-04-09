@@ -15,7 +15,9 @@ define([
         var appSpeaknow = applications.filter(function (app) {
             return app.name === 'speaknow';
         }).pop();
-        appSpeaknow.host = appSpeaknow.host.replace("7002", "7001"); 
+        
+//        appSpeaknow.host = 'http://localhost:7002/speaknow';
+
         speaknow.lazy.value('speaknowResources', {
             action: appSpeaknow.host + '/action',
             contact: appSpeaknow.host + '/contact',
@@ -71,6 +73,11 @@ define([
             controller: 'ActionFormController',
             controllerUrl: 'speaknow/action/controller/action-form',
             templateUrl: 'app/speaknow/action/template/action-form.html'
+        },
+        '/speaknow/action/test': {
+            controller: 'ActionTestController',
+            controllerUrl: 'speaknow/action/controller/action-lab',
+            templateUrl: 'app/speaknow/action/template/action-lab.html'
         },
         '/speaknow/action/:id': {
             controller: 'ActionViewController',

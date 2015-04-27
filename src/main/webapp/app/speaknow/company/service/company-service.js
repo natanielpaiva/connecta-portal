@@ -3,9 +3,9 @@ define([
 ], function (speaknow) {
     return speaknow.lazy.service('CompanyService', function (speaknowResources, $http, $upload) {
 
-        this.list = function () {
+        this.list = function (params) {
             var url = speaknowResources.company + "/list";
-            return $http.get(url);
+            return $http.get(url, {params: params});
         };
         
         this.get = function (id) {

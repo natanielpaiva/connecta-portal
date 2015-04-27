@@ -3,9 +3,9 @@ define([
 ], function (presenter) {
     return presenter.lazy.service('ContactService', function (speaknowResources, $http) {
 
-        this.list = function () {
+        this.list = function (params) {
             var url = speaknowResources.contact;
-            return $http.get(url);
+            return $http.get(url, {params: params});
         };
         
         this.save = function(contact){

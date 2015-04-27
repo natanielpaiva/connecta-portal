@@ -18,7 +18,7 @@ define([
             getData: function ($defer, params) {
                 return InteractionService.list(params.url()).then(function (response) {
                     params.total(response.data.totalElements);
-                    $defer.resolve(response.data);
+                    $defer.resolve(response.data.content);
                 });
             },
             counts: [10, 30, 50, 100]

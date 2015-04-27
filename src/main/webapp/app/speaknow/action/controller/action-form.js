@@ -32,19 +32,19 @@ define([
             ],
             icon: "dump"
         };
-        
-        if($scope.interaction){
-        $scope.interaction.action = $scope.action;
-        }else{
+
+        if ($scope.interaction) {
+            $scope.action.interaction = $scope.interaction;
+        } else {
             $location.path('/speaknow/interaction');
             console.error('Interaction não informada');
         }
-        
-        $translate('ACTION.SECTION.TITLE').then(function(value){
+
+        $translate('ACTION.SECTION.TITLE').then(function (value) {
             $scope.newSectionStr = value;
         });
-        
-        $translate('ACTION.SECTION.PARAM.TITLE').then(function(value){
+
+        $translate('ACTION.SECTION.PARAM.TITLE').then(function (value) {
             $scope.newParamStr = value;
         });
 
@@ -123,13 +123,15 @@ define([
         });
 
         $scope.submit = function () {
-            if (!$scope.isEditing) {
+            if ($scope.isEditing || !$scope.interaction.id) {
                 //TODO trazer a company da Grid
                 $scope.interaction.company = {id: 1};
-
+                $scope.interaction.actions = [];
+                delete $scope.action.interaction;
+                $scope.interaction.actions.push($scope.action);
                 InteractionService.save($scope.interaction).success(function (response) {
                     ActionService.clearInteraction();
-                    $location.path('/speaknow/interaction');
+                    $location.path('/speaknow/interaction/' + response.id);
                 });
             } else {
                 ActionService.save($scope.action).success(function (response) {
@@ -138,6 +140,5 @@ define([
                 });
             }
         };
-
     });
 });

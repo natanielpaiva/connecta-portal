@@ -31,6 +31,7 @@ define([
         }, {
             getData: function ($defer, params) {
                 var data = $scope.interaction.actions;
+                params.total(data.length);
                 return $defer.resolve(data.slice((params.page() - 1) * params.count(), params.page() * params.count()));
             },
             counts: [20, 50, 100]

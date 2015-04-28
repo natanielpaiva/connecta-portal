@@ -89,6 +89,9 @@ require.config({
         'bower_components/jquery-slimscroll/jquery.slimscroll.min':{
             deps:['jquery']
         },
+        'bower_components/toastr/toastr.min':{
+            deps:['jquery']
+        },
         'connecta': {
             deps: [
                 'jquery',

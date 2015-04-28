@@ -26,7 +26,8 @@ define([
     'bower_components/angular-drag-and-drop-lists/angular-drag-and-drop-lists.min',
     'bower_components/angular-messages/angular-messages.min',
     'bower_components/ng-file-upload/angular-file-upload.min',
-    'bower_components/angular-ui-tree/dist/angular-ui-tree.min'
+    'bower_components/angular-ui-tree/dist/angular-ui-tree.min',
+    'bower_components/toastr/toastr.min'
 ], function (angular, $, applications, portal, collector, speaknow, presenter, maps) {
 
     var connecta = angular.module('connecta', [

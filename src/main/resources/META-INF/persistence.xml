@@ -5,6 +5,7 @@
     <persistence-unit name="ConnectaPortalPU" transaction-type="RESOURCE_LOCAL">
     	<provider>org.hibernate.ejb.HibernatePersistence</provider>
         <non-jta-data-source>ConnectaPortalDS</non-jta-data-source>
+        <!-- <non-jta-data-source>java:jboss/ConnectaPortalDS</non-jta-data-source> -->
         <exclude-unlisted-classes>false</exclude-unlisted-classes>
         <properties>
             <property name="hibernate.hbm2ddl.auto" value="validate"/>
@@ -19,6 +20,7 @@
             <property name="hibernate.c3p0.max_statements" value="180"/>
             <property name="hibernate.c3p0.idle_test_period" value="30000"/>
             <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.WeblogicTransactionManagerLookup"/>
+            <!-- <property name="hibernate.transaction.manager_lookup_class" value="org.hibernate.transaction.JBossTransactionManagerLookup"/> -->
         </properties>
     </persistence-unit>
 </persistence>

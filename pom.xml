@@ -15,7 +15,7 @@
     <version>0.0.1</version>
     <packaging>war</packaging>
     
-    <name>Connecta</name>
+    <name>Connecta Portal</name>
 
     <properties>
         <java.version>1.7</java.version>

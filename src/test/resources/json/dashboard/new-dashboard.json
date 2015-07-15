@@ -1,0 +1,83 @@
+{
+    "name": "Novo Painel",
+    "rowHeight": 32,
+    "maxRows": 50,
+    "columns": 4,
+    "padding": 10,
+    "displayMode": "VERTICAL",
+    "sectionTransitionInterval": 5,
+    "sectionTransitionDuration": 1000,
+    "sectionTransitionAnimation": "FADE",
+    "backgroundColor": "#FF0000",
+    "backgroundImage": null,
+    "sections": [
+        {
+            "name": "Seção 1",
+            "order": 0,
+            "items": [
+                {
+                    "viewerUrl": "http://localhost:7002/connecta-presenter/viewer/1",
+                    "type": "XY_CHART",
+                    "backgroundColor": "#00FF00",
+                    "backgroundImage": null,
+                    "contentPositionX": 0,
+                    "contentPositionY": 0,
+                    "sizeX": 2,
+                    "sizeY": 1,
+                    "contentHeight": null,
+                    "contentWidth": null,
+                    "row": 1,
+                    "column": 1
+                },
+                {
+                    "viewerUrl": "http://localhost:7002/connecta-presenter/viewer/2",
+                    "type": "LINEAR_CHART",
+                    "backgroundColor": null,
+                    "backgroundImage": null,
+                    "contentPositionX": 0,
+                    "contentPositionY": 0,
+                    "sizeX": 1,
+                    "sizeY": 2,
+                    "contentHeight": null,
+                    "contentWidth": null,
+                    "row": 3,
+                    "column": 1
+                }
+            ]
+        },
+        {
+            "name": "Seção 2",
+            "order": 1,
+            "items": [
+                {
+                    "viewerUrl": "http://localhost:7002/connecta-presenter/viewer/1",
+                    "type": "XY_CHART",
+                    "backgroundColor": "#00FF00",
+                    "backgroundImage": null,
+                    "contentPositionX": 0,
+                    "contentPositionY": 0,
+                    "sizeX": 2,
+                    "sizeY": 1,
+                    "contentHeight": null,
+                    "contentWidth": null,
+                    "row": 1,
+                    "column": 1
+                },
+                {
+                    "viewerUrl": "http://localhost:7002/connecta-presenter/viewer/2",
+                    "type": "LINEAR_CHART",
+                    "backgroundColor": null,
+                    "backgroundImage": null,
+                    "contentPositionX": 0,
+                    "contentPositionY": 0,
+                    "sizeX": 1,
+                    "sizeY": 2,
+                    "contentHeight": null,
+                    "contentWidth": null,
+                    "row": 3,
+                    "column": 1
+                }
+            ]
+        }
+    ]
+}

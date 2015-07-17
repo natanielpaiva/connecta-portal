@@ -2,7 +2,7 @@ package br.com.cds.connecta.portal.controller;
 
 import br.com.cds.connecta.portal.business.applicationService.IDashboardAS;
 import br.com.cds.connecta.portal.entity.Dashboard;
-import java.util.List;
+import br.com.cds.connecta.portal.filter.DashboardPaginationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +26,8 @@ public class DashboardController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity<List<Dashboard>> list() {
-        return new ResponseEntity<>(service.list(), HttpStatus.OK);
+    public ResponseEntity<Iterable<Dashboard>> list(DashboardPaginationFilter filter) {
+        return new ResponseEntity<>(service.list(filter), HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.POST)

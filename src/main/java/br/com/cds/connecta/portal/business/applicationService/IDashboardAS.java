@@ -1,7 +1,7 @@
 package br.com.cds.connecta.portal.business.applicationService;
 
 import br.com.cds.connecta.portal.entity.Dashboard;
-import java.util.List;
+import br.com.cds.connecta.portal.filter.DashboardPaginationFilter;
 
 /**
  *
@@ -9,7 +9,7 @@ import java.util.List;
  */
 public interface IDashboardAS {
     
-    List<Dashboard> list();
+    Iterable<Dashboard> list(DashboardPaginationFilter filter);
 
     Dashboard get(Long id);
 

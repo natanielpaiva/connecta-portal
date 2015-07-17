@@ -5,13 +5,11 @@ import br.com.cds.connecta.portal.domain.DashboardDisplayMode;
 import br.com.cds.connecta.portal.domain.DashboardItemType;
 import br.com.cds.connecta.portal.domain.DashboardSectionAnimation;
 import static org.hamcrest.Matchers.*;
-import org.junit.Ignore;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import org.junit.Test;
-import org.springframework.http.MediaType;
 
 /**
  * 
@@ -23,32 +21,68 @@ public class DashboardTest extends BaseTest {
     static final String RESOURCE_ID = RESOURCE.concat("/{id}");
     
     @Test
-    @Ignore
     public void listDashboards() throws Exception {
         mockMvc().perform(get(RESOURCE)
-            .contentType(MediaType.APPLICATION_JSON)
+            .param("page", "1")
+            .param("count", "10")
         ).andDo(print())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect(content().contentType(MEDIATYPE_JSON_UTF8))
             .andExpect(status().isOk())
-            .andExpect(jsonPath("$", notNullValue()))
-            .andExpect(jsonPath("$[*]", hasSize(greaterThan(1))))
-            .andExpect(jsonPath("$[*].host", todosOsItens(notNullValue())))
-            .andExpect(jsonPath("$[*].name", todosOsItens(notNullValue())))
-            .andExpect(jsonPath("$[*].title", todosOsItens(notNullValue())));
+            .andExpect(jsonPath("$.content", notNullValue()))
+            .andExpect(jsonPath("$.content[*]", hasSize(greaterThan(0))))
+            .andExpect(jsonPath("$.content[*].id", todosOsItens(notNullValue())))
+            .andExpect(jsonPath("$.content[*].name", todosOsItens(notNullValue())))
+            .andExpect(jsonPath("$.content[*].displayMode", todosOsItens(anyOf(
+                enumKeyFor(DashboardDisplayMode.VERTICAL),
+                enumKeyFor(DashboardDisplayMode.PAGE)
+            ))))
+            .andExpect(jsonPath("$.content[*].sectionTransitionAnimation", todosOsItens(anyOf(
+                enumKeyFor(DashboardSectionAnimation.FADE),
+                enumKeyFor(DashboardSectionAnimation.SLIDE_DOWN),
+                enumKeyFor(DashboardSectionAnimation.SLIDE_LEFT),
+                enumKeyFor(DashboardSectionAnimation.SLIDE_RIGHT),
+                enumKeyFor(DashboardSectionAnimation.SLIDE_UP)
+            ))))
+            .andExpect(jsonPath("$.content[*].sections", todosOsItens(nullValue())))
+            ;
     }
     
     @Test
-    @Ignore
+    public void listDashboardsByName() throws Exception {
+        performSearch("painel", 1);
+        performSearch("PAINEL", 1);
+        performSearch(" PaInel   ", 1);
+        performSearch(" PáInel   ", 1);
+        performSearch("bogus", 0);
+    }
+
+    private void performSearch(String filterName, int expectedSize) throws Exception {
+        mockMvc().perform(get(RESOURCE)
+                .param("page", "1")
+                .param("count", "10")
+                .param("name", filterName)
+        ).andDo(print())
+                .andExpect(content().contentType(MEDIATYPE_JSON_UTF8))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.content", notNullValue()))
+                .andExpect(jsonPath("$.content[*]", hasSize(expectedSize)));
+    }
+    
+    @Test
     public void getDashboard() throws Exception {
-        mockMvc().perform(get(RESOURCE_ID, 1)
+        mockMvc().perform(get(RESOURCE_ID, 10)
             .contentType(MEDIATYPE_JSON_UTF8)
         ).andDo(print())
             .andExpect(content().contentType(MEDIATYPE_JSON_UTF8))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$", notNullValue()))
-            .andExpect(jsonPath("$.host", allOf(notNullValue(), containsString("http://"), containsString("presenter"))))
-            .andExpect(jsonPath("$.name", allOf(notNullValue(), equalTo("presenter"))))
-            .andExpect(jsonPath("$.title", allOf(notNullValue(), equalToIgnoringCase("presenter"))));
+            .andExpect(jsonPath("$.id", is(10)))
+            .andExpect(jsonPath("$.name", notNullValue()))
+            .andExpect(jsonPath("$.sections", hasSize(1)))
+            .andExpect(jsonPath("$.sections[0].id", is(10)))
+            .andExpect(jsonPath("$.sections[0].items", hasSize(1)))
+            .andExpect(jsonPath("$.sections[0].items[0].id", is(10)))
+        ;
     }
     
     @Test
@@ -193,3 +227,4 @@ public class DashboardTest extends BaseTest {
             .andExpect(content().string(""));
     }
 }
+ 

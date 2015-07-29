@@ -32,7 +32,7 @@ public class AuthenticationController {
             AuthenticationDTO auth = authAS.authenticate(username, password);
 
             HttpHeaders headers = new HttpHeaders();
-            headers.add("Set-Cookie","Authentication="+auth.getToken());
+            headers.add("Set-Cookie","Authorization="+auth.getToken());
             
             return new ResponseEntity(auth, headers, HttpStatus.OK);
         } catch (RestClientException ex) {

@@ -2,7 +2,6 @@ package br.com.cds.connecta.portal.controller;
 
 import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
 import br.com.cds.connecta.portal.business.applicationService.IAuthenticationAS;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -21,7 +20,7 @@ import org.springframework.web.client.RestClientException;
  * @date Jul 24, 2015
  */
 @RestController
-@RequestMapping("auth")
+@RequestMapping("public/auth")
 public class AuthenticationController {
     
     @Autowired IAuthenticationAS authAS;

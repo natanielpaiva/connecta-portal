@@ -19,9 +19,14 @@
 
     <properties>
         <java.version>1.7</java.version>
+        <connecta.core.version>0.0.3-SNAPSHOT</connecta.core.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
+        <build.warname>${project.artifactId}-${project.version}</build.warname>
     </properties>
 
-    <!--    <profiles>
+    <profiles>
         <profile>
             <id>development</id>
             <activation>
@@ -29,21 +34,10 @@
             </activation>
             <properties>
                 <environment>development</environment>
+                <maven.test.skip>true</maven.test.skip>
             </properties>
         </profile>
-        <profile>
-            <id>staging</id>
-            <properties>
-                <environment>staging</environment>
-            </properties>
-        </profile>
-        <profile>
-            <id>production</id>
-            <properties>
-                <environment>production</environment>
-            </properties>
-        </profile>
-    </profiles>-->
+    </profiles>
 
     <dependencies>
         
@@ -121,6 +115,7 @@
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>

@@ -63,13 +63,11 @@ public class AuthenticationAS implements IAuthenticationAS {
      * Utilizado devido a ordem de carregamento do DML durante os testes.
      */
     private void initializeURIs() {
-        if ((Util.isEmpty(AUTH_PROVIDER_URL))) {
-            AUTH_PROVIDER_URL = config.getByName(ApplicationConfigEnum.AUTH_PROVIDER_URL);
-            AUTH_ENDPOINT = AUTH_PROVIDER_URL + "/api/admin/auth/user";
-            LOGIN_ENDPOINT = AUTH_ENDPOINT + "/default/login/admin";
-            GET_AUTH_USER_ENDPOINT = AUTH_ENDPOINT + "/default";
-            LOGOUT_ENDPOINT = AUTH_ENDPOINT + "/default/logout";
-        }
+        AUTH_PROVIDER_URL = config.getByName(ApplicationConfigEnum.AUTH_PROVIDER_URL);
+        AUTH_ENDPOINT = AUTH_PROVIDER_URL + "/api/admin/auth/user";
+        LOGIN_ENDPOINT = AUTH_ENDPOINT + "/default/login/admin";
+        GET_AUTH_USER_ENDPOINT = AUTH_ENDPOINT + "/default";
+        LOGOUT_ENDPOINT = AUTH_ENDPOINT + "/default/logout";
     }
 
 }

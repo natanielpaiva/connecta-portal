@@ -1,6 +1,6 @@
 package br.com.cds.connecta.portal.business.applicationService;
 
-import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
+import br.com.cds.connecta.framework.core.domain.security.UserDTO;
 
 /**
  *
@@ -9,9 +9,9 @@ import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
  */
 public interface IAuthenticationAS {
     
-    AuthenticationDTO authenticate(String username, String password);
+    UserDTO authenticate(String username, String password);
     
-    AuthenticationDTO getAuthenticatedUser(String userToken);
+    UserDTO getAuthenticatedUser(String userToken);
     
     void logout(String userToken);
 

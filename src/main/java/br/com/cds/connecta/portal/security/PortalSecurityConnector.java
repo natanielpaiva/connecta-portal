@@ -1,6 +1,6 @@
 package br.com.cds.connecta.portal.security;
 
-import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
+import br.com.cds.connecta.framework.core.domain.security.UserDTO;
 import br.com.cds.connecta.framework.core.security.SecurityConnector;
 import br.com.cds.connecta.portal.business.applicationService.IAuthenticationAS;
 import org.apache.log4j.Logger;
@@ -17,7 +17,7 @@ public class PortalSecurityConnector extends SecurityConnector {
     Logger log = Logger.getLogger(this.getClass());
 
     @Override
-    public AuthenticationDTO verifyAuthentication(String token) {
+    public UserDTO getAuthenticatedUser(String token) {
         try {
             return authAS.getAuthenticatedUser(token);
         } catch (Exception ex) {

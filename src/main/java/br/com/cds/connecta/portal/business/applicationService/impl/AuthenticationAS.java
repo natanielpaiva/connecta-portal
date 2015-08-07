@@ -1,6 +1,6 @@
 package br.com.cds.connecta.portal.business.applicationService.impl;
 
-import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
+import br.com.cds.connecta.framework.core.domain.security.UserDTO;
 import br.com.cds.connecta.framework.core.http.RestClient;
 import br.com.cds.connecta.framework.core.util.Util;
 import br.com.cds.connecta.portal.business.applicationService.IApplicationConfigAS;
@@ -32,21 +32,21 @@ public class AuthenticationAS implements IAuthenticationAS {
     private String LOGOUT_ENDPOINT;
 
     @Override
-    public AuthenticationDTO authenticate(String username, String password) {
+    public UserDTO authenticate(String username, String password) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("username", username);
         params.add("password", password);
         initializeURIs();
-        return RestClient.request(LOGIN_ENDPOINT, HttpMethod.POST, AuthenticationDTO.class, params, null);
+        return RestClient.request(LOGIN_ENDPOINT, HttpMethod.POST, UserDTO.class, params, null);
     }
 
     @Override
-    public AuthenticationDTO getAuthenticatedUser(String userToken) {
+    public UserDTO getAuthenticatedUser(String userToken) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", userToken);
 
         initializeURIs();
-        return RestClient.request(GET_AUTH_USER_ENDPOINT, HttpMethod.GET, AuthenticationDTO.class, null, headers);
+        return RestClient.request(GET_AUTH_USER_ENDPOINT, HttpMethod.GET, UserDTO.class, null, headers);
     }
 
     @Override

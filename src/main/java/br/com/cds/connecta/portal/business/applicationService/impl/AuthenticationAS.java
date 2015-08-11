@@ -1,8 +1,7 @@
 package br.com.cds.connecta.portal.business.applicationService.impl;
 
-import br.com.cds.connecta.framework.core.domain.security.UserDTO;
+import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
 import br.com.cds.connecta.framework.core.http.RestClient;
-import br.com.cds.connecta.framework.core.util.Util;
 import br.com.cds.connecta.portal.business.applicationService.IApplicationConfigAS;
 import br.com.cds.connecta.portal.business.applicationService.IAuthenticationAS;
 import br.com.cds.connecta.portal.domain.ApplicationConfigEnum;
@@ -22,31 +21,28 @@ import org.springframework.util.MultiValueMap;
 @Service
 public class AuthenticationAS implements IAuthenticationAS {
 
-    private @Autowired
-    IApplicationConfigAS config;
+    private @Autowired IApplicationConfigAS config;
 
-    private String AUTH_PROVIDER_URL;
-    private String AUTH_ENDPOINT;
-    private String LOGIN_ENDPOINT;
-    private String GET_AUTH_USER_ENDPOINT;
-    private String LOGOUT_ENDPOINT;
+    private String authProviderUrl;
+    private String authResourceUrl;
+    private String loginEndpoint;
+    private String logoutEndpoint;
+    private String authenticatedUserEndpoint;
 
     @Override
-    public UserDTO authenticate(String username, String password) {
+    public AuthenticationDTO authenticate(String username, String password) {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("username", username);
         params.add("password", password);
-        initializeURIs();
-        return RestClient.request(LOGIN_ENDPOINT, HttpMethod.POST, UserDTO.class, params, null);
+        return RestClient.formRequest(getLoginEndpoint(), HttpMethod.POST, AuthenticationDTO.class, params, null);
     }
 
     @Override
-    public UserDTO getAuthenticatedUser(String userToken) {
+    public AuthenticationDTO getAuthenticatedUser(String userToken) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", userToken);
 
-        initializeURIs();
-        return RestClient.request(GET_AUTH_USER_ENDPOINT, HttpMethod.GET, UserDTO.class, null, headers);
+        return RestClient.formRequest(getAuthenticatedUserEndpoint(), HttpMethod.GET, AuthenticationDTO.class, null, headers);
     }
 
     @Override
@@ -54,20 +50,32 @@ public class AuthenticationAS implements IAuthenticationAS {
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", userToken);
 
-        initializeURIs();
-        RestClient.request(LOGOUT_ENDPOINT, HttpMethod.POST, Object.class, null, headers);
+        RestClient.formRequest(getLogoutEndpoint(), HttpMethod.POST, Object.class, null, headers);
     }
 
-    /**
-     * Método de inicialização das URLs, 
-     * Utilizado devido a ordem de carregamento do DML durante os testes.
-     */
-    private void initializeURIs() {
-        AUTH_PROVIDER_URL = config.getByName(ApplicationConfigEnum.AUTH_PROVIDER_URL);
-        AUTH_ENDPOINT = AUTH_PROVIDER_URL + "/api/admin/auth/user";
-        LOGIN_ENDPOINT = AUTH_ENDPOINT + "/default/login/admin";
-        GET_AUTH_USER_ENDPOINT = AUTH_ENDPOINT + "/default";
-        LOGOUT_ENDPOINT = AUTH_ENDPOINT + "/default/logout";
+    private String getAuthProviderUrl() {
+        authProviderUrl = config.getByName(ApplicationConfigEnum.AUTH_PROVIDER_URL);
+        return authProviderUrl;
     }
 
+    private String getAuthResourceUrl() {
+        authResourceUrl = getAuthProviderUrl() + "/api/admin/auth/user";
+        return authResourceUrl;
+    }
+    
+    private String getLoginEndpoint() {
+        loginEndpoint = getAuthResourceUrl() + "/default/login/admin";
+        return loginEndpoint;
+    }
+
+    private String getLogoutEndpoint() {
+        logoutEndpoint = getAuthResourceUrl() + "/default/logout";
+        return logoutEndpoint;
+    }
+
+    private String getAuthenticatedUserEndpoint() {
+        authenticatedUserEndpoint = getAuthResourceUrl() + "/default";
+        return authenticatedUserEndpoint;
+    }
+    
 }

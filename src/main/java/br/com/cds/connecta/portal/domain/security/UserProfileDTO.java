@@ -7,40 +7,59 @@ package br.com.cds.connecta.portal.domain.security;
  */
 public class UserProfileDTO {
 
-  protected String id;
-  protected String firstName;
-  protected String lastName;
-  protected String email;
-    
-  public String getId() {
-    return id;
-  }
+    private String id;
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String token;
+    private SocialTokenType tokenType;
 
-  public void setId(String id) {
-    this.id = id;
-  }
+    public String getId() {
+        return id;
+    }
 
-  public String getFirstName() {
-    return firstName;
-  }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-  public void setFirstName(String firstName) {
-    this.firstName = firstName;
-  }
+    public String getFirstName() {
+        return firstName;
+    }
 
-  public String getLastName() {
-    return lastName;
-  }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
 
-  public void setLastName(String lastName) {
-    this.lastName = lastName;
-  }
+    public String getLastName() {
+        return lastName;
+    }
 
-  public String getEmail() {
-    return email;
-  }
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
 
-  public void setEmail(String email) {
-    this.email = email;
-  }
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
+    public SocialTokenType getTokenType() {
+        return tokenType;
+    }
+
+    public void setTokenType(SocialTokenType tokenType) {
+        this.tokenType = tokenType;
+    }
+
 }

@@ -1,8 +1,10 @@
 package br.com.cds.connecta.portal.business.applicationService.impl;
 
+import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
 import br.com.cds.connecta.framework.core.http.RestClient;
 import br.com.cds.connecta.framework.core.security.SecurityContextUtil;
 import br.com.cds.connecta.portal.business.applicationService.IApplicationConfigAS;
+import br.com.cds.connecta.portal.business.applicationService.IAuthenticationAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.domain.ApplicationConfigEnum;
 import br.com.cds.connecta.portal.domain.security.UserCredentialsDTO;
@@ -22,7 +24,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserAS implements IUserAS {
     
-    private @Autowired IApplicationConfigAS config;
+    private @Autowired IApplicationConfigAS configAS;
+    private @Autowired IAuthenticationAS authAS;
 
     private String authProviderUrl;
     private String userResourceUrl;
@@ -33,8 +36,23 @@ public class UserAS implements IUserAS {
 
     @Override
     public UserDTO createUser(UserDTO user) {
-        RestClient.postForObject(getCreateUserEndpoint(), user, UserDTO.class);
+        UserDTO userToSave = prepareToSave(user);
+        RestClient.postForObject(getCreateUserEndpoint(), userToSave, UserDTO.class);
         return user;
+    }
+    
+    private UserDTO prepareToSave(UserDTO user){
+        String token = user.getProfile().getToken();
+        Boolean hasToken = token != null && !token.isEmpty();
+        
+        if(hasToken){
+            
+        }
+        return user;
+    }
+    
+    private AuthenticationDTO logUser(UserDTO user){
+        return authAS.authenticate("", "");
     }
 
     @Override
@@ -60,7 +78,7 @@ public class UserAS implements IUserAS {
     
       
     private String getAuthProviderUrl() {
-        authProviderUrl = config.getByName(ApplicationConfigEnum.AUTH_PROVIDER_URL);
+        authProviderUrl = configAS.getByName(ApplicationConfigEnum.AUTH_PROVIDER_URL);
         return authProviderUrl;
     }
     

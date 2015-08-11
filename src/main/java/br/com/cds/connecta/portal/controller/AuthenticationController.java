@@ -1,9 +1,9 @@
 package br.com.cds.connecta.portal.controller;
 
+import br.com.cds.connecta.framework.core.domain.annotation.PublicResource;
 import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
 import br.com.cds.connecta.portal.business.applicationService.IAuthenticationAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
-import br.com.cds.connecta.portal.domain.security.UserDTO;
 import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +24,14 @@ import org.springframework.web.client.RestClientException;
  * @date Jul 24, 2015
  */
 @RestController
-@RequestMapping("public")
+@PublicResource
+@RequestMapping("auth")
 public class AuthenticationController {
     
     @Autowired IAuthenticationAS authAS;
     @Autowired IUserAS userAS;
     
-    @RequestMapping(value = "auth", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity authenticateUser(HttpServletResponse response, @RequestBody Map<String, String> params){
         String username = params.containsKey("username") ? params.get("username") : "";
         String password = params.containsKey("password") ? params.get("password") : "";
@@ -47,7 +48,7 @@ public class AuthenticationController {
         }
     }
     
-    @RequestMapping(value = "auth/{token}", method = RequestMethod.GET)
+    @RequestMapping(value = "{token}", method = RequestMethod.GET)
     public ResponseEntity getAuthenticatedUser(@PathVariable("token") String userToken){
         try {
             AuthenticationDTO auth = authAS.getAuthenticatedUser(userToken);
@@ -57,15 +58,9 @@ public class AuthenticationController {
         }
     }
     
-    @RequestMapping(value = "auth/logout", method = RequestMethod.POST)
+    @RequestMapping(value = "logout", method = RequestMethod.POST)
     public ResponseEntity logout(@RequestParam("token") String userToken){
         authAS.logout(userToken);
         return new ResponseEntity(HttpStatus.OK);
     }
-    
-    @RequestMapping(value = "user", method = RequestMethod.POST)
-    public ResponseEntity createUser(@RequestBody UserDTO user){
-        return new ResponseEntity(userAS.createUser(user), HttpStatus.OK);
-    }
-
 }

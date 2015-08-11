@@ -1,5 +1,6 @@
 package br.com.cds.connecta.portal.controller;
 
+import br.com.cds.connecta.framework.core.domain.annotation.PublicResource;
 import br.com.cds.connecta.portal.business.applicationService.IDashboardAS;
 import br.com.cds.connecta.portal.entity.Dashboard;
 import br.com.cds.connecta.portal.filter.DashboardPaginationFilter;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@PublicResource
 @RequestMapping("dashboard")
 public class DashboardController {
 

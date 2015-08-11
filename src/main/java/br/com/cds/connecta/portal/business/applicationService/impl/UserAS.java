@@ -39,21 +39,21 @@ public class UserAS implements IUserAS {
 
     @Override
     public void updatePassword(String userId, UserCredentialsDTO credentials) {
-        Map<String, String> headers = Collections.singletonMap("Authorization", SecurityContextUtil.getCurrentUser().getToken());
+        Map<String, String> headers = Collections.singletonMap("Authorization", SecurityContextUtil.getCurrentUserToken());
         
         RestClient.putForObject(getUpdateUserCredentialsEndpoint(), credentials, headers, null, userId);
     }
 
     @Override
     public void updateUser(UserProfileDTO userProfile) {
-        Map<String, String> headers = Collections.singletonMap("Authorization", SecurityContextUtil.getCurrentUser().getToken());
+        Map<String, String> headers = Collections.singletonMap("Authorization", SecurityContextUtil.getCurrentUserToken());
         
         RestClient.putForObject(getUpdateUserEndpoint(), userProfile, headers, null, userProfile.getId());
     }
 
     @Override
     public void deleteUser(String userId) {
-        Map<String, String> headers = Collections.singletonMap("Authorization", SecurityContextUtil.getCurrentUser().getToken());
+        Map<String, String> headers = Collections.singletonMap("Authorization", SecurityContextUtil.getCurrentUserAuthentication().getToken());
         
         RestClient.formRequest(getDeleteUserEndpoint(), HttpMethod.DELETE, null, null, headers, userId);
     }

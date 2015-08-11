@@ -32,7 +32,7 @@ public class UserController {
     
     @RequestMapping(value = "password", method = RequestMethod.POST)
     public ResponseEntity changePassword(@RequestBody UserCredentialsDTO credentials){
-        String userId = SecurityContextUtil.getCurrentUser().getUserId();
+        String userId = SecurityContextUtil.getCurrentUserId();
         userAS.updatePassword(userId, credentials);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }

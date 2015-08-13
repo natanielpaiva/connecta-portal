@@ -1,6 +1,7 @@
 package br.com.cds.connecta.portal.controller;
 
 import br.com.cds.connecta.framework.core.domain.annotation.PublicResource;
+import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
 import br.com.cds.connecta.framework.core.security.SecurityContextUtil;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.domain.security.UserCredentialsDTO;
@@ -29,7 +30,12 @@ public class UserController {
     @PublicResource
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity createUser(@RequestBody UserDTO user) {
-        return new ResponseEntity(userAS.createUser(user), HttpStatus.OK);
+        try {
+            AuthenticationDTO savedUser = userAS.createUser(user);
+            return new ResponseEntity(savedUser, HttpStatus.OK);
+        } catch (IllegalArgumentException ex) {
+            return new ResponseEntity(ex.getMessage(), HttpStatus.CONFLICT);
+        }
     }
 
     @RequestMapping(value = "update", method = RequestMethod.POST)

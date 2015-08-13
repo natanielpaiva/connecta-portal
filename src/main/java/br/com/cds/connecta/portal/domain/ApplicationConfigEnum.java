@@ -6,6 +6,8 @@ package br.com.cds.connecta.portal.domain;
  */
 public enum ApplicationConfigEnum {
 
-    AUTH_PROVIDER_URL
+    AUTH_PROVIDER_URL,
+    FACEBOOK_VERIFY_TOKEN_URL,
+    GOOGLE_VERIFY_TOKEN_URL
     
 }

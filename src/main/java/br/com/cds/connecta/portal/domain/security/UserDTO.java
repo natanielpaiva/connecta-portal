@@ -1,5 +1,7 @@
 package br.com.cds.connecta.portal.domain.security;
 
+import br.com.cds.connecta.framework.core.util.SecurityUtil;
+
 /**
  *
  * @author Julio Lemes
@@ -7,23 +9,41 @@ package br.com.cds.connecta.portal.domain.security;
  */
 public class UserDTO {
 
-  protected UserProfileDTO profile;
-  protected UserCredentialsDTO credentials;
-  
-  public UserProfileDTO getProfile() {
-    return profile;
-  }
+    protected UserProfileDTO profile;
+    protected UserCredentialsDTO credentials;
 
-  public void setProfile(UserProfileDTO profile) {
-    this.profile = profile;
-  }
+    
+    /**
+     * Verifica os dados de criação do User e aplica as RN's requeridas 
+     * para a criação de um novo User
+     *
+     * @param user
+     * @return
+     */
+    public static UserDTO handleTokenAuth(UserDTO user) {
+        UserProfileDTO profile = user.getProfile();
+        profile.setId(profile.getEmail());
 
-  public UserCredentialsDTO getCredentials() {
-    return credentials;
-  }
+        String password = SecurityUtil.getConnectaPasswordBase64Hash(profile.getEmail());
+        user.getCredentials().setPassword(password);
 
-  public void setCredentials(UserCredentialsDTO credentials) {
-    this.credentials = credentials;
-  }
+        return user;
+    }
+
+    public UserProfileDTO getProfile() {
+        return profile;
+    }
+
+    public void setProfile(UserProfileDTO profile) {
+        this.profile = profile;
+    }
+
+    public UserCredentialsDTO getCredentials() {
+        return credentials;
+    }
+
+    public void setCredentials(UserCredentialsDTO credentials) {
+        this.credentials = credentials;
+    }
 
 }

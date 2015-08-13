@@ -11,8 +11,6 @@ public class UserProfileDTO {
     private String firstName;
     private String lastName;
     private String email;
-    private String token;
-    private SocialTokenType tokenType;
 
     public String getId() {
         return id;
@@ -44,22 +42,6 @@ public class UserProfileDTO {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public SocialTokenType getTokenType() {
-        return tokenType;
-    }
-
-    public void setTokenType(SocialTokenType tokenType) {
-        this.tokenType = tokenType;
     }
 
 }

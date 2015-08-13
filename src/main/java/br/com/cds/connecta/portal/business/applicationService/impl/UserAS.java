@@ -1,8 +1,11 @@
 package br.com.cds.connecta.portal.business.applicationService.impl;
 
+import br.com.cds.connecta.framework.core.domain.ExceptionEnum;
 import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
+import br.com.cds.connecta.framework.core.exception.BusinessException;
 import br.com.cds.connecta.framework.core.http.RestClient;
 import br.com.cds.connecta.framework.core.security.SecurityContextUtil;
+import br.com.cds.connecta.framework.core.util.Util;
 import br.com.cds.connecta.portal.business.applicationService.IApplicationConfigAS;
 import br.com.cds.connecta.portal.business.applicationService.IAuthenticationAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
@@ -31,28 +34,55 @@ public class UserAS implements IUserAS {
     private String userResourceUrl;
     private String createUserEndpoint;
     private String deleteUserEndpoint;
-    private String updateUserEndpoint;
+    private String userProfileEndpoint;
     private String updateUserCredentialsEndpoint;
 
     @Override
-    public UserDTO createUser(UserDTO user) {
-        UserDTO userToSave = prepareToSave(user);
-        RestClient.postForObject(getCreateUserEndpoint(), userToSave, UserDTO.class);
-        return user;
-    }
-    
-    private UserDTO prepareToSave(UserDTO user){
-        String token = user.getProfile().getToken();
-        Boolean hasToken = token != null && !token.isEmpty();
+    public AuthenticationDTO createUser(UserDTO user) {
+        prepareToSave(user);
         
-        if(hasToken){
+        boolean userExists = checkIfUserExists(user.getProfile().getId());
+        
+        if(userExists){
+            String token = user.getCredentials().getToken();
+            Boolean hasToken = token != null && !token.isEmpty() && Util.isEmpty(user.getCredentials().getPassword());
             
+            //Caso o usuário possua um token de rede social, autenticar baseado neste token
+            //Caso não, lançar exceção para username já existente.
+            if(hasToken){
+                return authenticateUser(user);
+            } else {
+                throw new IllegalArgumentException("USER.CREATE.ERROR.EXISTS");
+            }
+        } else {
+            //Executa request para o Camunda salvar o usuário
+            RestClient.postForObject(getCreateUserEndpoint(), user, UserDTO.class);
+            return authenticateUser(user);
         }
-        return user;
+    }
+
+    private AuthenticationDTO authenticateUser(UserDTO user) {
+        AuthenticationDTO auth = authAS.authenticate(user.getProfile().getId(), user.getCredentials().getPassword());
+        return auth;
     }
     
-    private AuthenticationDTO logUser(UserDTO user){
-        return authAS.authenticate("", "");
+    private void prepareToSave(UserDTO user){
+        String token = user.getCredentials().getToken();
+        Boolean hasToken = token != null && !token.isEmpty() && Util.isEmpty(user.getCredentials().getPassword());
+        
+        if (hasToken && Util.isNull(user.getCredentials())) {
+            UserDTO.handleTokenAuth(user);
+        }
+        
+    }
+
+    private boolean checkIfUserExists(String userId) {
+        try {
+            RestClient.getForObject(getUserProfileEndpoint(), UserProfileDTO.class, userId);
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
     }
 
     @Override
@@ -66,7 +96,7 @@ public class UserAS implements IUserAS {
     public void updateUser(UserProfileDTO userProfile) {
         Map<String, String> headers = Collections.singletonMap("Authorization", SecurityContextUtil.getCurrentUserToken());
         
-        RestClient.putForObject(getUpdateUserEndpoint(), userProfile, headers, null, userProfile.getId());
+        RestClient.putForObject(getUserProfileEndpoint(), userProfile, headers, null, userProfile.getId());
     }
 
     @Override
@@ -102,9 +132,8 @@ public class UserAS implements IUserAS {
         return deleteUserEndpoint;
     }
 
-    private String getUpdateUserEndpoint() {
-        updateUserEndpoint = getUserResourceUrl() + "/{userId}/profile";
-        return updateUserEndpoint;
+    private String getUserProfileEndpoint() {
+        userProfileEndpoint = getUserResourceUrl() + "/{userId}/profile";
+        return userProfileEndpoint;
     }
-    
 }

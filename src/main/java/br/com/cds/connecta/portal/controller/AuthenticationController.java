@@ -1,10 +1,13 @@
 package br.com.cds.connecta.portal.controller;
 
+import br.com.cds.connecta.framework.core.context.ConnectaSpringContext;
 import br.com.cds.connecta.framework.core.domain.annotation.PublicResource;
 import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
+import br.com.cds.connecta.portal.business.applicationService.IApplicationConfigAS;
 import br.com.cds.connecta.portal.business.applicationService.IAuthenticationAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
-import java.util.Map;
+import br.com.cds.connecta.portal.domain.ApplicationConfigEnum;
+import br.com.cds.connecta.portal.domain.security.UserDTO;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -32,15 +35,12 @@ public class AuthenticationController {
     @Autowired IUserAS userAS;
     
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity authenticateUser(HttpServletResponse response, @RequestBody Map<String, String> params){
-        String username = params.containsKey("username") ? params.get("username") : "";
-        String password = params.containsKey("password") ? params.get("password") : "";
-        
+    public ResponseEntity authenticateUser(HttpServletResponse response, @RequestBody UserDTO user){
         try {
-            AuthenticationDTO auth = authAS.authenticate(username, password);
+            AuthenticationDTO auth = authAS.authenticate(user);
 
             HttpHeaders headers = new HttpHeaders();
-            headers.add("Set-Cookie","Authorization="+auth.getToken());
+            headers.add("Set-Cookie","X-Authorization-Token="+auth.getToken());
             
             return new ResponseEntity(auth, headers, HttpStatus.OK);
         } catch (RestClientException ex) {
@@ -62,5 +62,12 @@ public class AuthenticationController {
     public ResponseEntity logout(@RequestParam("token") String userToken){
         authAS.logout(userToken);
         return new ResponseEntity(HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "test", method = RequestMethod.GET)
+    public ResponseEntity test(){
+        IApplicationConfigAS config = ConnectaSpringContext.getBean(IApplicationConfigAS.class);
+        String conf = config.getByName(ApplicationConfigEnum.FACEBOOK_VERIFY_TOKEN_URL);
+        return new ResponseEntity(conf, HttpStatus.OK);
     }
 }

@@ -1,4 +1,4 @@
-package br.com.cds.connecta.portal.security;
+package br.com.cds.connecta.portal.security.connector;
 
 import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
 import br.com.cds.connecta.framework.core.security.SecurityConnector;

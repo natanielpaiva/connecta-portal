@@ -1,4 +1,4 @@
-package br.com.cds.connecta.portal.domain.security;
+package br.com.cds.connecta.portal.security.authentication.token.domain;
 /**
  *
  * @author Julio Lemes

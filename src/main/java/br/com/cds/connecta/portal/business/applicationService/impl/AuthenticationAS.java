@@ -4,6 +4,7 @@ import br.com.cds.connecta.framework.core.domain.ExceptionEnum;
 import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
 import br.com.cds.connecta.framework.core.exception.BusinessException;
 import br.com.cds.connecta.framework.core.http.RestClient;
+import br.com.cds.connecta.framework.core.util.SecurityUtil;
 import br.com.cds.connecta.framework.core.util.Util;
 import br.com.cds.connecta.portal.business.applicationService.IApplicationConfigAS;
 import br.com.cds.connecta.portal.business.applicationService.IAuthenticationAS;
@@ -27,6 +28,8 @@ import org.springframework.util.MultiValueMap;
  */
 @Service
 public class AuthenticationAS implements IAuthenticationAS {
+    
+    private static final String AVATAR_URL_TEMPLATE = "http://gravatar.com/avatar/%s?s=50&d=mm";
 
     private @Autowired IApplicationConfigAS config;
     private @Autowired TokenVerifierStrategy tokenVerifierStrategy;
@@ -67,15 +70,35 @@ public class AuthenticationAS implements IAuthenticationAS {
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("username", username);
         params.add("password", password);
-        return RestClient.formRequest(getLoginEndpoint(), HttpMethod.POST, AuthenticationDTO.class, params, null);
+        AuthenticationDTO authenticationDTO = RestClient.formRequest(getLoginEndpoint(), HttpMethod.POST, AuthenticationDTO.class, params, null);
+        
+        generateAvatarUrl(authenticationDTO);
+        
+        return authenticationDTO;
     }
 
     @Override
     public AuthenticationDTO getAuthenticatedUser(String userToken) {
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", userToken);
+        
+        AuthenticationDTO authenticationDTO = RestClient.formRequest(getAuthenticatedUserEndpoint(), HttpMethod.GET, AuthenticationDTO.class, null, headers);
+        
+        generateAvatarUrl(authenticationDTO);
 
-        return RestClient.formRequest(getAuthenticatedUserEndpoint(), HttpMethod.GET, AuthenticationDTO.class, null, headers);
+        return authenticationDTO;
+    }
+
+    private void generateAvatarUrl(AuthenticationDTO authenticationDTO) {
+        if (Util.isEmpty(authenticationDTO.getAvatarUrl())) {
+            String hash = "0000000000000000000000000000000";
+
+            if (!Util.isEmpty(authenticationDTO.getEmail())) {
+                hash = SecurityUtil.getHash(authenticationDTO.getEmail(), SecurityUtil.MD5);
+            }
+            
+            authenticationDTO.setAvatarUrl(String.format(AVATAR_URL_TEMPLATE, hash));
+        }
     }
 
     @Override

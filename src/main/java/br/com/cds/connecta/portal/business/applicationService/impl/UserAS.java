@@ -1,8 +1,6 @@
 package br.com.cds.connecta.portal.business.applicationService.impl;
 
-import br.com.cds.connecta.framework.core.domain.ExceptionEnum;
 import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
-import br.com.cds.connecta.framework.core.exception.BusinessException;
 import br.com.cds.connecta.framework.core.http.RestClient;
 import br.com.cds.connecta.framework.core.security.SecurityContextUtil;
 import br.com.cds.connecta.framework.core.util.Util;
@@ -13,11 +11,18 @@ import br.com.cds.connecta.portal.domain.ApplicationConfigEnum;
 import br.com.cds.connecta.portal.domain.security.UserCredentialsDTO;
 import br.com.cds.connecta.portal.domain.security.UserDTO;
 import br.com.cds.connecta.portal.domain.security.UserProfileDTO;
+import br.com.cds.connecta.portal.entity.User;
+import br.com.cds.connecta.portal.entity.UserImage;
+import br.com.cds.connecta.portal.persistence.UserDAO;
+import br.com.cds.connecta.portal.persistence.UserImageDAO;
+import br.com.cds.connecta.portal.security.authentication.token.strategy.TokenVerifierStrategy;
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -26,9 +31,12 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserAS implements IUserAS {
-    
-    private @Autowired IApplicationConfigAS configAS;
-    private @Autowired IAuthenticationAS authAS;
+
+    @Autowired IApplicationConfigAS configAS;
+    @Autowired IAuthenticationAS authAS;
+    @Autowired TokenVerifierStrategy tokenVerifierStrategy;
+    @Autowired UserDAO userDAO;
+    @Autowired UserImageDAO userImageDAO;
 
     private String authProviderUrl;
     private String userResourceUrl;
@@ -40,40 +48,78 @@ public class UserAS implements IUserAS {
     @Override
     public AuthenticationDTO createUser(UserDTO user) {
         prepareToSave(user);
-        
+
         boolean userExists = checkIfUserExists(user.getProfile().getId());
-        
-        if(userExists){
+
+        if (userExists) {
             String token = user.getCredentials().getToken();
-            Boolean hasToken = token != null && !token.isEmpty() && Util.isEmpty(user.getCredentials().getPassword());
-            
+            Boolean hasToken = Util.isNotEmpty(token);
+
             //Caso o usuário possua um token de rede social, autenticar baseado neste token
             //Caso não, lançar exceção para username já existente.
-            if(hasToken){
+            if (hasToken) {
                 return authenticateUser(user);
             } else {
                 throw new IllegalArgumentException("USER.CREATE.ERROR.EXISTS");
             }
         } else {
-            //Executa request para o Camunda salvar o usuário
-            RestClient.postForObject(getCreateUserEndpoint(), user, UserDTO.class);
+            executeCamundaSaveRequest(user);
+
+            //TODO Recuperar imagem do usuário a partir da rede social caso seja token
+            userDAO.save(user.createUserEntity());
             return authenticateUser(user);
         }
     }
 
-    private AuthenticationDTO authenticateUser(UserDTO user) {
-        AuthenticationDTO auth = authAS.authenticate(user.getProfile().getId(), user.getCredentials().getPassword());
-        return auth;
+    @Override
+    public UserDTO createOrUpdateWithUpload(UserDTO userDTO, MultipartFile image) throws IOException {
+        User user = userDTO.createUserEntity();
+        boolean userExists = checkIfUserExists(userDTO.getProfile().getId());
+
+        if (!userExists) {
+            executeCamundaSaveRequest(userDTO);
+            
+            if (Util.isNotNull(image)) {
+                UserImage userImage = new UserImage(user, image.getBytes());
+                if(Util.isNotEmpty(image.getOriginalFilename())){
+                    userImage.setName(image.getOriginalFilename());
+                }
+                user.setImage(userImage);
+            }
+            
+            userDAO.save(user);
+            
+        } else {
+            //Executa o update do Usuário no Camunda
+            updateUser(userDTO.getProfile());
+            
+            //Atualiza a imagem do usuário caso exista
+            if (Util.isNotNull(image)) {
+                UserImage userImage = userImageDAO.findByUserLogin(userDTO.getProfile().getId());
+                
+                if(Util.isNotEmpty(image.getOriginalFilename())){
+                    userImage.setName(image.getOriginalFilename());
+                }
+                
+                userImage.setImage(image.getBytes());
+            }
+        }
+
+        return userDTO;
     }
-    
-    private void prepareToSave(UserDTO user){
+
+    private AuthenticationDTO authenticateUser(UserDTO user) {
+        return authAS.authenticate(user);
+    }
+
+    private void prepareToSave(UserDTO user) {
         String token = user.getCredentials().getToken();
         Boolean hasToken = token != null && !token.isEmpty() && Util.isEmpty(user.getCredentials().getPassword());
-        
-        if (hasToken && Util.isNull(user.getCredentials())) {
+
+        if (hasToken && Util.isNotNull(user.getCredentials())) {
             UserDTO.handleTokenAuth(user);
         }
-        
+
     }
 
     private boolean checkIfUserExists(String userId) {
@@ -88,30 +134,37 @@ public class UserAS implements IUserAS {
     @Override
     public void updatePassword(String userId, UserCredentialsDTO credentials) {
         Map<String, String> headers = Collections.singletonMap("Authorization", SecurityContextUtil.getCurrentUserToken());
-        
+
         RestClient.putForObject(getUpdateUserCredentialsEndpoint(), credentials, headers, null, userId);
     }
 
     @Override
     public void updateUser(UserProfileDTO userProfile) {
         Map<String, String> headers = Collections.singletonMap("Authorization", SecurityContextUtil.getCurrentUserToken());
-        
+
         RestClient.putForObject(getUserProfileEndpoint(), userProfile, headers, null, userProfile.getId());
     }
 
     @Override
     public void deleteUser(String userId) {
         Map<String, String> headers = Collections.singletonMap("Authorization", SecurityContextUtil.getCurrentUserAuthentication().getToken());
-        
+
         RestClient.formRequest(getDeleteUserEndpoint(), HttpMethod.DELETE, null, null, headers, userId);
     }
     
-      
+    /**
+     * Executa request para o Camunda salvar o usuário
+     * @param user 
+     */
+    private void executeCamundaSaveRequest(UserDTO user) {
+        RestClient.postForObject(getCreateUserEndpoint(), user, UserDTO.class);
+    }
+
     private String getAuthProviderUrl() {
         authProviderUrl = configAS.getByName(ApplicationConfigEnum.AUTH_PROVIDER_URL);
         return authProviderUrl;
     }
-    
+
     private String getUserResourceUrl() {
         userResourceUrl = getAuthProviderUrl() + "/api/engine/engine/default/user";
         return userResourceUrl;
@@ -126,7 +179,7 @@ public class UserAS implements IUserAS {
         updateUserCredentialsEndpoint = getUserResourceUrl() + "/{userId}/credentials";
         return updateUserCredentialsEndpoint;
     }
-    
+
     private String getDeleteUserEndpoint() {
         deleteUserEndpoint = getUserResourceUrl() + "/{userId}";
         return deleteUserEndpoint;

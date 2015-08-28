@@ -4,6 +4,7 @@ import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
 import br.com.cds.connecta.portal.domain.security.UserCredentialsDTO;
 import br.com.cds.connecta.portal.domain.security.UserDTO;
 import br.com.cds.connecta.portal.domain.security.UserProfileDTO;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  *
@@ -13,6 +14,8 @@ import br.com.cds.connecta.portal.domain.security.UserProfileDTO;
 public interface IUserAS {
     
     AuthenticationDTO createUser(UserDTO user);
+    
+    UserDTO createOrUpdateWithUpload(UserDTO user, MultipartFile image) throws Exception;
     
     void updatePassword(String userId, UserCredentialsDTO credentials);
     

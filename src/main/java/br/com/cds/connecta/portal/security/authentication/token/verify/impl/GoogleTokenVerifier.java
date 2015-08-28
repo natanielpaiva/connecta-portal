@@ -23,11 +23,17 @@ public class GoogleTokenVerifier implements IAuthenticationTokenVerifier {
     public Boolean verifyToken(String token, String userEmail) {
         GooglePlusTokenVerifyDTO tokenVerify = tokenVerifyRequest(token);
         
-        return Util.isEmpty(tokenVerify.getError()) && userEmail.equals(tokenVerify.getEmail());
+        return Util.isNotNull(tokenVerify) && Util.isEmpty(tokenVerify.getError()) && userEmail.equals(tokenVerify.getEmail());
     }
-    
-    private GooglePlusTokenVerifyDTO tokenVerifyRequest(String token){
-        return RestClient.getForObject(getTokenVerifierUrl(), GooglePlusTokenVerifyDTO.class, token);
+
+    private GooglePlusTokenVerifyDTO tokenVerifyRequest(String token) {
+        GooglePlusTokenVerifyDTO tokenDTO;
+        try {
+            tokenDTO = RestClient.getForObject(getTokenVerifierUrl(), GooglePlusTokenVerifyDTO.class, token);
+        } catch (Exception e) {
+            return null;
+        }
+        return tokenDTO;
     }
     
     private String getTokenVerifierUrl(){

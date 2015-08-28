@@ -1,6 +1,7 @@
 package br.com.cds.connecta.portal.domain.security;
 
 import br.com.cds.connecta.framework.core.util.SecurityUtil;
+import br.com.cds.connecta.portal.entity.User;
 
 /**
  *
@@ -27,6 +28,12 @@ public class UserDTO {
         String password = SecurityUtil.getConnectaPasswordBase64Hash(profile.getEmail());
         user.getCredentials().setPassword(password);
 
+        return user;
+    }
+    
+    public User createUserEntity(){
+        User user = new User();
+        user.setLogin(this.getProfile().getId());
         return user;
     }
 

@@ -1,10 +1,13 @@
 package br.com.cds.connecta.portal.domain.security;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  *
  * @author Julio Lemes
  * @date Aug 10, 2015
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class UserProfileDTO {
 
     private String id;
@@ -15,8 +18,12 @@ public class UserProfileDTO {
     public String getId() {
         return id;
     }
-
+    
     public void setId(String id) {
+        this.id = id;
+    }
+    
+    public void setUserId(String id) {
         this.id = id;
     }
 

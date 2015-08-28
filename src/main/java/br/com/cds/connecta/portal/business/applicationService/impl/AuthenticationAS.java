@@ -44,7 +44,7 @@ public class AuthenticationAS implements IAuthenticationAS {
     public AuthenticationDTO authenticate(UserDTO user) {
         //Verificar se o login é por password ou token
         String token = user.getCredentials().getToken();
-        Boolean hasToken = token != null && !token.isEmpty() && Util.isEmpty(user.getCredentials().getPassword());
+        Boolean hasToken = Util.isNotEmpty(token);
 
         if (hasToken) {
             SocialTokenType tokenType = user.getCredentials().getTokenType();

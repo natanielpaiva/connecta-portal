@@ -9,5 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @date Aug 27, 2015
  */
 public interface UserDAO extends JpaRepository<User, Long> {
+    
+    User findByLogin(String login);
 
 }

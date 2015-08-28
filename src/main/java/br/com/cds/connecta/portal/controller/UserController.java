@@ -53,9 +53,8 @@ public class UserController {
             @RequestParam("user") String userProfileStr) throws Exception {
         
         UserDTO user = objectMapper.readValue(userProfileStr, UserDTO.class);
-//        userAS.createOrUpdateWithUpload(user, image);
+        userAS.createOrUpdateWithUpload(user, image);
         
-//        userAS.updateUser(userProfile);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 

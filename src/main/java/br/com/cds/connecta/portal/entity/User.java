@@ -32,7 +32,7 @@ public class User extends AbstractBaseEntity {
     private String login;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "FK_USER_IMG")
+    @JoinColumn(name = "FK_USER_IMG", referencedColumnName = "PK_USER_IMG")
     private UserImage image;
 
     @Override

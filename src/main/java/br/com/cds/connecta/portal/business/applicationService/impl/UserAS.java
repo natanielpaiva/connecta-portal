@@ -74,40 +74,61 @@ public class UserAS implements IUserAS {
     @Override
     public UserDTO createOrUpdateWithUpload(UserDTO userDTO, MultipartFile image) throws IOException {
         User user = userDTO.createUserEntity();
-        boolean userExists = checkIfUserExists(userDTO.getProfile().getId());
+        boolean userExistsCamunda = checkIfUserExists(userDTO.getProfile().getId());
 
-        if (!userExists) {
+        if (!userExistsCamunda) {
             executeCamundaSaveRequest(userDTO);
-            
-            if (Util.isNotNull(image)) {
-                UserImage userImage = new UserImage(user, image.getBytes());
-                if(Util.isNotEmpty(image.getOriginalFilename())){
-                    userImage.setName(image.getOriginalFilename());
-                }
-                user.setImage(userImage);
-            }
-            
-            userDAO.save(user);
+            saveUserToDatabase(image, user);
             
         } else {
             //Executa o update do Usuário no Camunda
             updateUser(userDTO.getProfile());
             
-            //Atualiza a imagem do usuário caso exista
-            if (Util.isNotNull(image)) {
-                UserImage userImage = userImageDAO.findByUserLogin(userDTO.getProfile().getId());
-                
-                if(Util.isNotEmpty(image.getOriginalFilename())){
-                    userImage.setName(image.getOriginalFilename());
+            //Checar se usuário existe no banco, se não, criar...
+            User findUser = userDAO.findByLogin(userDTO.getProfile().getId());
+            
+            if(Util.isNotNull(findUser)){
+                //Atualiza a imagem do usuário caso exista
+                if (Util.isNotNull(image)) {
+                    UserImage userImage = findUser.getImage();
+                    if(Util.isNotNull(userImage)){
+                        setImage(image, userImage);
+                    }
                 }
-                
-                userImage.setImage(image.getBytes());
+            } else {
+                saveUserToDatabase(image, user);
             }
+            
         }
 
         return userDTO;
     }
 
+    
+    /**
+     * Salva o usuário no DB do Portal
+     * @param image
+     * @param user
+     * @throws IOException 
+     */
+    private void saveUserToDatabase(MultipartFile image, User user) throws IOException {
+        if (Util.isNotNull(image)) {
+            UserImage userImage = new UserImage();
+            setImage(image, userImage);
+            user.setImage(userImage);
+        }
+        
+        userDAO.save(user);
+    }
+
+    private void setImage(MultipartFile image, UserImage userImage) throws IOException {
+        if(Util.isNotEmpty(image.getOriginalFilename())){
+            userImage.setName(image.getOriginalFilename());
+        }
+        
+        userImage.setImage(image.getBytes());
+    }
+    
     private AuthenticationDTO authenticateUser(UserDTO user) {
         return authAS.authenticate(user);
     }

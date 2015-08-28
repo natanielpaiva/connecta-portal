@@ -5,6 +5,8 @@ import br.com.cds.connecta.framework.core.domain.annotation.PublicResource;
 import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
 import br.com.cds.connecta.framework.core.exception.BusinessException;
 import br.com.cds.connecta.framework.core.security.SecurityContextUtil;
+import br.com.cds.connecta.framework.core.util.Util;
+import br.com.cds.connecta.portal.business.applicationService.IAuthenticationAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.domain.security.UserCredentialsDTO;
 import br.com.cds.connecta.portal.domain.security.UserDTO;
@@ -32,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserController {
 
     @Autowired IUserAS userAS;
+    @Autowired IAuthenticationAS authAS;
     @Autowired HibernateAwareObjectMapper objectMapper;
 
     @PublicResource
@@ -47,15 +50,30 @@ public class UserController {
         }
     }
 
-    @RequestMapping(value = "upload", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity createUserWithUpload(
+    @RequestMapping(value = "profile", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity updateUserProfileWithUpload(
             @RequestParam(value = "image", required = false) MultipartFile image,
-            @RequestParam("user") String userProfileStr) throws Exception {
+            @RequestParam("user") String userDtoStr) throws Exception {
         
-        UserDTO user = objectMapper.readValue(userProfileStr, UserDTO.class);
+        UserDTO user = objectMapper.readValue(userDtoStr, UserDTO.class);
         userAS.createOrUpdateWithUpload(user, image);
         
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        AuthenticationDTO currentUser = SecurityContextUtil.getCurrentUserAuthentication();
+        return new ResponseEntity(currentUser, HttpStatus.NO_CONTENT);
+        
+    }
+    
+    @PublicResource
+    @RequestMapping(value = "create", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity createUserWithUpload(
+            @RequestParam(value = "image", required = false) MultipartFile image,
+            @RequestParam("user") String userDtoStr) throws Exception {
+        
+        UserDTO user = objectMapper.readValue(userDtoStr, UserDTO.class);
+        userAS.createOrUpdateWithUpload(user, image);
+        
+        return new ResponseEntity(authAS.authenticate(user), HttpStatus.NO_CONTENT);
+        
     }
 
     @RequestMapping(value = "password", method = RequestMethod.POST)

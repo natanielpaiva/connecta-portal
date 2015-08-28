@@ -1,6 +1,8 @@
 package br.com.cds.connecta.portal.business.applicationService.impl;
 
+import br.com.cds.connecta.framework.core.domain.ExceptionEnum;
 import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
+import br.com.cds.connecta.framework.core.exception.BusinessException;
 import br.com.cds.connecta.framework.core.http.RestClient;
 import br.com.cds.connecta.framework.core.security.SecurityContextUtil;
 import br.com.cds.connecta.framework.core.util.Util;
@@ -81,6 +83,13 @@ public class UserAS implements IUserAS {
             saveUserToDatabase(image, user);
             
         } else {
+            //Verifica se o usuário está logado ou não (criação/update)
+            AuthenticationDTO currentUser = SecurityContextUtil.getCurrentUserAuthentication();
+            if(Util.isNull(currentUser) || !currentUser.getUserId().equals(userDTO.getProfile().getId())){
+                //Se não estiver logado, está tentando criar usuário com username que ja está cadastrado no camunda
+                throw new BusinessException(ExceptionEnum.FORBIDDEN, "USER.ERROR.USERNAME_EXISTS");
+            }
+            
             //Executa o update do Usuário no Camunda
             updateUser(userDTO.getProfile());
             

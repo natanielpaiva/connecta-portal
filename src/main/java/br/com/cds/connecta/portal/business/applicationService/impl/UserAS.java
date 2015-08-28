@@ -85,9 +85,12 @@ public class UserAS implements IUserAS {
         } else {
             //Verifica se o usuário está logado ou não (criação/update)
             AuthenticationDTO currentUser = SecurityContextUtil.getCurrentUserAuthentication();
-            if(Util.isNull(currentUser) || !currentUser.getUserId().equals(userDTO.getProfile().getId())){
+            if(Util.isNull(currentUser)){
                 //Se não estiver logado, está tentando criar usuário com username que ja está cadastrado no camunda
                 throw new BusinessException(ExceptionEnum.FORBIDDEN, "USER.ERROR.USERNAME_EXISTS");
+            } else if (!currentUser.getUserId().equals(userDTO.getProfile().getId())){
+                //Se o nome do user logado não bate com o user da requisição, shit just hit the fan
+                throw new BusinessException(ExceptionEnum.REJECTED, "USER.ERROR.USERNAME_MISMATCH");
             }
             
             //Executa o update do Usuário no Camunda

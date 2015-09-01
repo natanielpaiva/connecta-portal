@@ -10,8 +10,8 @@ import br.com.cds.connecta.portal.business.applicationService.IAuthenticationAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.domain.security.UserCredentialsDTO;
 import br.com.cds.connecta.portal.domain.security.UserDTO;
-import br.com.cds.connecta.portal.domain.security.UserProfileDTO;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import br.com.cds.connecta.portal.entity.UserImage;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -41,7 +42,7 @@ public class UserController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity createUser(@RequestBody UserDTO user) {
         try {
-            AuthenticationDTO savedUser = userAS.createUser(user);
+            AuthenticationDTO savedUser = userAS.saveUser(user);
             return new ResponseEntity(savedUser, HttpStatus.OK);
         } catch (IllegalArgumentException ex) {
             return new ResponseEntity(ex.getMessage(), HttpStatus.CONFLICT);
@@ -56,7 +57,7 @@ public class UserController {
             @RequestParam("user") String userDtoStr) throws Exception {
         
         UserDTO user = objectMapper.readValue(userDtoStr, UserDTO.class);
-        userAS.createOrUpdateWithUpload(user, image);
+        userAS.saveOrUpdateWithUpload(user, image);
         
         AuthenticationDTO currentUser = SecurityContextUtil.getCurrentUserAuthentication();
         return new ResponseEntity(currentUser, HttpStatus.NO_CONTENT);
@@ -70,22 +71,38 @@ public class UserController {
             @RequestParam("user") String userDtoStr) throws Exception {
         
         UserDTO user = objectMapper.readValue(userDtoStr, UserDTO.class);
-        userAS.createOrUpdateWithUpload(user, image);
+        userAS.saveOrUpdateWithUpload(user, image);
         
         return new ResponseEntity(authAS.authenticate(user), HttpStatus.NO_CONTENT);
         
     }
 
-    @RequestMapping(value = "password", method = RequestMethod.POST)
+    @RequestMapping(value = "credentials", method = RequestMethod.PUT)
     public ResponseEntity changePassword(@RequestBody UserCredentialsDTO credentials) {
         String userId = SecurityContextUtil.getCurrentUserId();
-        userAS.updatePassword(userId, credentials);
+        try {
+            userAS.updatePassword(userId, credentials);
+        } catch (HttpStatusCodeException ex) {
+            return new ResponseEntity(ex.getResponseBodyAsString() ,ex.getStatusCode());
+        }
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
+    
+    @PublicResource
+    @RequestMapping(value = "{username}/avatar", method = RequestMethod.GET, 
+            produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE})
+    public ResponseEntity getUserAvatar(@PathVariable("username") String username){
+        UserImage image = userAS.getUserImage(username);
+        if (Util.isNotNull(image)) {
+            return new ResponseEntity(image.getImage(), HttpStatus.OK);
+        } else {
+            return new ResponseEntity(HttpStatus.NO_CONTENT);
+        }
+    }
 
-    @RequestMapping(value = "{userId}", method = RequestMethod.DELETE)
-    public ResponseEntity deleteUser(@PathVariable String userId) {
-        userAS.deleteUser(userId);
+    @RequestMapping(value = "{username}", method = RequestMethod.DELETE)
+    public ResponseEntity deleteUser(@PathVariable String username) {
+        userAS.deleteUser(username);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
 

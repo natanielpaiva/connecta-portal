@@ -8,6 +8,7 @@ public enum ApplicationConfigEnum {
 
     AUTH_PROVIDER_URL,
     FACEBOOK_VERIFY_TOKEN_URL,
-    GOOGLE_VERIFY_TOKEN_URL
+    GOOGLE_VERIFY_TOKEN_URL,
+    USER_AVATAR_ENDPOINT
     
 }

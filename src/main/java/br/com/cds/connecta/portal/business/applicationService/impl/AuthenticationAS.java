@@ -4,13 +4,14 @@ import br.com.cds.connecta.framework.core.domain.ExceptionEnum;
 import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
 import br.com.cds.connecta.framework.core.exception.BusinessException;
 import br.com.cds.connecta.framework.core.http.RestClient;
-import br.com.cds.connecta.framework.core.util.SecurityUtil;
 import br.com.cds.connecta.framework.core.util.Util;
 import br.com.cds.connecta.portal.business.applicationService.IApplicationConfigAS;
 import br.com.cds.connecta.portal.business.applicationService.IAuthenticationAS;
+import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.domain.ApplicationConfigEnum;
 import br.com.cds.connecta.portal.security.authentication.token.domain.SocialTokenType;
 import br.com.cds.connecta.portal.domain.security.UserDTO;
+import br.com.cds.connecta.portal.persistence.UserImageDAO;
 import br.com.cds.connecta.portal.security.authentication.token.strategy.TokenVerifierStrategy;
 import br.com.cds.connecta.portal.security.authentication.token.verify.IAuthenticationTokenVerifier;
 import java.util.HashMap;
@@ -29,10 +30,10 @@ import org.springframework.util.MultiValueMap;
 @Service
 public class AuthenticationAS implements IAuthenticationAS {
     
-    private static final String AVATAR_URL_TEMPLATE = "http://gravatar.com/avatar/%s?s=50&d=mm";
-
-    private @Autowired IApplicationConfigAS config;
-    private @Autowired TokenVerifierStrategy tokenVerifierStrategy;
+    @Autowired IApplicationConfigAS config;
+    @Autowired IUserAS userAS;
+    @Autowired UserImageDAO userImgDAO;
+    @Autowired TokenVerifierStrategy tokenVerifierStrategy;
 
     private String authProviderUrl;
     private String authResourceUrl;
@@ -72,7 +73,7 @@ public class AuthenticationAS implements IAuthenticationAS {
         params.add("password", password);
         AuthenticationDTO authenticationDTO = RestClient.formRequest(getLoginEndpoint(), HttpMethod.POST, AuthenticationDTO.class, params, null);
         
-        generateAvatarUrl(authenticationDTO);
+        setAvatarUrl(authenticationDTO);
         
         return authenticationDTO;
     }
@@ -84,22 +85,15 @@ public class AuthenticationAS implements IAuthenticationAS {
         
         AuthenticationDTO authenticationDTO = RestClient.formRequest(getAuthenticatedUserEndpoint(), HttpMethod.GET, AuthenticationDTO.class, null, headers);
         
-        generateAvatarUrl(authenticationDTO);
+        setAvatarUrl(authenticationDTO);
 
         return authenticationDTO;
     }
-
-    private void generateAvatarUrl(AuthenticationDTO authenticationDTO) {
-        if (Util.isEmpty(authenticationDTO.getAvatarUrl())) {
-            String hash = "0000000000000000000000000000000";
-
-            if (!Util.isEmpty(authenticationDTO.getEmail())) {
-                hash = SecurityUtil.getHash(authenticationDTO.getEmail(), SecurityUtil.MD5);
-            }
-            
-            authenticationDTO.setAvatarUrl(String.format(AVATAR_URL_TEMPLATE, hash));
-        }
+    
+    private void setAvatarUrl(AuthenticationDTO authenticationDTO) {
+        authenticationDTO.setAvatarUrl(userAS.generateAvatarUrl(authenticationDTO.getUserId(), authenticationDTO.getEmail()));
     }
+    
 
     @Override
     public void logout(String userToken) {

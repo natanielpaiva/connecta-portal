@@ -5,6 +5,7 @@ import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
 import br.com.cds.connecta.framework.core.exception.BusinessException;
 import br.com.cds.connecta.framework.core.http.RestClient;
 import br.com.cds.connecta.framework.core.security.SecurityContextUtil;
+import br.com.cds.connecta.framework.core.util.SecurityUtil;
 import br.com.cds.connecta.framework.core.util.Util;
 import br.com.cds.connecta.portal.business.applicationService.IApplicationConfigAS;
 import br.com.cds.connecta.portal.business.applicationService.IAuthenticationAS;
@@ -25,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 /**
  *
@@ -39,16 +42,12 @@ public class UserAS implements IUserAS {
     @Autowired TokenVerifierStrategy tokenVerifierStrategy;
     @Autowired UserDAO userDAO;
     @Autowired UserImageDAO userImageDAO;
+    @Autowired IApplicationConfigAS config;
 
-    private String authProviderUrl;
-    private String userResourceUrl;
-    private String createUserEndpoint;
-    private String deleteUserEndpoint;
-    private String userProfileEndpoint;
-    private String updateUserCredentialsEndpoint;
+    private static final String AVATAR_URL_TEMPLATE = "http://gravatar.com/avatar/%s?s=50&d=mm";
 
     @Override
-    public AuthenticationDTO createUser(UserDTO user) {
+    public AuthenticationDTO saveUser(UserDTO user) {
         prepareToSave(user);
 
         boolean userExists = checkIfUserExists(user.getProfile().getId());
@@ -74,7 +73,7 @@ public class UserAS implements IUserAS {
     }
 
     @Override
-    public UserDTO createOrUpdateWithUpload(UserDTO userDTO, MultipartFile image) throws IOException {
+    public UserDTO saveOrUpdateWithUpload(UserDTO userDTO, MultipartFile image) throws IOException {
         User user = userDTO.createUserEntity();
         boolean userExistsCamunda = checkIfUserExists(userDTO.getProfile().getId());
 
@@ -89,7 +88,7 @@ public class UserAS implements IUserAS {
                 //Se não estiver logado, está tentando criar usuário com username que ja está cadastrado no camunda
                 throw new BusinessException(ExceptionEnum.FORBIDDEN, "USER.ERROR.USERNAME_EXISTS");
             } else if (!currentUser.getUserId().equals(userDTO.getProfile().getId())){
-                //Se o nome do user logado não bate com o user da requisição, shit just hit the fan
+                //Se o username do user logado não bate com o user da requisição, shit just hit the fan
                 throw new BusinessException(ExceptionEnum.REJECTED, "USER.ERROR.USERNAME_MISMATCH");
             }
             
@@ -100,13 +99,24 @@ public class UserAS implements IUserAS {
             User findUser = userDAO.findByLogin(userDTO.getProfile().getId());
             
             if(Util.isNotNull(findUser)){
-                //Atualiza a imagem do usuário caso exista
-                if (Util.isNotNull(image)) {
-                    UserImage userImage = findUser.getImage();
-                    if(Util.isNotNull(userImage)){
-                        setImage(image, userImage);
+                UserImage userImage = findUser.getImage();
+                if(Util.isNotNull(image)){
+                    //Atualiza a imagem do usuário caso exista
+                    if(Util.isNull(userImage)){
+                        userImage = new UserImage();
                     }
+
+                    setImage(image, userImage);
+                    findUser.setImage(userImage);
+                    userDAO.save(findUser);
+                } else if (Util.isNull(userDTO.getProfile().getAvatarUrl()) && Util.isNotNull(userImage)){
+                    //Usuário remove a imagem no form do profile e possui uma imagem no banco
+                    //Remover imagem no banco
+                    findUser.setImage(null);
+                    userDAO.save(findUser);
+                    userImageDAO.delete(userImage.getId());
                 }
+                
             } else {
                 saveUserToDatabase(image, user);
             }
@@ -139,6 +149,32 @@ public class UserAS implements IUserAS {
         }
         
         userImage.setImage(image.getBytes());
+    }
+
+    @Override
+    public UserImage getUserImage(String username) {
+        return userImageDAO.findByUserLogin(username);
+    }
+    
+    @Override
+    public String generateAvatarUrl(String userId, String email){
+        UserImage userImage = userImageDAO.findByUserLogin(userId);
+        
+        if (Util.isNull(userImage)) {
+            String hash = "0000000000000000000000000000000";
+
+            if (Util.isNotEmpty(email)) {
+                hash = SecurityUtil.getHash(email, SecurityUtil.MD5);
+            }
+            
+            return String.format(AVATAR_URL_TEMPLATE, hash);
+            
+        } else {
+            String avatarEndpoint = config.getByName(ApplicationConfigEnum.USER_AVATAR_ENDPOINT);
+            UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl(avatarEndpoint);
+            UriComponents build = url.buildAndExpand(userId);
+            return build.toUriString();
+        }
     }
     
     private AuthenticationDTO authenticateUser(UserDTO user) {
@@ -194,32 +230,26 @@ public class UserAS implements IUserAS {
     }
 
     private String getAuthProviderUrl() {
-        authProviderUrl = configAS.getByName(ApplicationConfigEnum.AUTH_PROVIDER_URL);
-        return authProviderUrl;
+        return configAS.getByName(ApplicationConfigEnum.AUTH_PROVIDER_URL);
     }
 
     private String getUserResourceUrl() {
-        userResourceUrl = getAuthProviderUrl() + "/api/engine/engine/default/user";
-        return userResourceUrl;
+        return getAuthProviderUrl() + "/api/engine/engine/default/user";
     }
 
     private String getCreateUserEndpoint() {
-        createUserEndpoint = getUserResourceUrl() + "/create";
-        return createUserEndpoint;
+        return getUserResourceUrl() + "/create";
     }
 
     private String getUpdateUserCredentialsEndpoint() {
-        updateUserCredentialsEndpoint = getUserResourceUrl() + "/{userId}/credentials";
-        return updateUserCredentialsEndpoint;
+        return getUserResourceUrl() + "/{userId}/credentials";
     }
 
     private String getDeleteUserEndpoint() {
-        deleteUserEndpoint = getUserResourceUrl() + "/{userId}";
-        return deleteUserEndpoint;
+        return getUserResourceUrl() + "/{userId}";
     }
 
     private String getUserProfileEndpoint() {
-        userProfileEndpoint = getUserResourceUrl() + "/{userId}/profile";
-        return userProfileEndpoint;
+        return getUserResourceUrl() + "/{userId}/profile";
     }
 }

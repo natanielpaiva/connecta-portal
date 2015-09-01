@@ -17,5 +17,5 @@ public interface IAuthenticationAS {
     AuthenticationDTO getAuthenticatedUser(String userToken);
     
     void logout(String userToken);
-
+    
 }

@@ -14,15 +14,16 @@ public class UserProfileDTO {
     private String firstName;
     private String lastName;
     private String email;
+    private String avatarUrl;
 
     public String getId() {
         return id;
     }
-    
+
     public void setId(String id) {
         this.id = id;
     }
-    
+
     public void setUserId(String id) {
         this.id = id;
     }
@@ -49,6 +50,14 @@ public class UserProfileDTO {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
 }

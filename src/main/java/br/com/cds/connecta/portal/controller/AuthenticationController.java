@@ -1,12 +1,9 @@
 package br.com.cds.connecta.portal.controller;
 
-import br.com.cds.connecta.framework.core.context.ConnectaSpringContext;
 import br.com.cds.connecta.framework.core.domain.annotation.PublicResource;
 import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
-import br.com.cds.connecta.portal.business.applicationService.IApplicationConfigAS;
 import br.com.cds.connecta.portal.business.applicationService.IAuthenticationAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
-import br.com.cds.connecta.portal.domain.ApplicationConfigEnum;
 import br.com.cds.connecta.portal.domain.security.UserDTO;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,12 +59,5 @@ public class AuthenticationController {
     public ResponseEntity logout(@RequestParam("token") String userToken){
         authAS.logout(userToken);
         return new ResponseEntity(HttpStatus.OK);
-    }
-    
-    @RequestMapping(value = "test", method = RequestMethod.GET)
-    public ResponseEntity test(){
-        IApplicationConfigAS config = ConnectaSpringContext.getBean(IApplicationConfigAS.class);
-        String conf = config.getByName(ApplicationConfigEnum.FACEBOOK_VERIFY_TOKEN_URL);
-        return new ResponseEntity(conf, HttpStatus.OK);
     }
 }

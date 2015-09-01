@@ -34,6 +34,7 @@ public class UserDTO {
     public User createUserEntity(){
         User user = new User();
         user.setLogin(this.getProfile().getId());
+        user.setImageUrl(this.getProfile().getAvatarUrl());
         return user;
     }
 

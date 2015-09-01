@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface IUserAS {
     
-    AuthenticationDTO saveUser(UserDTO user);
+    AuthenticationDTO saveUser(UserDTO user) throws Exception;
     
     UserDTO saveOrUpdateWithUpload(UserDTO user, MultipartFile image) throws Exception;
     

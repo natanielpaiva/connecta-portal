@@ -37,17 +37,23 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 public class UserAS implements IUserAS {
 
-    @Autowired IApplicationConfigAS configAS;
-    @Autowired IAuthenticationAS authAS;
-    @Autowired TokenVerifierStrategy tokenVerifierStrategy;
-    @Autowired UserDAO userDAO;
-    @Autowired UserImageDAO userImageDAO;
-    @Autowired IApplicationConfigAS config;
+    @Autowired
+    IApplicationConfigAS configAS;
+    @Autowired
+    IAuthenticationAS authAS;
+    @Autowired
+    TokenVerifierStrategy tokenVerifierStrategy;
+    @Autowired
+    UserDAO userDAO;
+    @Autowired
+    UserImageDAO userImageDAO;
+    @Autowired
+    IApplicationConfigAS config;
 
     private static final String AVATAR_URL_TEMPLATE = "http://gravatar.com/avatar/%s?s=50&d=mm";
 
     @Override
-    public AuthenticationDTO saveUser(UserDTO user) {
+    public AuthenticationDTO saveUser(UserDTO user) throws Exception{
         prepareToSave(user);
 
         boolean userExists = checkIfUserExists(user.getProfile().getId());
@@ -64,10 +70,7 @@ public class UserAS implements IUserAS {
                 throw new IllegalArgumentException("USER.CREATE.ERROR.EXISTS");
             }
         } else {
-            executeCamundaSaveRequest(user);
-
-            //TODO Recuperar imagem do usuário a partir da rede social caso seja token
-            userDAO.save(user.createUserEntity());
+            saveOrUpdateWithUpload(user, null);
             return authenticateUser(user);
         }
     }
@@ -80,58 +83,58 @@ public class UserAS implements IUserAS {
         if (!userExistsCamunda) {
             executeCamundaSaveRequest(userDTO);
             saveUserToDatabase(image, user);
-            
+
         } else {
             //Verifica se o usuário está logado ou não (criação/update)
             AuthenticationDTO currentUser = SecurityContextUtil.getCurrentUserAuthentication();
-            if(Util.isNull(currentUser)){
+            if (Util.isNull(currentUser)) {
                 //Se não estiver logado, está tentando criar usuário com username que ja está cadastrado no camunda
                 throw new BusinessException(ExceptionEnum.FORBIDDEN, "USER.ERROR.USERNAME_EXISTS");
-            } else if (!currentUser.getUserId().equals(userDTO.getProfile().getId())){
+            } else if (!currentUser.getUserId().equals(userDTO.getProfile().getId())) {
                 //Se o username do user logado não bate com o user da requisição, shit just hit the fan
                 throw new BusinessException(ExceptionEnum.REJECTED, "USER.ERROR.USERNAME_MISMATCH");
             }
-            
+
             //Executa o update do Usuário no Camunda
             updateUser(userDTO.getProfile());
-            
+
             //Checar se usuário existe no banco, se não, criar...
             User findUser = userDAO.findByLogin(userDTO.getProfile().getId());
-            
-            if(Util.isNotNull(findUser)){
+
+            if (Util.isNotNull(findUser)) {
                 UserImage userImage = findUser.getImage();
-                if(Util.isNotNull(image)){
+                if (Util.isNotNull(image)) {
                     //Atualiza a imagem do usuário caso exista
-                    if(Util.isNull(userImage)){
+                    if (Util.isNull(userImage)) {
                         userImage = new UserImage();
                     }
 
                     setImage(image, userImage);
                     findUser.setImage(userImage);
                     userDAO.save(findUser);
-                } else if (Util.isNull(userDTO.getProfile().getAvatarUrl()) && Util.isNotNull(userImage)){
+                } else if (Util.isNull(userDTO.getProfile().getAvatarUrl()) && Util.isNotNull(userImage)) {
                     //Usuário remove a imagem no form do profile e possui uma imagem no banco
                     //Remover imagem no banco
                     findUser.setImage(null);
                     userDAO.save(findUser);
                     userImageDAO.delete(userImage.getId());
                 }
-                
+
             } else {
                 saveUserToDatabase(image, user);
             }
-            
+
         }
 
         return userDTO;
     }
 
-    
     /**
      * Salva o usuário no DB do Portal
+     *
      * @param image
      * @param user
-     * @throws IOException 
+     * @throws IOException
      */
     private void saveUserToDatabase(MultipartFile image, User user) throws IOException {
         if (Util.isNotNull(image)) {
@@ -139,15 +142,15 @@ public class UserAS implements IUserAS {
             setImage(image, userImage);
             user.setImage(userImage);
         }
-        
-        userDAO.save(user);
+
+        userDAO.saveAndFlush(user);
     }
 
     private void setImage(MultipartFile image, UserImage userImage) throws IOException {
-        if(Util.isNotEmpty(image.getOriginalFilename())){
+        if (Util.isNotEmpty(image.getOriginalFilename())) {
             userImage.setName(image.getOriginalFilename());
         }
-        
+
         userImage.setImage(image.getBytes());
     }
 
@@ -155,28 +158,30 @@ public class UserAS implements IUserAS {
     public UserImage getUserImage(String username) {
         return userImageDAO.findByUserLogin(username);
     }
-    
+
     @Override
-    public String generateAvatarUrl(String userId, String email){
+    public String generateAvatarUrl(String userId, String email) {
         UserImage userImage = userImageDAO.findByUserLogin(userId);
-        
-        if (Util.isNull(userImage)) {
+        User user = userDAO.findByLogin(userId);
+
+        if (Util.isNotNull(userImage)) {
+            String avatarEndpoint = config.getByName(ApplicationConfigEnum.USER_AVATAR_ENDPOINT);
+            UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl(avatarEndpoint);
+            UriComponents build = url.buildAndExpand(userId);
+            return build.toUriString();
+        } else if (Util.isNotNull(user.getImageUrl())) {
+            return user.getImageUrl();
+        } else {
             String hash = "0000000000000000000000000000000";
 
             if (Util.isNotEmpty(email)) {
                 hash = SecurityUtil.getHash(email, SecurityUtil.MD5);
             }
-            
+
             return String.format(AVATAR_URL_TEMPLATE, hash);
-            
-        } else {
-            String avatarEndpoint = config.getByName(ApplicationConfigEnum.USER_AVATAR_ENDPOINT);
-            UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl(avatarEndpoint);
-            UriComponents build = url.buildAndExpand(userId);
-            return build.toUriString();
         }
     }
-    
+
     private AuthenticationDTO authenticateUser(UserDTO user) {
         return authAS.authenticate(user);
     }
@@ -220,10 +225,11 @@ public class UserAS implements IUserAS {
 
         RestClient.formRequest(getDeleteUserEndpoint(), HttpMethod.DELETE, null, null, headers, userId);
     }
-    
+
     /**
      * Executa request para o Camunda salvar o usuário
-     * @param user 
+     *
+     * @param user
      */
     private void executeCamundaSaveRequest(UserDTO user) {
         RestClient.postForObject(getCreateUserEndpoint(), user, UserDTO.class);

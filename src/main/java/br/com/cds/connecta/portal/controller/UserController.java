@@ -40,7 +40,7 @@ public class UserController {
 
     @PublicResource
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity createUser(@RequestBody UserDTO user) {
+    public ResponseEntity createUser(@RequestBody UserDTO user) throws Exception {
         try {
             AuthenticationDTO savedUser = userAS.saveUser(user);
             return new ResponseEntity(savedUser, HttpStatus.OK);

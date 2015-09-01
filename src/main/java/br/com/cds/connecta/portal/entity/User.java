@@ -31,6 +31,9 @@ public class User extends AbstractBaseEntity {
     @Column(name = "CD_LOGIN")
     private String login;
 
+    @Column(name = "URL_IMAGE")
+    private String imageUrl;
+
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "FK_USER_IMG", referencedColumnName = "PK_USER_IMG")
     private UserImage image;
@@ -58,6 +61,14 @@ public class User extends AbstractBaseEntity {
 
     public void setImage(UserImage image) {
         this.image = image;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
 }

@@ -73,7 +73,7 @@ public class UserController {
         UserDTO user = objectMapper.readValue(userDtoStr, UserDTO.class);
         userAS.saveOrUpdateWithUpload(user, image);
         
-        return new ResponseEntity(authAS.authenticate(user), HttpStatus.NO_CONTENT);
+        return new ResponseEntity(authAS.authenticate(user), HttpStatus.CREATED);
         
     }
 

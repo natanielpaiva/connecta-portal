@@ -11,7 +11,6 @@ import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.domain.security.UserCredentialsDTO;
 import br.com.cds.connecta.portal.domain.security.UserDTO;
 import br.com.cds.connecta.portal.entity.UserImage;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -71,7 +70,11 @@ public class UserController {
             @RequestParam("user") String userDtoStr) throws Exception {
         
         UserDTO user = objectMapper.readValue(userDtoStr, UserDTO.class);
-        userAS.saveOrUpdateWithUpload(user, image);
+        try {
+            userAS.saveOrUpdateWithUpload(user, image);
+        } catch(BusinessException exception) {
+            return new ResponseEntity(exception.getMessageError().getKey(), HttpStatus.CONFLICT);
+        }
         
         return new ResponseEntity(authAS.authenticate(user), HttpStatus.CREATED);
         

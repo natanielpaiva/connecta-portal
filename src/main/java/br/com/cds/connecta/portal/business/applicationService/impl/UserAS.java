@@ -1,6 +1,6 @@
 package br.com.cds.connecta.portal.business.applicationService.impl;
 
-import br.com.cds.connecta.framework.core.domain.ExceptionEnum;
+import br.com.cds.connecta.framework.core.domain.MessageEnum;
 import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
 import br.com.cds.connecta.framework.core.exception.BusinessException;
 import br.com.cds.connecta.framework.core.http.RestClient;
@@ -89,10 +89,10 @@ public class UserAS implements IUserAS {
             AuthenticationDTO currentUser = SecurityContextUtil.getCurrentUserAuthentication();
             if (Util.isNull(currentUser)) {
                 //Se não estiver logado, está tentando criar usuário com username que ja está cadastrado no camunda
-                throw new BusinessException(ExceptionEnum.FORBIDDEN, "USER.ERROR.USERNAME_EXISTS");
+                throw new BusinessException(MessageEnum.FORBIDDEN, "USER.ERROR.USERNAME_EXISTS");
             } else if (!currentUser.getUserId().equals(userDTO.getProfile().getId())) {
                 //Se o username do user logado não bate com o user da requisição, shit just hit the fan
-                throw new BusinessException(ExceptionEnum.REJECTED, "USER.ERROR.USERNAME_MISMATCH");
+                throw new BusinessException(MessageEnum.REJECTED, "USER.ERROR.USERNAME_MISMATCH");
             }
 
             //Executa o update do Usuário no Camunda

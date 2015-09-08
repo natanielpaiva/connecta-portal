@@ -1,6 +1,6 @@
 package br.com.cds.connecta.portal.business.applicationService.impl;
 
-import br.com.cds.connecta.framework.core.domain.ExceptionEnum;
+import br.com.cds.connecta.framework.core.domain.MessageEnum;
 import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
 import br.com.cds.connecta.framework.core.exception.BusinessException;
 import br.com.cds.connecta.framework.core.http.RestClient;
@@ -57,7 +57,7 @@ public class AuthenticationAS implements IAuthenticationAS {
             if(isVerified){
                 UserDTO.handleTokenAuth(user);
             } else {
-                throw new BusinessException(ExceptionEnum.REJECTED, "AUTH.TOKEN.ERROR");
+                throw new BusinessException(MessageEnum.REJECTED, "AUTH.TOKEN.ERROR");
             }
             
         }

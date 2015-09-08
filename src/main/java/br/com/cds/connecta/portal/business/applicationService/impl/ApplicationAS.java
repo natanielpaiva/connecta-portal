@@ -2,7 +2,7 @@ package br.com.cds.connecta.portal.business.applicationService.impl;
 
 import br.com.cds.connecta.portal.business.applicationService.IApplicationAS;
 import br.com.cds.connecta.portal.entity.Application;
-import br.com.cds.connecta.framework.core.filter.PaginationFilter;
+import br.com.cds.connecta.framework.core.search.filter.PaginationFilter;
 import br.com.cds.connecta.portal.persistence.ApplicationDAO;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -4,22 +4,33 @@ import br.com.cds.connecta.framework.core.domain.annotation.PublicResource;
 import br.com.cds.connecta.portal.business.applicationService.IDashboardAS;
 import br.com.cds.connecta.portal.entity.Dashboard;
 import br.com.cds.connecta.portal.filter.DashboardPaginationFilter;
+import java.util.List;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
-@RestController
+@Controller
 @PublicResource
 @RequestMapping("dashboard")
 public class DashboardController {
 
     @Autowired
     private IDashboardAS service;
+    
+    @RequestMapping(value = "viewer", method = RequestMethod.GET)
+    public ResponseEntity<List<Map<String, Object>>> searchViewers(@RequestParam(value = "text", defaultValue = "") String text) {
+        
+        List<Map<String, Object>> viewers = service.searchViewers(text);
+        
+        return new ResponseEntity<>(viewers, HttpStatus.OK);
+    }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public ResponseEntity<Dashboard> get(@PathVariable("id") Long id) {

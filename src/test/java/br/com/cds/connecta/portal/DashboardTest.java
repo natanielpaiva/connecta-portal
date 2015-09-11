@@ -1,5 +1,7 @@
 package br.com.cds.connecta.portal;
 
+import br.com.cds.connecta.framework.core.domain.MessageEnum;
+import br.com.cds.connecta.framework.core.domain.MessageTypeEnum;
 import static br.com.cds.connecta.framework.core.test.ConnectaMatchers.*;
 import br.com.cds.connecta.portal.domain.DashboardDisplayMode;
 import br.com.cds.connecta.portal.domain.DashboardItemType;
@@ -18,6 +20,7 @@ import org.junit.Test;
 public class DashboardTest extends BaseTest {
     
     static final String RESOURCE = REST_PATH.concat("dashboard");
+    static final String RESOURCE_VIEWERS = RESOURCE.concat("/viewer");
     static final String RESOURCE_ID = RESOURCE.concat("/{id}");
     
     @Test
@@ -45,6 +48,24 @@ public class DashboardTest extends BaseTest {
             ))))
             .andExpect(jsonPath("$.content[*].sections", todosOsItens(nullValue())))
             ;
+    }
+    
+    @Test
+    public void searchViewers() throws Exception {
+        mockMvc().perform(get(RESOURCE_VIEWERS)
+            .param("page", "1")
+            .param("count", "10")
+            .param("text", "vi")
+        ).andDo(print())
+            .andExpect(content().contentType(MEDIATYPE_JSON_UTF8))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$", notNullValue()))
+            .andExpect(jsonPath("$[*]", hasSize(greaterThan(0))))
+            .andExpect(jsonPath("$[*].id", todosOsItens(notNullValue())))
+            .andExpect(jsonPath("$[*].name", todosOsItens(notNullValue())))
+            .andExpect(jsonPath("$[*].description", todosOsItens(notNullValue())))
+            .andExpect(jsonPath("$[*]._hibernate_class", todosOsItens(notNullValue())))
+                ;
     }
     
     @Test
@@ -82,6 +103,20 @@ public class DashboardTest extends BaseTest {
             .andExpect(jsonPath("$.sections[0].id", is(10)))
             .andExpect(jsonPath("$.sections[0].items", hasSize(1)))
             .andExpect(jsonPath("$.sections[0].items[0].id", is(10)))
+        ;
+    }
+    
+    @Test
+    public void dashboardNotFound() throws Exception {
+        mockMvc().perform(get(RESOURCE_ID, 999)
+            .contentType(MEDIATYPE_JSON_UTF8)
+        ).andDo(print())
+            .andExpect(content().contentType(MEDIATYPE_JSON_UTF8))
+            .andExpect(status().isNotFound())
+            .andExpect(jsonPath("$", notNullValue()))
+            .andExpect(jsonPath("$.code", is(MessageEnum.NOT_FOUND.name())))
+            .andExpect(jsonPath("$.type", is(MessageTypeEnum.ERROR.name())))
+            .andExpect(jsonPath("$.message", is("Registro de Painel não encontrado.")))
         ;
     }
     

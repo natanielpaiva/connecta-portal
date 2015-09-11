@@ -21,8 +21,4 @@
     <!--TRANSACTION-->
     <import resource="classpath:META-INF/br.com.cds.connecta.framework.transaction.xml" />
     
-    <mvc:resources mapping="/assets/**" location="/assets/" />
-    <mvc:resources mapping="/app/**" location="/app/" />
-    <mvc:resources mapping="/bower_components/**" location="/bower_components/" />
-    
 </beans>

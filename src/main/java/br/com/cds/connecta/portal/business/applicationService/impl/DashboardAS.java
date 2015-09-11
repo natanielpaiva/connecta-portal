@@ -1,11 +1,15 @@
 package br.com.cds.connecta.portal.business.applicationService.impl;
 
+import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
 import static br.com.cds.connecta.framework.core.util.Util.*;
+import br.com.cds.connecta.portal.UtilSolr;
 import br.com.cds.connecta.portal.business.applicationService.IDashboardAS;
 import br.com.cds.connecta.portal.entity.Dashboard;
 import br.com.cds.connecta.portal.entity.DashboardSection;
 import br.com.cds.connecta.portal.filter.DashboardPaginationFilter;
 import br.com.cds.connecta.portal.persistence.DashboardDAO;
+import java.util.List;
+import java.util.Map;
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -40,7 +44,7 @@ public class DashboardAS implements IDashboardAS {
         Dashboard dashboard = dao.findOneWithSections(id);
         
         if ( isNull(dashboard) ) {
-//            throw new ResourceNotFoundException();
+            throw new ResourceNotFoundException(Dashboard.class.getCanonicalName());
         }
         
         for (DashboardSection section : dashboard.getSections()) {
@@ -63,6 +67,12 @@ public class DashboardAS implements IDashboardAS {
     @Override
     public void delete(Long id) {
         dao.delete(id);
+    }
+
+    @Override
+    public List<Map<String, Object>> searchViewers(String text) {
+        
+        return UtilSolr.searchSingleFieldAsMapList("text", text, 10);
     }
     
 }

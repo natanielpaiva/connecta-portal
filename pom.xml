@@ -26,46 +26,12 @@
         <build.warname>${project.artifactId}-${project.version}</build.warname>
     </properties>
 
-    <profiles>
-        <profile>
-            <id>development</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <properties>
-                <environment>development</environment>
-                <maven.test.skip>true</maven.test.skip>
-            </properties>
-        </profile>
-    </profiles>
-
     <dependencies>
-        
         <dependency>
             <groupId>br.com.cds.connecta.framework</groupId>
             <artifactId>connecta-core</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-        
-        <!--HIBERNATE SEARCH-->
-        <dependency>
-            <groupId>org.hibernate</groupId>
-            <artifactId>hibernate-search-orm</artifactId>
-            <version>4.2.0.Final</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-core</artifactId>
-            <version>5.2.1</version>
-        </dependency>
-        
-        <dependency>
-            <groupId>org.apache.lucene</groupId>
-            <artifactId>lucene-analyzers</artifactId>
-            <version>3.6.2</version>
-        </dependency>
-        
     </dependencies>
 
     <repositories>
@@ -97,13 +63,6 @@
                             <directory>src/main/webapp</directory>
                             <includes>
                                 <include>WEB-INF/weblogic.xml</include>
-                            </includes>
-                        </resource>
-                        <resource>
-                            <directory>src/main/webapp</directory>
-                            <filtering>true</filtering>
-                            <includes>
-                                <include>*.jsp</include>
                             </includes>
                         </resource>
                     </webResources>

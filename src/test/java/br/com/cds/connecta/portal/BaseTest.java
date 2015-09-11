@@ -1,11 +1,8 @@
 package br.com.cds.connecta.portal;
 
-
-
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;

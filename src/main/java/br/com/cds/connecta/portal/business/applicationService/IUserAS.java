@@ -26,6 +26,6 @@ public interface IUserAS {
     
     UserImage getUserImage(String username);
     
-    String generateAvatarUrl(String userId, String email);
+    String generateAvatarUrl(String userId, String email, AuthenticationDTO authDTO);
     
 }

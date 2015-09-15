@@ -59,7 +59,7 @@ public class UserController {
         userAS.saveOrUpdateWithUpload(user, image);
         
         AuthenticationDTO currentUser = SecurityContextUtil.getCurrentUserAuthentication();
-        return new ResponseEntity(currentUser, HttpStatus.NO_CONTENT);
+        return new ResponseEntity(currentUser, HttpStatus.OK);
         
     }
     

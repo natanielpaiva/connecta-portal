@@ -91,7 +91,7 @@ public class AuthenticationAS implements IAuthenticationAS {
     }
     
     private void setAvatarUrl(AuthenticationDTO authenticationDTO) {
-        authenticationDTO.setAvatarUrl(userAS.generateAvatarUrl(authenticationDTO.getUserId(), authenticationDTO.getEmail()));
+        authenticationDTO.setAvatarUrl(userAS.generateAvatarUrl(authenticationDTO.getUserId(), authenticationDTO.getEmail(), authenticationDTO));
     }
     
 

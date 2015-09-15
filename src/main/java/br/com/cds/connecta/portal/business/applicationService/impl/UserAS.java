@@ -1,5 +1,6 @@
 package br.com.cds.connecta.portal.business.applicationService.impl;
 
+import br.com.cds.connecta.framework.core.domain.AvatarUrlType;
 import br.com.cds.connecta.framework.core.domain.MessageEnum;
 import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
 import br.com.cds.connecta.framework.core.exception.BusinessException;
@@ -160,7 +161,7 @@ public class UserAS implements IUserAS {
     }
 
     @Override
-    public String generateAvatarUrl(String userId, String email) {
+    public String generateAvatarUrl(String userId, String email, AuthenticationDTO authDTO) {
         UserImage userImage = userImageDAO.findByUserLogin(userId);
         User user = userDAO.findByLogin(userId);
 
@@ -168,8 +169,10 @@ public class UserAS implements IUserAS {
             String avatarEndpoint = config.getByName(ApplicationConfigEnum.USER_AVATAR_ENDPOINT);
             UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl(avatarEndpoint);
             UriComponents build = url.buildAndExpand(userId);
+            authDTO.setAvatarUrlType(AvatarUrlType.DATABASE);
             return build.toUriString();
         } else if (Util.isNotNull(user.getImageUrl())) {
+            authDTO.setAvatarUrlType(AvatarUrlType.SOCIALNETWORK);
             return user.getImageUrl();
         } else {
             String hash = "0000000000000000000000000000000";
@@ -177,6 +180,8 @@ public class UserAS implements IUserAS {
             if (Util.isNotEmpty(email)) {
                 hash = SecurityUtil.getHash(email, SecurityUtil.MD5);
             }
+            
+            authDTO.setAvatarUrlType(AvatarUrlType.GRAVATAR);
 
             return String.format(AVATAR_URL_TEMPLATE, hash);
         }

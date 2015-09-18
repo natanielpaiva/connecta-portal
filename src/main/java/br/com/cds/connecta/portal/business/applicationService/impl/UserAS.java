@@ -171,7 +171,7 @@ public class UserAS implements IUserAS {
             UriComponents build = url.buildAndExpand(userId);
             authDTO.setAvatarUrlType(AvatarUrlType.DATABASE);
             return build.toUriString();
-        } else if (Util.isNotNull(user.getImageUrl())) {
+        } else if (Util.isNotNull(user) && Util.isNotNull(user.getImageUrl())) {
             authDTO.setAvatarUrlType(AvatarUrlType.SOCIALNETWORK);
             return user.getImageUrl();
         } else {

@@ -2,26 +2,29 @@
   <dataSource type="JdbcDataSource" jndiName="ConnectaPresenterDS" name="presenter" />
   <dataSource type="JdbcDataSource" jndiName="ConnectaMapsDS" name="maps" />
   <document>
-    <entity name="viewer" dataSource="presenter" pk="PK_VIEWER" transformer="ClobTransformer,DateFormatTransformer,RegexTransformer"
-      query="SELECT PK_VIEWER, NM_VIEWER, DS_VIEWER, 'br.com.cds.connecta.presenter.entity.Viewer' CLASS FROM PRESENTER2.TB_VIEWER"
-      deltaImportQuery="SELECT 'br.com.cds.connecta.presenter.entity.Viewer' as CLASS, PK_VIEWER, NM_VIEWER, DS_VIEWER FROM PRESENTER2.TB_VIEWER WHERE PK_VIEWER='${dih.delta.PK_VIEWER}'"
+    <entity name="viewer" dataSource="presenter" pk="PK_VIEWER" transformer="ClobTransformer,DateFormatTransformer,RegexTransformer,TemplateTransformer"
+      query="SELECT PK_VIEWER, NM_VIEWER, DS_VIEWER FROM PRESENTER2.TB_VIEWER"
+      deltaImportQuery="SELECT PK_VIEWER, NM_VIEWER, DS_VIEWER FROM PRESENTER2.TB_VIEWER WHERE PK_VIEWER='${dih.delta.PK_VIEWER}'"
       deltaQuery="SELECT PK_VIEWER FROM PRESENTER2.TB_VIEWER WHERE DT_LAST_MODIFIED > TO_DATE('${dataimporter.last_index_time}', 'yyyy-mm-dd hh24:mi:ss')">
 
-      <field column="PK_VIEWER" name="id" />
-      <field column="NM_VIEWER" name="name" />
-      <field column="DS_VIEWER" name="description" />
+      <field name="id" column="PK_VIEWER" />
+      <field name="name" column="NM_VIEWER" />
+      <field name="description" column="DS_VIEWER" />
 
-      <field column="CLASS" name="_hibernate_class" />
+      <field column="module" template="presenter" />
+      <field column="_hibernate_class" template="br.com.cds.connecta.presenter.entity.viewer.Viewer" />
     </entity>
 
-    <entity name="viewer" dataSource="maps" pk="id_viewer" transformer="ClobTransformer,DateFormatTransformer,RegexTransformer"
-      query="SELECT id_viewer, nm_viewer, 'br.com.cds.connecta.maps.entity.LayerViewerEntity' as CLASS FROM MAPS.TB_Layer_Viewer"
-      deltaImportQuery="SELECT 'br.com.cds.connecta.maps.entity.LayerViewerEntity' as CLASS, id_viewer, nm_viewer FROM MAPS.TB_Layer_Viewer WHERE id_viewer='${dih.delta.id_viewer}'"
+    <entity name="viewer" dataSource="maps" pk="id_viewer" transformer="ClobTransformer,DateFormatTransformer,RegexTransformer,TemplateTransformer"
+      query="SELECT id_viewer, nm_viewer FROM MAPS.TB_Layer_Viewer"
+      deltaImportQuery="SELECT id_viewer, nm_viewer FROM MAPS.TB_Layer_Viewer WHERE id_viewer='${dih.delta.id_viewer}'"
       deltaQuery="SELECT id_viewer FROM MAPS.TB_Layer_Viewer WHERE DT_LAST_MODIFIED > TO_DATE('${dataimporter.last_index_time}', 'yyyy-mm-dd hh24:mi:ss')">
 
-      <field column="ID_VIEWER" name="id" />
-      <field column="NM_VIEWER" name="name" />
-      <field column="CLASS" name="_hibernate_class" />
+      <field name="id" column="ID_VIEWER" />
+      <field name="name" column="NM_VIEWER" />
+      
+      <field column="module" template="maps" />
+      <field column="_hibernate_class" template="br.com.cds.connecta.maps.entity.LayerViewerEntity" />
     </entity>
   </document>
 <!--

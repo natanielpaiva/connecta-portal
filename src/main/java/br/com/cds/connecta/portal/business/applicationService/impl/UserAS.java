@@ -38,18 +38,12 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 public class UserAS implements IUserAS {
 
-    @Autowired
-    IApplicationConfigAS configAS;
-    @Autowired
-    IAuthenticationAS authAS;
-    @Autowired
-    TokenVerifierStrategy tokenVerifierStrategy;
-    @Autowired
-    UserDAO userDAO;
-    @Autowired
-    UserImageDAO userImageDAO;
-    @Autowired
-    IApplicationConfigAS config;
+    @Autowired IApplicationConfigAS configAS;
+    @Autowired IAuthenticationAS authAS;
+    @Autowired TokenVerifierStrategy tokenVerifierStrategy;
+    @Autowired UserDAO userDAO;
+    @Autowired UserImageDAO userImageDAO;
+    @Autowired IApplicationConfigAS config;
 
     private static final String AVATAR_URL_TEMPLATE = "http://gravatar.com/avatar/%s?s=50&d=mm";
 
@@ -201,6 +195,11 @@ public class UserAS implements IUserAS {
 
     }
 
+    /**
+     * Checa se o usuário existe no camunda
+     * @param userId
+     * @return 
+     */
     private boolean checkIfUserExists(String userId) {
         try {
             RestClient.getForObject(getUserProfileEndpoint(), UserProfileDTO.class, userId);

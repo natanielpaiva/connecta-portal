@@ -6,5 +6,5 @@ package br.com.cds.connecta.portal.domain;
  */
 public enum DashboardDisplayMode {
     VERTICAL,
-    PAGE;
+    HORIZONTAL;
 }

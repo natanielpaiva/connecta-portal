@@ -38,7 +38,7 @@ public class DashboardTest extends BaseTest {
             .andExpect(jsonPath("$.content[*].name", todosOsItens(notNullValue())))
             .andExpect(jsonPath("$.content[*].displayMode", todosOsItens(anyOf(
                 enumKeyFor(DashboardDisplayMode.VERTICAL),
-                enumKeyFor(DashboardDisplayMode.PAGE)
+                enumKeyFor(DashboardDisplayMode.HORIZONTAL)
             ))))
             .andExpect(jsonPath("$.content[*].sectionTransitionAnimation", todosOsItens(anyOf(
                 enumKeyFor(DashboardSectionAnimation.FADE),
@@ -226,7 +226,7 @@ public class DashboardTest extends BaseTest {
             .andExpect(jsonPath("$.maxRows", equalTo(10)))
             .andExpect(jsonPath("$.columns", equalTo(10)))
             .andExpect(jsonPath("$.padding", equalTo(10)))
-            .andExpect(jsonPath("$.displayMode", enumKeyFor(DashboardDisplayMode.PAGE)))
+            .andExpect(jsonPath("$.displayMode", enumKeyFor(DashboardDisplayMode.HORIZONTAL)))
             .andExpect(jsonPath("$.sectionTransitionInterval", equalTo(10)))
             .andExpect(jsonPath("$.sectionTransitionDuration", equalTo(1000)))
             .andExpect(jsonPath("$.sectionTransitionAnimation", enumKeyFor(DashboardSectionAnimation.SLIDE_UP)))

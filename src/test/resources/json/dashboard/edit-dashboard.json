@@ -5,7 +5,7 @@
     "maxRows": 10,
     "columns": 10,
     "padding": 10,
-    "displayMode": "PAGE",
+    "displayMode": "HORIZONTAL",
     "sectionTransitionInterval": 10,
     "sectionTransitionDuration": 1000,
     "sectionTransitionAnimation": "SLIDE_UP",

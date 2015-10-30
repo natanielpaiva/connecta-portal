@@ -28,18 +28,6 @@ public class DashboardItem extends AbstractBaseEntity {
     
     @Column(name = "URL_VIEWER")
     private String viewerUrl;
-
-    @Column(name = "NU_CONTENT_HEIGHT")
-    private Short contentHeight;
-    
-    @Column(name = "NU_CONTENT_WIDTH")
-    private Short contentWidth;
-    
-    @Column(name = "NU_CONTENT_POSITION_X")
-    private Short contentPositionX;
-    
-    @Column(name = "NU_CONTENT_POSITION_Y")
-    private Short contentPositionY;
     
     @Column(name = "NU_SIZE_X")
     private Short sizeX;
@@ -82,38 +70,6 @@ public class DashboardItem extends AbstractBaseEntity {
 
     public void setViewerUrl(String viewerUrl) {
         this.viewerUrl = viewerUrl;
-    }
-
-    public Short getContentHeight() {
-        return contentHeight;
-    }
-
-    public void setContentHeight(Short contentHeight) {
-        this.contentHeight = contentHeight;
-    }
-
-    public Short getContentWidth() {
-        return contentWidth;
-    }
-
-    public void setContentWidth(Short contentWidth) {
-        this.contentWidth = contentWidth;
-    }
-
-    public Short getContentPositionX() {
-        return contentPositionX;
-    }
-
-    public void setContentPositionX(Short contentPositionX) {
-        this.contentPositionX = contentPositionX;
-    }
-
-    public Short getContentPositionY() {
-        return contentPositionY;
-    }
-
-    public void setContentPositionY(Short contentPositionY) {
-        this.contentPositionY = contentPositionY;
     }
 
     public Short getSizeX() {

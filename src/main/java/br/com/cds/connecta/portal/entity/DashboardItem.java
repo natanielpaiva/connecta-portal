@@ -44,6 +44,9 @@ public class DashboardItem extends AbstractBaseEntity {
     @Column(name = "NU_OPACITY")
     private Short opacity;
     
+    @Column(name = "NU_PADDING")
+    private Short padding;
+    
     @Column(name = "DS_BACKGROUND_COLOR")
     private String backgroundColor;
     
@@ -110,6 +113,14 @@ public class DashboardItem extends AbstractBaseEntity {
 
     public void setOpacity(Short opacity) {
         this.opacity = opacity;
+    }
+
+    public Short getPadding() {
+        return padding;
+    }
+
+    public void setPadding(Short padding) {
+        this.padding = padding;
     }
 
     public String getBackgroundColor() {

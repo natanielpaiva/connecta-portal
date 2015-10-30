@@ -1,75 +1,28 @@
-package br.com.cds.connecta.portal.entity;
+package br.com.cds.connecta.portal.dto;
 
 import br.com.cds.connecta.portal.domain.DashboardItemType;
-import br.com.cds.connecta.framework.core.entity.AbstractBaseEntity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
-
-
-@Entity
-@Table(name = "TB_DASHBOARD_ITEM")
-public class DashboardItem extends AbstractBaseEntity {
-
-    @Id
-    @SequenceGenerator(allocationSize = 1,
-            name = "TB_DASHBOARD_ITEM_SEQ", sequenceName = "TB_DASHBOARD_ITEM_SEQ")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TB_DASHBOARD_ITEM_SEQ")
-    @Column(name = "PK_DASHBOARD_ITEM")
+public class DashboardItemDTO {
+    
     private Long id;
-    
-    @Column(name = "URL_VIEWER")
     private String viewerUrl;
-
-    @Column(name = "NU_CONTENT_HEIGHT")
     private Short contentHeight;
-    
-    @Column(name = "NU_CONTENT_WIDTH")
     private Short contentWidth;
-    
-    @Column(name = "NU_CONTENT_POSITION_X")
     private Short contentPositionX;
-    
-    @Column(name = "NU_CONTENT_POSITION_Y")
     private Short contentPositionY;
-    
-    @Column(name = "NU_SIZE_X")
     private Short sizeX;
-    
-    @Column(name = "NU_SIZE_Y")
     private Short sizeY;
-    
-    @Column(name = "NU_ROW")
     private Short row;
-    
-    @Column(name = "NU_COLUMN")
     private Short column;
-    
-    @Column(name = "NU_OPACITY")
     private Short opacity;
-    
-    @Column(name = "DS_BACKGROUND_COLOR")
     private String backgroundColor;
+
+    private FrontendFileDTO backgroundImage;
     
-    @Lob
-    @Column(name = "BN_BACKGROUND_IMAGE")
-    private String backgroundImage;
-    
-    @Enumerated(EnumType.STRING)
-    @Column(name = "ST_ITEM_TYPE")
     private DashboardItemType type;
 
-    @Override
     public Long getId() {
-        return this.id;
+        return id;
     }
 
     public void setId(Long id) {
@@ -140,20 +93,20 @@ public class DashboardItem extends AbstractBaseEntity {
         this.row = row;
     }
 
-    public Short getColumn() {
-        return column;
-    }
-
-    public void setColumn(Short column) {
-        this.column = column;
-    }
-
     public Short getOpacity() {
         return opacity;
     }
 
     public void setOpacity(Short opacity) {
         this.opacity = opacity;
+    }
+
+    public Short getColumn() {
+        return column;
+    }
+
+    public void setColumn(Short column) {
+        this.column = column;
     }
 
     public String getBackgroundColor() {
@@ -164,11 +117,11 @@ public class DashboardItem extends AbstractBaseEntity {
         this.backgroundColor = backgroundColor;
     }
 
-    public String getBackgroundImage() {
+    public FrontendFileDTO getBackgroundImage() {
         return backgroundImage;
     }
 
-    public void setBackgroundImage(String backgroundImage) {
+    public void setBackgroundImage(FrontendFileDTO backgroundImage) {
         this.backgroundImage = backgroundImage;
     }
 
@@ -180,4 +133,5 @@ public class DashboardItem extends AbstractBaseEntity {
         this.type = type;
     }
 
+    
 }

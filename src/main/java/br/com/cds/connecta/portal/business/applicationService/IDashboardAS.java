@@ -1,5 +1,6 @@
 package br.com.cds.connecta.portal.business.applicationService;
 
+import br.com.cds.connecta.portal.dto.DashboardDTO;
 import br.com.cds.connecta.portal.entity.Dashboard;
 import br.com.cds.connecta.portal.filter.DashboardPaginationFilter;
 import java.util.List;
@@ -22,9 +23,9 @@ public interface IDashboardAS {
 
     Dashboard get(Long id);
 
-    Dashboard save(Dashboard application);
+    Dashboard save(DashboardDTO application);
 
-    Dashboard update(Dashboard entity);
+    Dashboard update(DashboardDTO entity);
 
     void delete(Long id);
 

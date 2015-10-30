@@ -1,80 +1,29 @@
-package br.com.cds.connecta.portal.entity;
+package br.com.cds.connecta.portal.dto;
 
-import br.com.cds.connecta.framework.core.entity.AbstractBaseEntity;
 import br.com.cds.connecta.portal.domain.DashboardSectionAnimation;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
-import javax.persistence.Table;
 
 import br.com.cds.connecta.portal.domain.DashboardDisplayMode;
 
 import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
 
-@Entity
-@Table(name = "TB_DASHBOARD")
-public class Dashboard extends AbstractBaseEntity {
-
-    @Id
-    @SequenceGenerator(allocationSize = 1,
-            name = "TB_DASHBOARD_SEQ", sequenceName = "TB_DASHBOARD_SEQ")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TB_DASHBOARD_SEQ")
-    @Column(name = "PK_DASHBOARD")
+public class DashboardDTO {
     private Long id;
-
-    @Column(name = "NM_DASHBOARD")
     private String name;
-
-    @Column(name = "NU_ROW_HEIGHT")
     private Short rowHeight;
-
-    @Column(name = "NU_MAX_ROWS")
     private Short maxRows;
-
-    @Column(name = "NU_COLUMNS")
     private Short columns;
-
-    @Column(name = "NU_PADDING")
     private Short padding;
-    
-    @Column(name = "NU_OPACITY")
     private Short opacity;
-
-    @Column(name = "NU_SECTION_TRANS_INT")
     private Short sectionTransitionInterval;
-
-    @Column(name = "NU_SECTION_TRANS_DUR")
     private Short sectionTransitionDuration;
-
-    @Column(name = "DS_BACKGROUND_COLOR")
     private String backgroundColor;
-
-    @Lob
-    @Column(name = "BN_BACKGROUND_IMAGE")
-    private String backgroundImage;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "ST_DISPLAY_MODE")
+    
+    private FrontendFileDTO backgroundImage;
+    
     private DashboardDisplayMode displayMode;
-
-    @Enumerated(EnumType.STRING)
-    @Column(name = "ST_DISPLAY_SECTION_ANIM")
     private DashboardSectionAnimation sectionTransitionAnimation;
+    private List<DashboardSectionDTO> sections;
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "FK_DASHBOARD")
-    private List<DashboardSection> sections;
-
-    @Override
     public Long getId() {
         return id;
     }
@@ -115,20 +64,20 @@ public class Dashboard extends AbstractBaseEntity {
         this.columns = columns;
     }
 
-    public Short getPadding() {
-        return padding;
-    }
-
-    public void setPadding(Short padding) {
-        this.padding = padding;
-    }
-
     public Short getOpacity() {
         return opacity;
     }
 
     public void setOpacity(Short opacity) {
         this.opacity = opacity;
+    }
+
+    public Short getPadding() {
+        return padding;
+    }
+
+    public void setPadding(Short padding) {
+        this.padding = padding;
     }
 
     public Short getSectionTransitionInterval() {
@@ -155,11 +104,11 @@ public class Dashboard extends AbstractBaseEntity {
         this.backgroundColor = backgroundColor;
     }
 
-    public String getBackgroundImage() {
+    public FrontendFileDTO getBackgroundImage() {
         return backgroundImage;
     }
 
-    public void setBackgroundImage(String backgroundImage) {
+    public void setBackgroundImage(FrontendFileDTO backgroundImage) {
         this.backgroundImage = backgroundImage;
     }
 
@@ -179,11 +128,11 @@ public class Dashboard extends AbstractBaseEntity {
         this.sectionTransitionAnimation = sectionTransitionAnimation;
     }
 
-    public List<DashboardSection> getSections() {
+    public List<DashboardSectionDTO> getSections() {
         return sections;
     }
 
-    public void setSections(List<DashboardSection> sections) {
+    public void setSections(List<DashboardSectionDTO> sections) {
         this.sections = sections;
     }
 

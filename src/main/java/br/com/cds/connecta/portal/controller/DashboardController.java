@@ -2,6 +2,7 @@ package br.com.cds.connecta.portal.controller;
 
 import br.com.cds.connecta.framework.core.domain.annotation.PublicResource;
 import br.com.cds.connecta.portal.business.applicationService.IDashboardAS;
+import br.com.cds.connecta.portal.dto.DashboardDTO;
 import br.com.cds.connecta.portal.entity.Dashboard;
 import br.com.cds.connecta.portal.filter.DashboardPaginationFilter;
 import java.util.List;
@@ -44,7 +45,7 @@ public class DashboardController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Dashboard> save(@RequestBody Dashboard application) {
+    public ResponseEntity<Dashboard> save(@RequestBody DashboardDTO application) {
         Dashboard entity = service.save(application);
         return new ResponseEntity<>(entity, HttpStatus.CREATED);
     }
@@ -52,7 +53,7 @@ public class DashboardController {
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public ResponseEntity<Dashboard> update(
             @PathVariable("id") Long id,
-            @RequestBody Dashboard entity) {
+            @RequestBody DashboardDTO entity) {
         
         Dashboard updatedEntity = service.update(entity);
         return new ResponseEntity<>(updatedEntity, HttpStatus.OK);

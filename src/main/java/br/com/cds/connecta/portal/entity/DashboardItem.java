@@ -1,7 +1,7 @@
 package br.com.cds.connecta.portal.entity;
 
-import br.com.cds.connecta.portal.domain.DashboardItemType;
 import br.com.cds.connecta.framework.core.entity.AbstractBaseEntity;
+import br.com.cds.connecta.portal.domain.DashboardItemType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

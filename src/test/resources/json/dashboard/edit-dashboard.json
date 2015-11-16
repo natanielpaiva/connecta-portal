@@ -20,7 +20,7 @@
                 {
                     "id": 10,
                     "viewerUrl": "http://localhost:7002/connecta-presenter/viewer/1",
-                    "type": "XY_CHART",
+                    "type": "ANALYSIS",
                     "backgroundColor": "#00FF00",
                     "backgroundImage": null,
                     "contentPositionX": 0,

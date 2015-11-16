@@ -17,7 +17,7 @@
             "items": [
                 {
                     "viewerUrl": "http://localhost:7002/connecta-presenter/viewer/1",
-                    "type": "XY_CHART",
+                    "type": "ANALYSIS",
                     "backgroundColor": "#00FF00",
                     "backgroundImage": null,
                     "contentPositionX": 0,
@@ -31,7 +31,7 @@
                 },
                 {
                     "viewerUrl": "http://localhost:7002/connecta-presenter/viewer/2",
-                    "type": "LINEAR_CHART",
+                    "type": "MAP",
                     "backgroundColor": null,
                     "backgroundImage": null,
                     "contentPositionX": 0,
@@ -51,7 +51,7 @@
             "items": [
                 {
                     "viewerUrl": "http://localhost:7002/connecta-presenter/viewer/1",
-                    "type": "XY_CHART",
+                    "type": "SINGLESOURCE",
                     "backgroundColor": "#00FF00",
                     "backgroundImage": null,
                     "contentPositionX": 0,
@@ -65,7 +65,7 @@
                 },
                 {
                     "viewerUrl": "http://localhost:7002/connecta-presenter/viewer/2",
-                    "type": "LINEAR_CHART",
+                    "type": "SINGLESOURCE_GROUP",
                     "backgroundColor": null,
                     "backgroundImage": null,
                     "contentPositionX": 0,

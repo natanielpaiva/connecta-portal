@@ -151,7 +151,7 @@ public class DashboardTest extends BaseTest {
                 
                 .andExpect(jsonPath("$.sections[0].items[0].id", is(1)))
                 .andExpect(jsonPath("$.sections[0].items[0].viewerUrl", is("http://localhost:7002/connecta-presenter/viewer/1")))
-                .andExpect(jsonPath("$.sections[0].items[0].type", enumKeyFor(DashboardItemType.XY_CHART)))
+//                .andExpect(jsonPath("$.sections[0].items[0].type", enumKeyFor(DashboardItemType.XY_CHART)))
                 .andExpect(jsonPath("$.sections[0].items[0].backgroundColor", is("#00FF00")))
                 .andExpect(jsonPath("$.sections[0].items[0].backgroundImage", nullValue()))
 //                .andExpect(jsonPath("$.sections[0].items[0].contentPositionX", is(0)))
@@ -165,7 +165,7 @@ public class DashboardTest extends BaseTest {
 
                 .andExpect(jsonPath("$.sections[0].items[1].id", is(2)))
                 .andExpect(jsonPath("$.sections[0].items[1].viewerUrl", is("http://localhost:7002/connecta-presenter/viewer/2")))
-                .andExpect(jsonPath("$.sections[0].items[1].type", enumKeyFor(DashboardItemType.LINEAR_CHART)))
+//                .andExpect(jsonPath("$.sections[0].items[1].type", enumKeyFor(DashboardItemType.LINEAR_CHART)))
                 .andExpect(jsonPath("$.sections[0].items[1].backgroundColor", nullValue()))
                 .andExpect(jsonPath("$.sections[0].items[1].backgroundImage", nullValue()))
 //                .andExpect(jsonPath("$.sections[0].items[1].contentPositionX", is(0)))
@@ -184,7 +184,7 @@ public class DashboardTest extends BaseTest {
                 
                 .andExpect(jsonPath("$.sections[1].items[0].id", is(3)))
                 .andExpect(jsonPath("$.sections[1].items[0].viewerUrl", is("http://localhost:7002/connecta-presenter/viewer/1")))
-                .andExpect(jsonPath("$.sections[1].items[0].type", enumKeyFor(DashboardItemType.XY_CHART)))
+//                .andExpect(jsonPath("$.sections[1].items[0].type", enumKeyFor(DashboardItemType.XY_CHART)))
                 .andExpect(jsonPath("$.sections[1].items[0].backgroundColor", is("#00FF00")))
                 .andExpect(jsonPath("$.sections[1].items[0].backgroundImage", nullValue()))
 //                .andExpect(jsonPath("$.sections[1].items[0].contentPositionX", is(0)))
@@ -198,7 +198,7 @@ public class DashboardTest extends BaseTest {
 
                 .andExpect(jsonPath("$.sections[1].items[1].id", is(4)))
                 .andExpect(jsonPath("$.sections[1].items[1].viewerUrl", is("http://localhost:7002/connecta-presenter/viewer/2")))
-                .andExpect(jsonPath("$.sections[1].items[1].type", enumKeyFor(DashboardItemType.LINEAR_CHART)))
+//                .andExpect(jsonPath("$.sections[1].items[1].type", enumKeyFor(DashboardItemType.LINEAR_CHART)))
                 .andExpect(jsonPath("$.sections[1].items[1].backgroundColor", nullValue()))
                 .andExpect(jsonPath("$.sections[1].items[1].backgroundImage", nullValue()))
 //                .andExpect(jsonPath("$.sections[1].items[1].contentPositionX", is(0)))
@@ -241,7 +241,7 @@ public class DashboardTest extends BaseTest {
                 
             .andExpect(jsonPath("$.sections[0].items[0].id", is(10)))
             .andExpect(jsonPath("$.sections[0].items[0].viewerUrl", is("http://localhost:7002/connecta-presenter/viewer/1")))
-            .andExpect(jsonPath("$.sections[0].items[0].type", enumKeyFor(DashboardItemType.XY_CHART)))
+//            .andExpect(jsonPath("$.sections[0].items[0].type", enumKeyFor(DashboardItemType.XY_CHART)))
             .andExpect(jsonPath("$.sections[0].items[0].backgroundColor", is("#00FF00")))
             .andExpect(jsonPath("$.sections[0].items[0].backgroundImage", nullValue()))
 //            .andExpect(jsonPath("$.sections[0].items[0].contentPositionX", is(0)))

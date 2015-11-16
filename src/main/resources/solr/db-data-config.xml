@@ -23,6 +23,8 @@
       <field name="id" column="ID_VIEWER" />
       <field name="name" column="NM_VIEWER" />
       
+      <field column="type" template="MAP" />
+      
       <field column="module" template="maps" />
       <field column="_hibernate_class" template="br.com.cds.connecta.maps.entity.LayerViewerEntity" />
     </entity>

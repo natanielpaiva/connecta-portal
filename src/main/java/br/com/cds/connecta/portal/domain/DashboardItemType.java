@@ -5,12 +5,12 @@ package br.com.cds.connecta.portal.domain;
  * @author Vinicius Pires <vinicius.pires@cds.com.br>
  */
 public enum DashboardItemType {
-    XY_CHART,
-    LINEAR_CHART,
-    TRAFFIC_LIGHT,
+    ANALYSIS,
+    SINGLESOURCE,
+    SINGLESOURCE_GROUP,
+    COMBINED,
     
-    HEATMAP,
+    MAP,
     
-    FACEBOOK_UPDATES,
-    TWITTER_UPDATES;
+    SOCIAL_BOX;
 }

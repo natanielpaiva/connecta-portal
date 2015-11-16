@@ -132,6 +132,5 @@ public class DashboardItemDTO {
     public void setType(DashboardItemType type) {
         this.type = type;
     }
-
     
 }

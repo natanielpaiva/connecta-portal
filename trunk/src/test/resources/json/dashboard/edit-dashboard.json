@@ -1,0 +1,38 @@
+{
+    "id": 10,
+    "name": "Painel atualizado",
+    "rowHeight": 10,
+    "maxRows": 10,
+    "columns": 10,
+    "padding": 10,
+    "displayMode": "PAGE",
+    "sectionTransitionInterval": 10,
+    "sectionTransitionDuration": 1000,
+    "sectionTransitionAnimation": "SLIDE_UP",
+    "backgroundColor": "#000000",
+    "backgroundImage": null,
+    "sections": [
+        {
+            "id": 10,
+            "name": "Seção 1",
+            "order": 0,
+            "items": [
+                {
+                    "id": 10,
+                    "viewerUrl": "http://localhost:7002/connecta-presenter/viewer/1",
+                    "type": "XY_CHART",
+                    "backgroundColor": "#00FF00",
+                    "backgroundImage": null,
+                    "contentPositionX": 0,
+                    "contentPositionY": 0,
+                    "sizeX": 10,
+                    "sizeY": 10,
+                    "contentHeight": 10,
+                    "contentWidth": 10,
+                    "row": 10,
+                    "column": 10
+                }
+            ]
+        }
+    ]
+}

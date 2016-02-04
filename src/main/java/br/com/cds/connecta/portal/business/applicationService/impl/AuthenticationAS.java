@@ -11,7 +11,6 @@ import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.domain.ApplicationConfigEnum;
 import br.com.cds.connecta.portal.security.authentication.token.domain.SocialTokenType;
 import br.com.cds.connecta.portal.domain.security.UserDTO;
-import br.com.cds.connecta.portal.persistence.UserImageDAO;
 import br.com.cds.connecta.portal.security.authentication.token.strategy.TokenVerifierStrategy;
 import br.com.cds.connecta.portal.security.authentication.token.verify.IAuthenticationTokenVerifier;
 import java.util.HashMap;
@@ -30,10 +29,14 @@ import org.springframework.util.MultiValueMap;
 @Service
 public class AuthenticationAS implements IAuthenticationAS {
     
-    @Autowired IApplicationConfigAS config;
-    @Autowired IUserAS userAS;
-    @Autowired UserImageDAO userImgDAO;
-    @Autowired TokenVerifierStrategy tokenVerifierStrategy;
+    @Autowired
+    private IApplicationConfigAS config;
+    
+    @Autowired
+    private IUserAS userAS;
+    
+    @Autowired
+    private TokenVerifierStrategy tokenVerifierStrategy;
 
     private String authProviderUrl;
     private String authResourceUrl;
@@ -89,11 +92,10 @@ public class AuthenticationAS implements IAuthenticationAS {
 
         return authenticationDTO;
     }
-    
+
     private void setAvatarUrl(AuthenticationDTO authenticationDTO) {
         authenticationDTO.setAvatarUrl(userAS.generateAvatarUrl(authenticationDTO.getUserId(), authenticationDTO.getEmail(), authenticationDTO));
     }
-    
 
     @Override
     public void logout(String userToken) {

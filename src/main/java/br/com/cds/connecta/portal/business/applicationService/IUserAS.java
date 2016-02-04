@@ -4,7 +4,6 @@ import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
 import br.com.cds.connecta.portal.domain.security.UserCredentialsDTO;
 import br.com.cds.connecta.portal.domain.security.UserDTO;
 import br.com.cds.connecta.portal.domain.security.UserProfileDTO;
-import br.com.cds.connecta.portal.entity.UserImage;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -24,7 +23,7 @@ public interface IUserAS {
     
     void deleteUser(String userId);
     
-    UserImage getUserImage(String username);
+    byte[] getUserImage(String username);
     
     String generateAvatarUrl(String userId, String email, AuthenticationDTO authDTO);
     

@@ -16,13 +16,12 @@ import br.com.cds.connecta.portal.domain.security.UserCredentialsDTO;
 import br.com.cds.connecta.portal.domain.security.UserDTO;
 import br.com.cds.connecta.portal.domain.security.UserProfileDTO;
 import br.com.cds.connecta.portal.entity.User;
-import br.com.cds.connecta.portal.entity.UserImage;
 import br.com.cds.connecta.portal.persistence.UserDAO;
-import br.com.cds.connecta.portal.persistence.UserImageDAO;
 import br.com.cds.connecta.portal.security.authentication.token.strategy.TokenVerifierStrategy;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
@@ -38,12 +37,17 @@ import org.springframework.web.util.UriComponentsBuilder;
 @Service
 public class UserAS implements IUserAS {
 
-    @Autowired IApplicationConfigAS configAS;
-    @Autowired IAuthenticationAS authAS;
-    @Autowired TokenVerifierStrategy tokenVerifierStrategy;
-    @Autowired UserDAO userDAO;
-    @Autowired UserImageDAO userImageDAO;
-    @Autowired IApplicationConfigAS config;
+    @Autowired 
+    private IApplicationConfigAS configAS;
+    
+    @Autowired
+    private IAuthenticationAS authAS;
+    
+    @Autowired
+    private UserDAO userDAO;
+    
+    @Autowired
+    private IApplicationConfigAS config;
 
     private static final String AVATAR_URL_TEMPLATE = "http://gravatar.com/avatar/%s?s=50&d=mm";
 
@@ -97,22 +101,17 @@ public class UserAS implements IUserAS {
             User findUser = userDAO.findByLogin(userDTO.getProfile().getId());
 
             if (Util.isNotNull(findUser)) {
-                UserImage userImage = findUser.getImage();
+                byte[] userImage = findUser.getImage();
                 if (Util.isNotNull(image)) {
                     //Atualiza a imagem do usuário caso exista
-                    if (Util.isNull(userImage)) {
-                        userImage = new UserImage();
-                    }
-
-                    setImage(image, userImage);
-                    findUser.setImage(userImage);
+                    findUser.setImage(image.getBytes());
                     userDAO.save(findUser);
                 } else if (Util.isNull(userDTO.getProfile().getAvatarUrl()) && Util.isNotNull(userImage)) {
                     //Usuário remove a imagem no form do profile e possui uma imagem no banco
                     //Remover imagem no banco
                     findUser.setImage(null);
                     userDAO.save(findUser);
-                    userImageDAO.delete(userImage.getId());
+//                    userImageDAO.delete(userImage.getId());
                 }
 
             } else {
@@ -133,33 +132,26 @@ public class UserAS implements IUserAS {
      */
     private void saveUserToDatabase(MultipartFile image, User user) throws IOException {
         if (Util.isNotNull(image)) {
-            UserImage userImage = new UserImage();
-            setImage(image, userImage);
-            user.setImage(userImage);
+            user.setImage(image.getBytes());
         }
 
         userDAO.saveAndFlush(user);
     }
 
-    private void setImage(MultipartFile image, UserImage userImage) throws IOException {
-        if (Util.isNotEmpty(image.getOriginalFilename())) {
-            userImage.setName(image.getOriginalFilename());
-        }
-
-        userImage.setImage(image.getBytes());
-    }
-
     @Override
-    public UserImage getUserImage(String username) {
-        return userImageDAO.findByUserLogin(username);
+    public byte[] getUserImage(String username) {
+        User user = userDAO.findByLogin(username);
+        
+        Hibernate.initialize(user.getImage());
+        
+        return user.getImage();
     }
 
     @Override
     public String generateAvatarUrl(String userId, String email, AuthenticationDTO authDTO) {
-        UserImage userImage = userImageDAO.findByUserLogin(userId);
         User user = userDAO.findByLogin(userId);
 
-        if (Util.isNotNull(userImage)) {
+        if (Util.isNotNull(user.getImage())) {
             String avatarEndpoint = config.getByName(ApplicationConfigEnum.USER_AVATAR_ENDPOINT);
             UriComponentsBuilder url = UriComponentsBuilder.fromHttpUrl(avatarEndpoint);
             UriComponents build = url.buildAndExpand(userId);

@@ -9,8 +9,10 @@
     
     <import resource="classpath:META-INF/br.com.cds.connecta.framework.core.xml" />
     
-    <bean id="securityConnector" class="br.com.cds.connecta.portal.security.connector.PortalSecurityConnector" />
-    <import resource="classpath:META-INF/br.com.cds.connecta.framework.security.xml" />
+<!--    <bean id="securityConnector" class="br.com.cds.connecta.portal.security.connector.PortalSecurityConnector" />
+    <import resource="classpath:META-INF/br.com.cds.connecta.framework.security.xml" />-->
+    <import resource="classpath:spring/security.xml" />
+    
 
     <context:component-scan base-package="br.com.cds.connecta.portal" />
     

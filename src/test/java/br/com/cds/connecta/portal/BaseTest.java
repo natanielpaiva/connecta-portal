@@ -25,7 +25,9 @@ import org.springframework.http.MediaType;
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @EnableWebMvc
-@ContextConfiguration("classpath:META-INF/br.com.cds.connecta.framework.test.xml")
+@ContextConfiguration({ 
+                       "classpath:spring/security.xml",
+                       "classpath:META-INF/br.com.cds.connecta.framework.test.xml"})
 public class BaseTest {
     
     @Autowired

@@ -118,7 +118,10 @@ public class DashboardTest extends BaseTest {
             .andExpect(jsonPath("$", notNullValue()))
             .andExpect(jsonPath("$.code", is(MessageEnum.NOT_FOUND.name())))
             .andExpect(jsonPath("$.type", is(MessageTypeEnum.ERROR.name())))
-            .andExpect(jsonPath("$.message", is("Registro de Painel não encontrado.")))
+            .andExpect(jsonPath("$.message", anyOf(
+                    is("Registro de Painel não encontrado."),
+                    is("Dashboard record not found.")
+                )))
         ;
     }
     

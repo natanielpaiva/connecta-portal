@@ -46,12 +46,16 @@ public class UserRepositoryUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getLogin();
+        return user.getEmail();
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return user.getRoles();
+    }
+
+    public User getUser() {
+        return user;
     }
 
 }

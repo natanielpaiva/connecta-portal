@@ -13,7 +13,6 @@ public class PortalTokenServices extends DefaultTokenServices {
 
     @Override
     public OAuth2AccessToken createAccessToken(OAuth2Authentication authentication) throws AuthenticationException {
-        // CHECKSTYLE:ON
         OAuth2AccessToken token = super.createAccessToken(authentication);
 
         return token;

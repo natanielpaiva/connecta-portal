@@ -33,7 +33,7 @@ public class User implements Serializable {
     private Long id;
 
     @Column(name = "DS_LOGIN")
-    private String login;
+    private String email;
 
     @Column(name = "NM_USER")
     private String name;
@@ -71,8 +71,7 @@ public class User implements Serializable {
         super();
         this.id = user.getId();
         this.name = user.getName();
-        this.login = user.getLogin();
-        this.password = user.getPassword();
+        this.email = user.getEmail();
         this.roles = user.getRoles();
     }
 
@@ -92,12 +91,12 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public String getLogin() {
-        return login;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLogin(String login) {
-        this.login = login;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

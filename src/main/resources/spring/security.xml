@@ -3,7 +3,7 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:oauth="http://www.springframework.org/schema/security/oauth2"
        xmlns:security="http://www.springframework.org/schema/security"
        xsi:schemaLocation="http://www.springframework.org/schema/security/oauth2 
-                    http://www.springframework.org/schema/security/spring-security-oauth2-1.0.xsd
+                    http://www.springframework.org/schema/security/spring-security-oauth2-2.0.xsd
                     http://www.springframework.org/schema/beans
                     http://www.springframework.org/schema/beans/spring-beans.xsd
                     http://www.springframework.org/schema/security
@@ -27,9 +27,6 @@
           xmlns="http://www.springframework.org/schema/security">
         <!--<intercept-url pattern="/oauth/token" access="IS_AUTHENTICATED_FULLY" />-->
         <!-- habilita a requisição oauth/token apenas para métodos POST -->
-        <!--<intercept-url pattern="/oauth/token" method="GET" access="ROLE_DENY" />-->
-        <intercept-url pattern="/oauth/token" method="PUT" access="ROLE_DENY" />
-        <intercept-url pattern="/oauth/token" method="DELETE" access="ROLE_DENY" />
         <anonymous enabled="false" />
         <http-basic entry-point-ref="clientAuthenticationEntryPoint" />
         <custom-filter ref="clientCredentialsTokenEndpointFilter"
@@ -37,12 +34,12 @@
         <access-denied-handler ref="oauthAccessDeniedHandler" />
     </http>
 
-    <http pattern="/application/**" create-session="never"
+    <http pattern="/**" create-session="never"
           entry-point-ref="oauthAuthenticationEntryPoint"
           access-decision-manager-ref="accessDecisionManager"
           xmlns="http://www.springframework.org/schema/security">
         <anonymous enabled="false" />
-        <intercept-url pattern="/application/**" access="ROLE_USER" />
+        <intercept-url pattern="/**" access="ROLE_USER" />
         <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
         <access-denied-handler ref="oauthAccessDeniedHandler" />
     </http>
@@ -85,13 +82,13 @@
     
     <!-- Used for the persistenceof tokens (currently an in memory implementation) -->
     <bean id="tokenStore"
-          class="org.springframework.security.oauth2.provider.token.InMemoryTokenStore" />
+          class="org.springframework.security.oauth2.provider.token.store.InMemoryTokenStore" />
 
     <bean id="tokenServices"
           class="br.com.cds.connecta.portal.security.PortalTokenServices">
         <property name="tokenStore" ref="tokenStore" />
         <property name="supportRefreshToken" value="true" />
-        <property name="accessTokenValiditySeconds" value="20"></property>
+        <property name="accessTokenValiditySeconds" value="20" />
         <property name="clientDetailsService" ref="clientDetails" />
     </bean>
 
@@ -117,7 +114,7 @@
                       authorities="ROLE_USER"
                       authorized-grant-types="password,refresh_token,client_credentials"
                       scope="read,write,trust" 
-                      access-token-validity="300"
+                      access-token-validity="20"
                       refresh-token-validity="600"/>
 
     </oauth:client-details-service>

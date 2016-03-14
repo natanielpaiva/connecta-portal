@@ -1,37 +1,35 @@
-//package br.com.cds.connecta.portal.controller;
-//
-//import br.com.cds.connecta.framework.core.context.HibernateAwareObjectMapper;
-//import br.com.cds.connecta.framework.core.domain.annotation.PublicResource;
-//import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
-//import br.com.cds.connecta.framework.core.exception.BusinessException;
-//import br.com.cds.connecta.framework.core.security.SecurityContextUtil;
-//import br.com.cds.connecta.framework.core.util.Util;
-//import br.com.cds.connecta.portal.business.applicationService.IAuthenticationAS;
-//import br.com.cds.connecta.portal.business.applicationService.IUserAS;
-//import br.com.cds.connecta.portal.domain.security.UserCredentialsDTO;
-//import br.com.cds.connecta.portal.domain.security.UserDTO;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.MediaType;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.PathVariable;
-//import org.springframework.web.bind.annotation.RequestBody;
-//import org.springframework.web.bind.annotation.RequestMapping;
-//import org.springframework.web.bind.annotation.RequestMethod;
-//import org.springframework.web.bind.annotation.RequestParam;
-//import org.springframework.web.bind.annotation.RestController;
-//import org.springframework.web.client.HttpStatusCodeException;
-//import org.springframework.web.multipart.MultipartFile;
-//
-///**
-// *
-// * @author Julio Lemes
-// * @date Aug 10, 2015
-// */
-//@RestController
-//@RequestMapping("user")
-//public class UserController {
-//
+package br.com.cds.connecta.portal.controller;
+
+import br.com.cds.connecta.portal.entity.User;
+import br.com.cds.connecta.portal.security.UserRepositoryUserDetails;
+import java.security.Principal;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ *
+ * @author Julio Lemes
+ * @date Aug 10, 2015
+ */
+@RestController
+@RequestMapping("user")
+public class UserController {
+    
+    @RequestMapping("current")
+    public User user(Principal principal) {
+        
+        OAuth2Authentication auth2Authentication = (OAuth2Authentication) principal;
+        
+        UserRepositoryUserDetails repositoryUserDetails = 
+                (UserRepositoryUserDetails) auth2Authentication.getPrincipal();
+        
+        User user = repositoryUserDetails.getUser();
+        user.setPassword(null);
+        
+        return user;
+    }
+
 //    @Autowired
 //    private IUserAS userAS;
 //    
@@ -112,5 +110,4 @@
 //        userAS.deleteUser(username);
 //        return new ResponseEntity(HttpStatus.NO_CONTENT);
 //    }
-//
-//}
+}

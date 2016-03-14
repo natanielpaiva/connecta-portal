@@ -16,7 +16,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import br.com.cds.connecta.framework.core.test.MockMvcProvider;
+import static br.com.cds.connecta.portal.AuthenticationTest.RESOURCE_ACCESS_TOKEN;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MvcResult;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Teste base de todos os projetos
@@ -34,11 +40,14 @@ public class BaseTest {
     private MockMvcProvider mmp;
     
     protected Logger logger;
-    protected static final String REST_PATH = "/";
+    protected static final ObjectMapper objectMapper = new ObjectMapper();
     protected static final String TEST_RESOURCE_FOLDER = "src/test/resources/";
     protected static final String FILE_CHARSET = "UTF-8";
-    
     protected static final MediaType MEDIATYPE_JSON_UTF8 = MediaType.parseMediaType(MediaType.APPLICATION_JSON_VALUE+";charset="+FILE_CHARSET);
+    
+    protected static final String REST_PATH = "/";
+    protected static final String RESOURCE_ACCESS_TOKEN = REST_PATH.concat("oauth/token");
+    protected static final String RESOURCE_USER_AUTORIZE = REST_PATH.concat("oauth/authorize?client_id=testclient");
     
     /**
      * Getter da configuração de {@link MockMvc} da {@link BaseTest}
@@ -120,11 +129,42 @@ public class BaseTest {
         }
         return null;
     }
+    
+    protected String getAccessToken() throws Exception {
+        MvcResult result = mockMvc().perform(
+            get(RESOURCE_ACCESS_TOKEN)
+                .param("grant_type", "password")
+                .param("client_id", "frontend")
+                .param("client_secret", "secret")
+                .param("username", "user")
+                .param("password", "pass")
+            )
+            .andDo(print())
+            .andExpect(status().isOk())
+            .andReturn();
+        
+        // FIXME traduzir JSON
+        OAuth2Response response = objectMapper.readValue(result.getResponse().getContentAsString(), OAuth2Response.class);
+        
+        return response.getAccess_token();
+    }
 
     /**
      * Mantido apenas para execução do JUnit 
      */
     @Test
     public void baseTest() {}
+    
+    class OAuth2Response {
+        private String access_token;
+
+        public String getAccess_token() {
+            return access_token;
+        }
+
+        public void setAccess_token(String access_token) {
+            this.access_token = access_token;
+        }
+    }
 
 }

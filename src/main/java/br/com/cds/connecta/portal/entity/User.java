@@ -37,6 +37,9 @@ public class User implements Serializable {
 
     @Column(name = "NM_USER")
     private String name;
+    
+    @Column(name = "LN_USER")
+    private String lastName;
 
     @Column(name = "DS_PASSWORD")
     private String password;
@@ -82,6 +85,15 @@ public class User implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+    
 
     public String getName() {
         return name;

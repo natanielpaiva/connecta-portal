@@ -1,42 +1,27 @@
-//package br.com.cds.connecta.portal.business.applicationService.impl;
-//
-//import br.com.cds.connecta.framework.core.domain.AvatarUrlType;
-//import br.com.cds.connecta.framework.core.domain.MessageEnum;
-//import br.com.cds.connecta.framework.core.domain.security.AuthenticationDTO;
-//import br.com.cds.connecta.framework.core.exception.BusinessException;
-//import br.com.cds.connecta.framework.core.http.RestClient;
-//import br.com.cds.connecta.framework.core.security.SecurityContextUtil;
-//import br.com.cds.connecta.framework.core.util.SecurityUtil;
-//import br.com.cds.connecta.framework.core.util.Util;
-//import br.com.cds.connecta.portal.business.applicationService.IApplicationConfigAS;
-//import br.com.cds.connecta.portal.business.applicationService.IAuthenticationAS;
-//import br.com.cds.connecta.portal.business.applicationService.IUserAS;
-//import br.com.cds.connecta.portal.domain.ApplicationConfigEnum;
-//import br.com.cds.connecta.portal.domain.security.UserCredentialsDTO;
-//import br.com.cds.connecta.portal.domain.security.UserDTO;
-//import br.com.cds.connecta.portal.domain.security.UserProfileDTO;
-//import br.com.cds.connecta.portal.entity.User;
-//import br.com.cds.connecta.portal.persistence.UserDAO;
-//import br.com.cds.connecta.portal.security.authentication.token.strategy.TokenVerifierStrategy;
-//import java.io.IOException;
-//import java.util.Collections;
-//import java.util.Map;
-//import org.hibernate.Hibernate;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.http.HttpMethod;
-//import org.springframework.stereotype.Service;
-//import org.springframework.web.multipart.MultipartFile;
-//import org.springframework.web.util.UriComponents;
-//import org.springframework.web.util.UriComponentsBuilder;
-//
-///**
-// *
-// * @author Julio Lemes
-// * @date Aug 10, 2015
-// */
-//@Service
-//public class UserAS implements IUserAS {
-//
+package br.com.cds.connecta.portal.business.applicationService.impl;
+
+import br.com.cds.connecta.portal.business.applicationService.IUserAS;
+import br.com.cds.connecta.portal.entity.User;
+import br.com.cds.connecta.portal.persistence.UserDAO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ *
+ * @author Julio Lemes
+ * @date Aug 10, 2015
+ */
+@Service
+public class UserAS implements IUserAS {
+
+    @Autowired
+    private UserDAO userRepository;
+    
+    @Override
+    public User get(User user) {
+        return userRepository.findByEmail(user.getEmail());
+    }
+
 //    @Autowired 
 //    private IApplicationConfigAS configAS;
 //    
@@ -253,5 +238,5 @@
 //
 //    private String getUserProfileEndpoint() {
 //        return getUserResourceUrl() + "/{userId}/profile";
-//    }
-//}
+//    };
+}

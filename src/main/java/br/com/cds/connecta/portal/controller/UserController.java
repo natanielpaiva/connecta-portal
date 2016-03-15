@@ -1,10 +1,13 @@
 package br.com.cds.connecta.portal.controller;
 
+import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.User;
 import br.com.cds.connecta.portal.security.UserRepositoryUserDetails;
 import java.security.Principal;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -15,6 +18,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("user")
 public class UserController {
+    
+    @Autowired
+    private IUserAS userAS;
     
     @RequestMapping("current")
     public User user(Principal principal) {
@@ -29,6 +35,15 @@ public class UserController {
         
         return user;
     }
+    
+    @RequestMapping( name = "/" , method = RequestMethod.GET)
+    public User get(User user){
+        user = userAS.get(user);
+        user.setPassword(null);
+        return user;
+    }
+    
+    
 
 //    @Autowired
 //    private IUserAS userAS;

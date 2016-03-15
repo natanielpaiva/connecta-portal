@@ -114,7 +114,7 @@
                       authorities="ROLE_USER"
                       authorized-grant-types="password,refresh_token,client_credentials"
                       scope="read,write,trust" 
-                      access-token-validity="20"
+                      access-token-validity="200000"
                       refresh-token-validity="600"/>
 
     </oauth:client-details-service>

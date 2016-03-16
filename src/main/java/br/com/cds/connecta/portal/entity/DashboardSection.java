@@ -23,9 +23,7 @@ import javax.persistence.OneToMany;
 public class DashboardSection extends AbstractBaseEntity {
 
     @Id
-    @SequenceGenerator(allocationSize = 1,
-            name = "TB_DASHBOARD_SECTION_SEQ", sequenceName = "TB_DASHBOARD_SECTION_SEQ")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TB_DASHBOARD_SECTION_SEQ")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PK_DASHBOARD_SECTION")
     private Long id;
 

@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 
@@ -20,9 +19,7 @@ import javax.persistence.Table;
 public class DashboardItem extends AbstractBaseEntity {
 
     @Id
-    @SequenceGenerator(allocationSize = 1,
-            name = "TB_DASHBOARD_ITEM_SEQ", sequenceName = "TB_DASHBOARD_ITEM_SEQ")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TB_DASHBOARD_ITEM_SEQ")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PK_DASHBOARD_ITEM")
     private Long id;
     

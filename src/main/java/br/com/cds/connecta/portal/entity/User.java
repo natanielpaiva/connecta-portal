@@ -14,7 +14,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -27,8 +26,7 @@ import javax.persistence.Table;
 public class User implements Serializable {
 
     @Id
-    @SequenceGenerator(sequenceName = "SEQ_USER", name = "SEQ_USER", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_USER")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PK_USER")
     private Long id;
 

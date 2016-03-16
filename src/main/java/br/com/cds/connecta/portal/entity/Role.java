@@ -5,7 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,8 +21,7 @@ public class Role  implements GrantedAuthority{
     private static final long serialVersionUID = 1L;
             
     @Id
-    @SequenceGenerator(sequenceName = "SEQ_ROLE", name = "SEQ_ROLE", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_ROLE")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PK_ROLE")
     private Long id;
     

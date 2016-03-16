@@ -18,6 +18,7 @@ import org.junit.Test;
  * 
  * @author Vinicius Pires <vinicius.pires@cds.com.br>
  */
+@Ignore
 public class DashboardTest extends BaseTest {
     
     static final String RESOURCE = REST_PATH.concat("dashboard");

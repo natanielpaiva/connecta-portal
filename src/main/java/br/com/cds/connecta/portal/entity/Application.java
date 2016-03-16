@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 /**
@@ -24,12 +23,7 @@ import javax.persistence.Table;
 public class Application extends AbstractBaseEntity implements Serializable {
 
     @Id
-    @SequenceGenerator(
-        sequenceName="SEQ_APPLICATION",
-        name="SEQ_APPLICATION",
-        initialValue=1,
-        allocationSize=1 )
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_APPLICATION")
+    @GeneratedValue(strategy=GenerationType.AUTO)
     private Long id;
 
     @Column(name = "NAME")

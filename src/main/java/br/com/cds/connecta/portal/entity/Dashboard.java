@@ -7,7 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import br.com.cds.connecta.portal.domain.DashboardDisplayMode;
@@ -25,9 +24,7 @@ import javax.persistence.OneToMany;
 public class Dashboard extends AbstractBaseEntity {
 
     @Id
-    @SequenceGenerator(allocationSize = 1,
-            name = "TB_DASHBOARD_SEQ", sequenceName = "TB_DASHBOARD_SEQ")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "TB_DASHBOARD_SEQ")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PK_DASHBOARD")
     private Long id;
 

@@ -44,6 +44,7 @@
         <intercept-url pattern="/**" method="POST" access="ROLE_USER" />
         <intercept-url pattern="/**" method="PUT" access="ROLE_USER" />
         <intercept-url pattern="/**" method="DELETE" access="ROLE_USER" />
+        <intercept-url pattern="/**" method="PATCH" access="ROLE_USER" />
         <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
         <access-denied-handler ref="oauthAccessDeniedHandler" />
     </http>

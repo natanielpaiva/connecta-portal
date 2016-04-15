@@ -1,26 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-    
-    <import resource="classpath:META-INF/br.com.cds.connecta.framework.core.xml" />
-    
-<!--    <bean id="securityConnector" class="br.com.cds.connecta.portal.security.connector.PortalSecurityConnector" />
-    <import resource="classpath:META-INF/br.com.cds.connecta.framework.security.xml" />-->
-    <import resource="classpath:spring/security.xml" />
-    
 
-    <context:component-scan base-package="br.com.cds.connecta.portal" />
-    
-    <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="ConnectaPortalPU" />
-    </bean>
+	<import resource="classpath:META-INF/br.com.cds.connecta.framework.core.xml" />
+	<import resource="classpath:spring/security.xml" />
 
-    <!--TRANSACTION-->
-    <import resource="classpath:META-INF/br.com.cds.connecta.framework.transaction.xml" />
-    
+	<context:component-scan base-package="br.com.cds.connecta.portal" />
+
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="ConnectaPortalPU" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="br.com.cds.connecta.portal.entity" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<!--<prop key="hibernate.dialect">org.hibernate.dialect.Oracle10gDialect</prop> -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect </prop>
+				<!--<prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop> -->
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.archive.autodetection">class,hbm</prop>
+				<prop key="hibernate.use_sql_comments">false</prop>
+				<prop key="hibernate.c3p0.min_size">5</prop>
+				<prop key="hibernate.c3p0.max_size">35</prop>
+				<prop key="hibernate.c3p0.timeout">30000</prop>
+				<prop key="hibernate.c3p0.max_statements">180</prop>
+				<prop key="hibernate.c3p0.idle_test_period">30000</prop>
+<!-- 				<prop key="hibernate.transaction.manager_lookup_class"> -->
+<!-- 					org.hibernate.transaction.WeblogicTransactionManagerLookup -->
+<!-- 				</prop> -->
+				<prop key="hibernate.transaction.manager_lookup_class">
+					org.hibernate.transaction.JBossTransactionManagerLookup
+				</prop>
+			</props>
+		</property>
+	</bean>
+
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName">
+			<value>ConnectaPortalMysqlDS</value>
+		</property>
+	</bean>
+
+	<!--TRANSACTION -->
+	<import
+		resource="classpath:META-INF/br.com.cds.connecta.framework.transaction.xml" />
+
 </beans>

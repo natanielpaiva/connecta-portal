@@ -70,6 +70,9 @@ public class Dashboard extends AbstractBaseEntity {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "FK_DASHBOARD")
     private List<DashboardSection> sections;
+    
+    @Column(name = "NM_DOMAIN")
+    private String domain;
 
     @Override
     public Long getId() {
@@ -183,5 +186,14 @@ public class Dashboard extends AbstractBaseEntity {
     public void setSections(List<DashboardSection> sections) {
         this.sections = sections;
     }
+
+	public String getDomain() {
+		return domain;
+	}
+
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
+
 
 }

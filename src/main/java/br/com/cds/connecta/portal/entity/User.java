@@ -1,8 +1,8 @@
 package br.com.cds.connecta.portal.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.List;
+
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +15,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 /**
  *
@@ -30,8 +32,8 @@ public class User implements Serializable {
     @Column(name = "PK_USER")
     private Long id;
 
-    @Column(name = "DS_LOGIN")
-    private String email;
+    @Column(name = "DS_LOGIN", unique = true)
+    private String login;
 
     @Column(name = "NM_USER")
     private String name;
@@ -64,16 +66,29 @@ public class User implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "FK_ROLE")})
     private List<Role> roles;
+    
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "TA_USER_DOMAIN",
+            joinColumns = {
+                @JoinColumn(name = "FK_USER")},
+            inverseJoinColumns = {
+                @JoinColumn(name = "FK_DOMAIN")})
+    private List<Domain> domains;
 
     public User() {
+    }
+    
+    public User(String username){
+    	this.login = username;
     }
 
     public User(User user) {
         super();
         this.id = user.getId();
         this.name = user.getName();
-        this.email = user.getEmail();
+        this.login = user.getLogin();
         this.roles = user.getRoles();
+        this.domains = user.getDomains();
     }
 
     public Long getId() {
@@ -99,14 +114,6 @@ public class User implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public String getPassword() {
@@ -141,7 +148,7 @@ public class User implements Serializable {
         this.facebookId = facebookId;
     }
 
-    public String getGoogleToken() {
+	public String getGoogleToken() {
         return googleToken;
     }
 
@@ -156,5 +163,21 @@ public class User implements Serializable {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
+    
+    public List<Domain> getDomains() {
+		return domains;
+	}
+
+	public void setDomains(List<Domain> domains) {
+		this.domains = domains;
+	}
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
 
 }

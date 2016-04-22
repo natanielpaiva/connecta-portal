@@ -19,7 +19,7 @@ public class UserAS implements IUserAS {
     
     @Override
     public User get(User user) {
-        return userRepository.findByEmail(user.getEmail());
+        return userRepository.findByLogin(user.getLogin());
     }
 
 //    @Autowired 

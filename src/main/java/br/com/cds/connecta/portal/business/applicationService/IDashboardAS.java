@@ -21,7 +21,7 @@ public interface IDashboardAS {
     
     Iterable<Dashboard> list(DashboardPaginationFilter filter);
 
-    Dashboard get(Long id);
+    Dashboard get(Long id, String domain);
 
     Dashboard save(DashboardDTO application);
 

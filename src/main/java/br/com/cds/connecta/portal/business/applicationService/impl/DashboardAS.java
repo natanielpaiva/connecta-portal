@@ -34,23 +34,25 @@ public class DashboardAS implements IDashboardAS {
     @Override
     public Iterable<Dashboard> list(DashboardPaginationFilter filter) {
         Pageable pageable = filter.makePageable();
-
+        
         Iterable<Dashboard> page;
+
         if (!isEmpty(filter.getName())) {
-            page = dao.findAllLikeName(prepareForSearch(filter.getName(), true), pageable);
-        } else {
-            page = dao.findAll(pageable);
+            page = dao.findByDomainLikeName(prepareForSearch(filter.getDomain(), false)
+            		,prepareForSearch(filter.getName(), true), pageable);
+        } else {                                                                       
+            page = dao.findByDomain(prepareForSearch(filter.getDomain(), false), pageable);
         }
 
         return page;
     }
 
     @Override
-    public Dashboard get(Long id) {
-        Dashboard dashboard = dao.findOneWithSections(id);
+    public Dashboard get(Long id, String domain) {
+        Dashboard dashboard = dao.findOneWithSections(id, domain);
 
         if (isNull(dashboard)) {
-            throw new ResourceNotFoundException(Dashboard.class.getCanonicalName());
+            throw new ResourceNotFoundException(Dashboard.class.getSimpleName());
         }
 
         for (DashboardSection section : dashboard.getSections()) {
@@ -63,14 +65,12 @@ public class DashboardAS implements IDashboardAS {
     @Override
     public Dashboard save(DashboardDTO dashboardDTO) {
         Dashboard dashboard = convertDTOToEntity(dashboardDTO);
-
         return dao.save(dashboard);
     }
 
     @Override
     public Dashboard update(DashboardDTO dashboardDTO) {
         Dashboard dashboard = convertDTOToEntity(dashboardDTO);
-
         return dao.save(dashboard);
     }
 
@@ -81,7 +81,6 @@ public class DashboardAS implements IDashboardAS {
 
     @Override
     public List<Map<String, Object>> searchViewers(String text) {
-
         return SolrUtil.searchSingleFieldAsMapList("text", text, 10);
     }
 

@@ -34,6 +34,9 @@ public class User implements Serializable {
 
     @Column(name = "DS_LOGIN", unique = true)
     private String login;
+    
+    @Column(name = "DS_EMAIL", unique = true)
+    private String email;
 
     @Column(name = "NM_USER")
     private String name;
@@ -58,7 +61,6 @@ public class User implements Serializable {
     @Column(name = "DS_GOOGLE_TOKEN")
     private String googleToken;
 
-    @JsonIgnore
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "TA_USER_ROLE",
             joinColumns = {
@@ -74,6 +76,9 @@ public class User implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "FK_DOMAIN")})
     private List<Domain> domains;
+    
+    @Column(name = "DS_LANGUAGE")
+    private String language;
 
     public User() {
     }
@@ -86,9 +91,17 @@ public class User implements Serializable {
         super();
         this.id = user.getId();
         this.name = user.getName();
+        this.email = user.getEmail();
         this.login = user.getLogin();
         this.roles = user.getRoles();
         this.domains = user.getDomains();
+        this.language = user.getLanguage();
+    }
+    
+    public void mergePropertiesProfile(User newUser){
+        this.name = newUser.getName();
+        this.email = newUser.getEmail();
+        this.language = newUser.getLanguage();
     }
 
     public Long getId() {
@@ -178,6 +191,22 @@ public class User implements Serializable {
 
 	public void setLogin(String login) {
 		this.login = login;
+	}
+
+	public String getLanguage() {
+		return language;
+	}
+
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 }

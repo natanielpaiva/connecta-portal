@@ -1,5 +1,7 @@
 package br.com.cds.connecta.portal.business.applicationService;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import br.com.cds.connecta.portal.entity.User;
 
 /**
@@ -9,4 +11,5 @@ import br.com.cds.connecta.portal.entity.User;
  */
 public interface IUserAS {
     User get(User user);
+    User saveOrUpdateWithUpload(User user, MultipartFile image) throws Exception;
 }

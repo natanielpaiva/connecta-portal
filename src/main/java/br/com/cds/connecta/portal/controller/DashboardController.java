@@ -28,9 +28,10 @@ public class DashboardController {
     
     @RequestMapping(value = "viewer", method = RequestMethod.GET)
     public ResponseEntity<List<Map<String, Object>>> 
-    	searchViewers(@RequestParam(value = "text", defaultValue = "") String text) {
+    	searchViewers(@RequestParam(value = "text", defaultValue = "") String text,
+                @RequestHeader("Domain") String domain) {
         
-        List<Map<String, Object>> viewers = service.searchViewers(text);
+        List<Map<String, Object>> viewers = service.searchViewers(text, domain);
         return new ResponseEntity<>(viewers, HttpStatus.OK);
     }
 

@@ -17,7 +17,7 @@ public interface IDashboardAS {
      * @param text
      * @return 
      */
-    List<Map<String, Object>> searchViewers(String text);
+    List<Map<String, Object>> searchViewers(String text, String domain);
     
     Iterable<Dashboard> list(DashboardPaginationFilter filter);
 

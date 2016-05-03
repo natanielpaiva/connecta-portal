@@ -80,8 +80,8 @@ public class DashboardAS implements IDashboardAS {
     }
 
     @Override
-    public List<Map<String, Object>> searchViewers(String text) {
-        return SolrUtil.searchSingleFieldAsMapList("text", text, 10);
+    public List<Map<String, Object>> searchViewers(String text, String domain) {
+        return SolrUtil.searchSingleFieldAsMapList("text", text, 10, domain);
     }
 
     private Dashboard convertDTOToEntity(DashboardDTO dashboardDTO) {

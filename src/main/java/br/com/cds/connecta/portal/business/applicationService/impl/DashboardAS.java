@@ -34,14 +34,16 @@ public class DashboardAS implements IDashboardAS {
     @Override
     public Iterable<Dashboard> list(DashboardPaginationFilter filter) {
         Pageable pageable = filter.makePageable();
-        
+
         Iterable<Dashboard> page;
 
         if (!isEmpty(filter.getName())) {
-            page = dao.findByDomainLikeName(prepareForSearch(filter.getDomain(), false)
-            		,prepareForSearch(filter.getName(), true), pageable);
-        } else {                                                                       
-            page = dao.findByDomain(prepareForSearch(filter.getDomain(), false), pageable);
+            page = dao.findByDomainLikeName(
+                    filter.getDomain(),
+                    prepareForSearch(filter.getName(), true),
+                    pageable);
+        } else {
+            page = dao.findByDomain(filter.getDomain(), pageable);
         }
 
         return page;
@@ -86,26 +88,26 @@ public class DashboardAS implements IDashboardAS {
 
     private Dashboard convertDTOToEntity(DashboardDTO dashboardDTO) {
         Dashboard dashboard = mapper.map(dashboardDTO, Dashboard.class);
-        
+
         if (isNotNull(dashboardDTO.getBackgroundImage())) {
             dashboard.setBackgroundImage(
-                dashboardDTO.getBackgroundImage().getBase64()
+                    dashboardDTO.getBackgroundImage().getBase64()
             );
         }
-        
+
         for (int s = 0; s < dashboardDTO.getSections().size(); s++) {
             DashboardSectionDTO sectionDTO = dashboardDTO.getSections().get(s);
             for (int i = 0; i < sectionDTO.getItems().size(); i++) {
                 DashboardItemDTO itemDTO = sectionDTO.getItems().get(i);
-                
+
                 if (isNotNull(itemDTO.getBackgroundImage())) {
                     dashboard.getSections().get(s).getItems().get(i).setBackgroundImage(
-                        itemDTO.getBackgroundImage().getBase64()
+                            itemDTO.getBackgroundImage().getBase64()
                     );
                 }
             }
         }
-        
+
         return dashboard;
     }
 

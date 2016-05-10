@@ -53,7 +53,7 @@ public class SolrUtil {
     
     public static SolrDocumentList searchSingleField(String field, String value, Integer rows, String domain) {
         SolrServer solrServer = getSolrServer();
-        SolrQuery query = new SolrQuery(String.format("%s:*%s*", field, value) + " AND domain:" + domain);
+        SolrQuery query = new SolrQuery(String.format("%s:*%s*", field, value) + " AND domain:\"" + domain+"\"");
 
         // Seta a quantidade de resultados na resposta
         query.setRows(rows);

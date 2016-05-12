@@ -23,6 +23,7 @@ public class DashboardDTO {
     private DashboardDisplayMode displayMode;
     private DashboardSectionAnimation sectionTransitionAnimation;
     private List<DashboardSectionDTO> sections;
+    private String domain;
 
     public Long getId() {
         return id;
@@ -135,5 +136,13 @@ public class DashboardDTO {
     public void setSections(List<DashboardSectionDTO> sections) {
         this.sections = sections;
     }
+
+	public String getDomain() {
+		return domain;
+	}
+
+	public void setDomain(String domain) {
+		this.domain = domain;
+	}
 
 }

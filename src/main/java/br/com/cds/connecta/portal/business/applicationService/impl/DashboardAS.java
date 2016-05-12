@@ -36,21 +36,25 @@ public class DashboardAS implements IDashboardAS {
         Pageable pageable = filter.makePageable();
 
         Iterable<Dashboard> page;
+
         if (!isEmpty(filter.getName())) {
-            page = dao.findAllLikeName(prepareForSearch(filter.getName(), true), pageable);
+            page = dao.findByDomainLikeName(
+                    filter.getDomain(),
+                    prepareForSearch(filter.getName(), true),
+                    pageable);
         } else {
-            page = dao.findAll(pageable);
+            page = dao.findByDomain(filter.getDomain(), pageable);
         }
 
         return page;
     }
 
     @Override
-    public Dashboard get(Long id) {
-        Dashboard dashboard = dao.findOneWithSections(id);
+    public Dashboard get(Long id, String domain) {
+        Dashboard dashboard = dao.findOneWithSections(id, domain);
 
         if (isNull(dashboard)) {
-            throw new ResourceNotFoundException(Dashboard.class.getCanonicalName());
+            throw new ResourceNotFoundException(Dashboard.class.getSimpleName());
         }
 
         for (DashboardSection section : dashboard.getSections()) {
@@ -63,14 +67,12 @@ public class DashboardAS implements IDashboardAS {
     @Override
     public Dashboard save(DashboardDTO dashboardDTO) {
         Dashboard dashboard = convertDTOToEntity(dashboardDTO);
-
         return dao.save(dashboard);
     }
 
     @Override
     public Dashboard update(DashboardDTO dashboardDTO) {
         Dashboard dashboard = convertDTOToEntity(dashboardDTO);
-
         return dao.save(dashboard);
     }
 
@@ -80,33 +82,32 @@ public class DashboardAS implements IDashboardAS {
     }
 
     @Override
-    public List<Map<String, Object>> searchViewers(String text) {
-
-        return SolrUtil.searchSingleFieldAsMapList("text", text, 10);
+    public List<Map<String, Object>> searchViewers(String text, String domain) {
+        return SolrUtil.searchSingleFieldAsMapList("text", text, 10, domain);
     }
 
     private Dashboard convertDTOToEntity(DashboardDTO dashboardDTO) {
         Dashboard dashboard = mapper.map(dashboardDTO, Dashboard.class);
-        
+
         if (isNotNull(dashboardDTO.getBackgroundImage())) {
             dashboard.setBackgroundImage(
-                dashboardDTO.getBackgroundImage().getBase64()
+                    dashboardDTO.getBackgroundImage().getBase64()
             );
         }
-        
+
         for (int s = 0; s < dashboardDTO.getSections().size(); s++) {
             DashboardSectionDTO sectionDTO = dashboardDTO.getSections().get(s);
             for (int i = 0; i < sectionDTO.getItems().size(); i++) {
                 DashboardItemDTO itemDTO = sectionDTO.getItems().get(i);
-                
+
                 if (isNotNull(itemDTO.getBackgroundImage())) {
                     dashboard.getSections().get(s).getItems().get(i).setBackgroundImage(
-                        itemDTO.getBackgroundImage().getBase64()
+                            itemDTO.getBackgroundImage().getBase64()
                     );
                 }
             }
         }
-        
+
         return dashboard;
     }
 

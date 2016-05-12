@@ -51,9 +51,9 @@ public class SolrUtil {
         return response.getResults();
     }
     
-    public static SolrDocumentList searchSingleField(String field, String value, Integer rows) {
+    public static SolrDocumentList searchSingleField(String field, String value, Integer rows, String domain) {
         SolrServer solrServer = getSolrServer();
-        SolrQuery query = new SolrQuery(String.format("%s:*%s*", field, value));
+        SolrQuery query = new SolrQuery(String.format("%s:*%s*", field, value) + " AND domain:\"" + domain+"\"");
 
         // Seta a quantidade de resultados na resposta
         query.setRows(rows);
@@ -67,8 +67,8 @@ public class SolrUtil {
         }
     }
     
-    public static List<Map<String, Object>> searchSingleFieldAsMapList(String field, String value, Integer rows) {
-        SolrDocumentList documents = searchSingleField(field, value, rows);
+    public static List<Map<String, Object>> searchSingleFieldAsMapList(String field, String value, Integer rows, String domain) {
+        SolrDocumentList documents = searchSingleField(field, value, rows, domain);
         List<Map<String, Object>> viewers = new ArrayList<>(documents.size());
         
         for (SolrDocument document : documents) {

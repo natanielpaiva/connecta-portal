@@ -7,19 +7,19 @@
     <parent>
         <groupId>br.com.cds.connecta.framework</groupId>
         <artifactId>connecta-parent</artifactId>
-        <version>0.0.4-SNAPSHOT</version>
+        <version>0.1.0-SNAPSHOT</version>
     </parent>
 
     <groupId>br.com.cds.connecta</groupId>
     <artifactId>connecta-portal</artifactId>
-    <version>0.2.1</version>
+    <version>0.3.0-SNAPSHOT</version>
     <packaging>war</packaging>
     
     <name>Connecta Portal</name>
 
     <properties>
         <java.version>1.7</java.version>
-        <connecta.core.version>0.0.3-SNAPSHOT</connecta.core.version>
+        <connecta.core.version>0.1.0-SNAPSHOT</connecta.core.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>

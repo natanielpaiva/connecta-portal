@@ -17,11 +17,11 @@ public interface IDashboardAS {
      * @param text
      * @return 
      */
-    List<Map<String, Object>> searchViewers(String text);
+    List<Map<String, Object>> searchViewers(String text, String domain);
     
     Iterable<Dashboard> list(DashboardPaginationFilter filter);
 
-    Dashboard get(Long id);
+    Dashboard get(Long id, String domain);
 
     Dashboard save(DashboardDTO application);
 

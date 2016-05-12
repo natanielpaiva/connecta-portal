@@ -8,6 +8,8 @@
                     http://www.springframework.org/schema/beans/spring-beans.xsd
                     http://www.springframework.org/schema/security
                     http://www.springframework.org/schema/security/spring-security.xsd">
+                    
+    <security:global-method-security pre-post-annotations="enabled"/>
 
     <authentication-manager id="clientAuthenticationManager" 
                             xmlns="http://www.springframework.org/schema/security">
@@ -16,11 +18,10 @@
     
     <bean id="customUserDetailsService" class="br.com.cds.connecta.portal.security.CustomUserDetailsService"></bean>
 
-    <authentication-manager alias="authenticationManager"
-                            xmlns="http://www.springframework.org/schema/security">
-        <authentication-provider user-service-ref="customUserDetailsService">
-        </authentication-provider>
-    </authentication-manager>
+	<authentication-manager alias="authenticationManager"
+		xmlns="http://www.springframework.org/schema/security">
+		<authentication-provider user-service-ref="customUserDetailsService"/>
+	</authentication-manager>
 
     <http pattern="/oauth/token" create-session="stateless"
           authentication-manager-ref="clientAuthenticationManager"
@@ -33,18 +34,20 @@
                        after="BASIC_AUTH_FILTER" />
         <access-denied-handler ref="oauthAccessDeniedHandler" />
     </http>
-
-    <http pattern="/**" create-session="never"
-          
+	    
+    <http pattern="/domain/**" security="none" 
+    	xmlns="http://www.springframework.org/schema/security"/>
+    
+    <http pattern="/**" create-session="never" use-expressions="true"
           entry-point-ref="oauthAuthenticationEntryPoint"
           access-decision-manager-ref="accessDecisionManager"
           xmlns="http://www.springframework.org/schema/security">
         <anonymous enabled="false" />
-        <intercept-url pattern="/**" method="GET" access="ROLE_USER" />
-        <intercept-url pattern="/**" method="POST" access="ROLE_USER" />
-        <intercept-url pattern="/**" method="PUT" access="ROLE_USER" />
-        <intercept-url pattern="/**" method="DELETE" access="ROLE_USER" />
-        <intercept-url pattern="/**" method="PATCH" access="ROLE_USER" />
+        <intercept-url pattern="/**" method="GET" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+        <intercept-url pattern="/**" method="POST" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+        <intercept-url pattern="/**" method="PUT" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+        <intercept-url pattern="/**" method="DELETE" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+        <intercept-url pattern="/**" method="PATCH" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
         <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
         <access-denied-handler ref="oauthAccessDeniedHandler" />
     </http>
@@ -74,8 +77,10 @@
         <constructor-arg>
             <list>
                 <bean class="org.springframework.security.oauth2.provider.vote.ScopeVoter" />
-                <bean class="org.springframework.security.access.vote.RoleVoter" />
                 <bean class="org.springframework.security.access.vote.AuthenticatedVoter" />
+                <bean class="org.springframework.security.web.access.expression.WebExpressionVoter">
+                	<property name="expressionHandler" ref="oauthWebExpressionHandler" />
+                </bean>
             </list>
         </constructor-arg>
     </bean>
@@ -116,7 +121,7 @@
     
     <oauth:client-details-service id="clientDetails">
         <oauth:client client-id="frontend" secret="secret"
-                      authorities="ROLE_USER"
+                      authorities="ROLE_USER,ROLE_ADMIN"
                       authorized-grant-types="password,refresh_token,client_credentials"
                       scope="read,write,trust" 
                       access-token-validity="200000"

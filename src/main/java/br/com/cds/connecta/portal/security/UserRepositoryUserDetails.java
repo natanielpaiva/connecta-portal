@@ -46,7 +46,7 @@ public class UserRepositoryUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return user.getLogin();
     }
 
     @Override

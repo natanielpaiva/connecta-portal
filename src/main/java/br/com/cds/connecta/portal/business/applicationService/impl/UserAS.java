@@ -1,10 +1,21 @@
 package br.com.cds.connecta.portal.business.applicationService.impl;
 
-import br.com.cds.connecta.portal.business.applicationService.IUserAS;
-import br.com.cds.connecta.portal.entity.User;
-import br.com.cds.connecta.portal.persistence.UserDAO;
+import java.io.IOException;
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import br.com.cds.connecta.framework.core.exception.AlreadyExistsException;
+import br.com.cds.connecta.framework.core.util.Util;
+import br.com.cds.connecta.portal.business.applicationService.IDomainAS;
+import br.com.cds.connecta.portal.business.applicationService.IUserAS;
+import br.com.cds.connecta.portal.entity.Role;
+import br.com.cds.connecta.portal.entity.User;
+import br.com.cds.connecta.portal.persistence.RoleDAO;
+import br.com.cds.connecta.portal.persistence.UserDAO;
+import br.com.cds.connecta.portal.persistence.specification.RoleSpecification;
 
 /**
  *
@@ -17,9 +28,15 @@ public class UserAS implements IUserAS {
     @Autowired
     private UserDAO userRepository;
     
+    @Autowired
+    private RoleDAO roleRepository;
+    
+//    @Autowired
+//    private IDomainAS domainAS;
+    
     @Override
     public User get(User user) {
-        return userRepository.findByEmail(user.getEmail());
+        return userRepository.findByLogin(user.getLogin());
     }
 
 //    @Autowired 
@@ -59,54 +76,36 @@ public class UserAS implements IUserAS {
 //        }
 //    }
 //
-//    @Override
-//    public UserDTO saveOrUpdateWithUpload(UserDTO userDTO, MultipartFile image) throws IOException {
-//        User user = userDTO.createUserEntity();
-//        boolean userExistsCamunda = checkIfUserExists(userDTO.getProfile().getId());
-//
-//        if (!userExistsCamunda) {
-//            executeCamundaSaveRequest(userDTO);
-//            saveUserToDatabase(image, user);
-//
-//        } else {
-//            //Verifica se o usuário está logado ou não (criação/update)
-//            AuthenticationDTO currentUser = SecurityContextUtil.getCurrentUserAuthentication();
-//            if (Util.isNull(currentUser)) {
-//                //Se não estiver logado, está tentando criar usuário com username que ja está cadastrado no camunda
-//                throw new BusinessException(MessageEnum.FORBIDDEN, "USER.ERROR.USERNAME_EXISTS");
-//            } else if (!currentUser.getUserId().equals(userDTO.getProfile().getId())) {
-//                //Se o username do user logado não bate com o user da requisição, shit just hit the fan
-//                throw new BusinessException(MessageEnum.REJECTED, "USER.ERROR.USERNAME_MISMATCH");
-//            }
-//
-//            //Executa o update do Usuário no Camunda
-//            updateUser(userDTO.getProfile());
-//
-//            //Checar se usuário existe no banco, se não, criar...
-//            User findUser = userDAO.findByUsername(userDTO.getProfile().getId());
-//
-//            if (Util.isNotNull(findUser)) {
-//                byte[] userImage = findUser.getImage();
-//                if (Util.isNotNull(image)) {
-//                    //Atualiza a imagem do usuário caso exista
-//                    findUser.setImage(image.getBytes());
-//                    userDAO.save(findUser);
-//                } else if (Util.isNull(userDTO.getProfile().getAvatarUrl()) && Util.isNotNull(userImage)) {
-//                    //Usuário remove a imagem no form do profile e possui uma imagem no banco
-//                    //Remover imagem no banco
-//                    findUser.setImage(null);
-//                    userDAO.save(findUser);
-////                    userImageDAO.delete(userImage.getId());
-//                }
-//
-//            } else {
-//                saveUserToDatabase(image, user);
-//            }
-//
-//        }
-//
-//        return userDTO;
-//    }
+    @Override
+    public User saveOrUpdateWithUpload(User user, MultipartFile image) throws IOException {
+    	//New User
+    	if(Util.isNull(user.getId())){
+    		User usr = userRepository.findByLogin(user.getLogin());
+    		if(Util.isNotNull(usr)){
+    			throw new AlreadyExistsException("Usuário","Login");
+    		}
+    		if(Util.isNotNull(image)){
+    			user.setImage(image.getBytes());
+    		}
+    		//TODO Remover após definir como será o cadastro de usuario
+    		user.setImageUrl("http://icon-icons.com/icons2/35/PNG/512/"
+    				+ "caucasian_head_man_person_people_avatar_2859.png");
+    		
+    		Role roleUsr = roleRepository.findOne(RoleSpecification.byName("ROLE_USER"));
+    		user.setRoles(Arrays.asList(roleUsr));
+    		
+    		return userRepository.save(user);
+    	//Update User
+    	}else{
+    		User userDB = userRepository.findOne(user.getId());
+    		userDB.mergePropertiesProfile(user);
+    		if(Util.isNotNull(image)){
+    			userDB.setImage(image.getBytes());
+    		}
+    		return userDB;
+    	}
+    }
+    
 //
 //    /**
 //     * Salva o usuário no DB do Portal

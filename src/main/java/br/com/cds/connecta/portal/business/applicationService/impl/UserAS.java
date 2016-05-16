@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.com.cds.connecta.framework.core.exception.AlreadyExistsException;
 import br.com.cds.connecta.framework.core.util.Util;
-import br.com.cds.connecta.portal.business.applicationService.IDomainAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.Role;
 import br.com.cds.connecta.portal.entity.User;

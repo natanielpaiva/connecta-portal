@@ -12,7 +12,7 @@
 
     <groupId>br.com.cds.connecta</groupId>
     <artifactId>connecta-portal</artifactId>
-    <version>0.4.0-SNAPSHOT</version>
+    <version>0.4.1-SNAPSHOT</version>
     <packaging>war</packaging>
     
     <name>Connecta Portal</name>

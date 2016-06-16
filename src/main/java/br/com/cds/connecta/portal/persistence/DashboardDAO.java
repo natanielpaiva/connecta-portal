@@ -6,26 +6,28 @@ import br.com.cds.connecta.portal.entity.Dashboard;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 @Repository
-public interface DashboardDAO extends JpaRepository<Dashboard, Long> {
+public interface DashboardDAO extends JpaRepository<Dashboard, Long>,
+        JpaSpecificationExecutor<Dashboard> {
 
     @Query("SELECT d FROM Dashboard d LEFT JOIN FETCH d.sections s WHERE d.id = :id "
-    		+ "AND UPPER(d.domain) = UPPER(:domain)")
-    Dashboard findOneWithSections(@Param("id") Long id,@Param("domain") String domain);
-    
+            + "AND UPPER(d.domain) = UPPER(:domain)")
+    Dashboard findOneWithSections(@Param("id") Long id, @Param("domain") String domain);
+
     @Query("FROM Dashboard d WHERE TRANSLATE(TRIM(UPPER(d.name)),"
-    		+ "'ÁÂÀÃÄÉÈÊẼËÍÌÎĨÏÓÒÔÕÖÚÙÛŨÜÇ','AAAAAEEEEEIIIIIOOOOOUUUUUC') LIKE :name")
+            + "'ÁÂÀÃÄÉÈÊẼËÍÌÎĨÏÓÒÔÕÖÚÙÛŨÜÇ','AAAAAEEEEEIIIIIOOOOOUUUUUC') LIKE :name")
     Page<Dashboard> findAllLikeName(@Param("name") String name, Pageable pageable);
-    
+
     @Query("FROM Dashboard d WHERE UPPER(d.domain) = UPPER(:domain)")
     Page<Dashboard> findByDomain(@Param("domain") String domain, Pageable pageable);
-    
+
     @Query("FROM Dashboard d WHERE UPPER(d.domain) = UPPER(:domain) AND TRANSLATE(TRIM(UPPER(d.name)),"
-    		+ "'ÁÂÀÃÄÉÈÊẼËÍÌÎĨÏÓÒÔÕÖÚÙÛŨÜÇ','AAAAAEEEEEIIIIIOOOOOUUUUUC') LIKE :name")
-    Page<Dashboard> findByDomainLikeName(@Param("domain") String domain, 
-    							@Param("name") String name, Pageable pageable);
-    
+            + "'ÁÂÀÃÄÉÈÊẼËÍÌÎĨÏÓÒÔÕÖÚÙÛŨÜÇ','AAAAAEEEEEIIIIIOOOOOUUUUUC') LIKE :name")
+    Page<Dashboard> findByDomainLikeName(@Param("domain") String domain,
+            @Param("name") String name, Pageable pageable);
+
 }

@@ -25,27 +25,27 @@ public class DashboardController {
 
     @Autowired
     private IDashboardAS service;
-    
+
     @RequestMapping(value = "viewer", method = RequestMethod.GET)
-    public ResponseEntity<List<Map<String, Object>>> 
-    	searchViewers(@RequestParam(value = "text", defaultValue = "") String text,
-                @RequestHeader("Domain") String domain) {
-        
+    public ResponseEntity<List<Map<String, Object>>>
+            searchViewers(@RequestParam(value = "text", defaultValue = "") String text,
+                    @RequestHeader("Domain") String domain) {
+
         List<Map<String, Object>> viewers = service.searchViewers(text, domain);
         return new ResponseEntity<>(viewers, HttpStatus.OK);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.GET)
     public ResponseEntity<Dashboard> get(@PathVariable("id") Long id,
-    		@RequestHeader("Domain") String domain) {
-        Dashboard entity = service.get(id,domain);
+            @RequestHeader("Domain") String domain) {
+        Dashboard entity = service.get(id, domain);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Iterable<Dashboard>> list(DashboardPaginationFilter filter,
-    		@RequestHeader("Domain") String domain) {
-    	filter.setDomain(domain);
+            @RequestHeader("Domain") String domain) {
+        filter.setDomain(domain);
         return new ResponseEntity<>(service.list(filter), HttpStatus.OK);
     }
 
@@ -59,7 +59,7 @@ public class DashboardController {
     public ResponseEntity<Dashboard> update(
             @PathVariable("id") Long id,
             @RequestBody DashboardDTO entity) {
-        
+
         Dashboard updatedEntity = service.update(entity);
         return new ResponseEntity<>(updatedEntity, HttpStatus.OK);
     }
@@ -68,6 +68,13 @@ public class DashboardController {
     public ResponseEntity delete(@PathVariable("id") Long id) {
         service.delete(id);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @RequestMapping(method = RequestMethod.DELETE)
+    public ResponseEntity bulkDelete(@RequestBody List<Long> ids,
+            @RequestHeader("Domain") String domain) {
+        service.deleteAll(ids, domain);
+        return new ResponseEntity(null, HttpStatus.NO_CONTENT);
     }
 
 }

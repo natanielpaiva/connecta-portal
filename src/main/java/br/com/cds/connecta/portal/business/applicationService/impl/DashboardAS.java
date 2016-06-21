@@ -11,6 +11,7 @@ import br.com.cds.connecta.portal.entity.Dashboard;
 import br.com.cds.connecta.portal.entity.DashboardSection;
 import br.com.cds.connecta.portal.filter.DashboardPaginationFilter;
 import br.com.cds.connecta.portal.persistence.DashboardDAO;
+import br.com.cds.connecta.portal.persistence.specification.DashboardSpecification;
 import java.util.List;
 import java.util.Map;
 import org.hibernate.Hibernate;
@@ -27,7 +28,7 @@ import org.springframework.stereotype.Service;
 public class DashboardAS implements IDashboardAS {
 
     @Autowired
-    private DashboardDAO dao;
+    private DashboardDAO dashboardRepository;
 
     private final ModelMapper mapper = new ModelMapper();
 
@@ -38,12 +39,12 @@ public class DashboardAS implements IDashboardAS {
         Iterable<Dashboard> page;
 
         if (!isEmpty(filter.getName())) {
-            page = dao.findByDomainLikeName(
+            page = dashboardRepository.findByDomainLikeName(
                     filter.getDomain(),
                     prepareForSearch(filter.getName(), true),
                     pageable);
         } else {
-            page = dao.findByDomain(filter.getDomain(), pageable);
+            page = dashboardRepository.findByDomain(filter.getDomain(), pageable);
         }
 
         return page;
@@ -51,7 +52,7 @@ public class DashboardAS implements IDashboardAS {
 
     @Override
     public Dashboard get(Long id, String domain) {
-        Dashboard dashboard = dao.findOneWithSections(id, domain);
+        Dashboard dashboard = dashboardRepository.findOneWithSections(id, domain);
 
         if (isNull(dashboard)) {
             throw new ResourceNotFoundException(Dashboard.class.getSimpleName());
@@ -67,18 +68,24 @@ public class DashboardAS implements IDashboardAS {
     @Override
     public Dashboard save(DashboardDTO dashboardDTO) {
         Dashboard dashboard = convertDTOToEntity(dashboardDTO);
-        return dao.save(dashboard);
+        return dashboardRepository.save(dashboard);
     }
 
     @Override
     public Dashboard update(DashboardDTO dashboardDTO) {
         Dashboard dashboard = convertDTOToEntity(dashboardDTO);
-        return dao.save(dashboard);
+        return dashboardRepository.save(dashboard);
     }
 
     @Override
     public void delete(Long id) {
-        dao.delete(id);
+        dashboardRepository.delete(id);
+    }
+    
+    @Override
+    public void deleteAll(List<Long> ids, String domain) {
+    	List<Dashboard> listDs = dashboardRepository.findAll(DashboardSpecification.byIdsAndDomain(ids, domain));
+    	dashboardRepository.delete(listDs);
     }
 
     @Override

@@ -42,7 +42,7 @@ public class Dashboard extends AbstractBaseEntity {
 
     @Column(name = "NU_PADDING")
     private Short padding;
-    
+
     @Column(name = "NU_OPACITY")
     private Short opacity;
 
@@ -70,7 +70,7 @@ public class Dashboard extends AbstractBaseEntity {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "FK_DASHBOARD")
     private List<DashboardSection> sections;
-    
+
     @Column(name = "NM_DOMAIN")
     private String domain;
 
@@ -187,13 +187,12 @@ public class Dashboard extends AbstractBaseEntity {
         this.sections = sections;
     }
 
-	public String getDomain() {
-		return domain;
-	}
+    public String getDomain() {
+        return domain;
+    }
 
-	public void setDomain(String domain) {
-		this.domain = domain;
-	}
-
+    public void setDomain(String domain) {
+        this.domain = domain;
+    }
 
 }

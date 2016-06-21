@@ -28,5 +28,7 @@ public interface IDashboardAS {
     Dashboard update(DashboardDTO entity);
 
     void delete(Long id);
+    
+    void deleteAll(List<Long> ids, String domain);
 
 }

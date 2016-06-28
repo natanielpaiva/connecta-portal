@@ -32,9 +32,6 @@
                 <prop key="hibernate.c3p0.timeout">30000</prop>
                 <prop key="hibernate.c3p0.max_statements">180</prop>
                 <prop key="hibernate.c3p0.idle_test_period">30000</prop>
-                <prop key="hibernate.transaction.manager_lookup_class">
-                    ${hibernate.transaction.manager_lookup_class}
-                </prop>
             </props>
         </property>
     </bean>

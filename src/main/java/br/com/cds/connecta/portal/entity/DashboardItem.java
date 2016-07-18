@@ -2,6 +2,7 @@ package br.com.cds.connecta.portal.entity;
 
 import br.com.cds.connecta.framework.core.entity.AbstractBaseEntity;
 import br.com.cds.connecta.portal.domain.DashboardItemType;
+import br.com.cds.connecta.portal.domain.ModuleTypeEnum;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +14,6 @@ import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.Table;
 
-
 @Entity
 @Table(name = "TB_DASHBOARD_ITEM")
 public class DashboardItem extends AbstractBaseEntity {
@@ -22,35 +22,42 @@ public class DashboardItem extends AbstractBaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PK_DASHBOARD_ITEM")
     private Long id;
-    
+
     @Column(name = "URL_VIEWER")
     private String viewerUrl;
-    
+
+    @Column(name = "PK_VIEWER")
+    private Long viewer;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "NM_MODULE")
+    private ModuleTypeEnum module;
+
     @Column(name = "NU_SIZE_X")
     private Short sizeX;
-    
+
     @Column(name = "NU_SIZE_Y")
     private Short sizeY;
-    
+
     @Column(name = "NU_ROW")
     private Short row;
-    
+
     @Column(name = "NU_COLUMN")
     private Short column;
-    
+
     @Column(name = "NU_OPACITY")
     private Short opacity;
-    
+
     @Column(name = "NU_PADDING")
     private Short padding;
-    
+
     @Column(name = "DS_BACKGROUND_COLOR")
     private String backgroundColor;
-    
+
     @Lob
     @Column(name = "BN_BACKGROUND_IMAGE")
     private String backgroundImage;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(name = "ST_ITEM_TYPE")
     private DashboardItemType type;
@@ -142,6 +149,22 @@ public class DashboardItem extends AbstractBaseEntity {
 
     public void setType(DashboardItemType type) {
         this.type = type;
+    }
+
+    public Long getViewer() {
+        return viewer;
+    }
+
+    public void setViewer(Long viewer) {
+        this.viewer = viewer;
+    }
+
+    public ModuleTypeEnum getModule() {
+        return module;
+    }
+
+    public void setModule(ModuleTypeEnum module) {
+        this.module = module;
     }
 
 }

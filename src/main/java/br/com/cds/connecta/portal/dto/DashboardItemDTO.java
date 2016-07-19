@@ -3,7 +3,7 @@ package br.com.cds.connecta.portal.dto;
 import br.com.cds.connecta.portal.domain.DashboardItemType;
 
 public class DashboardItemDTO {
-    
+
     private Long id;
     private String viewerUrl;
     private Short contentHeight;
@@ -16,9 +16,11 @@ public class DashboardItemDTO {
     private Short column;
     private Short opacity;
     private String backgroundColor;
+    private Long viewer;
+    private String module;
 
     private FrontendFileDTO backgroundImage;
-    
+
     private DashboardItemType type;
 
     public Long getId() {
@@ -132,5 +134,21 @@ public class DashboardItemDTO {
     public void setType(DashboardItemType type) {
         this.type = type;
     }
-    
+
+    public Long getViewer() {
+        return viewer;
+    }
+
+    public void setViewer(Long viewer) {
+        this.viewer = viewer;
+    }
+
+    public String getModule() {
+        return module;
+    }
+
+    public void setModule(String module) {
+        this.module = module;
+    }
+
 }

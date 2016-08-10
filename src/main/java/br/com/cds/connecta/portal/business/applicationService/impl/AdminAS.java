@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.cds.connecta.portal.business.applicationService.IAdminAS;
-import br.com.cds.connecta.portal.business.applicationService.IDomainAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.Domain;
 import br.com.cds.connecta.portal.entity.User;
@@ -28,8 +27,8 @@ public class AdminAS implements IAdminAS {
 
 	@Override
 	public List<Domain> getByUsername(String username) {
-		User usr = userAS.get(new User(username)); // email or login?
-		return usr != null ? usr.getDomains() : null;
+            User usr = userAS.getByEmail(username);
+            return usr != null ? usr.getDomains() : null;
 	}
     
 }

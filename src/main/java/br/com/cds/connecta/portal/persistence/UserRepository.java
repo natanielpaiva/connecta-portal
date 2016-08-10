@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @author Julio Lemes
  * @date Aug 27, 2015
  */
-public interface UserDAO extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
     
-    User findByLogin(String login);
+    User findByEmail(String login);
 
 }

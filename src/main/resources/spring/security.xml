@@ -35,22 +35,21 @@
         <access-denied-handler ref="oauthAccessDeniedHandler" />
     </http>
 	    
-    <http pattern="/domain/**" security="none" 
-    	xmlns="http://www.springframework.org/schema/security"/>
+    <security:http pattern="/domain/**" security="none" />
+    <security:http pattern="/config/**" security="none" />
     
-    <http pattern="/**" create-session="never" use-expressions="true"
+    <security:http pattern="/**" create-session="never" use-expressions="true"
           entry-point-ref="oauthAuthenticationEntryPoint"
-          access-decision-manager-ref="accessDecisionManager"
-          xmlns="http://www.springframework.org/schema/security">
-        <anonymous enabled="false" />
-        <intercept-url pattern="/**" method="GET" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
-        <intercept-url pattern="/**" method="POST" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
-        <intercept-url pattern="/**" method="PUT" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
-        <intercept-url pattern="/**" method="DELETE" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
-        <intercept-url pattern="/**" method="PATCH" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
-        <custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
-        <access-denied-handler ref="oauthAccessDeniedHandler" />
-    </http>
+          access-decision-manager-ref="accessDecisionManager">
+        <security:anonymous enabled="false" />
+        <security:intercept-url pattern="/**" method="GET" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+        <security:intercept-url pattern="/**" method="POST" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+        <security:intercept-url pattern="/**" method="PUT" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+        <security:intercept-url pattern="/**" method="DELETE" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+        <security:intercept-url pattern="/**" method="PATCH" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+        <security:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
+        <security:access-denied-handler ref="oauthAccessDeniedHandler" />
+    </security:http>
 
     <bean id="oauthAuthenticationEntryPoint"
           class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint">

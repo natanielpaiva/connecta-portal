@@ -16,19 +16,19 @@ public class DomainAS implements IDomainAS {
 
     @Autowired
     private DomainDAO domainRepository;
-    
+
     @Autowired
     private IUserAS userAS;
 
-	@Override
-	public List<Domain> getAll() {
-		return domainRepository.findAll();
-	}
+    @Override
+    public List<Domain> getAll() {
+        return domainRepository.findAll();
+    }
 
-	@Override
-	public List<Domain> getByUsername(String username) {
-		User usr = userAS.get(new User(username)); // email or login?
-		return usr != null ? usr.getDomains() : null;
-	}
-    
+    @Override
+    public List<Domain> getByUser(String username) {
+        User usr = userAS.getByEmail(username); // email or login?
+        return usr != null ? usr.getDomains() : null;
+    }
+
 }

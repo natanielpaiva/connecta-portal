@@ -18,6 +18,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import br.com.cds.connecta.framework.core.test.MockMvcProvider;
 import static br.com.cds.connecta.portal.AuthenticationTest.RESOURCE_ACCESS_TOKEN;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.FileNotFoundException;
+import java.util.logging.Level;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -122,12 +124,20 @@ public class BaseTest {
      */
     protected String getTestResourceContent(String fileName) {
         try {
-            InputStream is = new FileInputStream(TEST_RESOURCE_FOLDER.concat(fileName));
+            InputStream is = getTestResourceInputStream(fileName);
             return IOUtils.toString(is, FILE_CHARSET);
         } catch (IOException ex) {
             logger().error("Erro ao buscar arquivo "+fileName, ex);
         }
         return null;
+    }
+
+    protected static InputStream getTestResourceInputStream(String fileName) {
+        InputStream is = null;
+        try {
+            is = new FileInputStream(TEST_RESOURCE_FOLDER.concat(fileName));
+        } catch (FileNotFoundException ex) {}
+        return is;
     }
     
     protected String getAccessToken() throws Exception {

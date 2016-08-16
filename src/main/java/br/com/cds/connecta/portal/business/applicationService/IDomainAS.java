@@ -5,6 +5,7 @@ import java.util.List;
 import br.com.cds.connecta.portal.entity.Domain;
 
 public interface IDomainAS {
-	List<Domain> getAll();
-    List<Domain> getByUsername(String username);
+    
+    List<Domain> getAll();
+    List<Domain> getByUser(String username);
 }

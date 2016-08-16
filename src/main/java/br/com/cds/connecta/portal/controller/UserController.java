@@ -19,88 +19,110 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.com.cds.connecta.framework.core.context.HibernateAwareObjectMapper;
 import br.com.cds.connecta.framework.core.domain.annotation.PublicResource;
-import br.com.cds.connecta.framework.core.exception.BusinessException;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.User;
 import br.com.cds.connecta.portal.security.UserRepositoryUserDetails;
-
+import java.io.IOException;
+import java.io.InputStream;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.io.IOUtils;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+ 
 @RestController
 @RequestMapping("user")
 public class UserController {
-    
+
     @Autowired
-    private IUserAS userAS;
-    
+    private IUserAS userService;
+
     @Autowired
     private HibernateAwareObjectMapper objectMapper;
-    
+
     @Autowired
     private ResourceServerTokenServices tokenServices;
-    
+
     @RequestMapping("current")
     public User user(Principal principal) {
-        
+
         OAuth2Authentication auth2Authentication = (OAuth2Authentication) principal;
-        
-        UserRepositoryUserDetails repositoryUserDetails = 
-                (UserRepositoryUserDetails) auth2Authentication.getPrincipal();
-        
-        User user = userAS.get(repositoryUserDetails.getUser());
+
+        UserRepositoryUserDetails repositoryUserDetails
+                = (UserRepositoryUserDetails) auth2Authentication.getPrincipal();
+
+        User user = userService.getByEmail(repositoryUserDetails.getUser().getEmail());
         user.setPassword(null);
-        
+
         return user;
     }
-    
-    @RequestMapping( name = "/" , method = RequestMethod.GET)
-    public User get(User user){
-        user = userAS.get(user);
-        user.setPassword(null);
-        return user;
+
+    @RequestMapping(value = "{id}/profile.png", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
+    public void get(@PathVariable Long id, 
+                    HttpServletResponse response) throws IOException {
+        InputStream inputStream = userService.getUserImage(id);
+
+        String headerKey = "Content-Disposition";
+        String headerValue = String.format("attachment; filename=\"%s\"", id.toString() + ".png");
+
+        response.setHeader(headerKey, headerValue);
+
+        IOUtils.copy(inputStream, response.getOutputStream());
+        response.flushBuffer();
     }
-    
-    @RequestMapping(value = "validarToken" , method = RequestMethod.GET)
-    public ResponseEntity validarToken(@RequestHeader("Authorization") String param){
-    	String[] tk = param.split(" ");
-    	
-    	OAuth2AccessToken token = tokenServices.readAccessToken(tk[1]);
-    	
-    	if(token == null || token.isExpired()){
-    		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    	}
-    	
-    	return new ResponseEntity<>(HttpStatus.OK);
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PublicResource
+    @RequestMapping(method = RequestMethod.POST,
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity createUser(@RequestBody User user) throws Exception {
+
+        user = userService.save(user);
+
+        return new ResponseEntity(user, HttpStatus.CREATED);
     }
-    
-    @RequestMapping(value = "profile", 
-    		method = RequestMethod.POST, 
-    		consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity updateUserProfileWithUpload(
-            @RequestParam(value = "image", required = false) MultipartFile image,
-            @RequestParam("user") String userDtoStr, Principal userLogged) throws Exception {
+
+    @RequestMapping(value = "validarToken", method = RequestMethod.GET)
+    public ResponseEntity validarToken(@RequestHeader("Authorization") String param) {
+        String[] tk = param.split(" ");
+
+        OAuth2AccessToken token = tokenServices.readAccessToken(tk[1]);
+
+        if (token == null || token.isExpired()) {
+            return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        }
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+//    ,consumes = MediaType.MULTIPART_FORM_DATA_VALUE
+    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
+    public ResponseEntity update(@PathVariable("id") Long id, @RequestBody User user, Principal userLogged) {
         
-        User user = objectMapper.readValue(userDtoStr, User.class);
-        userAS.saveOrUpdateWithUpload(user, image);
-        
+        userService.update(id, user);
+
         return new ResponseEntity(user, HttpStatus.OK);
     }
+
+    @RequestMapping(value = "{id}/avatar",
+            method = RequestMethod.POST,
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity upload(
+            @RequestParam(value = "file", required = false) MultipartFile image,
+            @PathVariable("id") Long id, Principal principal) throws Exception {
+        
+        userService.upload(id, image);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
     
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-	@PublicResource
-	@RequestMapping(value = "create", 
-	method = RequestMethod.POST, 
-	consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-	public ResponseEntity createUserWithUpload(
-			@RequestParam(value = "image", required = false) MultipartFile image,
-			@RequestParam("user") String userStr) throws Exception {
+    @RequestMapping(value = "delete",
+            method = RequestMethod.DELETE,
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity deletePhoto(
+            @RequestParam("id") Long id) throws Exception {
 
-		User user = objectMapper.readValue(userStr, User.class);
+        userService.setUserImage(id);
 
-		try {
-			user = userAS.saveOrUpdateWithUpload(user, image);
-		} catch (BusinessException exception) {
-			return new ResponseEntity(exception.getMessageError().getKey(), HttpStatus.CONFLICT);
-		}
-
-		return new ResponseEntity(user, HttpStatus.CREATED);
-	}
+        return new ResponseEntity(id, HttpStatus.OK);
+    }
 }

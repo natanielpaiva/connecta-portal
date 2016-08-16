@@ -1,44 +1,163 @@
 package br.com.cds.connecta.portal.business.applicationService.impl;
 
+import static br.com.cds.connecta.framework.core.util.Util.isNull;
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.cds.connecta.framework.core.exception.AlreadyExistsException;
+import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
 import br.com.cds.connecta.framework.core.util.Util;
-import br.com.cds.connecta.portal.business.applicationService.IDomainAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.Role;
 import br.com.cds.connecta.portal.entity.User;
 import br.com.cds.connecta.portal.persistence.RoleDAO;
-import br.com.cds.connecta.portal.persistence.UserDAO;
+import br.com.cds.connecta.portal.persistence.UserRepository;
 import br.com.cds.connecta.portal.persistence.specification.RoleSpecification;
 
 /**
  *
- * @author Julio Lemes
- * @date Aug 10, 2015
+ * @author <heloisa.morais@cds.com.br>
  */
 @Service
 public class UserAS implements IUserAS {
 
+    private final static String DEFAULT_USER_IMAGE = "./user-default.jpg";
+
     @Autowired
-    private UserDAO userRepository;
-    
+    private UserRepository userRepository;
+
     @Autowired
     private RoleDAO roleRepository;
     
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
 //    @Autowired
 //    private IDomainAS domainAS;
     
     @Override
-    public User get(User user) {
-        return userRepository.findByLogin(user.getLogin());
+    public User get(Long id) {
+        User user = userRepository.findOne(id);
+        
+        if (user == null) {
+            throw new ResourceNotFoundException(User.class.getCanonicalName());
+        }
+        
+        return user;
     }
 
+    @Override
+    public User getByEmail(String username) {
+        User user = userRepository.findByEmail(username);
+        
+        if (user == null) {
+            throw new ResourceNotFoundException(User.class.getCanonicalName());
+        }
+        
+        return user;
+    }
+
+    @Override
+    public InputStream getUserImage(Long id) throws IOException {
+        User user = get(id);
+
+        InputStream is;
+
+        if (user.getImage() == null) {
+            is = getClass().getClassLoader().getResourceAsStream(DEFAULT_USER_IMAGE);
+        } else {
+            Hibernate.initialize(user.getImage());
+            is = new ByteArrayInputStream(user.getImage());
+        }
+
+        return is;
+    }
+    
+    @Override
+    public void setUserImage(Long id) throws IOException {
+        User user = get(id);
+        user.setImage(null);
+    }
+
+    @Override
+    public User upload(Long id, MultipartFile file) throws IOException {
+        User user = get(id);
+        
+        if (isNull(file)) {
+            user.setImage(null);
+        } else {
+            user.setImage(file.getBytes());
+        }
+        
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User save(User user) {
+        User usr = userRepository.findByEmail(user.getEmail());
+
+        if (Util.isNotNull(usr)) {
+            throw new AlreadyExistsException("Usuário", "E-mail");
+        }
+
+        Role roleUsr = roleRepository.findOne(RoleSpecification.byName("ROLE_USER"));
+        user.setRoles(Arrays.asList(roleUsr));
+
+        user.setImage(null);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User update(Long id, User user) {
+        User userFromDatabase = get(id); // Somente para verificar se já existe
+        
+        user.setId(id); // O ID da URL prevalece
+        user.setImage(userFromDatabase.getImage()); // Imagem continua a anterior
+        user.setPassword(userFromDatabase.getPassword()); // Senha continua a anterior
+        user.setRoles(userFromDatabase.getRoles()); // Roles também
+        user.setDomains(userFromDatabase.getDomains()); // E Domínios também :)
+        
+        return userRepository.save(user);
+    }
+
+//    @Override
+//    public User update(User user, MultipartFile image) throws IOException {
+//        //New User
+//        if (Util.isNull(user.getId())) {
+//            User usr = userRepository.findByLogin(user.getLogin());
+//
+//            if (Util.isNotNull(usr)) {
+//                throw new AlreadyExistsException("Usuário", "Login");
+//            }
+//            if (Util.isNotNull(image)) {
+//                user.setImage(image.getBytes());
+//            }
+//
+//            Role roleUsr = roleRepository.findOne(RoleSpecification.byName("ROLE_USER"));
+//            user.setRoles(Arrays.asList(roleUsr));
+//
+//            return userRepository.save(user);
+//            //Update User
+//        } else {
+//            User userDB = userRepository.findOne(user.getId());
+//            userDB.mergePropertiesProfile(user);
+//            if (Util.isNotNull(image)) {
+//                userDB.setImage(image.getBytes());
+//            }
+//            return userDB;
+//        }
+//    }
 //    @Autowired 
 //    private IApplicationConfigAS configAS;
 //    
@@ -76,36 +195,6 @@ public class UserAS implements IUserAS {
 //        }
 //    }
 //
-    @Override
-    public User saveOrUpdateWithUpload(User user, MultipartFile image) throws IOException {
-    	//New User
-    	if(Util.isNull(user.getId())){
-    		User usr = userRepository.findByLogin(user.getLogin());
-    		if(Util.isNotNull(usr)){
-    			throw new AlreadyExistsException("Usuário","Login");
-    		}
-    		if(Util.isNotNull(image)){
-    			user.setImage(image.getBytes());
-    		}
-    		//TODO Remover após definir como será o cadastro de usuario
-    		user.setImageUrl("http://icon-icons.com/icons2/35/PNG/512/"
-    				+ "caucasian_head_man_person_people_avatar_2859.png");
-    		
-    		Role roleUsr = roleRepository.findOne(RoleSpecification.byName("ROLE_USER"));
-    		user.setRoles(Arrays.asList(roleUsr));
-    		
-    		return userRepository.save(user);
-    	//Update User
-    	}else{
-    		User userDB = userRepository.findOne(user.getId());
-    		userDB.mergePropertiesProfile(user);
-    		if(Util.isNotNull(image)){
-    			userDB.setImage(image.getBytes());
-    		}
-    		return userDB;
-    	}
-    }
-    
 //
 //    /**
 //     * Salva o usuário no DB do Portal

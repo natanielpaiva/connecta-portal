@@ -1,0 +1,94 @@
+-- MySQL Schema --
+create table oauth_client_details (
+  client_id VARCHAR(255) PRIMARY KEY,
+  resource_ids VARCHAR(255),
+  client_secret VARCHAR(255),
+  scope VARCHAR(255),
+  authorized_grant_types VARCHAR(255),
+  web_server_redirect_uri VARCHAR(255),
+  authorities VARCHAR(255),
+  access_token_validity INTEGER,
+  refresh_token_validity INTEGER,
+  additional_information VARCHAR(4096),
+  autoapprove tinyint
+);
+
+create table oauth_client_token (
+  token_id VARCHAR(255),
+  token BLOB,
+  authentication_id VARCHAR(255),
+  user_name VARCHAR(255),
+  client_id VARCHAR(255)
+);
+
+create table oauth_access_token (
+  token_id VARCHAR(255),
+  token BLOB,
+  authentication_id VARCHAR(255),
+  user_name VARCHAR(255),
+  client_id VARCHAR(255),
+  authentication BLOB,
+  refresh_token VARCHAR(255)
+);
+
+create table oauth_refresh_token (
+  token_id VARCHAR(255),
+  token BLOB,
+  authentication BLOB
+);
+
+create table oauth_code (
+  code VARCHAR(255), authentication BLOB
+);
+
+-- Oracle Schema --
+-- This is the schema structure for v 1.0.0.M6d
+create table oauth_client_details (
+  client_id VARCHAR(256) PRIMARY KEY,
+  resource_ids VARCHAR(256),
+  client_secret VARCHAR(256),
+  scope VARCHAR(256),
+  authorized_grant_types VARCHAR(256),
+  web_server_redirect_uri VARCHAR(256),
+  authorities VARCHAR(256),
+  access_token_validity INTEGER,
+  refresh_token_validity INTEGER
+);
+
+create table oauth_client_token (
+  token_id VARCHAR(256),
+  token BLOB,
+  authentication_id VARCHAR(256),
+  user_name VARCHAR(256),
+  client_id VARCHAR(256)
+);
+
+create table oauth_access_token (
+  token_id VARCHAR(256),
+  token BLOB,
+  authentication_id VARCHAR(256),
+  user_name VARCHAR(256),
+  client_id VARCHAR(256),
+  authentication BLOB,
+  refresh_token VARCHAR(256)
+);
+
+create table oauth_refresh_token (
+  token_id VARCHAR(256),
+  token BLOB,
+  authentication BLOB
+);
+
+create table oauth_code (
+  code VARCHAR(256), authentication BLOB
+);
+
+--inset client--
+
+insert into oauth_client_details (client_id, resource_ids, client_secret, scope, authorized_grant_types, 
+										web_server_redirect_uri, authorities, access_token_validity, refresh_token_validity) values 									
+								('frontend','springsec',''
+									,'read,write,trust','password,refresh_token,client_credentials',
+									null,'ROLE_USER,ROLE_ADMIN','3600', '28800');
+									
+-- encoded password = $2a$11$UwjT9YpLgdPVlL95kFGV1.W02d.voVJ/gUxWKHZdlWsYWrsuQRG4S

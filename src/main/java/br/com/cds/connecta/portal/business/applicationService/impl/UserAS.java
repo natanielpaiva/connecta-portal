@@ -1,25 +1,27 @@
 package br.com.cds.connecta.portal.business.applicationService.impl;
 
+import static br.com.cds.connecta.framework.core.util.Util.isNull;
+
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Arrays;
 
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.cds.connecta.framework.core.exception.AlreadyExistsException;
 import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
 import br.com.cds.connecta.framework.core.util.Util;
-import static br.com.cds.connecta.framework.core.util.Util.isNull;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.Role;
 import br.com.cds.connecta.portal.entity.User;
 import br.com.cds.connecta.portal.persistence.RoleDAO;
-import br.com.cds.connecta.portal.persistence.specification.RoleSpecification;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import org.hibernate.Hibernate;
 import br.com.cds.connecta.portal.persistence.UserRepository;
+import br.com.cds.connecta.portal.persistence.specification.RoleSpecification;
 
 /**
  *
@@ -35,6 +37,9 @@ public class UserAS implements IUserAS {
 
     @Autowired
     private RoleDAO roleRepository;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 //    @Autowired
 //    private IDomainAS domainAS;
@@ -101,13 +106,14 @@ public class UserAS implements IUserAS {
         User usr = userRepository.findByEmail(user.getEmail());
 
         if (Util.isNotNull(usr)) {
-            throw new AlreadyExistsException("Usuário", "Login");
+            throw new AlreadyExistsException("Usuário", "E-mail");
         }
 
         Role roleUsr = roleRepository.findOne(RoleSpecification.byName("ROLE_USER"));
         user.setRoles(Arrays.asList(roleUsr));
 
         user.setImage(null);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         return userRepository.save(user);
     }

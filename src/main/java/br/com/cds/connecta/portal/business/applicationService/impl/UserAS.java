@@ -40,9 +40,6 @@ public class UserAS implements IUserAS {
     
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-//    @Autowired
-//    private IDomainAS domainAS;
     
     @Override
     public User get(Long id) {
@@ -58,7 +55,7 @@ public class UserAS implements IUserAS {
     @Override
     public User getByEmail(String username) {
         User user = userRepository.findByEmail(username);
-        
+
         if (user == null) {
             throw new ResourceNotFoundException(User.class.getCanonicalName());
         }

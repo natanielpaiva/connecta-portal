@@ -19,7 +19,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import br.com.cds.connecta.framework.core.context.HibernateAwareObjectMapper;
 import br.com.cds.connecta.framework.core.domain.annotation.PublicResource;
+import br.com.cds.connecta.framework.core.exception.AlreadyExistsException;
+import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
+import br.com.cds.connecta.portal.business.applicationService.impl.UserAS;
 import br.com.cds.connecta.portal.entity.User;
 import br.com.cds.connecta.portal.security.UserRepositoryUserDetails;
 import java.io.IOException;
@@ -28,7 +31,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.IOUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
- 
+
 @RestController
 @RequestMapping("user")
 public class UserController {
@@ -56,9 +59,19 @@ public class UserController {
         return user;
     }
 
+//    @PreAuthorize("hasRole('ROLE_ADMIN')")
+//    @PublicResource
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity createUser(@RequestBody User user) throws Exception {
+
+        user = userService.save(user);
+
+        return new ResponseEntity(user, HttpStatus.CREATED);
+    }
+
     @RequestMapping(value = "{id}/profile.png", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
-    public void get(@PathVariable Long id, 
-                    HttpServletResponse response) throws IOException {
+    public void get(@PathVariable Long id,
+            HttpServletResponse response) throws IOException {
         InputStream inputStream = userService.getUserImage(id);
 
         String headerKey = "Content-Disposition";
@@ -70,15 +83,11 @@ public class UserController {
         response.flushBuffer();
     }
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PublicResource
-    @RequestMapping(method = RequestMethod.POST,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity createUser(@RequestBody User user) throws Exception {
+    @RequestMapping(method = RequestMethod.GET)
+    public ResponseEntity getByEmail(@RequestParam String email) {
+        userService.getByEmail(email);
 
-        user = userService.save(user);
-
-        return new ResponseEntity(user, HttpStatus.CREATED);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "validarToken", method = RequestMethod.GET)
@@ -94,10 +103,9 @@ public class UserController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-//    ,consumes = MediaType.MULTIPART_FORM_DATA_VALUE
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public ResponseEntity update(@PathVariable("id") Long id, @RequestBody User user, Principal userLogged) {
-        
+
         userService.update(id, user);
 
         return new ResponseEntity(user, HttpStatus.OK);
@@ -109,20 +117,10 @@ public class UserController {
     public ResponseEntity upload(
             @RequestParam(value = "file", required = false) MultipartFile image,
             @PathVariable("id") Long id, Principal principal) throws Exception {
-        
+
         userService.upload(id, image);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
-    
-    @RequestMapping(value = "delete",
-            method = RequestMethod.DELETE,
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity deletePhoto(
-            @RequestParam("id") Long id) throws Exception {
 
-        userService.setUserImage(id);
-
-        return new ResponseEntity(id, HttpStatus.OK);
-    }
 }

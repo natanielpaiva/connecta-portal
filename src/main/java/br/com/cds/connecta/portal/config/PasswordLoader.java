@@ -34,10 +34,12 @@
 //		List<User> usuarios = userRepository.findAll();
 //
 //		for (User user : usuarios) {
+//                    if(user.getPassword() != null){
 //			if (!BCRYPT_PATTERN.matcher(user.getPassword()).matches()) {
 //				user.setPassword(passwordEncoder.encode(user.getPassword()));
 //				userRepository.save(user);
 //			}
+//                    }
 //		}
 //
 //	}

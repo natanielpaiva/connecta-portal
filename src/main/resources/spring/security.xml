@@ -25,6 +25,7 @@
 	<authentication-manager alias="authenticationManager"
 		xmlns="http://www.springframework.org/schema/security">
 		<authentication-provider ref="authProvider" />
+		<authentication-provider ref="LdapCustomProvider" />
 	</authentication-manager>
 
 	<bean id="encoder"
@@ -141,15 +142,6 @@
 
 	<oauth:resource-server id="resourceServerFilter"
 		resource-id="springsec" token-services-ref="tokenServices" />
-
-	<!-- <oauth:client-details-service id="clientDetails"> -->
-	<!-- <oauth:client client-id="frontend" secret="secret" -->
-	<!-- authorities="ROLE_USER,ROLE_ADMIN" -->
-	<!-- authorized-grant-types="password,refresh_token,client_credentials" -->
-	<!-- scope="read,write,trust" -->
-	<!-- access-token-validity=3600 -->
-	<!-- refresh-token-validity="28800"/> -->
-	<!-- </oauth:client-details-service> -->
 
 	<bean id="clientDetails"
 		class="org.springframework.security.oauth2.provider.client.JdbcClientDetailsService">

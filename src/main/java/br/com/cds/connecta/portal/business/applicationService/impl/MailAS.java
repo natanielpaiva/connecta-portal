@@ -30,23 +30,28 @@ public class MailAS implements IMailAS {
 
 	@Override
 	public void sendConfirmationEmail(final User user) {
+		MimeMessagePreparator preparator = createMessage(user, "Confirmação de Cadastro", 
+				"/mail/registrationConfirmation.vm");
+        //TODO tratar erros && criar entidade para o Email caso o servidor 
+        // smtp esteja fora, para posterior envio
+        this.mailSender.send(preparator);
+	}
+
+	private MimeMessagePreparator createMessage(final User user, final String subject, final String template) {
 		MimeMessagePreparator preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
                 message.setTo(user.getEmail());
                 message.setFrom(FROM_EMAIL);
-                message.setSubject("Confirmação de Cadastro");
+                message.setSubject(subject);
                 Map<String, Object> model = new HashMap<>();
                 model.put("user", user);
                 String text = VelocityEngineUtils.mergeTemplateIntoString(
-                        velocityEngine, "/mail/registrationConfirmation.vm", "UTF-8", model);
+                        velocityEngine, template , "UTF-8", model);
                 message.setText(text, true);
             }
         };
-        
-        //TODO tratar erros && criar entidade para o Email caso o servidor 
-        // smtp esteja fora, para posterior envio
-        this.mailSender.send(preparator);
+		return preparator;
 	}
 
 }

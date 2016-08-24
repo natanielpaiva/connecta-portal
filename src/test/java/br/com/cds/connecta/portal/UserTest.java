@@ -18,6 +18,8 @@ import static org.apache.commons.io.IOUtils.contentEquals;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  *
@@ -27,6 +29,9 @@ public class UserTest extends BaseTest {
 
     @Autowired
     private IUserAS service;
+    
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     
     private class FileUploadTest implements MultipartFile{
 
@@ -115,7 +120,22 @@ public class UserTest extends BaseTest {
         
         assertThat(updatedUser.getPassword(), not(equalTo("qualquercoisa")));
         assertThat(updatedUser.getImage(), not(equalTo("qualquercoisa".getBytes())));
-    } 
+    }
+    
+    @Test
+    public void updateUserPassword() throws Exception{
+        User user = service.get(11L);
+        user.setImage("".getBytes());
+        
+        User updatedUser = service.updatePassword(user.getId(),"321", "abc");
+        
+        InputStream userImage = service.getUserImage(user.getId());
+        
+        assertTrue(passwordEncoder.matches("abc", updatedUser.getPassword()));
+        //Garantir que os dados serão mantidos
+        assertThat(contentEquals(userImage, defaultImage()), equalTo(true)); 
+        assertThat(user.getEmail(), equalTo("cds"));
+    }
     
     @Test
     public void uploadNewUserImage() throws IOException {

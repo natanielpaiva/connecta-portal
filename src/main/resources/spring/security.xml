@@ -48,6 +48,8 @@
 
 	<security:http pattern="/domain/**" security="none" />
 	<security:http pattern="/config/**" security="none" />
+        <security:http pattern="/user/getByEmail" security="none" />
+        <security:http pattern="/user/createUser" security="none" />
 
 	<security:http pattern="/**" create-session="never"
 		use-expressions="true" entry-point-ref="oauthAuthenticationEntryPoint"

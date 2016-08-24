@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-autowire="byName"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:security="http://www.springframework.org/schema/security"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+    http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+    http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+    http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd
+    http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+	<!-- SECURITY -->
+	<import resource="classpath:spring/security.xml" />
+
+	<import resource="classpath:META-INF/br.com.cds.connecta.framework.test.xml" />
+
+	<!-- EMAIL -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="mail.cds.com.br" />
+		<property name="port" value="465" />
+		<property name="username" value="cleto.oliveira@cds.com.br" />
+		<property name="password" value="7z!JD9w-@" />
+
+		<property name="javaMailProperties">
+			<map>
+				<entry key="mail.transport.protocol" value="smtps" />
+				<entry key="mail.smtp.auth" value="true" />
+				<entry key="mail.smtp.starttls.enable" value="false" />
+				<entry key="mail.smtp.ssl.trust" value="mail.cds.com.br" />
+				<entry key="mail.debug" value="true" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="velocityEngine"
+		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityProperties">
+			<value>
+				resource.loader=class
+				class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+			</value>
+		</property>
+	</bean>
+</beans>

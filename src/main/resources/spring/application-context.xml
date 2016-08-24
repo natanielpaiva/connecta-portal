@@ -1,48 +1,78 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
-    <import resource="classpath:META-INF/br.com.cds.connecta.framework.core.xml" />
-    <import resource="classpath:spring/security.xml" />
+	<import resource="classpath:META-INF/br.com.cds.connecta.framework.core.xml" />
+	<import resource="classpath:spring/security.xml" />
 
-    <context:component-scan base-package="br.com.cds.connecta.portal" />
+	<context:component-scan base-package="br.com.cds.connecta.portal" />
 
-    <bean id="entityManagerFactory"
-              class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-        <property name="persistenceUnitName" value="ConnectaPortalPU" />
-        <property name="dataSource" ref="dataSource" />
-        <property name="packagesToScan" value="br.com.cds.connecta.portal.entity" />
-        <property name="jpaVendorAdapter">
-            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
-        </property>
-        <property name="jpaProperties">
-            <props>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>
-                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
-                <prop key="hibernate.show_sql">true</prop>
-                <prop key="hibernate.format_sql">true</prop>
-                <prop key="hibernate.archive.autodetection">class,hbm</prop>
-                <prop key="hibernate.use_sql_comments">false</prop>
-                <prop key="hibernate.c3p0.min_size">5</prop>
-                <prop key="hibernate.c3p0.max_size">35</prop>
-                <prop key="hibernate.c3p0.timeout">30000</prop>
-                <prop key="hibernate.c3p0.max_statements">180</prop>
-                <prop key="hibernate.c3p0.idle_test_period">30000</prop>
-            </props>
-        </property>
-    </bean>
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="ConnectaPortalPU" />
+		<property name="dataSource" ref="dataSource" />
+		<property name="packagesToScan" value="br.com.cds.connecta.portal.entity" />
+		<property name="jpaVendorAdapter">
+			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+		</property>
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
+				<prop key="hibernate.show_sql">false</prop>
+				<prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.archive.autodetection">class,hbm</prop>
+				<prop key="hibernate.use_sql_comments">false</prop>
+				<prop key="hibernate.c3p0.min_size">5</prop>
+				<prop key="hibernate.c3p0.max_size">35</prop>
+				<prop key="hibernate.c3p0.timeout">30000</prop>
+				<prop key="hibernate.c3p0.max_statements">180</prop>
+				<prop key="hibernate.c3p0.idle_test_period">30000</prop>
+			</props>
+		</property>
+	</bean>
 
-    <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-        <property name="jndiName">
-            <value>ConnectaPortalDS</value>
-        </property>
-    </bean>
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName">
+			<value>ConnectaPortalDS</value>
+		</property>
+	</bean>
 
-    <!--TRANSACTION -->
-    <import resource="classpath:META-INF/br.com.cds.connecta.framework.transaction.xml" />
+	<!--TRANSACTION -->
+	<import
+		resource="classpath:META-INF/br.com.cds.connecta.framework.transaction.xml" />
+
+	<!-- EMAIL -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="mail.cds.com.br" />
+		<property name="port" value="465" />
+		<property name="username" value="loginLDAP@cds.com.br" />
+		<property name="password" value="senhaLDAP" />
+
+		<property name="javaMailProperties">
+			<map>
+				<entry key="mail.transport.protocol" value="smtps" />
+				<entry key="mail.smtp.auth" value="true" />
+				<entry key="mail.smtp.starttls.enable" value="false" />
+				<entry key="mail.smtp.ssl.trust" value="mail.cds.com.br" />
+				<entry key="mail.debug" value="true" />
+			</map>
+		</property>
+	</bean>
+
+	<bean id="velocityEngine"
+		class="org.springframework.ui.velocity.VelocityEngineFactoryBean">
+		<property name="velocityProperties">
+			<value>
+				resource.loader=class
+				class.resource.loader.class=org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader
+			</value>
+		</property>
+	</bean>
+
 
 </beans>

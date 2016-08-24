@@ -1,15 +1,21 @@
 package br.com.cds.connecta.portal.controller;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,19 +24,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.cds.connecta.framework.core.context.HibernateAwareObjectMapper;
-import br.com.cds.connecta.framework.core.domain.annotation.PublicResource;
-import br.com.cds.connecta.framework.core.exception.AlreadyExistsException;
-import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
-import br.com.cds.connecta.portal.business.applicationService.impl.UserAS;
 import br.com.cds.connecta.portal.entity.User;
 import br.com.cds.connecta.portal.security.UserRepositoryUserDetails;
-import java.io.IOException;
-import java.io.InputStream;
-import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.io.IOUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequestMapping("user")
@@ -38,7 +34,7 @@ public class UserController {
 
     @Autowired
     private IUserAS userService;
-
+    
     @Autowired
     private HibernateAwareObjectMapper objectMapper;
 
@@ -55,7 +51,7 @@ public class UserController {
 
         User user = userService.getByEmail(repositoryUserDetails.getUser().getEmail());
         user.setPassword(null);
-
+        
         return user;
     }
 

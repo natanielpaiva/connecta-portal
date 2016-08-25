@@ -22,7 +22,10 @@ import br.com.cds.connecta.portal.entity.User;
 import br.com.cds.connecta.portal.persistence.RoleDAO;
 import br.com.cds.connecta.portal.persistence.UserRepository;
 import br.com.cds.connecta.portal.persistence.specification.RoleSpecification;
+import br.com.cds.connecta.portal.security.UserRepositoryUserDetails;
+import java.security.Principal;
 import java.util.List;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
 /**
  *
@@ -38,21 +41,29 @@ public class UserAS implements IUserAS {
 
     @Autowired
     private RoleDAO roleRepository;
-    
+
     @Autowired
     private PasswordEncoder passwordEncoder;
-    
+
     @Override
     public User get(Long id) {
         User user = userRepository.findOne(id);
-        
+
         if (user == null) {
             throw new ResourceNotFoundException(User.class.getCanonicalName());
         }
-        
+
         return user;
     }
-    
+
+    @Override
+    public User get(Principal user) {
+        OAuth2Authentication auth2Authentication = (OAuth2Authentication) user;
+        UserRepositoryUserDetails repositoryUserDetails
+                = (UserRepositoryUserDetails) auth2Authentication.getPrincipal();
+        return getByEmail(repositoryUserDetails.getUser().getEmail());
+    }
+
     @Override
     public List<User> getByName(String name) {
         return userRepository.findByName(name);
@@ -65,7 +76,7 @@ public class UserAS implements IUserAS {
         if (user == null) {
             throw new ResourceNotFoundException(User.class.getCanonicalName());
         }
-        
+
         return user;
     }
 
@@ -84,7 +95,7 @@ public class UserAS implements IUserAS {
 
         return is;
     }
-    
+
     @Override
     public void setUserImage(Long id) throws IOException {
         User user = get(id);
@@ -94,13 +105,13 @@ public class UserAS implements IUserAS {
     @Override
     public User upload(Long id, MultipartFile file) throws IOException {
         User user = get(id);
-        
+
         if (isNull(file)) {
             user.setImage(null);
         } else {
             user.setImage(file.getBytes());
         }
-        
+
         return userRepository.save(user);
     }
 
@@ -124,13 +135,17 @@ public class UserAS implements IUserAS {
     @Override
     public User update(Long id, User user) {
         User userFromDatabase = get(id); // Somente para verificar se já existe
-        
+
         user.setId(id); // O ID da URL prevalece
         user.setImage(userFromDatabase.getImage()); // Imagem continua a anterior
         user.setPassword(userFromDatabase.getPassword()); // Senha continua a anterior
         user.setRoles(userFromDatabase.getRoles()); // Roles também
         user.setDomains(userFromDatabase.getDomains()); // E Domínios também :)
-        
+
+        return userRepository.save(user);
+    }
+
+    public User update(User user) {
         return userRepository.save(user);
     }
 

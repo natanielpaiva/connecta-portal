@@ -12,7 +12,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,7 +25,6 @@ import org.springframework.web.multipart.MultipartFile;
 import br.com.cds.connecta.framework.core.context.HibernateAwareObjectMapper;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.User;
-import br.com.cds.connecta.portal.security.UserRepositoryUserDetails;
 
 @RestController
 @RequestMapping("user")
@@ -34,7 +32,7 @@ public class UserController {
 
     @Autowired
     private IUserAS userService;
-    
+
     @Autowired
     private HibernateAwareObjectMapper objectMapper;
 
@@ -43,21 +41,14 @@ public class UserController {
 
     @RequestMapping("current")
     public User user(Principal principal) {
-
-        OAuth2Authentication auth2Authentication = (OAuth2Authentication) principal;
-
-        UserRepositoryUserDetails repositoryUserDetails
-                = (UserRepositoryUserDetails) auth2Authentication.getPrincipal();
-
-        User user = userService.getByEmail(repositoryUserDetails.getUser().getEmail());
+        User user = userService.get(principal);
         user.setPassword(null);
-        
         return user;
     }
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
 //    @PublicResource
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "new", method = RequestMethod.POST)
     public ResponseEntity createUser(@RequestBody User user) throws Exception {
 
         user = userService.save(user);
@@ -79,7 +70,7 @@ public class UserController {
         response.flushBuffer();
     }
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping(value = "get", method = RequestMethod.GET)
     public ResponseEntity getByEmail(@RequestParam String email) {
         userService.getByEmail(email);
 

@@ -5,6 +5,7 @@ import org.springframework.web.multipart.MultipartFile;
 import br.com.cds.connecta.portal.entity.User;
 import java.io.IOException;
 import java.io.InputStream;
+import java.security.Principal;
 import java.util.List;
 
 /**
@@ -29,4 +30,8 @@ public interface IUserAS {
     void setUserImage(Long id) throws IOException;
 
     List<User> getByName(String name);
+
+    User get(Principal user);
+
+    User update(User user);
 }

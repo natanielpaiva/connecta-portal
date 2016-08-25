@@ -46,8 +46,10 @@
 		<access-denied-handler ref="oauthAccessDeniedHandler" />
 	</http>
 
-	<security:http pattern="/domain/**" security="none" />
+	
 	<security:http pattern="/config/**" security="none" />
+	<security:http pattern="/user/new" security="none" />
+	<security:http pattern="/user/get" security="none" />
 
 	<security:http pattern="/**" create-session="never"
 		use-expressions="true" entry-point-ref="oauthAuthenticationEntryPoint"

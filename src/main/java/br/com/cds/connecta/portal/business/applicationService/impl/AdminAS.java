@@ -9,13 +9,13 @@ import br.com.cds.connecta.portal.business.applicationService.IAdminAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.Domain;
 import br.com.cds.connecta.portal.entity.User;
-import br.com.cds.connecta.portal.persistence.DomainDAO;
+import br.com.cds.connecta.portal.persistence.DomainRepository;
 
 @Service
 public class AdminAS implements IAdminAS {
 
     @Autowired
-    private DomainDAO domainRepository;
+    private DomainRepository domainRepository;
     
     @Autowired
     private IUserAS userAS;

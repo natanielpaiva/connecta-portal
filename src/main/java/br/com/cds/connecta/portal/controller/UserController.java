@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.token.ResourceServerTokenServices;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import br.com.cds.connecta.framework.core.context.HibernateAwareObjectMapper;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.User;
+import br.com.cds.connecta.portal.security.UserRepositoryUserDetails;
 
 @RestController
 @RequestMapping("user")
@@ -42,8 +44,12 @@ public class UserController {
     @RequestMapping("current")
     public User user(Principal principal) {
 
-        User user = userService.getUser(principal);
+        OAuth2Authentication auth2Authentication = (OAuth2Authentication) principal;
 
+        UserRepositoryUserDetails repositoryUserDetails
+                = (UserRepositoryUserDetails) auth2Authentication.getPrincipal();
+
+        User user = userService.getByEmail(repositoryUserDetails.getUser().getEmail());
         user.setPassword(null);
         
         return user;
@@ -51,7 +57,7 @@ public class UserController {
 
 //    @PreAuthorize("hasRole('ROLE_ADMIN')")
 //    @PublicResource
-    @RequestMapping(value="createUser",method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity createUser(@RequestBody User user) throws Exception {
 
         user = userService.save(user);
@@ -61,7 +67,7 @@ public class UserController {
 
     @RequestMapping(value = "{id}/profile.png", method = RequestMethod.GET, produces = MediaType.IMAGE_PNG_VALUE)
     public void get(@PathVariable Long id,
-            HttpServletResponse response, Principal userLogged) throws IOException {
+            HttpServletResponse response) throws IOException {
         InputStream inputStream = userService.getUserImage(id);
 
         String headerKey = "Content-Disposition";
@@ -73,7 +79,7 @@ public class UserController {
         response.flushBuffer();
     }
 
-    @RequestMapping(value="getByEmail", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity getByEmail(@RequestParam String email) {
         userService.getByEmail(email);
 
@@ -95,14 +101,10 @@ public class UserController {
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public ResponseEntity update(@PathVariable("id") Long id, @RequestBody User user, Principal userLogged) {
-        if (userService.getUser(userLogged).getId().equals(id)) {
-            userService.update(id, user);
 
-            return new ResponseEntity(user, HttpStatus.OK);
+        userService.update(id, user);
 
-        }
-        return new ResponseEntity(user, HttpStatus.UNAUTHORIZED);
-
+        return new ResponseEntity(user, HttpStatus.OK);
     }
 
     @RequestMapping(value = "{id}/avatar",
@@ -110,26 +112,10 @@ public class UserController {
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity upload(
             @RequestParam(value = "file", required = false) MultipartFile image,
-            @PathVariable("id") Long id, Principal userLogged) throws Exception {
-        if (userService.getUser(userLogged).getId().equals(id)) {
-            userService.upload(id, image);
-            return new ResponseEntity(HttpStatus.NO_CONTENT);
+            @PathVariable("id") Long id, Principal principal) throws Exception {
 
-        }
-        return new ResponseEntity(HttpStatus.UNAUTHORIZED);
+        userService.upload(id, image);
+
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
     }
-
-    @RequestMapping(value = "credentials", method = RequestMethod.POST)
-    public ResponseEntity changePassword(@RequestParam("id") Long id,
-            @RequestParam("newPassword") String newPassword,
-            @RequestParam("oldPassword") String oldPassword,
-            Principal userLogged) {
-        if (userService.getUser(userLogged).getId().equals(id)) {
-            userService.updatePassword(id, oldPassword, newPassword);
-            return new ResponseEntity(HttpStatus.OK);
-        }
-        return new ResponseEntity(HttpStatus.UNAUTHORIZED);
-
-    }
-
 }

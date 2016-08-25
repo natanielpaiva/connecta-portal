@@ -30,11 +30,11 @@ public class MailAS implements IMailAS {
 
 	@Override
 	public void sendConfirmationEmail(final User user) {
-            MimeMessagePreparator preparator = createMessage(user, "Confirmação de Cadastro", 
-                            "/mail/registrationConfirmation.vm");
-            //TODO tratar erros && criar entidade para o Email caso o servidor 
-            // smtp esteja fora, para posterior envio
-            this.mailSender.send(preparator);
+		MimeMessagePreparator preparator = createMessage(user, "Confirmação de Cadastro", 
+				"/mail/registrationConfirmation.vm");
+        //TODO tratar erros && criar entidade para o Email caso o servidor 
+        // smtp esteja fora, para posterior envio
+        this.mailSender.send(preparator);
 	}
 
 	private MimeMessagePreparator createMessage(final User user, final String subject, final String template) {

@@ -13,8 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.security.Principal;
-
 import br.com.cds.connecta.framework.core.exception.AlreadyExistsException;
 import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
 import br.com.cds.connecta.framework.core.util.Util;
@@ -24,9 +22,7 @@ import br.com.cds.connecta.portal.entity.User;
 import br.com.cds.connecta.portal.persistence.RoleDAO;
 import br.com.cds.connecta.portal.persistence.UserRepository;
 import br.com.cds.connecta.portal.persistence.specification.RoleSpecification;
-import br.com.cds.connecta.portal.security.UserRepositoryUserDetails;
-import org.springframework.security.oauth2.common.exceptions.UnauthorizedUserException;
-import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import java.util.List;
 
 /**
  *
@@ -42,19 +38,24 @@ public class UserAS implements IUserAS {
 
     @Autowired
     private RoleDAO roleRepository;
-
+    
     @Autowired
     private PasswordEncoder passwordEncoder;
-
+    
     @Override
-    public User get(Long id){
+    public User get(Long id) {
         User user = userRepository.findOne(id);
-
+        
         if (user == null) {
             throw new ResourceNotFoundException(User.class.getCanonicalName());
         }
-
+        
         return user;
+    }
+    
+    @Override
+    public List<User> getByName(String name) {
+        return userRepository.findByName(name);
     }
 
     @Override
@@ -64,18 +65,7 @@ public class UserAS implements IUserAS {
         if (user == null) {
             throw new ResourceNotFoundException(User.class.getCanonicalName());
         }
-
-        return user;
-    }
-
-    @Override
-    public User getUser(Principal userPrincipal) {
-        OAuth2Authentication auth2Authentication = (OAuth2Authentication) userPrincipal;
-
-        UserRepositoryUserDetails repositoryUserDetails
-                = (UserRepositoryUserDetails) auth2Authentication.getPrincipal();
-
-        User user = getByEmail(repositoryUserDetails.getUser().getEmail());
+        
         return user;
     }
 
@@ -94,7 +84,7 @@ public class UserAS implements IUserAS {
 
         return is;
     }
-
+    
     @Override
     public void setUserImage(Long id) throws IOException {
         User user = get(id);
@@ -104,13 +94,13 @@ public class UserAS implements IUserAS {
     @Override
     public User upload(Long id, MultipartFile file) throws IOException {
         User user = get(id);
-
+        
         if (isNull(file)) {
             user.setImage(null);
         } else {
             user.setImage(file.getBytes());
         }
-
+        
         return userRepository.save(user);
     }
 
@@ -134,26 +124,14 @@ public class UserAS implements IUserAS {
     @Override
     public User update(Long id, User user) {
         User userFromDatabase = get(id); // Somente para verificar se já existe
-
+        
         user.setId(id); // O ID da URL prevalece
         user.setImage(userFromDatabase.getImage()); // Imagem continua a anterior
+        user.setPassword(userFromDatabase.getPassword()); // Senha continua a anterior
         user.setRoles(userFromDatabase.getRoles()); // Roles também
         user.setDomains(userFromDatabase.getDomains()); // E Domínios também :)
-        user.setPassword(userFromDatabase.getPassword());
-        return userRepository.save(user);
         
-    }
-
-    @Override
-    public User updatePassword(Long id, String oldPassword, String newPassword) {
-        User user = get(id);
-
-        if (passwordEncoder.matches(oldPassword, user.getPassword())) {
-            user.setPassword(passwordEncoder.encode(newPassword));
-            return userRepository.save(user);
-        }
-
-        throw new UnauthorizedUserException("Senha atual inválida");
+        return userRepository.save(user);
     }
 
 //    @Override

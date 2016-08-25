@@ -5,7 +5,16 @@ import java.util.List;
 import br.com.cds.connecta.portal.entity.Domain;
 
 public interface IDomainAS {
-    
+
     List<Domain> getAll();
+
     List<Domain> getByUser(String username);
+
+    Domain save(Domain domain);
+
+    Domain update(Domain domain);
+
+    void delete(Long id);
+
+    Domain get(Long id);
 }

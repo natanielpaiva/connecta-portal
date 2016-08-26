@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import br.com.cds.connecta.framework.core.bean.security.Principal;
+import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
 import br.com.cds.connecta.portal.business.applicationService.ILdapAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.Role;
@@ -89,7 +90,7 @@ public class LdapCustomProvider implements AuthenticationProvider {
 
 		try{
 			user = userService.getByEmail(login);
-		}catch(Throwable e){
+		}catch(ResourceNotFoundException e){
 			user = createUser(login, ldapUser.getName());
 		}
 

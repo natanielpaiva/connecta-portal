@@ -58,10 +58,8 @@ public class LdapCustomProvider implements AuthenticationProvider {
 	}
 
 	private Authentication createAutentication(User user){
-
-		Principal principal = new Principal();
-		principal.setId(user.getId().longValue());
-		principal.setUsuario(user.getEmail());
+		
+		UserRepositoryUserDetails userDetails = new UserRepositoryUserDetails(user);
 
 		List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
 
@@ -69,7 +67,7 @@ public class LdapCustomProvider implements AuthenticationProvider {
 			grantedAuths.add(new SimpleGrantedAuthority(role.getName()));
 		}
 
-		Authentication auth = new UsernamePasswordAuthenticationToken(principal, principal.toString(), grantedAuths);
+		Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, userDetails.toString(), grantedAuths);
 
 		return auth;
 	}

@@ -45,7 +45,7 @@ public class DomainController {
         user.getDomains().add(domain);
         userAS.update(user);
 
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity(domain, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.POST)

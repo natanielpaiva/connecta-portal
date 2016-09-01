@@ -50,11 +50,6 @@ public class DomainAS implements IDomainAS {
      */
     @Override
     public Domain save(Domain domain) {
-        
-        Domain exists = domainRepository.findByName(domain.getName());
-        if (Util.isNotNull(exists)) {
-            throw new AlreadyExistsException("name", "name");
-        }
         return domainRepository.save(domain);
     }
     

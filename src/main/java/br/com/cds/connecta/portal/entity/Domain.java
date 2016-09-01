@@ -23,7 +23,7 @@ public class Domain implements Serializable {
     private Long id;
     
     @NotEmpty
-    @Column(name = "NM_DOMAIN", unique=true)
+    @Column(name = "NM_DOMAIN")
     private String name;
     
     public Long getId() {

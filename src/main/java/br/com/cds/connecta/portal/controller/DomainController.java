@@ -64,7 +64,6 @@ public class DomainController {
     }
 
     @RequestMapping(method = RequestMethod.GET)
-
     public ResponseEntity<Iterable<Domain>> getDomainsByUsername(@RequestParam("email") String email) {
         Iterable<Domain> listDomains = domainAS.getByUser(email);
         return new ResponseEntity<>(listDomains, HttpStatus.OK);

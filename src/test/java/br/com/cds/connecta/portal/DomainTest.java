@@ -35,7 +35,7 @@ public class DomainTest extends BaseTest {
         assertThat(save.getName(), equalTo("novo Dominio"));
     }
 
-    @Test(expected = AlreadyExistsException.class)
+    @Test
     public void saveEquals() {
         Domain domain = new Domain();
 

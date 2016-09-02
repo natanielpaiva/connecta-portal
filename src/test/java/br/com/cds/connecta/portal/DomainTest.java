@@ -6,7 +6,6 @@
 package br.com.cds.connecta.portal;
 
 import br.com.cds.connecta.framework.core.exception.AlreadyExistsException;
-import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
 import br.com.cds.connecta.portal.business.applicationService.IDomainAS;
 import br.com.cds.connecta.portal.entity.Domain;
 import static org.hamcrest.Matchers.equalTo;

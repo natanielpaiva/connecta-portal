@@ -37,7 +37,7 @@ public class DomainController {
      * @return
      * @throws Exception
      */
-    @RequestMapping(value = "create", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity createDomain(@RequestBody Domain domain, Principal userLogged) throws Exception {
 
         domain = domainAS.save(domain);
@@ -48,7 +48,7 @@ public class DomainController {
         return new ResponseEntity(domain, HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "{id}", method = RequestMethod.POST)
+    @RequestMapping(value = "{id}", method = RequestMethod.PUT)
     public ResponseEntity updateDomain(@PathVariable("id") Long id, @RequestBody Domain domain) {
 
         Domain save = domainAS.update(domain);

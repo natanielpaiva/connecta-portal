@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -32,11 +33,10 @@ public class Domain implements Serializable {
     @Column(name = "NM_DOMAIN")
     private String name;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinTable(name = "TA_USER_DOMAIN",
-            joinColumns = {
-                @JoinColumn(name = "FK_DOMAIN")})
-    private List<User> user;
+    @ManyToMany(mappedBy="domains", 
+    		fetch = FetchType.LAZY, 
+    		cascade = CascadeType.REMOVE)
+    private List<User> users;
 
     public Long getId() {
         return id;
@@ -54,12 +54,20 @@ public class Domain implements Serializable {
         this.name = name;
     }
 
-    public List<User> getUser() {
-        return user;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setUser(List<User> user) {
-        this.user = user;
+    public void setUsers(List<User> user) {
+        this.users = user;
+    }
+    
+    @PreRemove
+    private void removeDomainsFromUsers(){
+    	for(User u : users){
+    		u.getDomains().remove(this);
+    	}
+    	this.getUsers().clear();
     }
 
 }

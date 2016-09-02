@@ -40,12 +40,13 @@ public class DomainController {
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity createDomain(@RequestBody Domain domain, Principal userLogged) throws Exception {
 
-        domain = domainAS.save(domain);
-        User user = userAS.get(userLogged);
-        user.getDomains().add(domain);
+    	User user = userAS.get(userLogged);
+        Domain newDomain = domainAS.save(domain);
+        
+        user.getDomains().add(newDomain);
         userAS.update(user);
 
-        return new ResponseEntity(domain, HttpStatus.CREATED);
+        return new ResponseEntity(newDomain, HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.PUT)

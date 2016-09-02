@@ -70,7 +70,7 @@ public class DomainAS implements IDomainAS {
      */
     @Override
     public Domain get(Long id) {
-        Domain domain = domainRepository.getOne(id);
+        Domain domain = domainRepository.findOne(id);
         if (Util.isNull(domain)) {
             throw new ResourceNotFoundException(Domain.class.getCanonicalName());
         }

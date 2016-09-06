@@ -1,11 +1,14 @@
 package br.com.cds.connecta.portal.business.applicationService.impl;
 
 
-import java.io.IOException;
-import java.util.Properties;
+import java.util.Observable;
+import java.util.Observer;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.cds.connecta.framework.core.context.ConnectaConfigurationService;
+import br.com.cds.connecta.framework.core.context.LdapConfiguration;
 import br.com.cds.connecta.portal.business.applicationService.ILdapAS;
 import br.com.cds.connecta.portal.security.ldap.LdapFilter;
 import br.com.cds.connecta.portal.security.ldap.LdapProvider;
@@ -13,30 +16,22 @@ import br.com.cds.connecta.portal.security.ldap.LdapProviderException;
 import br.com.cds.connecta.portal.security.ldap.LdapUser;
 
 @Service
-public class LdapAS implements ILdapAS {
+public class LdapAS implements ILdapAS, Observer {
 
-	private Properties props = null;
-
-	private static String PROP_LDAP_SERVER = "LDAP_URL";
-	private static String PROP_LDAP_BASE = "LDAP_BASE";
-	private static String PROP_LDAP_AUTHMODE = "LDAP_AUTHMODE";
-	private static String PROP_LDAP_USER = "LDAP_USER";
-	private static String PROP_LDAP_PASSWORD = "LDAP_PASSWORD";
-
-	public LdapAS() throws IOException{
-		props = new Properties();
-		props.load(getClass().getClassLoader().getResourceAsStream("ldap.properties"));
-	}
+	private ConnectaConfigurationService connectaConfigurationService;
+	
+	private LdapConfiguration ldapConfiguration = new LdapConfiguration();
 
 	public LdapUser verifyLogin(String username, String password ){
-
+		ldapConfiguration = connectaConfigurationService.getConfiguration().getLdapConfiguration();
+		
 		LdapProvider ldapProvider = new LdapProvider();
 
-		ldapProvider.setAuthmode( props.getProperty(PROP_LDAP_AUTHMODE));
-		ldapProvider.setServerbase( props.getProperty(PROP_LDAP_BASE));
-		ldapProvider.setServername( props.getProperty(PROP_LDAP_SERVER));
-		ldapProvider.setUsername( props.getProperty(PROP_LDAP_USER));
-		ldapProvider.setPassword( props.getProperty(PROP_LDAP_PASSWORD));
+		ldapProvider.setAuthmode(ldapConfiguration.getAuthMode());
+		ldapProvider.setServerbase(ldapConfiguration.getLdapBase());
+		ldapProvider.setServername(ldapConfiguration.getLdapUrl());
+		ldapProvider.setUsername(ldapConfiguration.getUser());
+		ldapProvider.setPassword(ldapConfiguration.getPassword());
 
 		//atributos a serem retornados
 		ldapProvider.addAttributes2Return("CN");
@@ -58,5 +53,16 @@ public class LdapAS implements ILdapAS {
 		return ldapUser;
 
 	}
+	
+    @Autowired
+    public void setConnectaConfigurationService(ConnectaConfigurationService connectaConfigurationService) {
+        this.connectaConfigurationService = connectaConfigurationService;
+        this.connectaConfigurationService.addObserver(this);
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
+        ldapConfiguration = connectaConfigurationService.getConfiguration().getLdapConfiguration();
+    }
 
 }

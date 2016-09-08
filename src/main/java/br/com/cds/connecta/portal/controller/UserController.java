@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import br.com.cds.connecta.framework.core.context.HibernateAwareObjectMapper;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.User;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @RestController
 @RequestMapping("user")
@@ -31,6 +32,9 @@ public class UserController {
 
     @Autowired
     private IUserAS userService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private HibernateAwareObjectMapper objectMapper;
@@ -96,15 +100,20 @@ public class UserController {
 
         return new ResponseEntity(user, HttpStatus.OK);
     }
-    
+
     @RequestMapping(value = "credentials", method = RequestMethod.POST)
-    public ResponseEntity update(@RequestParam("oldPass") String oldPass, 
+    public ResponseEntity update(@RequestParam("oldPass") String oldPass,
                                  @RequestParam("newPass") String newPass,
                                  Principal userLogged) {
 
-        User user = userService.updatePassword(userService.get(userLogged), oldPass, newPass);
-
-        return new ResponseEntity(user, HttpStatus.OK);
+        User user = userService.get(userLogged);
+        //Senha atual coincidir com a senha à ser alterada
+        if (!passwordEncoder.matches(oldPass, user.getPassword())) {
+            return new ResponseEntity(user, HttpStatus.BAD_REQUEST);
+        }
+        
+        User userUpdated = userService.updatePassword(user, oldPass, newPass);
+        return new ResponseEntity(userUpdated, HttpStatus.OK);
     }
 
     @RequestMapping(value = "{id}/avatar",

@@ -19,8 +19,8 @@
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="mail.cds.com.br" />
 		<property name="port" value="465" />
-		<property name="username" value="cleto.oliveira@cds.com.br" />
-		<property name="password" value="7z!JD9w-@" />
+		<property name="username" value="userLDAP@cds.com.br" />
+		<property name="password" value="passwordLDAP" />
 
 		<property name="javaMailProperties">
 			<map>

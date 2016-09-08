@@ -149,6 +149,14 @@ public class UserAS implements IUserAS {
         return userRepository.save(user);
     }
 
+    public User updatePassword(User userLogged, String oldPass, String newPass) {
+        if (passwordEncoder.matches(oldPass, userLogged.getPassword())) {
+            userLogged.setPassword(passwordEncoder.encode(newPass));
+            return userRepository.save(userLogged);
+        }
+        return userLogged;
+    }
+
 //    @Override
 //    public User update(User user, MultipartFile image) throws IOException {
 //        //New User

@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
-
 import br.com.cds.connecta.framework.core.context.HibernateAwareObjectMapper;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.User;
@@ -94,6 +93,16 @@ public class UserController {
     public ResponseEntity update(@PathVariable("id") Long id, @RequestBody User user, Principal userLogged) {
 
         userService.update(id, user);
+
+        return new ResponseEntity(user, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "credentials", method = RequestMethod.POST)
+    public ResponseEntity update(@RequestParam("oldPass") String oldPass, 
+                                 @RequestParam("newPass") String newPass,
+                                 Principal userLogged) {
+
+        User user = userService.updatePassword(userService.get(userLogged), oldPass, newPass);
 
         return new ResponseEntity(user, HttpStatus.OK);
     }

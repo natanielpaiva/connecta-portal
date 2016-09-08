@@ -26,6 +26,10 @@ public interface IUserAS {
     User save(User user);
 
     User update(Long id, User user);
+    
+    User update(User user);
+
+    User updatePassword(User userLogged, String oldPass, String newPass);
 
     void setUserImage(Long id) throws IOException;
 
@@ -33,5 +37,4 @@ public interface IUserAS {
 
     User get(Principal user);
 
-    User update(User user);
 }

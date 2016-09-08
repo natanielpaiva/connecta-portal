@@ -14,8 +14,12 @@ import static org.hamcrest.Matchers.equalTo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 import static org.apache.commons.io.IOUtils.contentEquals;
+import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  *
@@ -25,8 +29,11 @@ public class UserTest extends BaseTest {
 
     @Autowired
     private IUserAS service;
-    
-    private class FileUploadTest implements MultipartFile{
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    private class FileUploadTest implements MultipartFile {
 
         @Override
         public String getName() {
@@ -78,26 +85,37 @@ public class UserTest extends BaseTest {
         return getTestResourceInputStream("file/pixel.png");
     }
 
-//    @Test
-//    public void saveUser() throws IOException {
-//        User user = new User();
-//        user.setEmail("dgdg");
-//        user.setPassword("rgd");
-//        user.setImage("".getBytes()); // qualquer binário pra assegurar se ele ignora a imagem
-//
-//        service.save(user);
-//
-//        assertThat(user.getId(), greaterThan(0L));
-//        assertThat(user.getEmail(), equalTo("dgdg"));
-//        assertThat(user.getPassword(), equalTo("rgd"));
-//        assertThat(user.getPassword(), equalTo("rgd"));
-//        assertThat(user.getImage(), nullValue());
-//
-//        InputStream userImage = service.getUserImage(user.getId());
-//
-//        assertThat(contentEquals(userImage, defaultImage()), equalTo(true));
-//    }
+    @Test
+    public void saveUser() throws IOException {
+        User user = new User();
+        user.setEmail("dgdg");
+        user.setPassword("rgd");
+        user.setImage("".getBytes()); // qualquer binário pra assegurar se ele ignora a imagem
 
+        service.save(user);
+
+        assertThat(user.getId(), greaterThan(0L));
+        assertThat(user.getEmail(), equalTo("dgdg"));
+        assertTrue(passwordEncoder.matches("rgd", user.getPassword()));
+        assertThat(user.getImage(), nullValue());
+
+        InputStream userImage = service.getUserImage(user.getId());
+
+        assertThat(contentEquals(userImage, defaultImage()), equalTo(true));
+    }
+    
+    @Test
+    public void updateUserPassword() throws Exception{
+        User user = service.get(12L);
+        
+        User updatedUser = service.updatePassword(user,"123", "abc");
+        
+        //Garantir que os dados serão mantidos
+        assertThat(updatedUser.getEmail(), equalTo("ednaldopereira")); // Não deve ser atualizado
+        assertThat(updatedUser.getName(), equalTo("123"));// Também :D
+        assertThat(passwordEncoder.matches("abc", updatedUser.getPassword()), equalTo(true));
+    }
+    
     @Test
     public void updateUser() throws Exception {
         User user = new User();
@@ -115,21 +133,8 @@ public class UserTest extends BaseTest {
         assertThat(updatedUser.getPassword(), not(equalTo("qualquercoisa")));
         assertThat(updatedUser.getImage(), not(equalTo("qualquercoisa".getBytes())));
     }
-    
-//    @Test
-//    public void updateUserPassword() throws Exception{
-//        User user = service.get(11L);
-//        user.setImage("".getBytes());
-//        
-////        User updatedUser = service.updatePassword(user.getId(),"321", "abc");
-//        
-//        InputStream userImage = service.getUserImage(user.getId());
-//        
-//        //Garantir que os dados serão mantidos
-//        assertThat(contentEquals(userImage, defaultImage()), equalTo(true)); 
-//        assertThat(user.getEmail(), equalTo("cds"));
-//    }
 
+    
     @Test
     public void uploadNewUserImage() throws IOException {
         service.upload(11L, new FileUploadTest());

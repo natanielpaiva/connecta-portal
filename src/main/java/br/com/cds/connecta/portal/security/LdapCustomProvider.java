@@ -14,7 +14,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import br.com.cds.connecta.framework.core.bean.security.Principal;
 import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
 import br.com.cds.connecta.portal.business.applicationService.ILdapAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
@@ -67,7 +66,7 @@ public class LdapCustomProvider implements AuthenticationProvider {
 			grantedAuths.add(new SimpleGrantedAuthority(role.getName()));
 		}
 
-		Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, userDetails.toString(), grantedAuths);
+		Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getUser(), grantedAuths);
 
 		return auth;
 	}

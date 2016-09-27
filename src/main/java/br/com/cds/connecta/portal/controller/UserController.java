@@ -73,9 +73,16 @@ public class UserController {
         response.flushBuffer();
     }
 
-    @RequestMapping(value = "get", method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity getByEmail(@RequestParam String email) {
         userService.getByEmail(email);
+
+        return new ResponseEntity(HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "mail", method = RequestMethod.GET)
+    public ResponseEntity isAvailableEmail(@RequestParam String email) {
+        userService.isAvailableEmail(email);
 
         return new ResponseEntity(HttpStatus.OK);
     }
@@ -107,10 +114,6 @@ public class UserController {
                                  Principal userLogged) {
 
         User user = userService.get(userLogged);
-        //Senha atual coincidir com a senha à ser alterada
-        if (!passwordEncoder.matches(oldPass, user.getPassword())) {
-            return new ResponseEntity(user, HttpStatus.BAD_REQUEST);
-        }
         
         User userUpdated = userService.updatePassword(user, oldPass, newPass);
         return new ResponseEntity(userUpdated, HttpStatus.OK);

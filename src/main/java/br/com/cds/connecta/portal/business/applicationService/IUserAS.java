@@ -18,6 +18,8 @@ public interface IUserAS {
     User get(Long id);
 
     User getByEmail(String username);
+    
+    boolean isAvailableEmail(String email);
 
     InputStream getUserImage(Long id) throws IOException;
 

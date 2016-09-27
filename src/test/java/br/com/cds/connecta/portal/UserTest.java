@@ -1,5 +1,6 @@
 package br.com.cds.connecta.portal;
 
+import br.com.cds.connecta.framework.core.exception.AlreadyExistsException;
 import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
 import static br.com.cds.connecta.portal.BaseTest.getTestResourceInputStream;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
@@ -102,6 +103,11 @@ public class UserTest extends BaseTest {
         InputStream userImage = service.getUserImage(user.getId());
 
         assertThat(contentEquals(userImage, defaultImage()), equalTo(true));
+    }
+    
+    @Test(expected = AlreadyExistsException.class)
+    public void unavailableEmail(){
+        service.isAvailableEmail("ednaldopereira");
     }
     
     @Test

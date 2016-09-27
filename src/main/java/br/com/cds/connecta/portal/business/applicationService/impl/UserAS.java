@@ -1,6 +1,8 @@
 package br.com.cds.connecta.portal.business.applicationService.impl;
 
+import br.com.cds.connecta.framework.core.domain.MessageEnum;
 import static br.com.cds.connecta.framework.core.util.Util.isNull;
+import static br.com.cds.connecta.framework.core.util.Util.isNotNull;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.cds.connecta.framework.core.exception.AlreadyExistsException;
+import br.com.cds.connecta.framework.core.exception.BusinessException;
 import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
 import br.com.cds.connecta.framework.core.util.Util;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
@@ -49,7 +52,7 @@ public class UserAS implements IUserAS {
     public User get(Long id) {
         User user = userRepository.findOne(id);
 
-        if (user == null) {
+        if (isNull(user)) {
             throw new ResourceNotFoundException(User.class.getCanonicalName());
         }
 
@@ -61,6 +64,7 @@ public class UserAS implements IUserAS {
         OAuth2Authentication auth2Authentication = (OAuth2Authentication) user;
         UserRepositoryUserDetails repositoryUserDetails
                 = (UserRepositoryUserDetails) auth2Authentication.getPrincipal();
+        
         return getByEmail(repositoryUserDetails.getUser().getEmail());
     }
 
@@ -73,11 +77,22 @@ public class UserAS implements IUserAS {
     public User getByEmail(String username) {
         User user = userRepository.findByEmail(username);
 
-        if (user == null) {
+        if (isNull(user)) {
             throw new ResourceNotFoundException(User.class.getCanonicalName());
         }
 
         return user;
+    }
+    
+    @Override
+    public boolean isAvailableEmail(String email){
+        User user = userRepository.findByEmail(email);
+        
+        if(isNotNull(user)){
+            throw new AlreadyExistsException(User.class.getSimpleName(), "email");
+        }
+        
+        return true;
     }
 
     @Override
@@ -86,7 +101,7 @@ public class UserAS implements IUserAS {
 
         InputStream is;
 
-        if (user.getImage() == null) {
+        if (isNull(user.getImage())) {
             is = getClass().getClassLoader().getResourceAsStream(DEFAULT_USER_IMAGE);
         } else {
             Hibernate.initialize(user.getImage());
@@ -145,16 +160,18 @@ public class UserAS implements IUserAS {
         return userRepository.save(user);
     }
 
+    @Override
     public User update(User user) {
         return userRepository.save(user);
     }
 
+    @Override
     public User updatePassword(User userLogged, String oldPass, String newPass) {
-        if (passwordEncoder.matches(oldPass, userLogged.getPassword())) {
-            userLogged.setPassword(passwordEncoder.encode(newPass));
-            return userRepository.save(userLogged);
+        if (!passwordEncoder.matches(oldPass, userLogged.getPassword())) {
+            throw new BusinessException(MessageEnum.INTEGRITY_ERROR);
         }
-        return userLogged;
+        userLogged.setPassword(passwordEncoder.encode(newPass));
+        return userRepository.save(userLogged);
     }
 
 //    @Override

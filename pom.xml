@@ -24,6 +24,11 @@
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
+            <groupId>br.com.cds.connecta.framework</groupId>
+            <artifactId>connecta-connectors</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
             <version>0.7.5</version>

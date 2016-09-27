@@ -54,7 +54,8 @@
 	<security:http pattern="/**" create-session="never"
 		use-expressions="true" entry-point-ref="oauthAuthenticationEntryPoint"
 		access-decision-manager-ref="accessDecisionManager">
-		<security:anonymous enabled="false" />
+		<security:anonymous enabled="true" />
+		<security:intercept-url pattern="/obiee/**" access="permitAll" />
 		<security:intercept-url pattern="/**" method="GET"
 			access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
 		<security:intercept-url pattern="/**" method="POST"

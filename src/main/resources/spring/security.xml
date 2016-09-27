@@ -50,12 +50,12 @@
 	<security:http pattern="/config/**" security="none" />
 	<security:http pattern="/user/new" security="none" />
 	<security:http pattern="/user/mail" security="none" />
+	<security:http pattern="/obiee/**" security="none" />
 
 	<security:http pattern="/**" create-session="never"
 		use-expressions="true" entry-point-ref="oauthAuthenticationEntryPoint"
 		access-decision-manager-ref="accessDecisionManager">
 		<security:anonymous enabled="false" />
-		<security:intercept-url pattern="/obiee/**" access="permitAll" />
 		<security:intercept-url pattern="/**" method="GET"
 			access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
 		<security:intercept-url pattern="/**" method="POST"

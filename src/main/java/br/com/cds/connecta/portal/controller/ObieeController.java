@@ -2,6 +2,7 @@ package br.com.cds.connecta.portal.controller;
 
 import br.com.cds.connecta.framework.connector.obiee.service.Login;
 import br.com.cds.connecta.framework.connector.obiee.service.Obiee;
+import br.com.cds.connecta.portal.dto.ObieeDTO;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +16,12 @@ public class ObieeController {
     private static final String OBIEE_PATH = "/analytics/saw.dll?WSDL";
 
     @RequestMapping(value = "login", method = RequestMethod.POST)
-    public ResponseEntity login(@RequestParam String location, @RequestParam String user, @RequestParam String password){
+    public ResponseEntity login(@RequestBody ObieeDTO obieeDTO){
         Login login = new Login();
         ResponseEntity responseEntity;
 
         try {
-            login.login(getLocationWsdl(location), user, password);
+            login.login(getLocationWsdl(obieeDTO.getLocation()), obieeDTO.getUser(), obieeDTO.getPassword());
             responseEntity = new ResponseEntity(HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();

@@ -149,7 +149,7 @@ public class UserTest extends BaseTest {
         User user = userService.saveInvite(inviteRequestVO, hashUm);
         
         inviteRequestVO = new InviteRequestVO();
-        inviteRequestVO.setDomain(domainService.get(99L));
+        inviteRequestVO.setDomain(domainService.get(101L));
         inviteRequestVO.setReceiver("xyz@cds.com");
         UUID hashDois = UUID.randomUUID();
         user = userService.saveInvite(inviteRequestVO, hashDois);

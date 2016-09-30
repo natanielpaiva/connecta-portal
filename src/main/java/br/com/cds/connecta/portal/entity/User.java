@@ -43,6 +43,9 @@ public class User implements Serializable {
 
     @Column(name = "DS_PASSWORD")
     private String password;
+    
+    @Column(name = "DS_HASH")
+    private String hash;
 //
 //    @Column(name = "URL_IMAGE")
 //    private String imageUrl;
@@ -98,8 +101,7 @@ public class User implements Serializable {
 
     public void mergePropertiesProfile(User newUser) {
         this.name = newUser.getName();
-        this.email = newUser.getEmail();
-        this.language = newUser.getLanguage();
+        this.password = newUser.getPassword();
     }
 
     public Long getId() {
@@ -126,6 +128,14 @@ public class User implements Serializable {
         this.password = password;
     }
 
+    public String getHash() {
+        return hash;
+    }
+
+    public void setHash(String hash) {
+        this.hash = hash;
+    }
+    
     public byte[] getImage() {
         return image;
     }

@@ -24,17 +24,17 @@ import org.springframework.web.multipart.MultipartFile;
 import br.com.cds.connecta.framework.core.context.HibernateAwareObjectMapper;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
 
+/**
+ * 
+ * @author heloisa
+ */
 @RestController
 @RequestMapping("user")
 public class UserController {
 
     @Autowired
     private IUserAS userService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private HibernateAwareObjectMapper objectMapper;
@@ -54,7 +54,15 @@ public class UserController {
     @RequestMapping(value = "new", method = RequestMethod.POST)
     public ResponseEntity createUser(@RequestBody User user) throws Exception {
 
-        user = userService.save(user);
+        user = userService.saveUser(user);
+
+        return new ResponseEntity(user, HttpStatus.CREATED);
+    }
+    
+    @RequestMapping(value = "invited", method = RequestMethod.POST)
+    public ResponseEntity createInvited(@RequestBody User user) throws Exception {
+
+        user = userService.saveInvited(user);
 
         return new ResponseEntity(user, HttpStatus.CREATED);
     }
@@ -78,6 +86,13 @@ public class UserController {
         userService.getByEmail(email);
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "hash", method = RequestMethod.GET)
+    public ResponseEntity getByHash(@RequestParam String hash) {
+        User user = userService.getByHash(hash);
+
+        return new ResponseEntity(user, HttpStatus.OK);
     }
     
     @RequestMapping(value = "mail", method = RequestMethod.GET)

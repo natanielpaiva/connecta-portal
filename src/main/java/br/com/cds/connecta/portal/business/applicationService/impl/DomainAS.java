@@ -13,6 +13,10 @@ import br.com.cds.connecta.portal.entity.Domain;
 import br.com.cds.connecta.portal.entity.User;
 import br.com.cds.connecta.portal.persistence.DomainRepository;
 
+/**
+ * 
+ * @author heloisa
+ */
 @Service
 public class DomainAS implements IDomainAS {
     
@@ -22,31 +26,17 @@ public class DomainAS implements IDomainAS {
     @Autowired
     private IUserAS userAS;
 
-    /**
-     *
-     * @return
-     */
     @Override
     public List<Domain> getAll() {
         return domainRepository.findAll();
     }
 
-    /**
-     *
-     * @param username
-     * @return
-     */
     @Override
     public List<Domain> getByUser(String username) {
-        User usr = userAS.getByEmail(username); // email or login?
+        User usr = userAS.getByEmail(username);
         return usr != null ? usr.getDomains() : null;
     }
 
-    /**
-     *
-     * @param domain
-     * @return
-     */
     @Override
     public Domain save(Domain domain) {
         return domainRepository.save(domain);
@@ -63,11 +53,6 @@ public class DomainAS implements IDomainAS {
         domainRepository.delete(id);
     }
 
-    /**
-     *
-     * @param id
-     * @return
-     */
     @Override
     public Domain get(Long id) {
         Domain domain = domainRepository.findOne(id);

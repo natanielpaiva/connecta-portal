@@ -20,14 +20,18 @@ import br.com.cds.connecta.framework.core.exception.BusinessException;
 import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
 import br.com.cds.connecta.framework.core.util.Util;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
+import br.com.cds.connecta.portal.entity.Domain;
 import br.com.cds.connecta.portal.entity.Role;
 import br.com.cds.connecta.portal.entity.User;
 import br.com.cds.connecta.portal.persistence.RoleDAO;
 import br.com.cds.connecta.portal.persistence.UserRepository;
 import br.com.cds.connecta.portal.persistence.specification.RoleSpecification;
 import br.com.cds.connecta.portal.security.UserRepositoryUserDetails;
+import br.com.cds.connecta.portal.vo.InviteRequestVO;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
 /**
@@ -64,7 +68,7 @@ public class UserAS implements IUserAS {
         OAuth2Authentication auth2Authentication = (OAuth2Authentication) user;
         UserRepositoryUserDetails repositoryUserDetails
                 = (UserRepositoryUserDetails) auth2Authentication.getPrincipal();
-        
+
         return getByEmail(repositoryUserDetails.getUser().getEmail());
     }
 
@@ -85,13 +89,24 @@ public class UserAS implements IUserAS {
     }
     
     @Override
-    public boolean isAvailableEmail(String email){
+    public User getByHash(String hash) {
+        User user = userRepository.findByHash(hash);
+
+        if (isNull(user)) {
+            throw new ResourceNotFoundException(User.class.getCanonicalName());
+        }
+
+        return user;
+    }
+
+    @Override
+    public boolean isAvailableEmail(String email) {
         User user = userRepository.findByEmail(email);
-        
-        if(isNotNull(user)){
+
+        if (isNotNull(user)) {
             throw new AlreadyExistsException(User.class.getSimpleName(), "email");
         }
-        
+
         return true;
     }
 
@@ -132,17 +147,58 @@ public class UserAS implements IUserAS {
 
     @Override
     public User save(User user) {
+
+//        Role roleUsr = roleRepository.findOne(RoleSpecification.byName("ROLE_USER"));
+//        user.setRoles(Arrays.asList(roleUsr));
+        user.setRoles(new ArrayList<Role>());
+        user.getRoles().add(roleRepository.findOne(RoleSpecification.byName("ROLE_USER")));
+
+        user.setImage(null);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public User saveUser(User user) {
         User usr = userRepository.findByEmail(user.getEmail());
 
         if (Util.isNotNull(usr)) {
             throw new AlreadyExistsException("Usuário", "E-mail");
         }
 
-        Role roleUsr = roleRepository.findOne(RoleSpecification.byName("ROLE_USER"));
-        user.setRoles(Arrays.asList(roleUsr));
+        return save(user);
+    }
 
-        user.setImage(null);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+    @Override
+    public User saveInvited(User user) {
+        User convite = getByEmail(user.getEmail());
+                
+        convite.setName(user.getName());
+        convite.setPassword(user.getPassword());
+        convite.setHash(null);
+        
+        return save(convite);
+    }
+
+    @Override
+    public User saveInvite(InviteRequestVO inviteRequestVO, UUID hash) {
+        User user = userRepository.findByEmail(inviteRequestVO.getReceiver());
+        
+        if (isNull(user)) {
+            user = new User();
+            user.setDomains(Arrays.asList(inviteRequestVO.getDomain()));
+            user.setHash(hash.toString());
+            user.setEmail(inviteRequestVO.getReceiver());
+            inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "#" + hash.toString());
+        }else if(isNotNull(user.getHash())){
+            user.setHash(hash.toString());
+            inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "#" + hash.toString());
+        }
+        
+        if (!user.getDomains().contains(inviteRequestVO.getDomain())) {
+            user.getDomains().add(inviteRequestVO.getDomain());
+        }
 
         return userRepository.save(user);
     }

@@ -1,0 +1,11 @@
+<html>
+    <body>
+        <h3>Hi ${invite.receiver}!</h3>
+        <label>${invite.sender} invited you to</label>
+        <a href="${invite.url}">Join us</a>
+        <p>Hi ${invite.domain.name}!</p>
+        <div>
+            Get to know your company better every day.
+        </div>
+    </body>
+</html>

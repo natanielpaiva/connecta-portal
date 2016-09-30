@@ -49,7 +49,9 @@
 	
 	<security:http pattern="/config/**" security="none" />
 	<security:http pattern="/user/new" security="none" />
+	<security:http pattern="/user/invited" security="none" />
 	<security:http pattern="/user/mail" security="none" />
+	<security:http pattern="/user/hash" security="none" />
 	<security:http pattern="/obiee/**" security="none" />
 
 	<security:http pattern="/**" create-session="never"

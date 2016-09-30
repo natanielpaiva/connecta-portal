@@ -15,13 +15,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.velocity.VelocityEngineUtils;
 
 import br.com.cds.connecta.portal.business.applicationService.IMailAS;
+import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.User;
+import br.com.cds.connecta.portal.vo.InviteRequestVO;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class MailAS implements IMailAS {
 	
 	@Autowired
 	private JavaMailSender mailSender;
+        
+        @Autowired
+	private IUserAS userAS;
 	
 	@Autowired
 	private VelocityEngine velocityEngine;
@@ -30,22 +37,25 @@ public class MailAS implements IMailAS {
 
 	@Override
 	public void sendConfirmationEmail(final User user) {
-		MimeMessagePreparator preparator = createMessage(user, "Confirmação de Cadastro", 
-				"/mail/registrationConfirmation.vm");
+
+            Map<String,Object> model = new HashMap<>();
+            model.put("user", user);
+           
+            MimeMessagePreparator preparator = createMessage(model, user.getEmail() ,"Confirmação de Cadastro", 
+                        "/mail/registrationConfirmation.vm");
         //TODO tratar erros && criar entidade para o Email caso o servidor 
         // smtp esteja fora, para posterior envio
         this.mailSender.send(preparator);
 	}
 
-	private MimeMessagePreparator createMessage(final User user, final String subject, final String template) {
+	private MimeMessagePreparator createMessage(final Map<String, Object> model, final String receiverEmail, 
+                final String subject, final String template) {
 		MimeMessagePreparator preparator = new MimeMessagePreparator() {
             public void prepare(MimeMessage mimeMessage) throws Exception {
                 MimeMessageHelper message = new MimeMessageHelper(mimeMessage);
-                message.setTo(user.getEmail());
+                message.setTo(receiverEmail);
                 message.setFrom(FROM_EMAIL);
                 message.setSubject(subject);
-                Map<String, Object> model = new HashMap<>();
-                model.put("user", user);
                 String text = VelocityEngineUtils.mergeTemplateIntoString(
                         velocityEngine, template , "UTF-8", model);
                 message.setText(text, true);
@@ -53,5 +63,24 @@ public class MailAS implements IMailAS {
         };
 		return preparator;
 	}
+
+    @Override
+    public void sendInvite(InviteRequestVO inviteVO, List<String> emails) {
+        
+        Map<String, Object> model = new HashMap<>();
+        
+        for(String email : emails){
+            inviteVO.setReceiver(email);
+            model.put("invite", inviteVO);
+            
+            userAS.saveInvite(inviteVO, UUID.randomUUID());
+            
+            MimeMessagePreparator preparator = createMessage(model, inviteVO.getReceiver() , inviteVO.getSender()
+                + " lhe convidou!", "/mail/inviteTemplate.vm");
+        
+            this.mailSender.send(preparator);
+        }
+ 
+    }
 
 }

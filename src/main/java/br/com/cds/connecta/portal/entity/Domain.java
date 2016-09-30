@@ -2,6 +2,7 @@ package br.com.cds.connecta.portal.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 
 import javax.persistence.Column;
@@ -10,8 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.PreRemove;
 import javax.persistence.Table;
@@ -38,6 +37,31 @@ public class Domain implements Serializable {
     		cascade = CascadeType.REMOVE)
     private List<User> users;
 
+    @Override
+    public int hashCode() {
+        int hash = 5;
+        hash = 73 * hash + Objects.hashCode(getId());
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Domain other = (Domain) obj;
+        if (!Objects.equals(getId(), other.getId())) {
+            return false;
+        }
+        return true;
+    }
+    
     public Long getId() {
         return id;
     }

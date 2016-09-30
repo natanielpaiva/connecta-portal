@@ -3,12 +3,16 @@ package br.com.cds.connecta.portal;
 import br.com.cds.connecta.framework.core.exception.AlreadyExistsException;
 import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
 import static br.com.cds.connecta.portal.BaseTest.getTestResourceInputStream;
+import br.com.cds.connecta.portal.business.applicationService.IDomainAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.business.applicationService.impl.UserAS;
+import br.com.cds.connecta.portal.entity.Domain;
 import br.com.cds.connecta.portal.entity.User;
+import br.com.cds.connecta.portal.vo.InviteRequestVO;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.UUID;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
 import static org.hamcrest.Matchers.equalTo;
@@ -29,7 +33,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class UserTest extends BaseTest {
 
     @Autowired
-    private IUserAS service;
+    private IUserAS userService;
+    
+    @Autowired
+    private IDomainAS domainService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -93,28 +100,87 @@ public class UserTest extends BaseTest {
         user.setPassword("rgd");
         user.setImage("".getBytes()); // qualquer binário pra assegurar se ele ignora a imagem
 
-        service.save(user);
+        userService.saveUser(user);
 
         assertThat(user.getId(), greaterThan(0L));
         assertThat(user.getEmail(), equalTo("dgdg"));
         assertTrue(passwordEncoder.matches("rgd", user.getPassword()));
         assertThat(user.getImage(), nullValue());
 
-        InputStream userImage = service.getUserImage(user.getId());
+        InputStream userImage = userService.getUserImage(user.getId());
 
         assertThat(contentEquals(userImage, defaultImage()), equalTo(true));
     }
     
+    @Test
+    public void saveInvited(){
+        User user = userService.get(13L);
+        user.setName("Algum nome bonito");
+        user.setPassword("senha123");
+        User userSaved = userService.saveInvited(user);
+        
+        assertThat(userSaved.getHash(), nullValue());
+        assertThat(userSaved.getEmail(), equalTo("abc@cds.com.br"));
+        
+    }
+    
+    @Test
+    public void saveInvite(){
+        InviteRequestVO inviteRequestVO = new InviteRequestVO();
+        Domain domain = domainService.get(100L);
+        inviteRequestVO.setDomain(domain);
+        inviteRequestVO.setReceiver("xyz@cds.com");
+        User user = userService.saveInvite(inviteRequestVO, UUID.randomUUID());
+        
+        assertThat(user.getHash(), not(nullValue()));
+        assertThat(user.getEmail(), equalTo("xyz@cds.com"));
+        assertTrue(user.getDomains().contains(domain));
+        
+    }
+    
+    //Somento o ultimo hash será válido
+    @Test
+    public void saveManyInvite(){
+        
+        InviteRequestVO inviteRequestVO = new InviteRequestVO();
+        inviteRequestVO.setDomain(domainService.get(100L));
+        inviteRequestVO.setReceiver("xyz@cds.com");
+        UUID hashUm = UUID.randomUUID();
+        User user = userService.saveInvite(inviteRequestVO, hashUm);
+        
+        inviteRequestVO = new InviteRequestVO();
+        inviteRequestVO.setDomain(domainService.get(99L));
+        inviteRequestVO.setReceiver("xyz@cds.com");
+        UUID hashDois = UUID.randomUUID();
+        user = userService.saveInvite(inviteRequestVO, hashDois);
+        
+        assertThat(user.getHash(), equalTo(hashDois.toString()));
+        
+    }
+    
+    @Test
+    public void inviteExistingUser(){
+        
+        InviteRequestVO inviteRequestVO = new InviteRequestVO();
+        Domain domain = domainService.get(100L);
+        inviteRequestVO.setDomain(domain);
+        inviteRequestVO.setReceiver("ednaldopereira");
+        User user = userService.saveInvite(inviteRequestVO, UUID.randomUUID());
+        
+        assertThat(user.getHash(), nullValue());
+        assertTrue(user.getDomains().contains(domain));
+    }
+    
     @Test(expected = AlreadyExistsException.class)
     public void unavailableEmail(){
-        service.isAvailableEmail("ednaldopereira");
+        userService.isAvailableEmail("ednaldopereira");
     }
     
     @Test
     public void updateUserPassword() throws Exception{
-        User user = service.get(12L);
+        User user = userService.get(12L);
         
-        User updatedUser = service.updatePassword(user,"123", "abc");
+        User updatedUser = userService.updatePassword(user,"123", "abc");
         
         //Garantir que os dados serão mantidos
         assertThat(updatedUser.getEmail(), equalTo("ednaldopereira")); // Não deve ser atualizado
@@ -131,7 +197,7 @@ public class UserTest extends BaseTest {
         user.setPassword("qualquercoisa");  // Não deve ser atualizado
         user.setImage("qualquercoisa".getBytes());  // Também :D
 
-        User updatedUser = service.update(11L, user);
+        User updatedUser = userService.update(11L, user);
 
         assertThat(updatedUser.getName(), equalTo("ooo"));
         assertThat(updatedUser.getEmail(), equalTo("abc"));
@@ -143,31 +209,31 @@ public class UserTest extends BaseTest {
     
     @Test
     public void uploadNewUserImage() throws IOException {
-        service.upload(11L, new FileUploadTest());
+        userService.upload(11L, new FileUploadTest());
 
-        InputStream userImage = service.getUserImage(11L);
+        InputStream userImage = userService.getUserImage(11L);
 
         assertThat(contentEquals(userImage, emptyPixel()), equalTo(true));
     }
 
     @Test
     public void deleteUserImage() throws IOException {
-        service.upload(10L, new FileUploadTest());
+        userService.upload(10L, new FileUploadTest());
 
-        InputStream firstImage = service.getUserImage(10L);
+        InputStream firstImage = userService.getUserImage(10L);
 
         assertThat(contentEquals(firstImage, defaultImage()), equalTo(false));
 
-        service.upload(10L, null);
+        userService.upload(10L, null);
 
-        InputStream userImage = service.getUserImage(10L);
+        InputStream userImage = userService.getUserImage(10L);
 
         assertThat(contentEquals(userImage, defaultImage()), equalTo(true));
     }
 
     @Test(expected = ResourceNotFoundException.class)
     public void getUserImageUnexistingUser() throws IOException {
-        service.getUserImage(50L);
+        userService.getUserImage(50L);
     }
 
 }

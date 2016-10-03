@@ -50,8 +50,8 @@
 	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
 		<property name="host" value="mail.cds.com.br" />
 		<property name="port" value="465" />
-		<property name="username" value="loginLDAP@cds.com.br" />
-		<property name="password" value="senhaLDAP" />
+		<property name="username" value="heloisa.morais@cds.com.br" />
+		<property name="password" value="280397h3ll@" />
 
 		<property name="javaMailProperties">
 			<map>

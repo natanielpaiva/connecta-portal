@@ -138,7 +138,7 @@ public class UserTest extends BaseTest {
         
     }
     
-    //Somento o ultimo hash será válido
+    //Somente o ultimo hash será válido
     @Test
     public void saveManyInvite(){
         

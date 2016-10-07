@@ -1,11 +1,27 @@
 <html>
+<head>
+<meta chartset="utf-8">
+</head>
     <body>
-        <h3>Hi ${invite.receiver}!</h3>
-        <label>${invite.sender} invited you to</label>
-        <a href="${invite.url}">Join us</a>
-        <p>Hi ${invite.domain.name}!</p>
-        <div>
-            Get to know your company better every day.
-        </div>
+      <div>
+        <table style="border: none; padding: 0 18px; margin: 50px auto; width: 500px;">
+          <tbody>
+            
+            <tr>
+              <td>
+                <div style="text-align:center;">
+                  <h1 class="title">Conheça a sua empresa melhor a cada dia.</h1>
+
+                  <p>${invite.sender} convidou você a entrar no domínio: </p>
+                  <span style="font-size: 2em;font-weight: bold;">${invite.domain.name}</span>
+	                  <div style="display:block;border-radius: 0.25em;background-color: rgb(54,129,193);cursor:pointer;">
+	                    <a  style="font-weight: bold;font-size: 2em; color: white; line-height:1.75;width: 20px; margin-left: auto; margin-right: auto;text-decoration: none;" href="${invite.url}">Entre</a>
+	                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </body>
 </html>

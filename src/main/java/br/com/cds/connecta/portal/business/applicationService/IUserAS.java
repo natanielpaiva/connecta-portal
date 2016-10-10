@@ -26,6 +26,8 @@ public interface IUserAS {
     
     User getByHash(String hash);
     
+    List<User> getAll();
+    
     InputStream getUserImage(Long id) throws IOException;
     
     boolean isAvailableEmail(String email);

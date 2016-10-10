@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import br.com.cds.connecta.framework.core.context.HibernateAwareObjectMapper;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.User;
+import java.util.List;
 
 /**
  * 
@@ -93,6 +94,13 @@ public class UserController {
         User user = userService.getByHash(hash);
 
         return new ResponseEntity(user, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "all",method = RequestMethod.GET)
+    public ResponseEntity getAll() {
+        List<User> users = userService.getAll();
+
+        return new ResponseEntity(users, HttpStatus.OK);
     }
     
     @RequestMapping(value = "mail", method = RequestMethod.GET)

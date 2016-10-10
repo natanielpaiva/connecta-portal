@@ -1,27 +1,62 @@
 <html>
-<head>
-<meta chartset="utf-8">
-</head>
-    <body>
-      <div>
-        <table style="border: none; padding: 0 18px; margin: 50px auto; width: 500px;">
-          <tbody>
-            
-            <tr>
-              <td>
-                <div style="text-align:center;">
-                  <h1 class="title">Conheça a sua empresa melhor a cada dia.</h1>
+    <head>
+        <style>
+            .table{
+                border: none; 
+                padding: 0 18px; 
+                margin: 50px auto; 
+                width: 500px;
 
-                  <p>${invite.sender} convidou você a entrar no domínio: </p>
-                  <span style="font-size: 2em;font-weight: bold;">${invite.domain.name}</span>
-	                  <div style="display:block;border-radius: 0.25em;background-color: rgb(54,129,193);cursor:pointer;">
-	                    <a  style="font-weight: bold;font-size: 2em; color: white; line-height:1.75;width: 20px; margin-left: auto; margin-right: auto;text-decoration: none;" href="${invite.url}">Entre</a>
-	                  </div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+            }
+            .mail-body{
+                text-align:center;
+            }
+            .domain-name{
+                font-size: 2em;
+                font-weight: bold;
+            }
+            .button{
+                display:block;
+                border-radius: 0.25em;
+                background-color: rgb(54,129,193);
+                cursor:pointer;
+                width: 200px;
+                padding: 0 18px; 
+                margin: 50px auto; 
+                
+            }
+            .font-button{
+                font-weight: bold;
+                font-size: 2em; 
+                color: white; 
+                line-height:1.75;
+                width: 20px; 
+                margin-left: auto; 
+                margin-right: auto;
+                text-decoration: none;
+
+            }
+        </style>
+    </head>
+    <body>
+        <div>
+            <table class="table">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div class="mail-body">
+                                <h1 class="title">Conheça a sua empresa melhor a cada dia.</h1>
+                                
+                                <p>${invite.sender} convidou você a entrar no domínio: </p>
+                                <span class="domain-name">${invite.domain.name}</span>
+                                <div class="button">
+                                    <a  class = "font-button" href="${invite.url}">Entre</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </body>
 </html>

@@ -20,7 +20,6 @@ import br.com.cds.connecta.framework.core.exception.BusinessException;
 import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
 import br.com.cds.connecta.framework.core.util.Util;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
-import br.com.cds.connecta.portal.entity.Domain;
 import br.com.cds.connecta.portal.entity.Role;
 import br.com.cds.connecta.portal.entity.User;
 import br.com.cds.connecta.portal.persistence.RoleDAO;
@@ -97,6 +96,11 @@ public class UserAS implements IUserAS {
         }
 
         return user;
+    }
+    
+    @Override
+    public List<User> getAll(){
+        return userRepository.findAll();
     }
 
     @Override
@@ -190,10 +194,10 @@ public class UserAS implements IUserAS {
             user.setDomains(Arrays.asList(inviteRequestVO.getDomain()));
             user.setHash(hash.toString());
             user.setEmail(inviteRequestVO.getReceiver());
-            inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "#" + hash.toString());
+            inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "?hash=" + hash.toString());
         }else if(isNotNull(user.getHash())){
             user.setHash(hash.toString());
-            inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "#" + hash.toString());
+            inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "?hash=" + hash.toString());
         }
         
         if (!user.getDomains().contains(inviteRequestVO.getDomain())) {

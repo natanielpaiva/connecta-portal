@@ -79,7 +79,7 @@ public class LdapCustomProvider implements AuthenticationProvider {
 
 		LdapUser ldapUser = ldapService.verifyLogin(login, password);
 
-		if (ldapUser.getUsername() == null){
+		if (ldapUser == null || ldapUser.getUsername() == null){
 			throw new AuthenticationServiceException("Login ou Senha inválidos");
 		}
 

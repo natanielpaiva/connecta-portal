@@ -1,10 +1,9 @@
 package br.com.cds.connecta.portal.dto;
 
-import br.com.cds.connecta.portal.domain.DashboardSectionAnimation;
+import java.util.List;
 
 import br.com.cds.connecta.portal.domain.DashboardDisplayMode;
-
-import java.util.List;
+import br.com.cds.connecta.portal.domain.DashboardSectionAnimation;
 
 public class DashboardDTO {
     private Long id;
@@ -24,6 +23,8 @@ public class DashboardDTO {
     private DashboardSectionAnimation sectionTransitionAnimation;
     private List<DashboardSectionDTO> sections;
     private String domain;
+    private boolean isPublic;
+    private DashboardPublicDTO publicDashboard;
 
     public Long getId() {
         return id;
@@ -143,6 +144,22 @@ public class DashboardDTO {
 
 	public void setDomain(String domain) {
 		this.domain = domain;
+	}
+
+	public boolean isPublic() {
+		return isPublic;
+	}
+
+	public void setPublic(boolean isPublic) {
+		this.isPublic = isPublic;
+	}
+
+	public DashboardPublicDTO getPublicDashboard() {
+		return publicDashboard;
+	}
+
+	public void setPublicDashboard(DashboardPublicDTO publicDashboard) {
+		this.publicDashboard = publicDashboard;
 	}
 
 }

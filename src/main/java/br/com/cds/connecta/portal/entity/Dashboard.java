@@ -1,23 +1,24 @@
 package br.com.cds.connecta.portal.entity;
 
-import br.com.cds.connecta.framework.core.entity.AbstractBaseEntity;
-import br.com.cds.connecta.portal.domain.DashboardSectionAnimation;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-
-import br.com.cds.connecta.portal.domain.DashboardDisplayMode;
-
-import java.util.List;
-import javax.persistence.CascadeType;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import br.com.cds.connecta.framework.core.entity.AbstractBaseEntity;
+import br.com.cds.connecta.portal.domain.DashboardDisplayMode;
+import br.com.cds.connecta.portal.domain.DashboardSectionAnimation;
 
 @Entity
 @Table(name = "TB_DASHBOARD")
@@ -73,13 +74,20 @@ public class Dashboard extends AbstractBaseEntity {
 
     @Column(name = "NM_DOMAIN")
     private String domain;
+    
+    @Column(name = "FL_PUBLIC")
+    private boolean isPublic;
+    
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "FK_DASHBOARD_PUBLIC")
+    private DashboardPublic publicDashboard;
 
     @Override
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+	public void setId(Long id) {
         this.id = id;
     }
 
@@ -190,9 +198,25 @@ public class Dashboard extends AbstractBaseEntity {
     public String getDomain() {
         return domain;
     }
-
+    
     public void setDomain(String domain) {
         this.domain = domain;
     }
+
+	public boolean isPublic() {
+		return isPublic;
+	}
+
+	public void setPublic(boolean isPublic) {
+		this.isPublic = isPublic;
+	}
+
+	public DashboardPublic getPublicDashboard() {
+		return publicDashboard;
+	}
+
+	public void setPublicDashboard(DashboardPublic publicDashboard) {
+		this.publicDashboard = publicDashboard;
+	}
 
 }

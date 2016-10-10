@@ -102,7 +102,7 @@ public class UserController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-    @RequestMapping(value = "validarToken", method = RequestMethod.GET)
+    @RequestMapping(value = "token/validate", method = RequestMethod.GET)
     public ResponseEntity validarToken(@RequestHeader("Authorization") String param) {
         String[] tk = param.split(" ");
 

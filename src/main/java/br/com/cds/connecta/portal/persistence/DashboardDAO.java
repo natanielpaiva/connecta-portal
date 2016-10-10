@@ -14,9 +14,26 @@ import org.springframework.data.repository.query.Param;
 public interface DashboardDAO extends JpaRepository<Dashboard, Long>,
         JpaSpecificationExecutor<Dashboard> {
 
-    @Query("SELECT d FROM Dashboard d LEFT JOIN FETCH d.sections s WHERE d.id = :id "
+    @Query("SELECT d FROM Dashboard d LEFT JOIN FETCH d.sections s "
+    		+ "LEFT JOIN FETCH d.publicDashboard WHERE d.id = :id "
             + "AND UPPER(d.domain) = UPPER(:domain)")
     Dashboard findOneWithSections(@Param("id") Long id, @Param("domain") String domain);
+    
+    @Query("SELECT d FROM Dashboard d LEFT JOIN FETCH d.sections s "
+    		+ "LEFT JOIN FETCH d.publicDashboard public WHERE d.id = :id "
+            + "AND d.isPublic = true")
+    Dashboard findOneWithSectionsPublic(@Param("id") Long id);
+    
+    @Query("SELECT d FROM Dashboard d LEFT JOIN FETCH d.sections s "
+    		+ "LEFT JOIN FETCH d.publicDashboard public WHERE public.id = :key "
+    		+ "AND d.isPublic = true")
+    Dashboard findOneByPublicKey(@Param("key") Long publicKeyId);
+    
+    @Query("SELECT d FROM Dashboard d LEFT JOIN FETCH d.sections s "
+    		+ "LEFT JOIN FETCH d.publicDashboard public WHERE d.id = :id "
+    		+ "AND d.isPublic = true "
+            + "AND public.id = :key")
+    Dashboard findOneByPublicKeyAndId(@Param("id") Long id, @Param("key") Long publicKey);
 
     @Query("FROM Dashboard d WHERE TRANSLATE(TRIM(UPPER(d.name)),"
             + "'ÁÂÀÃÄÉÈÊẼËÍÌÎĨÏÓÒÔÕÖÚÙÛŨÜÇ','AAAAAEEEEEIIIIIOOOOOUUUUUC') LIKE :name")

@@ -61,7 +61,6 @@ public class DomainController {
 
         Domain save = domainAS.update(domain);
         return new ResponseEntity(domain, HttpStatus.OK);
-
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
@@ -69,6 +68,12 @@ public class DomainController {
 
         domainAS.delete(id);
         return new ResponseEntity(HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "{id}", method = RequestMethod.GET)
+    public ResponseEntity<Domain> getById(@PathVariable("id") Long id) {
+    	Domain domain = domainAS.get(id);
+    	return new ResponseEntity<>(domain, HttpStatus.OK);
     }
 
     @RequestMapping(method = RequestMethod.GET)

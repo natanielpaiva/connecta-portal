@@ -52,7 +52,9 @@ create table oauth_client_details (
   web_server_redirect_uri VARCHAR(256),
   authorities VARCHAR(256),
   access_token_validity INTEGER,
-  refresh_token_validity INTEGER
+  refresh_token_validity INTEGER,
+  autoapprove NUMBER(3),
+  additional_information VARCHAR(2056)
 );
 
 create table oauth_client_token (

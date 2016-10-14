@@ -1,10 +1,11 @@
 package br.com.cds.connecta.portal.business.applicationService;
 
+import java.util.List;
+import java.util.Map;
+
 import br.com.cds.connecta.portal.dto.DashboardDTO;
 import br.com.cds.connecta.portal.entity.Dashboard;
 import br.com.cds.connecta.portal.filter.DashboardPaginationFilter;
-import java.util.List;
-import java.util.Map;
 
 /**
  *
@@ -22,6 +23,8 @@ public interface IDashboardAS {
     Iterable<Dashboard> list(DashboardPaginationFilter filter);
 
     Dashboard get(Long id, String domain);
+    
+    Dashboard getPublic(Long id);
 
     Dashboard save(DashboardDTO application);
 
@@ -30,5 +33,9 @@ public interface IDashboardAS {
     void delete(Long id);
     
     void deleteAll(List<Long> ids, String domain);
+    
+    boolean validatePublicKey(Long publicKey, Long viewerId);
+    
+    public boolean validatePublicKeyDash(Long publicKey, Long dashId);
 
 }

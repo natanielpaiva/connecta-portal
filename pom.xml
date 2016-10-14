@@ -7,12 +7,12 @@
     <parent>
         <groupId>br.com.cds.connecta.framework</groupId>
         <artifactId>connecta-parent</artifactId>
-        <version>0.5.0-RELEASE</version>
+        <version>0.6.0-RELEASE</version>
     </parent>
 
     <groupId>br.com.cds.connecta</groupId>
     <artifactId>connecta-portal</artifactId>
-    <version>0.7.0-RELEASE</version>
+    <version>0.8.0-RELEASE</version>
     <packaging>war</packaging>
     
     <name>Connecta Portal</name>
@@ -24,6 +24,11 @@
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
+            <groupId>br.com.cds.connecta.framework</groupId>
+            <artifactId>connecta-connectors</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.modelmapper</groupId>
             <artifactId>modelmapper</artifactId>
             <version>0.7.5</version>
@@ -31,11 +36,6 @@
     </dependencies>
 
     <repositories>
-        <repository>
-            <id>cdsInternal</id>
-            <name>Archiva Managed Internal Repository</name>
-            <url>http://archiva.cds.com.br/archiva/repository/internal/</url>
-        </repository>
         <repository>
             <id>spring-milestone</id>
             <name>Spring Milestone Repository</name>
@@ -50,9 +50,6 @@
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.3</version>
                 <configuration>
-<!--                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <encoding>UTF-8</encoding>-->
                     <webResources>
                         <resource>
                             <filtering>true</filtering>
@@ -76,9 +73,6 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-<!--                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>-->
                     <showDeprecation>true</showDeprecation>
                 </configuration>
             </plugin>

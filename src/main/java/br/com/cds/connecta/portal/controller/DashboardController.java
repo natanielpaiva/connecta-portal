@@ -1,6 +1,7 @@
 package br.com.cds.connecta.portal.controller;
 
 import br.com.cds.connecta.framework.core.domain.annotation.PublicResource;
+import br.com.cds.connecta.framework.core.util.Util;
 import br.com.cds.connecta.portal.business.applicationService.IDashboardAS;
 import br.com.cds.connecta.portal.dto.DashboardDTO;
 import br.com.cds.connecta.portal.entity.Dashboard;
@@ -41,6 +42,12 @@ public class DashboardController {
         Dashboard entity = service.get(id, domain);
         return new ResponseEntity<>(entity, HttpStatus.OK);
     }
+    
+    @RequestMapping(value = "public/{id}", method = RequestMethod.GET)
+    public ResponseEntity<Dashboard> getPublic(@PathVariable("id") Long id) {
+        Dashboard entity = service.getPublic(id);
+        return new ResponseEntity<>(entity, HttpStatus.OK);
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity<Iterable<Dashboard>> list(DashboardPaginationFilter filter,
@@ -50,8 +57,8 @@ public class DashboardController {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity<Dashboard> save(@RequestBody DashboardDTO application) {
-        Dashboard entity = service.save(application);
+    public ResponseEntity<Dashboard> save(@RequestBody DashboardDTO dashboard) {
+        Dashboard entity = service.save(dashboard);
         return new ResponseEntity<>(entity, HttpStatus.CREATED);
     }
 
@@ -75,6 +82,26 @@ public class DashboardController {
             @RequestHeader("Domain") String domain) {
         service.deleteAll(ids, domain);
         return new ResponseEntity(null, HttpStatus.NO_CONTENT);
+    }
+    
+    @RequestMapping(value="public/publicKey/validate", method = RequestMethod.GET)
+    public ResponseEntity validatePublicKey(@RequestParam Long key, @RequestParam Long viewerId) {
+        if(Util.isNotNull(key)){
+        	if(!service.validatePublicKey(key, viewerId)){
+        		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        	}
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    
+    @RequestMapping(value="public/publicKey/validateDash", method = RequestMethod.GET)
+    public ResponseEntity validatePublicKeyDash(@RequestParam Long key, @RequestParam Long dashId) {
+        if(Util.isNotNull(key)){
+        	if(!service.validatePublicKeyDash(key, dashId)){
+        		return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        	}
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

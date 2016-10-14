@@ -1,6 +1,11 @@
 package br.com.cds.connecta.portal;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -9,22 +14,17 @@ import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import br.com.cds.connecta.framework.core.test.MockMvcProvider;
-import static br.com.cds.connecta.portal.AuthenticationTest.RESOURCE_ACCESS_TOKEN;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.FileNotFoundException;
-import java.util.logging.Level;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MvcResult;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import br.com.cds.connecta.framework.core.test.MockMvcProvider;
 
 /**
  * Teste base de todos os projetos
@@ -33,9 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @EnableWebMvc
-@ContextConfiguration({ 
-                       "classpath:spring/security.xml",
-                       "classpath:META-INF/br.com.cds.connecta.framework.test.xml"})
+@ContextConfiguration("classpath:spring/test-application-context.xml")
 public class BaseTest {
     
     @Autowired

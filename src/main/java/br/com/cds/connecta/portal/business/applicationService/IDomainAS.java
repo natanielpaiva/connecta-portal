@@ -3,18 +3,29 @@ package br.com.cds.connecta.portal.business.applicationService;
 import java.util.List;
 
 import br.com.cds.connecta.portal.entity.Domain;
+import br.com.cds.connecta.portal.entity.User;
 
+/**
+ * 
+ * @author heloisa
+ */
 public interface IDomainAS {
 
+    Domain save(Domain domain);
+    
     List<Domain> getAll();
 
     List<Domain> getByUser(String username);
 
-    Domain save(Domain domain);
+    Domain get(Long id);
 
+    Domain getById(Long id);
+
+    List<User> getParticipants(Long id);
+    
     Domain update(Domain domain);
 
-    void delete(Long id);
+    Domain removeUser(Long idDomain, Long idUser);
 
-    Domain get(Long id);
+    void delete(Long id);
 }

@@ -50,4 +50,6 @@ public interface IUserAS {
 
     void setUserImage(Long id) throws IOException;
 
+    User removeDomain(Long idUser, Long idDomain);
+
 }

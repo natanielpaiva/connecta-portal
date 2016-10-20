@@ -51,6 +51,8 @@
 	<security:http pattern="/user/new" security="none" />
 	<security:http pattern="/user/invited" security="none" />
 	<security:http pattern="/user/mail" security="none" />
+	<security:http pattern="/user/recover" security="none" />
+	<security:http pattern="/user/reset" security="none" />
 	<security:http pattern="/user/hash" security="none" />
 	<security:http pattern="/obiee/**" security="none" />
 	<security:http pattern="/dashboard/public/**" security="none"/>

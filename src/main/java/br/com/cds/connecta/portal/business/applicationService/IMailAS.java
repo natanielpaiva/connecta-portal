@@ -4,10 +4,14 @@ import br.com.cds.connecta.portal.entity.User;
 import br.com.cds.connecta.portal.vo.InviteRequestVO;
 import java.util.List;
 
-public interface IMailAS  {
+public interface IMailAS {
 
-	void sendConfirmationEmail(User user);
-        
-        void sendInvite(InviteRequestVO inviteVO, List<String> emails);
+    void sendConfirmationEmail(User user);
+
+    void sendInvite(InviteRequestVO inviteVO, List<String> emails);
+
+    void sendRecovery(User user, String url);
+
+    void sendRememberInvite(User user, String url);
 
 }

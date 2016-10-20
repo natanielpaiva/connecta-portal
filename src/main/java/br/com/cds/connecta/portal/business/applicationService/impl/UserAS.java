@@ -20,6 +20,7 @@ import br.com.cds.connecta.framework.core.exception.BusinessException;
 import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
 import br.com.cds.connecta.framework.core.util.Util;
 import br.com.cds.connecta.portal.business.applicationService.IDomainAS;
+import br.com.cds.connecta.portal.business.applicationService.IMailAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.Role;
 import br.com.cds.connecta.portal.entity.User;
@@ -42,12 +43,18 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 public class UserAS implements IUserAS {
 
     private final static String DEFAULT_USER_IMAGE = "./user-default.jpg";
+    private final static String URL = "http://localhost:9001/#/";
+    private final static String SECTION_FORGOT_FORM = "forgot-password";
+    private final static String SECTION_FORM_INVITED = "create-account";
 
     @Autowired
     private UserRepository userRepository;
-    
+
     @Autowired
     private IDomainAS domainAS;
+
+    @Autowired
+    private IMailAS mailAS;
 
     @Autowired
     private RoleDAO roleRepository;
@@ -90,7 +97,7 @@ public class UserAS implements IUserAS {
 
         return user;
     }
-    
+
     @Override
     public User getByHash(String hash) {
         User user = userRepository.findByHash(hash);
@@ -101,9 +108,9 @@ public class UserAS implements IUserAS {
 
         return user;
     }
-    
+
     @Override
-    public List<User> getAll(){
+    public List<User> getAll() {
         return userRepository.findAll();
     }
 
@@ -181,29 +188,29 @@ public class UserAS implements IUserAS {
     @Override
     public User saveInvited(User user) {
         User convite = getByEmail(user.getEmail());
-                
+
         convite.setName(user.getName());
         convite.setPassword(user.getPassword());
         convite.setHash(null);
-        
+
         return save(convite);
     }
 
     @Override
     public User saveInvite(InviteRequestVO inviteRequestVO, UUID hash) {
         User user = userRepository.findByEmail(inviteRequestVO.getReceiver());
-        
+
         if (isNull(user)) {
             user = new User();
             user.setDomains(Arrays.asList(inviteRequestVO.getDomain()));
             user.setHash(hash.toString());
             user.setEmail(inviteRequestVO.getReceiver());
-            inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "?hash=" + hash.toString());
-        }else if(isNotNull(user.getHash())){
+            inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "?hash=" + hash.toString() + "&flow=" + SECTION_FORM_INVITED);
+        } else if (isNotNull(user.getHash())) {
             user.setHash(hash.toString());
-            inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "?hash=" + hash.toString());
+            inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "?hash=" + hash.toString() + "&flow=" + SECTION_FORM_INVITED);
         }
-        
+
         if (!user.getDomains().contains(inviteRequestVO.getDomain())) {
             user.getDomains().add(inviteRequestVO.getDomain());
         }
@@ -237,12 +244,40 @@ public class UserAS implements IUserAS {
         userLogged.setPassword(passwordEncoder.encode(newPass));
         return userRepository.save(userLogged);
     }
-    
+
     @Override
     public User removeDomain(Long idUser, Long idDomain) {
         User user = get(idUser);
         user.getDomains().remove(domainAS.get(idDomain));
-        
+
+        return userRepository.save(user);
+    }
+
+    @Override
+    public void recoveryPassword(String email) {
+        User user = getByEmail(email);
+
+        user.setPassword(email);
+
+    }
+
+    @Override
+    public void sendRecoveryPassword(String email) {
+        User user = getByEmail(email);
+        if (isNotNull(user.getHash())) {
+            String url = URL + "?hash=" + user.getHash() + "&flow=" + SECTION_FORM_INVITED;
+            mailAS.sendRememberInvite(user, url);
+        } else {
+            mailAS.sendRecovery(user, URL + "?hash=" + user.getId() + "&flow=" + SECTION_FORGOT_FORM);
+
+        }
+    }
+
+    @Override
+    public User resetPassword(Long id, String newPass) {
+        User user = get(id);
+
+        user.setPassword(passwordEncoder.encode(newPass));
         return userRepository.save(user);
     }
 

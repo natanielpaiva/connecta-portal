@@ -34,6 +34,9 @@ public class Domain implements Serializable {
     @NotEmpty
     @Column(name = "NM_DOMAIN")
     private String name;
+    
+    @Column(name = "DS_THEME")
+    private String theme;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "domains",
@@ -88,6 +91,14 @@ public class Domain implements Serializable {
 
     public void setUsers(List<User> user) {
         this.users = user;
+    }
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
     }
 
     @PreRemove

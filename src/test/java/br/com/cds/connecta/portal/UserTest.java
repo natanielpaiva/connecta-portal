@@ -119,7 +119,7 @@ public class UserTest extends BaseTest {
         user.setPassword("senha123");
         User userSaved = userService.saveInvited(user);
 
-        assertThat(userSaved.getHash(), nullValue());
+        assertThat(userSaved.getHashInvited(), nullValue());
         assertThat(userSaved.getEmail(), equalTo("abc@cds.com.br"));
 
     }
@@ -132,7 +132,7 @@ public class UserTest extends BaseTest {
         inviteRequestVO.setReceiver("xyz@cds.com");
         User user = userService.saveInvite(inviteRequestVO, UUID.randomUUID());
 
-        assertThat(user.getHash(), not(nullValue()));
+        assertThat(user.getHashInvited(), not(nullValue()));
         assertThat(user.getEmail(), equalTo("xyz@cds.com"));
         assertTrue(user.getDomains().contains(domain));
 
@@ -144,17 +144,17 @@ public class UserTest extends BaseTest {
 
         InviteRequestVO inviteRequestVO = new InviteRequestVO();
         inviteRequestVO.setDomain(domainService.get(100L));
-        inviteRequestVO.setReceiver("xyz@cds.com");
+        inviteRequestVO.setReceiver("cba@cds.com");
         UUID hashUm = UUID.randomUUID();
         User user = userService.saveInvite(inviteRequestVO, hashUm);
 
         inviteRequestVO = new InviteRequestVO();
         inviteRequestVO.setDomain(domainService.get(101L));
-        inviteRequestVO.setReceiver("xyz@cds.com");
+        inviteRequestVO.setReceiver("cba@cds.com");
         UUID hashDois = UUID.randomUUID();
         user = userService.saveInvite(inviteRequestVO, hashDois);
 
-        assertThat(user.getHash(), equalTo(hashDois.toString()));
+        assertThat(user.getHashInvited(), equalTo(hashDois.toString()));
 
     }
 
@@ -167,7 +167,7 @@ public class UserTest extends BaseTest {
         inviteRequestVO.setReceiver("ednaldopereira");
         User user = userService.saveInvite(inviteRequestVO, UUID.randomUUID());
 
-        assertThat(user.getHash(), nullValue());
+        assertThat(user.getHashInvited(), nullValue());
         assertTrue(user.getDomains().contains(domain));
     }
 

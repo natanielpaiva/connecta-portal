@@ -22,6 +22,7 @@ import br.com.cds.connecta.framework.core.util.Util;
 import br.com.cds.connecta.portal.business.applicationService.IDomainAS;
 import br.com.cds.connecta.portal.business.applicationService.IMailAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
+import br.com.cds.connecta.portal.entity.Domain;
 import br.com.cds.connecta.portal.entity.Role;
 import br.com.cds.connecta.portal.entity.User;
 import br.com.cds.connecta.portal.persistence.RoleDAO;
@@ -99,8 +100,19 @@ public class UserAS implements IUserAS {
     }
 
     @Override
-    public User getByHash(String hash) {
-        User user = userRepository.findByHash(hash);
+    public User getByHashInvited(String hash) {
+        User user = userRepository.findByHashInvited(hash);
+
+        if (isNull(user)) {
+            throw new ResourceNotFoundException(User.class.getCanonicalName());
+        }
+
+        return user;
+    }
+
+    @Override
+    public User getByHashPassword(String hash) {
+        User user = userRepository.findByHashPassword(hash);
 
         if (isNull(user)) {
             throw new ResourceNotFoundException(User.class.getCanonicalName());
@@ -191,7 +203,7 @@ public class UserAS implements IUserAS {
 
         convite.setName(user.getName());
         convite.setPassword(user.getPassword());
-        convite.setHash(null);
+        convite.setHashInvited(null);
 
         return save(convite);
     }
@@ -200,20 +212,24 @@ public class UserAS implements IUserAS {
     public User saveInvite(InviteRequestVO inviteRequestVO, UUID hash) {
         User user = userRepository.findByEmail(inviteRequestVO.getReceiver());
 
+        if (isNotNull(user) && user.getDomains().contains(inviteRequestVO.getDomain())) {
+            throw new AlreadyExistsException(User.class.getSimpleName(), Domain.class.getSimpleName());
+        }
+        
         if (isNull(user)) {
+            //Usuario inexistente
             user = new User();
-            user.setDomains(Arrays.asList(inviteRequestVO.getDomain()));
-            user.setHash(hash.toString());
+            user.setDomains(new ArrayList<Domain>());
+            user.setHashInvited(hash.toString());
             user.setEmail(inviteRequestVO.getReceiver());
             inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "?hash=" + hash.toString() + "&flow=" + SECTION_FORM_INVITED);
-        } else if (isNotNull(user.getHash())) {
-            user.setHash(hash.toString());
+        } else if (isNotNull(user.getHashInvited())) {
+            //Usuario não confirmado.
+            user.setHashInvited(hash.toString());
             inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "?hash=" + hash.toString() + "&flow=" + SECTION_FORM_INVITED);
         }
 
-        if (!user.getDomains().contains(inviteRequestVO.getDomain())) {
-            user.getDomains().add(inviteRequestVO.getDomain());
-        }
+        user.getDomains().add(inviteRequestVO.getDomain());
 
         return userRepository.save(user);
     }
@@ -264,20 +280,23 @@ public class UserAS implements IUserAS {
     @Override
     public void sendRecoveryPassword(String email) {
         User user = getByEmail(email);
-        if (isNotNull(user.getHash())) {
-            String url = URL + "?hash=" + user.getHash() + "&flow=" + SECTION_FORM_INVITED;
+        if (isNotNull(user.getHashInvited())) {
+            String url = URL + "?hash=" + user.getHashInvited() + "&flow=" + SECTION_FORM_INVITED;
             mailAS.sendRememberInvite(user, url);
         } else {
-            mailAS.sendRecovery(user, URL + "?hash=" + user.getId() + "&flow=" + SECTION_FORGOT_FORM);
-
+            user.setHashPassword(UUID.randomUUID().toString());
+            mailAS.sendRecovery(user, URL + "?hash=" + user.getHashPassword() + "&flow=" + SECTION_FORGOT_FORM);
+            userRepository.save(user);
         }
     }
 
     @Override
-    public User resetPassword(Long id, String newPass) {
-        User user = get(id);
+    public User resetPassword(String hash, String newPass) {
+        User user = getByHashPassword(hash);
 
         user.setPassword(passwordEncoder.encode(newPass));
+        user.setHashPassword(null);
+
         return userRepository.save(user);
     }
 

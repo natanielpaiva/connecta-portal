@@ -24,7 +24,9 @@ public interface IUserAS {
 
     List<User> getByName(String name);
 
-    User getByHash(String hash);
+    User getByHashInvited(String hash);
+    
+    User getByHashPassword(String hash);
 
     List<User> getAll();
 
@@ -56,6 +58,6 @@ public interface IUserAS {
 
     void sendRecoveryPassword(String email);
 
-    User resetPassword(Long id, String newPass);
+    User resetPassword(String hash, String newPasss);
 
 }

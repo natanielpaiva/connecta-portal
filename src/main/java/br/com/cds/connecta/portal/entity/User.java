@@ -49,8 +49,11 @@ public class User implements Serializable {
     @Column(name = "DS_PASSWORD")
     private String password;
     
-    @Column(name = "DS_HASH")
-    private String hash;
+    @Column(name = "DS_HASH_INVITED")
+    private String hashInvited;
+    
+    @Column(name = "DS_HASH_PASSWORD")
+    private String hashPassword;
 //
 //    @Column(name = "URL_IMAGE")
 //    private String imageUrl;
@@ -133,14 +136,22 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getHash() {
-        return hash;
+    public String getHashInvited() {
+        return hashInvited;
     }
 
-    public void setHash(String hash) {
-        this.hash = hash;
+    public void setHashInvited(String hashInvited) {
+        this.hashInvited = hashInvited;
     }
-    
+
+    public String getHashPassword() {
+        return hashPassword;
+    }
+
+    public void setHashPassword(String hashPassword) {
+        this.hashPassword = hashPassword;
+    }
+
     public byte[] getImage() {
         return image;
     }

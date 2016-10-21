@@ -90,8 +90,8 @@ public class UserController {
     }
 
     @RequestMapping(value = "hash", method = RequestMethod.GET)
-    public ResponseEntity getByHash(@RequestParam String hash) {
-        User user = userService.getByHash(hash);
+    public ResponseEntity getByHashInvited(@RequestParam String hash) {
+        User user = userService.getByHashInvited(hash);
 
         return new ResponseEntity(user, HttpStatus.OK);
     }
@@ -143,10 +143,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "reset", method = RequestMethod.POST)
-    public ResponseEntity update(@RequestParam("id") Long id,
+    public ResponseEntity update(@RequestParam("hash") String hash,
             @RequestParam("newPass") String newPass) {
 
-        User userUpdated = userService.resetPassword(id, newPass);
+        User userUpdated = userService.resetPassword(hash, newPass);
         return new ResponseEntity(userUpdated, HttpStatus.OK);
     }
 

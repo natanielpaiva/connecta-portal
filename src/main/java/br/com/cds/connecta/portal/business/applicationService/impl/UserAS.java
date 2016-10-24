@@ -20,8 +20,10 @@ import br.com.cds.connecta.framework.core.exception.BusinessException;
 import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
 import br.com.cds.connecta.framework.core.util.Util;
 import br.com.cds.connecta.portal.business.applicationService.IDomainAS;
+import br.com.cds.connecta.portal.business.applicationService.ILdapAS;
 import br.com.cds.connecta.portal.business.applicationService.IMailAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
+import br.com.cds.connecta.portal.domain.UserProviderEnum;
 import br.com.cds.connecta.portal.entity.Domain;
 import br.com.cds.connecta.portal.entity.Role;
 import br.com.cds.connecta.portal.entity.User;
@@ -29,6 +31,7 @@ import br.com.cds.connecta.portal.persistence.RoleDAO;
 import br.com.cds.connecta.portal.persistence.UserRepository;
 import br.com.cds.connecta.portal.persistence.specification.RoleSpecification;
 import br.com.cds.connecta.portal.security.UserRepositoryUserDetails;
+import br.com.cds.connecta.portal.security.ldap.LdapUser;
 import br.com.cds.connecta.portal.vo.InviteRequestVO;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -62,6 +65,9 @@ public class UserAS implements IUserAS {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private ILdapAS ldapAS;
 
     @Override
     public User get(Long id) {
@@ -182,6 +188,7 @@ public class UserAS implements IUserAS {
 
         user.setImage(null);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setProvider(UserProviderEnum.LOCAL);
 
         return userRepository.save(user);
     }
@@ -211,7 +218,21 @@ public class UserAS implements IUserAS {
     @Override
     public User saveInvite(InviteRequestVO inviteRequestVO, UUID hash) {
         User user = userRepository.findByEmail(inviteRequestVO.getReceiver());
+        
+        //caso não encontre o usuario pelo e-mail, tenta buscar pelo ldap
+        if(isNull(user)){
+        	LdapUser ldapUser = ldapAS.getByEmail(inviteRequestVO.getReceiver());
+        	//usuario encontrado no ldap, busca o usuário pelo login do ldap
+        	if(isNotNull(ldapUser)){
+        		user = userRepository.findByEmail(ldapUser.getUsername());
+        	}
+        //Busca o e-mail do usuário pois foi convidado utilizando seu login do Ldap
+        }else if(UserProviderEnum.LDAP.equals(user.getProvider())){
+        	String email = ldapAS.getEmailByLogin(user.getEmail());
+        	inviteRequestVO.setReceiver(email);
+        }
 
+        //caso exista o usuário, verifica se ele ja possui o domínio que está sendo convidado
         if (isNotNull(user) && user.getDomains().contains(inviteRequestVO.getDomain())) {
             throw new AlreadyExistsException(User.class.getSimpleName(), Domain.class.getSimpleName());
         }

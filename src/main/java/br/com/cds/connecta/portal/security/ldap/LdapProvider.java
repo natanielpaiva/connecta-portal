@@ -15,6 +15,9 @@ import javax.naming.directory.SearchResult;
 import javax.naming.ldap.InitialLdapContext;
 import javax.naming.ldap.LdapContext;
 
+import br.com.cds.connecta.framework.core.domain.MessageEnum;
+import br.com.cds.connecta.framework.core.exception.BusinessException;
+
 public class LdapProvider {	
 	
 	private String servername = null;
@@ -28,10 +31,8 @@ public class LdapProvider {
 	private Attributes ldapAttributes;
 	
 	public LdapProvider(){
-		
 		attributes2Return = new ArrayList<String>();
 		attributes2Return.add("distinguishedName");
-					
 	}
 
 	public String getServername() {
@@ -172,20 +173,109 @@ public class LdapProvider {
 			try {
 				ctx.close();
 			} catch (NamingException e) {
-				e.printStackTrace();
+				throw new BusinessException(MessageEnum.SYSTEM_ERROR);
 			}
 		}
 
         return ldapUser;        
 	}
 	
-	private String getLdapAttributeValue(String attributeName){
+	public LdapUser returnUserByEmail(LdapFilter filter) throws LdapProviderException{
+		LdapUser ldapUser = null;
+		String searchFilter = filter.getStringFilter();
+		LdapContext ctx;
+		
 		try {
-			return (String) ldapAttributes.get(attributeName).get();
-		} catch (NamingException e) {
-			e.printStackTrace();
+			ctx = getLDAPContext();
+		} catch (NamingException ex) {
+			throw new LdapProviderException(ex.getMessage(), ex.getCause());
 		}
-		return null;
+		
+		SearchControls searchControls = new SearchControls();
+        searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+        
+        //Specify the attributes to return
+        searchControls.setReturningAttributes(attributes2Return.toArray(new String[attributes2Return.size()]));
+        NamingEnumeration<SearchResult> results;
+		
+        try {
+        	results = ctx.search(getServerbase(), searchFilter, searchControls);        	
+        	
+			if(results.hasMoreElements()) {
+				ldapUser = new LdapUser();
+				
+				SearchResult result = (SearchResult) results.next();
+	        	ldapAttributes = result.getAttributes();
+	        	
+				//atribuindo atributos ao usuario LDAP
+				ldapUser.setUsername(getLdapAttributeValue("sAMAccountName"));
+				ldapUser.setName(getLdapAttributeValue("CN"));
+			}
+			
+        } catch (NamingException e) {			
+			throw new LdapProviderException(e.getMessage(), e.getCause());
+		}finally{
+			try {
+				ctx.close();
+			} catch (NamingException e) {
+				throw new BusinessException(MessageEnum.SYSTEM_ERROR);
+			}
+		}
+        
+        return ldapUser;
 	}
-
+	
+	public String returnEmailByLogin(LdapFilter filter) throws LdapProviderException{
+		String email = null;
+		String searchFilter = filter.getStringFilter();
+		LdapContext ctx;
+		
+		try {
+			ctx = getLDAPContext();
+		} catch (NamingException ex) {
+			throw new LdapProviderException(ex.getMessage(), ex.getCause());
+		}
+		
+		SearchControls searchControls = new SearchControls();
+        searchControls.setSearchScope(SearchControls.SUBTREE_SCOPE);
+        
+        //Specify the attributes to return
+        searchControls.setReturningAttributes(attributes2Return.toArray(new String[attributes2Return.size()]));
+        NamingEnumeration<SearchResult> results;
+		
+        try {
+        	results = ctx.search(getServerbase(), searchFilter, searchControls);        	
+        	
+			if(results.hasMoreElements()) {
+				SearchResult result = (SearchResult) results.next();
+	        	ldapAttributes = result.getAttributes();
+	        	
+				//atribuindo atributos ao usuario LDAP
+	        	email = getLdapAttributeValue("mail");
+			}
+        } catch (NamingException e) {			
+			throw new LdapProviderException(e.getMessage(), e.getCause());
+		}finally{
+			try {
+				ctx.close();
+			} catch (NamingException e) {
+				throw new BusinessException(MessageEnum.SYSTEM_ERROR);
+			}
+		}
+        
+        return email;
+	}
+	
+	private String getLdapAttributeValue(String attributeName){
+		String attribute = null;
+		
+		try {
+			attribute =(String) ldapAttributes.get(attributeName).get();
+		} catch (NamingException e) {
+			throw new BusinessException(MessageEnum.SYSTEM_ERROR);
+		}
+		
+		return attribute;
+	}
+	
 }

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
 import br.com.cds.connecta.portal.business.applicationService.ILdapAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
+import br.com.cds.connecta.portal.domain.UserProviderEnum;
 import br.com.cds.connecta.portal.entity.Role;
 import br.com.cds.connecta.portal.entity.User;
 import br.com.cds.connecta.portal.persistence.RoleDAO;
@@ -44,6 +45,7 @@ public class LdapCustomProvider implements AuthenticationProvider {
 		user.setName(name);
 		user.setEmail(username);
 		user.setPassword(encoder.encode("044063c23354128b336df86f11872e68")); //md5 for ldap
+		user.setProvider(UserProviderEnum.LDAP);
 
 //		Role roleadm = roleRepository.findOne(RoleSpecification.byName("ROLE_ADMIN"));
 		Role roleUsr = roleRepository.findOne(RoleSpecification.byName("ROLE_USER"));

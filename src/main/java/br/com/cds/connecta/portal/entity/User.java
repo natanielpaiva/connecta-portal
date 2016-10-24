@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,6 +19,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import br.com.cds.connecta.portal.domain.UserProviderEnum;
 
 /**
  *
@@ -37,9 +41,6 @@ public class User implements Serializable {
     @Column(name = "PK_USER")
     private Long id;
 
-//    @Column(name = "DS_LOGIN", unique = true)
-//    private String login;
-
     @Column(name = "DS_EMAIL", unique = true)
     private String email;
 
@@ -54,21 +55,12 @@ public class User implements Serializable {
     
     @Column(name = "DS_HASH_PASSWORD")
     private String hashPassword;
-//
-//    @Column(name = "URL_IMAGE")
-//    private String imageUrl;
 
     @JsonIgnore
     @Lob
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "BN_IMAGE")
     private byte[] image;
-
-    @Column(name = "NB_FACEBOOK_ID")
-    private Long facebookId;
-
-    @Column(name = "DS_GOOGLE_TOKEN")
-    private String googleToken;
 
     @Column(name = "DS_LANGUAGE")
     private String language;
@@ -88,7 +80,10 @@ public class User implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "FK_DOMAIN")})
     private List<Domain> domains;
-
+    
+    @Column(name = "USR_PROVIDER")
+    @Enumerated(EnumType.STRING)
+    private UserProviderEnum provider;
 
     public User() {
     }
@@ -160,22 +155,6 @@ public class User implements Serializable {
         this.image = image;
     }
 
-    public Long getFacebookId() {
-        return facebookId;
-    }
-
-    public void setFacebookId(Long facebookId) {
-        this.facebookId = facebookId;
-    }
-
-    public String getGoogleToken() {
-        return googleToken;
-    }
-
-    public void setGoogleToken(String googleToken) {
-        this.googleToken = googleToken;
-    }
-
     public List<Role> getRoles() {
         return roles;
     }
@@ -192,14 +171,6 @@ public class User implements Serializable {
         this.domains = domains;
     }
 
-//    public String getLogin() {
-//        return login;
-//    }
-//
-//    public void setLogin(String login) {
-//        this.login = login;
-//    }
-
     public String getLanguage() {
         return language;
     }
@@ -215,5 +186,13 @@ public class User implements Serializable {
     public void setEmail(String email) {
         this.email = email;
     }
+
+	public UserProviderEnum getProvider() {
+		return provider;
+	}
+
+	public void setProvider(UserProviderEnum provider) {
+		this.provider = provider;
+	}
 
 }

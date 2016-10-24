@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
+import br.com.cds.connecta.framework.core.util.Util;
 import br.com.cds.connecta.portal.business.applicationService.ILdapAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.domain.UserProviderEnum;
@@ -89,6 +90,9 @@ public class LdapCustomProvider implements AuthenticationProvider {
 
 		try{
 			user = userService.getByEmail(login);
+			if(Util.isNotNull(user.getHashInvited())){
+				user = updateUser(user, ldapUser);
+			}
 		}catch(ResourceNotFoundException e){
 			user = createUser(login, ldapUser.getName());
 		}
@@ -96,6 +100,19 @@ public class LdapCustomProvider implements AuthenticationProvider {
 		Authentication auth = createAutentication(user);
 
 		return auth;
+	}
+
+	private User updateUser(User user, LdapUser ldapUser) {
+		user.setName(ldapUser.getName());
+		user.setPassword(encoder.encode("044063c23354128b336df86f11872e68")); //md5 for ldap
+		user.setProvider(UserProviderEnum.LDAP);
+		Role roleUsr = roleRepository.findOne(RoleSpecification.byName("ROLE_USER"));
+
+		List<Role> roles = new ArrayList<Role>();
+		roles.add(roleUsr);
+		user.setRoles(roles);
+		
+		return userService.update(user);
 	}
 
 	@Override

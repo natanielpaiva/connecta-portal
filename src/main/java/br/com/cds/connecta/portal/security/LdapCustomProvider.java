@@ -112,6 +112,9 @@ public class LdapCustomProvider implements AuthenticationProvider {
 		roles.add(roleUsr);
 		user.setRoles(roles);
 		
+		//retira o hashInvited
+		user.setHashInvited(null);
+		
 		return userService.update(user);
 	}
 

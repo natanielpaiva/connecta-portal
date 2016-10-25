@@ -15,7 +15,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     
     User findByHashPassword(String hashPassword);
     
-    User findByHashInvited(String hashPassword);
+    User findByHashInvited(String hashInvited);
     
     List<User> findByName(String name);
     

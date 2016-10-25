@@ -125,7 +125,7 @@ public class UserTest extends BaseTest {
     }
 
     @Test
-    public void saveInvite() {
+    public void saveInviteUserLocal() {
         InviteRequestVO inviteRequestVO = new InviteRequestVO();
         Domain domain = domainService.get(100L);
         inviteRequestVO.setDomain(domain);
@@ -134,6 +134,19 @@ public class UserTest extends BaseTest {
 
         assertThat(user.getHashInvited(), not(nullValue()));
         assertThat(user.getEmail(), equalTo("xyz@cds.com"));
+        assertTrue(user.getDomains().contains(domain));
+
+    }
+    
+    @Test
+    public void saveInviteUserLDAP() {
+        InviteRequestVO inviteRequestVO = new InviteRequestVO();
+        Domain domain = domainService.get(100L);
+        inviteRequestVO.setDomain(domain);
+        inviteRequestVO.setReceiver("user.ldap");
+        User user = userService.saveInvite(inviteRequestVO, UUID.randomUUID());
+
+        assertThat(user.getHashInvited(), nullValue());
         assertTrue(user.getDomains().contains(domain));
 
     }

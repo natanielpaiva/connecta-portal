@@ -32,11 +32,11 @@ import br.com.cds.connecta.portal.domain.UserProviderEnum;
 public class User implements Serializable {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PK_USER")
     private Long id;
@@ -49,10 +49,10 @@ public class User implements Serializable {
 
     @Column(name = "DS_PASSWORD")
     private String password;
-    
+
     @Column(name = "DS_HASH_INVITED")
     private String hashInvited;
-    
+
     @Column(name = "DS_HASH_PASSWORD")
     private String hashPassword;
 
@@ -64,7 +64,7 @@ public class User implements Serializable {
 
     @Column(name = "DS_LANGUAGE")
     private String language;
-    
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "TA_USER_ROLE",
             joinColumns = {
@@ -80,7 +80,7 @@ public class User implements Serializable {
             inverseJoinColumns = {
                 @JoinColumn(name = "FK_DOMAIN")})
     private List<Domain> domains;
-    
+
     @Column(name = "USR_PROVIDER")
     @Enumerated(EnumType.STRING)
     private UserProviderEnum provider;
@@ -187,12 +187,12 @@ public class User implements Serializable {
         this.email = email;
     }
 
-	public UserProviderEnum getProvider() {
-		return provider;
-	}
+    public UserProviderEnum getProvider() {
+        return provider;
+    }
 
-	public void setProvider(UserProviderEnum provider) {
-		this.provider = provider;
-	}
+    public void setProvider(UserProviderEnum provider) {
+        this.provider = provider;
+    }
 
 }

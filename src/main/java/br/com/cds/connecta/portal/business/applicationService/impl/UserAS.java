@@ -7,7 +7,6 @@ import static br.com.cds.connecta.framework.core.util.Util.isNotNull;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
 
 import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +64,7 @@ public class UserAS implements IUserAS {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
-    
+
     @Autowired
     private ILdapAS ldapAS;
 
@@ -106,8 +105,24 @@ public class UserAS implements IUserAS {
     }
 
     @Override
-    public User getByHashInvited(String hash) {
-        User user = userRepository.findByHashInvited(hash);
+    public String getEmailByLogin(String Login) {
+        User user = userRepository.findByEmail(Login);
+
+        if (isNull(user)) {
+            throw new ResourceNotFoundException(User.class.getSimpleName());
+        }
+
+        if (UserProviderEnum.LDAP.equals(user.getProvider())) {
+            return ldapAS.getEmailByLogin(user.getEmail());
+        }
+
+        return user.getEmail();
+
+    }
+
+    @Override
+    public User getByHashInvited(String hashInvited) {
+        User user = userRepository.findByHashInvited(hashInvited);
 
         if (isNull(user)) {
             throw new ResourceNotFoundException(User.class.getCanonicalName());
@@ -117,8 +132,8 @@ public class UserAS implements IUserAS {
     }
 
     @Override
-    public User getByHashPassword(String hash) {
-        User user = userRepository.findByHashPassword(hash);
+    public User getByHashPassword(String hashPassword) {
+        User user = userRepository.findByHashPassword(hashPassword);
 
         if (isNull(user)) {
             throw new ResourceNotFoundException(User.class.getCanonicalName());
@@ -181,14 +196,11 @@ public class UserAS implements IUserAS {
     @Override
     public User save(User user) {
 
-//        Role roleUsr = roleRepository.findOne(RoleSpecification.byName("ROLE_USER"));
-//        user.setRoles(Arrays.asList(roleUsr));
         user.setRoles(new ArrayList<Role>());
         user.getRoles().add(roleRepository.findOne(RoleSpecification.byName("ROLE_USER")));
 
         user.setImage(null);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        user.setProvider(UserProviderEnum.LOCAL);
 
         return userRepository.save(user);
     }
@@ -201,6 +213,8 @@ public class UserAS implements IUserAS {
             throw new AlreadyExistsException("Usuário", "E-mail");
         }
 
+        user.setProvider(UserProviderEnum.LOCAL);
+
         return save(user);
     }
 
@@ -211,6 +225,7 @@ public class UserAS implements IUserAS {
         convite.setName(user.getName());
         convite.setPassword(user.getPassword());
         convite.setHashInvited(null);
+        convite.setProvider(UserProviderEnum.LOCAL);
 
         return save(convite);
     }
@@ -218,38 +233,40 @@ public class UserAS implements IUserAS {
     @Override
     public User saveInvite(InviteRequestVO inviteRequestVO, UUID hash) {
         User user = userRepository.findByEmail(inviteRequestVO.getReceiver());
-        
+
         //caso não encontre o usuario pelo e-mail, tenta buscar pelo ldap
-        if(isNull(user)){
-        	LdapUser ldapUser = ldapAS.getByEmail(inviteRequestVO.getReceiver());
-        	//usuario encontrado no ldap, busca o usuário pelo login do ldap
-        	if(isNotNull(ldapUser)){
-        		user = userRepository.findByEmail(ldapUser.getUsername());
-        	}
-        //Busca o e-mail do usuário pois foi convidado utilizando seu login do Ldap
-        }else if(UserProviderEnum.LDAP.equals(user.getProvider())){
-        	String email = ldapAS.getEmailByLogin(user.getEmail());
-        	inviteRequestVO.setReceiver(email);
+        if (isNull(user)) {
+            LdapUser ldapUser = ldapAS.getByEmail(inviteRequestVO.getReceiver());
+            //usuario encontrado no ldap, busca o usuário pelo login do ldap
+            if (isNotNull(ldapUser)) {
+                user = userRepository.findByEmail(ldapUser.getUsername());
+            }
+            //Busca o e-mail do usuário pois foi convidado utilizando seu login do Ldap
+        } else if (UserProviderEnum.LDAP.equals(user.getProvider())) {
+            String email = ldapAS.getEmailByLogin(user.getEmail());
+            inviteRequestVO.setReceiver(email);
         }
 
         //caso exista o usuário, verifica se ele ja possui o domínio que está sendo convidado
         if (isNotNull(user) && user.getDomains().contains(inviteRequestVO.getDomain())) {
             throw new AlreadyExistsException(User.class.getSimpleName(), Domain.class.getSimpleName());
         }
-        
+
+        //Usuario inexistente
         if (isNull(user)) {
-            //Usuario inexistente
             user = new User();
             user.setDomains(new ArrayList<Domain>());
             user.setHashInvited(hash.toString());
             user.setEmail(inviteRequestVO.getReceiver());
             inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "?hash=" + hash.toString() + "&flow=" + SECTION_FORM_INVITED);
-        } else if (isNotNull(user.getHashInvited())) {
             //Usuario não confirmado.
+        } else if (isNotNull(user.getHashInvited())) {
             user.setHashInvited(hash.toString());
             inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "?hash=" + hash.toString() + "&flow=" + SECTION_FORM_INVITED);
         }
 
+        //Usuario já confirmado somente adiciona o dominio.
+        
         user.getDomains().add(inviteRequestVO.getDomain());
 
         return userRepository.save(user);
@@ -299,14 +316,19 @@ public class UserAS implements IUserAS {
     }
 
     @Override
-    public void sendRecoveryPassword(String email) {
-        User user = getByEmail(email);
+    public void sendRecoveryPassword(String login) {
+        User user = getByEmail(login);
+        String email = getEmailByLogin(login);
+
         if (isNotNull(user.getHashInvited())) {
-            String url = URL + "?hash=" + user.getHashInvited() + "&flow=" + SECTION_FORM_INVITED;
-            mailAS.sendRememberInvite(user, url);
+            mailAS.sendRememberInvite(user, URL + "?hash=" + user.getHashInvited()
+                    + "&flow=" + SECTION_FORM_INVITED, email);
+
         } else {
             user.setHashPassword(UUID.randomUUID().toString());
-            mailAS.sendRecovery(user, URL + "?hash=" + user.getHashPassword() + "&flow=" + SECTION_FORGOT_FORM);
+            mailAS.sendRecovery(user, URL + "?hash=" + user.getHashPassword()
+                    + "&flow=" + SECTION_FORGOT_FORM, email);
+
             userRepository.save(user);
         }
     }

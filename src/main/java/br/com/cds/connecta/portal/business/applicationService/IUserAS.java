@@ -31,6 +31,8 @@ public interface IUserAS {
     List<User> getAll();
 
     InputStream getUserImage(Long id) throws IOException;
+    
+    String getEmailByLogin(String Login);
 
     boolean isAvailableEmail(String email);
 

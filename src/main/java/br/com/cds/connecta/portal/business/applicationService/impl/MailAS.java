@@ -77,35 +77,34 @@ public class MailAS implements IMailAS {
             MimeMessagePreparator preparator = createMessage(model, inviteVO.getReceiver(), inviteVO.getSender()
                     + " lhe convidou!", "/mail/inviteTemplate.vm");
 
-            this.mailSender.send(preparator);
+            mailSender.send(preparator);
         }
 
     }
 
     @Override
-    public void sendRecovery(User user, String url) {
+    public void sendRecovery(User user, String url, String email) {
 
         Map<String, Object> model = new HashMap<>();
         model.put("user", user);
         model.put("url", url);
 
-        MimeMessagePreparator preparator = createMessage(model, user.getEmail(),
+        MimeMessagePreparator preparator = createMessage(model, email,
                 "Recovery password", "/mail/recoveryPassword.vm");
 
-        this.mailSender.send(preparator);
+        mailSender.send(preparator);
     }
 
     @Override
-    public void sendRememberInvite(User user, String url) {
+    public void sendRememberInvite(User user, String url, String email) {
         Map<String, Object> model = new HashMap<>();
         model.put("user", user);
         model.put("url", url);
 
-        MimeMessagePreparator preparator = createMessage(model, user.getEmail(), "Remember invite",
+        MimeMessagePreparator preparator = createMessage(model, email, "Remember invite",
                 "/mail/rememberInvite.vm");
-        //TODO tratar erros && criar entidade para o Email caso o servidor 
-        // smtp esteja fora, para posterior envio
-        this.mailSender.send(preparator);
+        
+        mailSender.send(preparator);
     }
 
 }

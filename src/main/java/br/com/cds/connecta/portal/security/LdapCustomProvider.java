@@ -28,100 +28,91 @@ import br.com.cds.connecta.portal.security.ldap.LdapUser;
 @Component("LdapCustomProvider")
 public class LdapCustomProvider implements AuthenticationProvider {
 
-	@Autowired
-	private ILdapAS ldapService;
+    @Autowired
+    private ILdapAS ldapService;
 
-	@Autowired
-	private IUserAS userService;
-	
-	@Autowired
-	private PasswordEncoder encoder;
-	
+    @Autowired
+    private IUserAS userService;
+
+    @Autowired
+    private PasswordEncoder encoder;
+
     @Autowired
     private RoleDAO roleRepository;
 
-	private User createUser(String username,String name){
+    private User createUser(String username, String name) {
 
-		User user = new User();
-		user.setName(name);
-		user.setEmail(username);
-		user.setPassword(encoder.encode("044063c23354128b336df86f11872e68")); //md5 for ldap
-		user.setProvider(UserProviderEnum.LDAP);
+        User user = new User();
+        user.setName(name);
+        user.setEmail(username);
+        user.setPassword(encoder.encode("044063c23354128b336df86f11872e68")); //md5 for ldap
+        user.setProvider(UserProviderEnum.LDAP);
 
-//		Role roleadm = roleRepository.findOne(RoleSpecification.byName("ROLE_ADMIN"));
-		Role roleUsr = roleRepository.findOne(RoleSpecification.byName("ROLE_USER"));
+        return userService.save(user);
+    }
 
-		List<Role> roles = new ArrayList<Role>();
-//		roles.add(roleadm);
-		roles.add(roleUsr);
-		user.setRoles(roles);
-		
-		return userService.save(user);
-	}
+    private Authentication createAutentication(User user) {
 
-	private Authentication createAutentication(User user){
-		
-		UserRepositoryUserDetails userDetails = new UserRepositoryUserDetails(user);
+        UserRepositoryUserDetails userDetails = new UserRepositoryUserDetails(user);
 
-		List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
+        List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
 
-		for (Role role: user.getRoles()){
-			grantedAuths.add(new SimpleGrantedAuthority(role.getName()));
-		}
+        for (Role role : user.getRoles()) {
+            grantedAuths.add(new SimpleGrantedAuthority(role.getName()));
+        }
 
-		Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getUser(), grantedAuths);
+        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getUser(), grantedAuths);
 
-		return auth;
-	}
+        return auth;
+    }
 
-	@Override
-	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-		String login = authentication.getName();
-		String password = authentication.getCredentials().toString();
+        String login = authentication.getName();
+        String password = authentication.getCredentials().toString();
 
-		LdapUser ldapUser = ldapService.verifyLogin(login, password);
+        LdapUser ldapUser = ldapService.verifyLogin(login, password);
 
-		if (ldapUser == null || ldapUser.getUsername() == null){
-			throw new AuthenticationServiceException("Login ou Senha inválidos");
-		}
+        if (ldapUser == null || ldapUser.getUsername() == null) {
+            throw new AuthenticationServiceException("Login ou Senha inválidos");
+        }
 
-		User user = null;
+        User user = null;
 
-		try{
-			user = userService.getByEmail(login);
-			if(Util.isNotNull(user.getHashInvited())){
-				user = updateUser(user, ldapUser);
-			}
-		}catch(ResourceNotFoundException e){
-			user = createUser(login, ldapUser.getName());
-		}
+        try {
+            user = userService.getByEmail(login);
+            if (Util.isNotNull(user.getHashInvited())) {
+                user = updateUser(user, ldapUser);
+            }
+        } catch (ResourceNotFoundException e) {
+            user = createUser(login, ldapUser.getName());
+        }
 
-		Authentication auth = createAutentication(user);
+        Authentication auth = createAutentication(user);
 
-		return auth;
-	}
+        return auth;
+    }
 
-	private User updateUser(User user, LdapUser ldapUser) {
-		user.setName(ldapUser.getName());
-		user.setPassword(encoder.encode("044063c23354128b336df86f11872e68")); //md5 for ldap
-		user.setProvider(UserProviderEnum.LDAP);
-		Role roleUsr = roleRepository.findOne(RoleSpecification.byName("ROLE_USER"));
+    private User updateUser(User user, LdapUser ldapUser) {
+        user.setName(ldapUser.getName());
+        user.setPassword(encoder.encode("044063c23354128b336df86f11872e68")); //md5 for ldap
+        user.setProvider(UserProviderEnum.LDAP);
+        Role roleUsr = roleRepository.findOne(RoleSpecification.byName("ROLE_USER"));
 
-		List<Role> roles = new ArrayList<Role>();
-		roles.add(roleUsr);
-		user.setRoles(roles);
-		
-		//retira o hashInvited
-		user.setHashInvited(null);
-		
-		return userService.update(user);
-	}
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(roleUsr);
+        user.setRoles(roles);
 
-	@Override
-	public boolean supports(Class<?> authentication) {
-		return authentication.equals(UsernamePasswordAuthenticationToken.class);
-	}
+        //retira o hashInvited
+        user.setHashInvited(null);
+
+        return userService.update(user);
+    }
+
+    @Override
+    public boolean supports(Class<?> authentication) {
+        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+    }
 
 }
-

@@ -83,25 +83,25 @@ public class MailAS implements IMailAS {
     }
 
     @Override
-    public void sendRecovery(User user, String url, String email) {
+    public void sendRecovery(User user, String url) {
 
         Map<String, Object> model = new HashMap<>();
         model.put("user", user);
         model.put("url", url);
 
-        MimeMessagePreparator preparator = createMessage(model, email,
+        MimeMessagePreparator preparator = createMessage(model, user.getEmail(),
                 "Recovery password", "/mail/recoveryPassword.vm");
 
         mailSender.send(preparator);
     }
 
     @Override
-    public void sendRememberInvite(User user, String url, String email) {
+    public void sendRememberInvite(User user, String url) {
         Map<String, Object> model = new HashMap<>();
         model.put("user", user);
         model.put("url", url);
 
-        MimeMessagePreparator preparator = createMessage(model, email, "Remember invite",
+        MimeMessagePreparator preparator = createMessage(model, user.getEmail(), "Remember invite",
                 "/mail/rememberInvite.vm");
         
         mailSender.send(preparator);

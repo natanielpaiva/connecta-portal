@@ -98,26 +98,10 @@ public class UserAS implements IUserAS {
         User user = userRepository.findByEmail(username);
 
         if (isNull(user)) {
-            throw new ResourceNotFoundException(User.class.getCanonicalName());
-        }
-
-        return user;
-    }
-
-    @Override
-    public String getEmailByLogin(String Login) {
-        User user = userRepository.findByEmail(Login);
-
-        if (isNull(user)) {
             throw new ResourceNotFoundException(User.class.getSimpleName());
         }
 
-        if (UserProviderEnum.LDAP.equals(user.getProvider())) {
-            return ldapAS.getEmailByLogin(user.getEmail());
-        }
-
-        return user.getEmail();
-
+        return user;
     }
 
     @Override
@@ -308,26 +292,21 @@ public class UserAS implements IUserAS {
     }
 
     @Override
-    public void recoveryPassword(String email) {
-        User user = getByEmail(email);
-
-        user.setPassword(email);
-
-    }
-
-    @Override
     public void sendRecoveryPassword(String login) {
         User user = getByEmail(login);
-        String email = getEmailByLogin(login);
+        
+        if(isNotNull(user.getProvider()) && user.getProvider().equals(UserProviderEnum.LDAP)){
+            throw new BusinessException(MessageEnum.REJECTED);
+        }
 
         if (isNotNull(user.getHashInvited())) {
             mailAS.sendRememberInvite(user, URL + "?hash=" + user.getHashInvited()
-                    + "&flow=" + SECTION_FORM_INVITED, email);
+                    + "&flow=" + SECTION_FORM_INVITED);
 
         } else {
             user.setHashPassword(UUID.randomUUID().toString());
             mailAS.sendRecovery(user, URL + "?hash=" + user.getHashPassword()
-                    + "&flow=" + SECTION_FORGOT_FORM, email);
+                    + "&flow=" + SECTION_FORGOT_FORM);
 
             userRepository.save(user);
         }

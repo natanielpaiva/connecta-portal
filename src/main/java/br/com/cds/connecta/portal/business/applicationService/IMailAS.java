@@ -10,8 +10,8 @@ public interface IMailAS {
 
     void sendInvite(InviteRequestVO inviteVO, List<String> emails);
 
-    void sendRecovery(User user, String url, String email);
+    void sendRecovery(User user, String url);
 
-    void sendRememberInvite(User user, String url, String email);
+    void sendRememberInvite(User user, String url);
 
 }

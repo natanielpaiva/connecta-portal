@@ -32,8 +32,6 @@ public interface IUserAS {
 
     InputStream getUserImage(Long id) throws IOException;
     
-    String getEmailByLogin(String Login);
-
     boolean isAvailableEmail(String email);
 
     User save(User user);
@@ -55,8 +53,6 @@ public interface IUserAS {
     void setUserImage(Long id) throws IOException;
 
     User removeDomain(Long idUser, Long idDomain);
-
-    void recoveryPassword(String email);
 
     void sendRecoveryPassword(String email);
 

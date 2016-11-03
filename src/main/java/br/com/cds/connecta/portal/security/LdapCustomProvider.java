@@ -21,7 +21,7 @@ import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.domain.UserProviderEnum;
 import br.com.cds.connecta.portal.entity.Role;
 import br.com.cds.connecta.portal.entity.User;
-import br.com.cds.connecta.portal.persistence.RoleDAO;
+import br.com.cds.connecta.portal.persistence.RoleRepository;
 import br.com.cds.connecta.portal.persistence.specification.RoleSpecification;
 import br.com.cds.connecta.portal.security.ldap.LdapUser;
 
@@ -38,7 +38,7 @@ public class LdapCustomProvider implements AuthenticationProvider {
     private PasswordEncoder encoder;
 
     @Autowired
-    private RoleDAO roleRepository;
+    private RoleRepository roleRepository;
 
     private User createUser(String username, String name) {
 

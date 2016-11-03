@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 @Repository
-public interface DashboardDAO extends JpaRepository<Dashboard, Long>,
+public interface DashboardRepository extends JpaRepository<Dashboard, Long>,
         JpaSpecificationExecutor<Dashboard> {
 
     @Query("SELECT d FROM Dashboard d LEFT JOIN FETCH d.sections s "

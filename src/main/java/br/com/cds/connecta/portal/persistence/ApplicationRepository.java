@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
  * @author pires
  */
 @Repository
-public interface ApplicationDAO extends JpaRepository<Application, Long> {
+public interface ApplicationRepository extends JpaRepository<Application, Long> {
     
 }

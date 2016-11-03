@@ -27,7 +27,7 @@ import br.com.cds.connecta.portal.entity.DashboardItem;
 import br.com.cds.connecta.portal.entity.DashboardPublic;
 import br.com.cds.connecta.portal.entity.DashboardSection;
 import br.com.cds.connecta.portal.filter.DashboardPaginationFilter;
-import br.com.cds.connecta.portal.persistence.DashboardDAO;
+import br.com.cds.connecta.portal.persistence.DashboardRepository;
 import br.com.cds.connecta.portal.persistence.specification.DashboardSpecification;
 import br.com.cds.connecta.portal.util.SolrUtil;
 
@@ -39,7 +39,7 @@ import br.com.cds.connecta.portal.util.SolrUtil;
 public class DashboardAS implements IDashboardAS {
 
     @Autowired
-    private DashboardDAO dashboardRepository;
+    private DashboardRepository dashboardRepository;
 
     private final ModelMapper mapper = new ModelMapper();
 

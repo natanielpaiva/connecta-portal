@@ -26,7 +26,7 @@ import br.com.cds.connecta.portal.domain.UserProviderEnum;
 import br.com.cds.connecta.portal.entity.Domain;
 import br.com.cds.connecta.portal.entity.Role;
 import br.com.cds.connecta.portal.entity.User;
-import br.com.cds.connecta.portal.persistence.RoleDAO;
+import br.com.cds.connecta.portal.persistence.RoleRepository;
 import br.com.cds.connecta.portal.persistence.UserRepository;
 import br.com.cds.connecta.portal.persistence.specification.RoleSpecification;
 import br.com.cds.connecta.portal.security.UserRepositoryUserDetails;
@@ -60,7 +60,7 @@ public class UserAS implements IUserAS {
     private IMailAS mailAS;
 
     @Autowired
-    private RoleDAO roleRepository;
+    private RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;

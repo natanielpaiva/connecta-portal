@@ -3,7 +3,7 @@ package br.com.cds.connecta.portal.business.applicationService.impl;
 import br.com.cds.connecta.portal.business.applicationService.IApplicationConfigAS;
 import br.com.cds.connecta.portal.domain.ApplicationConfigEnum;
 import br.com.cds.connecta.portal.entity.ApplicationConfig;
-import br.com.cds.connecta.portal.persistence.ApplicationConfigDAO;
+import br.com.cds.connecta.portal.persistence.ApplicationConfigRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ApplicationConfigAS implements IApplicationConfigAS {
 
-    @Autowired ApplicationConfigDAO dao;
+    @Autowired ApplicationConfigRepository dao;
     
     @Override
     public String getByName(ApplicationConfigEnum config) {

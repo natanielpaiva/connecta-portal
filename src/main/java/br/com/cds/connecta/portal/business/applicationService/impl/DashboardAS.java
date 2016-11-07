@@ -94,9 +94,6 @@ public class DashboardAS implements IDashboardAS {
     @Override
     public Dashboard save(DashboardDTO dashboardDTO){
         Dashboard dashboard = convertDTOToEntity(dashboardDTO);
-        if(dashboard.isPublic()){
-        	generatePrivateKey(dashboard);
-        }
         return dashboardRepository.save(dashboard);
     }
 

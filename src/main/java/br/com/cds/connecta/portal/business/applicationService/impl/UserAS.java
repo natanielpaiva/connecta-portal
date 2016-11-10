@@ -31,7 +31,7 @@ import br.com.cds.connecta.portal.persistence.UserRepository;
 import br.com.cds.connecta.portal.persistence.specification.RoleSpecification;
 import br.com.cds.connecta.portal.security.UserRepositoryUserDetails;
 import br.com.cds.connecta.portal.security.ldap.LdapUser;
-import br.com.cds.connecta.portal.vo.InviteRequestVO;
+import br.com.cds.connecta.portal.dto.InviteRequestDTO;
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
@@ -215,7 +215,7 @@ public class UserAS implements IUserAS {
     }
 
     @Override
-    public User saveInvite(InviteRequestVO inviteRequestVO, UUID hash) {
+    public User saveInvite(InviteRequestDTO inviteRequestVO, UUID hash) {
         User user = userRepository.findByEmail(inviteRequestVO.getReceiver());
 
         //caso não encontre o usuario pelo e-mail, tenta buscar pelo ldap

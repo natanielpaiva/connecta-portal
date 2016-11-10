@@ -16,7 +16,7 @@ import org.springframework.ui.velocity.VelocityEngineUtils;
 import br.com.cds.connecta.portal.business.applicationService.IMailAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.User;
-import br.com.cds.connecta.portal.vo.InviteRequestVO;
+import br.com.cds.connecta.portal.dto.InviteRequestDTO;
 import java.util.List;
 import java.util.UUID;
 
@@ -64,7 +64,7 @@ public class MailAS implements IMailAS {
     }
 
     @Override
-    public void sendInvite(InviteRequestVO inviteVO, List<String> emails) {
+    public void sendInvite(InviteRequestDTO inviteVO, List<String> emails) {
 
         Map<String, Object> model = new HashMap<>();
 

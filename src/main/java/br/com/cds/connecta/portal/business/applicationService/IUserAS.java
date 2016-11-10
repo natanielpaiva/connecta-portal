@@ -3,7 +3,7 @@ package br.com.cds.connecta.portal.business.applicationService;
 import org.springframework.web.multipart.MultipartFile;
 
 import br.com.cds.connecta.portal.entity.User;
-import br.com.cds.connecta.portal.vo.InviteRequestVO;
+import br.com.cds.connecta.portal.dto.InviteRequestDTO;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.Principal;
@@ -40,7 +40,7 @@ public interface IUserAS {
 
     User saveInvited(User user);
 
-    User saveInvite(InviteRequestVO inviteRequestVO, UUID hash);
+    User saveInvite(InviteRequestDTO inviteRequestVO, UUID hash);
 
     User update(Long id, User user);
 

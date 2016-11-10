@@ -12,7 +12,7 @@ import br.com.cds.connecta.portal.business.applicationService.IMailAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.Domain;
 import br.com.cds.connecta.portal.entity.User;
-import br.com.cds.connecta.portal.vo.InviteRequestVO;
+import br.com.cds.connecta.portal.dto.InviteRequestDTO;
 import java.security.Principal;
 import java.util.List;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -99,7 +99,7 @@ public class DomainController {
             @RequestParam("idDomain") Long idDomain,
             Principal userLogged) {
        
-        InviteRequestVO i = new InviteRequestVO();
+        InviteRequestDTO i = new InviteRequestDTO();
         i.setDomain(domainAS.get(idDomain));
         i.setSender(userAS.get(userLogged).getName());
         i.setUrl(URL);

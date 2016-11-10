@@ -8,7 +8,7 @@ import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.business.applicationService.impl.UserAS;
 import br.com.cds.connecta.portal.entity.Domain;
 import br.com.cds.connecta.portal.entity.User;
-import br.com.cds.connecta.portal.vo.InviteRequestVO;
+import br.com.cds.connecta.portal.dto.InviteRequestDTO;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -126,7 +126,7 @@ public class UserTest extends BaseTest {
 
     @Test
     public void saveInviteUserLocal() {
-        InviteRequestVO inviteRequestVO = new InviteRequestVO();
+        InviteRequestDTO inviteRequestVO = new InviteRequestDTO();
         Domain domain = domainService.get(100L);
         inviteRequestVO.setDomain(domain);
         inviteRequestVO.setReceiver("xyz@cds.com");
@@ -140,7 +140,7 @@ public class UserTest extends BaseTest {
     
     @Test
     public void saveInviteUserLDAP() {
-        InviteRequestVO inviteRequestVO = new InviteRequestVO();
+        InviteRequestDTO inviteRequestVO = new InviteRequestDTO();
         Domain domain = domainService.get(100L);
         inviteRequestVO.setDomain(domain);
         inviteRequestVO.setReceiver("user.ldap");
@@ -155,13 +155,13 @@ public class UserTest extends BaseTest {
     @Test
     public void saveManyInvite() {
 
-        InviteRequestVO inviteRequestVO = new InviteRequestVO();
+        InviteRequestDTO inviteRequestVO = new InviteRequestDTO();
         inviteRequestVO.setDomain(domainService.get(100L));
         inviteRequestVO.setReceiver("cba@cds.com");
         UUID hashUm = UUID.randomUUID();
         User user = userService.saveInvite(inviteRequestVO, hashUm);
 
-        inviteRequestVO = new InviteRequestVO();
+        inviteRequestVO = new InviteRequestDTO();
         inviteRequestVO.setDomain(domainService.get(101L));
         inviteRequestVO.setReceiver("cba@cds.com");
         UUID hashDois = UUID.randomUUID();
@@ -174,7 +174,7 @@ public class UserTest extends BaseTest {
     @Test
     public void inviteExistingUser() {
 
-        InviteRequestVO inviteRequestVO = new InviteRequestVO();
+        InviteRequestDTO inviteRequestVO = new InviteRequestDTO();
         Domain domain = domainService.get(100L);
         inviteRequestVO.setDomain(domain);
         inviteRequestVO.setReceiver("ednaldopereira");

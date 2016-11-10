@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.com.cds.connecta.portal.vo;
+package br.com.cds.connecta.portal.dto;
 
 import br.com.cds.connecta.portal.entity.Domain;
 
@@ -11,7 +11,7 @@ import br.com.cds.connecta.portal.entity.Domain;
  *
  * @author heloisa
  */
-public class InviteRequestVO {
+public class InviteRequestDTO {
     
     private String sender;
     private Domain domain;

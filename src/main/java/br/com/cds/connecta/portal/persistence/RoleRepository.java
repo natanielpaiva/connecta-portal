@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import br.com.cds.connecta.portal.entity.Role;
 
-public interface RoleDAO extends JpaRepository<Role, Long>, 
+public interface RoleRepository extends JpaRepository<Role, Long>, 
 										JpaSpecificationExecutor<Role>  {
     
 }

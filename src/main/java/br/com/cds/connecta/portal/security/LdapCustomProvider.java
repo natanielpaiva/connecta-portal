@@ -15,91 +15,104 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
+import br.com.cds.connecta.framework.core.util.Util;
 import br.com.cds.connecta.portal.business.applicationService.ILdapAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
+import br.com.cds.connecta.portal.domain.UserProviderEnum;
 import br.com.cds.connecta.portal.entity.Role;
 import br.com.cds.connecta.portal.entity.User;
-import br.com.cds.connecta.portal.persistence.RoleDAO;
+import br.com.cds.connecta.portal.persistence.RoleRepository;
 import br.com.cds.connecta.portal.persistence.specification.RoleSpecification;
 import br.com.cds.connecta.portal.security.ldap.LdapUser;
 
 @Component("LdapCustomProvider")
 public class LdapCustomProvider implements AuthenticationProvider {
 
-	@Autowired
-	private ILdapAS ldapService;
-
-	@Autowired
-	private IUserAS userService;
-	
-	@Autowired
-	private PasswordEncoder encoder;
-	
     @Autowired
-    private RoleDAO roleRepository;
+    private ILdapAS ldapService;
 
-	private User createUser(String username,String name){
+    @Autowired
+    private IUserAS userService;
 
-		User user = new User();
-		user.setName(name);
-		user.setEmail(username);
-		user.setPassword(encoder.encode("044063c23354128b336df86f11872e68")); //md5 for ldap
+    @Autowired
+    private PasswordEncoder encoder;
 
-//		Role roleadm = roleRepository.findOne(RoleSpecification.byName("ROLE_ADMIN"));
-		Role roleUsr = roleRepository.findOne(RoleSpecification.byName("ROLE_USER"));
+    @Autowired
+    private RoleRepository roleRepository;
 
-		List<Role> roles = new ArrayList<Role>();
-//		roles.add(roleadm);
-		roles.add(roleUsr);
-		user.setRoles(roles);
-		
-		return userService.save(user);
-	}
+    private User createUser(String username, String name) {
 
-	private Authentication createAutentication(User user){
-		
-		UserRepositoryUserDetails userDetails = new UserRepositoryUserDetails(user);
+        User user = new User();
+        user.setName(name);
+        user.setEmail(username);
+        user.setPassword(encoder.encode("044063c23354128b336df86f11872e68")); //md5 for ldap
+        user.setProvider(UserProviderEnum.LDAP);
 
-		List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
+        return userService.save(user);
+    }
 
-		for (Role role: user.getRoles()){
-			grantedAuths.add(new SimpleGrantedAuthority(role.getName()));
-		}
+    private Authentication createAutentication(User user) {
 
-		Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getUser(), grantedAuths);
+        UserRepositoryUserDetails userDetails = new UserRepositoryUserDetails(user);
 
-		return auth;
-	}
+        List<GrantedAuthority> grantedAuths = new ArrayList<GrantedAuthority>();
 
-	@Override
-	public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        for (Role role : user.getRoles()) {
+            grantedAuths.add(new SimpleGrantedAuthority(role.getName()));
+        }
 
-		String login = authentication.getName();
-		String password = authentication.getCredentials().toString();
+        Authentication auth = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getUser(), grantedAuths);
 
-		LdapUser ldapUser = ldapService.verifyLogin(login, password);
+        return auth;
+    }
 
-		if (ldapUser == null || ldapUser.getUsername() == null){
-			throw new AuthenticationServiceException("Login ou Senha inválidos");
-		}
+    @Override
+    public Authentication authenticate(Authentication authentication) throws AuthenticationException {
 
-		User user = null;
+        String login = authentication.getName();
+        String password = authentication.getCredentials().toString();
 
-		try{
-			user = userService.getByEmail(login);
-		}catch(ResourceNotFoundException e){
-			user = createUser(login, ldapUser.getName());
-		}
+        LdapUser ldapUser = ldapService.verifyLogin(login, password);
 
-		Authentication auth = createAutentication(user);
+        if (ldapUser == null || ldapUser.getUsername() == null) {
+            throw new AuthenticationServiceException("Login ou Senha inválidos");
+        }
 
-		return auth;
-	}
+        User user = null;
 
-	@Override
-	public boolean supports(Class<?> authentication) {
-		return authentication.equals(UsernamePasswordAuthenticationToken.class);
-	}
+        try {
+            user = userService.getByEmail(login);
+            if (Util.isNotNull(user.getHashInvited())) {
+                user = updateUser(user, ldapUser);
+            }
+        } catch (ResourceNotFoundException e) {
+            user = createUser(login, ldapUser.getName());
+        }
+
+        Authentication auth = createAutentication(user);
+
+        return auth;
+    }
+
+    private User updateUser(User user, LdapUser ldapUser) {
+        user.setName(ldapUser.getName());
+        user.setPassword(encoder.encode("044063c23354128b336df86f11872e68")); //md5 for ldap
+        user.setProvider(UserProviderEnum.LDAP);
+        Role roleUsr = roleRepository.findOne(RoleSpecification.byName("ROLE_USER"));
+
+        List<Role> roles = new ArrayList<Role>();
+        roles.add(roleUsr);
+        user.setRoles(roles);
+
+        //retira o hashInvited
+        user.setHashInvited(null);
+
+        return userService.update(user);
+    }
+
+    @Override
+    public boolean supports(Class<?> authentication) {
+        return authentication.equals(UsernamePasswordAuthenticationToken.class);
+    }
 
 }
-

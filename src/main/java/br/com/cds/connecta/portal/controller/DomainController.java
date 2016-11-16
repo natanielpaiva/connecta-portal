@@ -12,9 +12,8 @@ import br.com.cds.connecta.portal.business.applicationService.IMailAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.entity.Domain;
 import br.com.cds.connecta.portal.entity.User;
-import br.com.cds.connecta.portal.vo.InviteRequestVO;
+import br.com.cds.connecta.portal.dto.InviteRequestDTO;
 import java.security.Principal;
-import java.util.UUID;
 import java.util.List;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -60,7 +59,14 @@ public class DomainController {
     public ResponseEntity updateDomain(@PathVariable("id") Long id, @RequestBody Domain domain) {
 
         Domain save = domainAS.update(domain);
-        return new ResponseEntity(domain, HttpStatus.OK);
+        return new ResponseEntity(save, HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "domain/{id}", method = RequestMethod.PUT)
+    public ResponseEntity removeUser(@PathVariable("id") Long idDomain, @RequestBody Long idUser) {
+        userAS.removeDomain(idUser,idDomain);
+        
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @RequestMapping(value = "{id}", method = RequestMethod.DELETE)
@@ -81,13 +87,19 @@ public class DomainController {
         Iterable<Domain> listDomains = domainAS.getByUser(email);
         return new ResponseEntity<>(listDomains, HttpStatus.OK);
     }
+    
+    @RequestMapping(value="participants", method = RequestMethod.GET)
+    public ResponseEntity<Iterable<User>> getParticipants(@RequestParam("id") Long id) {
+        Iterable<User> listUsers = domainAS.getParticipants(id);
+        return new ResponseEntity<>(listUsers, HttpStatus.OK);
+    }
 
     @RequestMapping(value = "invite", method = RequestMethod.POST)
     public ResponseEntity inviteUser(@RequestParam("listEmails") List<String> emails,
             @RequestParam("idDomain") Long idDomain,
             Principal userLogged) {
        
-        InviteRequestVO i = new InviteRequestVO();
+        InviteRequestDTO i = new InviteRequestDTO();
         i.setDomain(domainAS.get(idDomain));
         i.setSender(userAS.get(userLogged).getName());
         i.setUrl(URL);

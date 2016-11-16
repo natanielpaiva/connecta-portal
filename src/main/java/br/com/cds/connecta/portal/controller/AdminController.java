@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.cds.connecta.portal.business.applicationService.IAdminAS;
-import br.com.cds.connecta.portal.business.applicationService.IDomainAS;
 import br.com.cds.connecta.portal.entity.Domain;
 
 @RestController

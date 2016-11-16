@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,6 +20,8 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import br.com.cds.connecta.portal.domain.UserProviderEnum;
+
 /**
  *
  * @author Nataniel Paiva
@@ -28,17 +32,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class User implements Serializable {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+     *
+     */
+    private static final long serialVersionUID = 1L;
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PK_USER")
     private Long id;
-
-//    @Column(name = "DS_LOGIN", unique = true)
-//    private String login;
 
     @Column(name = "DS_EMAIL", unique = true)
     private String email;
@@ -48,12 +49,12 @@ public class User implements Serializable {
 
     @Column(name = "DS_PASSWORD")
     private String password;
-    
-    @Column(name = "DS_HASH")
-    private String hash;
-//
-//    @Column(name = "URL_IMAGE")
-//    private String imageUrl;
+
+    @Column(name = "DS_HASH_INVITED")
+    private String hashInvited;
+
+    @Column(name = "DS_HASH_PASSWORD")
+    private String hashPassword;
 
     @JsonIgnore
     @Lob
@@ -61,15 +62,9 @@ public class User implements Serializable {
     @Column(name = "BN_IMAGE")
     private byte[] image;
 
-    @Column(name = "NB_FACEBOOK_ID")
-    private Long facebookId;
-
-    @Column(name = "DS_GOOGLE_TOKEN")
-    private String googleToken;
-
     @Column(name = "DS_LANGUAGE")
     private String language;
-    
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "TA_USER_ROLE",
             joinColumns = {
@@ -86,6 +81,9 @@ public class User implements Serializable {
                 @JoinColumn(name = "FK_DOMAIN")})
     private List<Domain> domains;
 
+    @Column(name = "USR_PROVIDER")
+    @Enumerated(EnumType.STRING)
+    private UserProviderEnum provider;
 
     public User() {
     }
@@ -133,36 +131,28 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public String getHash() {
-        return hash;
+    public String getHashInvited() {
+        return hashInvited;
     }
 
-    public void setHash(String hash) {
-        this.hash = hash;
+    public void setHashInvited(String hashInvited) {
+        this.hashInvited = hashInvited;
     }
-    
+
+    public String getHashPassword() {
+        return hashPassword;
+    }
+
+    public void setHashPassword(String hashPassword) {
+        this.hashPassword = hashPassword;
+    }
+
     public byte[] getImage() {
         return image;
     }
 
     public void setImage(byte[] image) {
         this.image = image;
-    }
-
-    public Long getFacebookId() {
-        return facebookId;
-    }
-
-    public void setFacebookId(Long facebookId) {
-        this.facebookId = facebookId;
-    }
-
-    public String getGoogleToken() {
-        return googleToken;
-    }
-
-    public void setGoogleToken(String googleToken) {
-        this.googleToken = googleToken;
     }
 
     public List<Role> getRoles() {
@@ -181,14 +171,6 @@ public class User implements Serializable {
         this.domains = domains;
     }
 
-//    public String getLogin() {
-//        return login;
-//    }
-//
-//    public void setLogin(String login) {
-//        this.login = login;
-//    }
-
     public String getLanguage() {
         return language;
     }
@@ -203,6 +185,14 @@ public class User implements Serializable {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public UserProviderEnum getProvider() {
+        return provider;
+    }
+
+    public void setProvider(UserProviderEnum provider) {
+        this.provider = provider;
     }
 
 }

@@ -8,7 +8,7 @@ import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.business.applicationService.impl.UserAS;
 import br.com.cds.connecta.portal.entity.Domain;
 import br.com.cds.connecta.portal.entity.User;
-import br.com.cds.connecta.portal.vo.InviteRequestVO;
+import br.com.cds.connecta.portal.dto.InviteRequestDTO;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,7 +34,7 @@ public class UserTest extends BaseTest {
 
     @Autowired
     private IUserAS userService;
-    
+
     @Autowired
     private IDomainAS domainService;
 
@@ -111,83 +111,96 @@ public class UserTest extends BaseTest {
 
         assertThat(contentEquals(userImage, defaultImage()), equalTo(true));
     }
-    
+
     @Test
-    public void saveInvited(){
+    public void saveInvited() {
         User user = userService.get(13L);
         user.setName("Algum nome bonito");
         user.setPassword("senha123");
         User userSaved = userService.saveInvited(user);
-        
-        assertThat(userSaved.getHash(), nullValue());
+
+        assertThat(userSaved.getHashInvited(), nullValue());
         assertThat(userSaved.getEmail(), equalTo("abc@cds.com.br"));
-        
+
     }
-    
+
     @Test
-    public void saveInvite(){
-        InviteRequestVO inviteRequestVO = new InviteRequestVO();
+    public void saveInviteUserLocal() {
+        InviteRequestDTO inviteRequestVO = new InviteRequestDTO();
         Domain domain = domainService.get(100L);
         inviteRequestVO.setDomain(domain);
         inviteRequestVO.setReceiver("xyz@cds.com");
         User user = userService.saveInvite(inviteRequestVO, UUID.randomUUID());
-        
-        assertThat(user.getHash(), not(nullValue()));
+
+        assertThat(user.getHashInvited(), not(nullValue()));
         assertThat(user.getEmail(), equalTo("xyz@cds.com"));
         assertTrue(user.getDomains().contains(domain));
-        
+
     }
     
+    @Test
+    public void saveInviteUserLDAP() {
+        InviteRequestDTO inviteRequestVO = new InviteRequestDTO();
+        Domain domain = domainService.get(100L);
+        inviteRequestVO.setDomain(domain);
+        inviteRequestVO.setReceiver("user.ldap");
+        User user = userService.saveInvite(inviteRequestVO, UUID.randomUUID());
+
+        assertThat(user.getHashInvited(), nullValue());
+        assertTrue(user.getDomains().contains(domain));
+
+    }
+
     //Somente o ultimo hash será válido
     @Test
-    public void saveManyInvite(){
-        
-        InviteRequestVO inviteRequestVO = new InviteRequestVO();
+    public void saveManyInvite() {
+
+        InviteRequestDTO inviteRequestVO = new InviteRequestDTO();
         inviteRequestVO.setDomain(domainService.get(100L));
-        inviteRequestVO.setReceiver("xyz@cds.com");
+        inviteRequestVO.setReceiver("cba@cds.com");
         UUID hashUm = UUID.randomUUID();
         User user = userService.saveInvite(inviteRequestVO, hashUm);
-        
-        inviteRequestVO = new InviteRequestVO();
+
+        inviteRequestVO = new InviteRequestDTO();
         inviteRequestVO.setDomain(domainService.get(101L));
-        inviteRequestVO.setReceiver("xyz@cds.com");
+        inviteRequestVO.setReceiver("cba@cds.com");
         UUID hashDois = UUID.randomUUID();
         user = userService.saveInvite(inviteRequestVO, hashDois);
-        
-        assertThat(user.getHash(), equalTo(hashDois.toString()));
-        
+
+        assertThat(user.getHashInvited(), equalTo(hashDois.toString()));
+
     }
-    
+
     @Test
-    public void inviteExistingUser(){
-        
-        InviteRequestVO inviteRequestVO = new InviteRequestVO();
+    public void inviteExistingUser() {
+
+        InviteRequestDTO inviteRequestVO = new InviteRequestDTO();
         Domain domain = domainService.get(100L);
         inviteRequestVO.setDomain(domain);
         inviteRequestVO.setReceiver("ednaldopereira");
         User user = userService.saveInvite(inviteRequestVO, UUID.randomUUID());
-        
-        assertThat(user.getHash(), nullValue());
+
+        assertThat(user.getHashInvited(), nullValue());
         assertTrue(user.getDomains().contains(domain));
     }
-    
+
     @Test(expected = AlreadyExistsException.class)
-    public void unavailableEmail(){
+    public void unavailableEmail() {
         userService.isAvailableEmail("ednaldopereira");
     }
-    
+
     @Test
-    public void updateUserPassword() throws Exception{
+    public void updateUserPassword() throws Exception {
         User user = userService.get(12L);
-        
-        User updatedUser = userService.updatePassword(user,"123", "abc");
-        
+
+        User updatedUser = userService.updatePassword(user, "123", "abc");
+
         //Garantir que os dados serão mantidos
         assertThat(updatedUser.getEmail(), equalTo("ednaldopereira")); // Não deve ser atualizado
         assertThat(updatedUser.getName(), equalTo("123"));// Também :D
         assertThat(passwordEncoder.matches("abc", updatedUser.getPassword()), equalTo(true));
     }
-    
+
     @Test
     public void updateUser() throws Exception {
         User user = new User();
@@ -206,7 +219,6 @@ public class UserTest extends BaseTest {
         assertThat(updatedUser.getImage(), not(equalTo("qualquercoisa".getBytes())));
     }
 
-    
     @Test
     public void uploadNewUserImage() throws IOException {
         userService.upload(11L, new FileUploadTest());

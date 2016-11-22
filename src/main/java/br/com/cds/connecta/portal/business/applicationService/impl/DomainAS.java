@@ -2,6 +2,7 @@ package br.com.cds.connecta.portal.business.applicationService.impl;
 
 import br.com.cds.connecta.framework.core.exception.ResourceNotFoundException;
 import br.com.cds.connecta.framework.core.util.Util;
+import static br.com.cds.connecta.framework.core.util.Util.isNull;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,15 +15,15 @@ import br.com.cds.connecta.portal.entity.User;
 import br.com.cds.connecta.portal.persistence.DomainRepository;
 
 /**
- * 
+ *
  * @author heloisa
  */
 @Service
 public class DomainAS implements IDomainAS {
-    
+
     @Autowired
     private DomainRepository domainRepository;
-    
+
     @Autowired
     private IUserAS userAS;
 
@@ -41,12 +42,20 @@ public class DomainAS implements IDomainAS {
     public Domain save(Domain domain) {
         return domainRepository.save(domain);
     }
-    
+
     @Override
     public Domain update(Domain domain) {
         return (Domain) domainRepository.save(domain);
     }
     
+    @Override
+    public Domain removeUser(Long idDomain, Long idUser) {
+        Domain domain = getById(idDomain);
+        domain.getUsers().remove(userAS.get(idUser));
+        
+        return domainRepository.save(domain);
+    }
+
     @Override
     public void delete(Long id) {
         get(id);
@@ -61,5 +70,23 @@ public class DomainAS implements IDomainAS {
         }
         return domain;
     }
-    
+
+    @Override
+    public Domain getById(Long id) {
+        Domain domain = domainRepository.findOne(id);
+        
+        if(isNull(domain)){
+            throw new ResourceNotFoundException(Domain.class.getSimpleName());
+        }
+        
+        return domain;
+    }
+
+    @Override
+    public List<User> getParticipants(Long id) {
+        Domain domain = domainRepository.findOne(id);
+        
+        return domain.getUsers();
+    }
+
 }

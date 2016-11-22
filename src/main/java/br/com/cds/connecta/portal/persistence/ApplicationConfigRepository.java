@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
  * @date Jul 27, 2015
  */
 @Repository
-public interface ApplicationConfigDAO extends JpaRepository<ApplicationConfig, Long> {
+public interface ApplicationConfigRepository extends JpaRepository<ApplicationConfig, Long> {
     
     ApplicationConfig findByName(@Param("param") String param);
 

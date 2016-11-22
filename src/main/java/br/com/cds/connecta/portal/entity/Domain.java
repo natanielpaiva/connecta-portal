@@ -1,5 +1,8 @@
 package br.com.cds.connecta.portal.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
@@ -31,10 +34,14 @@ public class Domain implements Serializable {
     @NotEmpty
     @Column(name = "NM_DOMAIN")
     private String name;
+    
+    @Column(name = "DS_THEME")
+    private String theme;
 
-    @ManyToMany(mappedBy="domains", 
-    		fetch = FetchType.LAZY, 
-    		cascade = CascadeType.REMOVE)
+    @JsonIgnore
+    @ManyToMany(mappedBy = "domains",
+            fetch = FetchType.EAGER,
+            cascade = CascadeType.REMOVE)
     private List<User> users;
 
     @Override
@@ -61,7 +68,7 @@ public class Domain implements Serializable {
         }
         return true;
     }
-    
+
     public Long getId() {
         return id;
     }
@@ -85,13 +92,21 @@ public class Domain implements Serializable {
     public void setUsers(List<User> user) {
         this.users = user;
     }
-    
+
+    public String getTheme() {
+        return theme;
+    }
+
+    public void setTheme(String theme) {
+        this.theme = theme;
+    }
+
     @PreRemove
-    private void removeDomainsFromUsers(){
-    	for(User u : users){
-    		u.getDomains().remove(this);
-    	}
-    	this.getUsers().clear();
+    private void removeDomainsFromUsers() {
+        for (User u : users) {
+            u.getDomains().remove(this);
+        }
+        this.getUsers().clear();
     }
 
 }

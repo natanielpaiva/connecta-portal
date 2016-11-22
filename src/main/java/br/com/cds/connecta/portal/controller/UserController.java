@@ -27,7 +27,7 @@ import br.com.cds.connecta.portal.entity.User;
 import java.util.List;
 
 /**
- * 
+ *
  * @author heloisa
  */
 @RestController
@@ -59,7 +59,7 @@ public class UserController {
 
         return new ResponseEntity(user, HttpStatus.CREATED);
     }
-    
+
     @RequestMapping(value = "invited", method = RequestMethod.POST)
     public ResponseEntity createInvited(@RequestBody User user) throws Exception {
 
@@ -88,21 +88,21 @@ public class UserController {
 
         return new ResponseEntity(HttpStatus.OK);
     }
-    
+
     @RequestMapping(value = "hash", method = RequestMethod.GET)
-    public ResponseEntity getByHash(@RequestParam String hash) {
-        User user = userService.getByHash(hash);
+    public ResponseEntity getByHashInvited(@RequestParam String hash) {
+        User user = userService.getByHashInvited(hash);
 
         return new ResponseEntity(user, HttpStatus.OK);
     }
-    
-    @RequestMapping(value = "all",method = RequestMethod.GET)
+
+    @RequestMapping(value = "all", method = RequestMethod.GET)
     public ResponseEntity getAll() {
         List<User> users = userService.getAll();
 
         return new ResponseEntity(users, HttpStatus.OK);
     }
-    
+
     @RequestMapping(value = "mail", method = RequestMethod.GET)
     public ResponseEntity isAvailableEmail(@RequestParam String email) {
         userService.isAvailableEmail(email);
@@ -133,12 +133,20 @@ public class UserController {
 
     @RequestMapping(value = "credentials", method = RequestMethod.POST)
     public ResponseEntity update(@RequestParam("oldPass") String oldPass,
-                                 @RequestParam("newPass") String newPass,
-                                 Principal userLogged) {
+            @RequestParam("newPass") String newPass,
+            Principal userLogged) {
 
         User user = userService.get(userLogged);
-        
+
         User userUpdated = userService.updatePassword(user, oldPass, newPass);
+        return new ResponseEntity(userUpdated, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "reset", method = RequestMethod.POST)
+    public ResponseEntity update(@RequestParam("hash") String hash,
+            @RequestParam("newPass") String newPass) {
+
+        User userUpdated = userService.resetPassword(hash, newPass);
         return new ResponseEntity(userUpdated, HttpStatus.OK);
     }
 
@@ -152,5 +160,12 @@ public class UserController {
         userService.upload(id, image);
 
         return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
+    @RequestMapping(value = "recover", method = RequestMethod.POST)
+    public ResponseEntity recoveryPassword(@RequestParam String email) {
+
+        userService.sendRecoveryPassword(email);
+        return new ResponseEntity(HttpStatus.OK);
     }
 }

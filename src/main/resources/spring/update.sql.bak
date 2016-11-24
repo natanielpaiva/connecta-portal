@@ -1,0 +1,4 @@
+--Atualizar colunas access_token_validity e refresh_token_validity para maior validade do token versão: 2.13.x--
+
+UPDATE OAUTH_CLIENT_DETAILS SET ACCESS_TOKEN_VALIDITY = 86400, REFRESH_TOKEN_VALIDITY = 108000;
+

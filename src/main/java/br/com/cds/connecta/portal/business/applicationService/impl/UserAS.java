@@ -34,11 +34,11 @@ import br.com.cds.connecta.portal.security.ldap.LdapUser;
 import br.com.cds.connecta.portal.dto.InviteRequestDTO;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
-import java.util.Set;
 import java.util.List;
 import java.util.UUID;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
 /**
@@ -106,15 +106,15 @@ public class UserAS implements IUserAS {
 
         return user;
     }
-    
+
     @Override
     public List<User> getByRegex(String regex) {
         List<User> users = userRepository.findByRegexOrderByNameAsc(regex);
-        
-        if(isNull(users)){
+
+        if (isNull(users)) {
             throw new ResourceNotFoundException(User.class.getSimpleName());
         }
-        
+
         return users;
     }
 
@@ -144,16 +144,13 @@ public class UserAS implements IUserAS {
     public List<User> getAll() {
         return userRepository.findAll();
     }
-    
+
     @Override
-    public Object[] get(int length) {
-        Object []usersOrder = userRepository.findAllByOrderByNameAsc().toArray();
-       
-        if (isNull(usersOrder)) {
-            throw new ResourceNotFoundException(User.class.getSimpleName());
-        }
-        
-        return Arrays.copyOf(usersOrder,length);
+    public List<User> get(int length) {
+
+        Pageable limit = new PageRequest(0, length);
+        return userRepository.findAllByOrderByNameAsc(limit);
+
     }
 
     @Override
@@ -275,7 +272,6 @@ public class UserAS implements IUserAS {
         }
 
         //Usuario já confirmado somente adiciona o dominio.
-        
         user.getDomains().add(inviteRequestVO.getDomain());
 
         return userRepository.save(user);
@@ -319,8 +315,8 @@ public class UserAS implements IUserAS {
     @Override
     public void sendRecoveryPassword(String login) {
         User user = getByEmail(login);
-        
-        if(isNotNull(user.getProvider()) && user.getProvider().equals(UserProviderEnum.LDAP)){
+
+        if (isNotNull(user.getProvider()) && user.getProvider().equals(UserProviderEnum.LDAP)) {
             throw new BusinessException(MessageEnum.REJECTED);
         }
 

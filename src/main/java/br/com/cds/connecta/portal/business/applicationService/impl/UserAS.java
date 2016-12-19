@@ -34,6 +34,9 @@ import br.com.cds.connecta.portal.security.ldap.LdapUser;
 import br.com.cds.connecta.portal.dto.InviteRequestDTO;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
@@ -103,6 +106,17 @@ public class UserAS implements IUserAS {
 
         return user;
     }
+    
+    @Override
+    public List<User> getByRegex(String regex) {
+        List<User> users = userRepository.findByRegexOrderByNameAsc(regex);
+        
+        if(isNull(users)){
+            throw new ResourceNotFoundException(User.class.getSimpleName());
+        }
+        
+        return users;
+    }
 
     @Override
     public User getByHashInvited(String hashInvited) {
@@ -129,6 +143,17 @@ public class UserAS implements IUserAS {
     @Override
     public List<User> getAll() {
         return userRepository.findAll();
+    }
+    
+    @Override
+    public Object[] get(int length) {
+        Object []usersOrder = userRepository.findAllByOrderByNameAsc().toArray();
+       
+        if (isNull(usersOrder)) {
+            throw new ResourceNotFoundException(User.class.getSimpleName());
+        }
+        
+        return Arrays.copyOf(usersOrder,length);
     }
 
     @Override

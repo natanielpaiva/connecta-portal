@@ -20,7 +20,7 @@ public interface IUserAS {
 
     User get(Principal user);
 
-    Object[] get(int length);
+    List<User> get(int length);
     
     User getByEmail(String username);
 

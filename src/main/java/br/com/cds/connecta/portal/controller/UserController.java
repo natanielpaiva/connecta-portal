@@ -84,7 +84,7 @@ public class UserController {
     
     @RequestMapping(value = "get/{length}", method = RequestMethod.GET)
     public ResponseEntity get(@PathVariable("length") int length) {
-        Object[] users = userService.get(length);
+        List<User> users = userService.get(length);
         
         return new ResponseEntity(users, HttpStatus.OK);
     }

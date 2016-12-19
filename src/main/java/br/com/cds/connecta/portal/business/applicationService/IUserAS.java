@@ -20,16 +20,20 @@ public interface IUserAS {
 
     User get(Principal user);
 
+    Object[] get(int length);
+    
     User getByEmail(String username);
 
     List<User> getByName(String name);
+    
+    List<User> getByRegex(String regex);
 
     User getByHashInvited(String hash);
     
     User getByHashPassword(String hash);
 
     List<User> getAll();
-
+    
     InputStream getUserImage(Long id) throws IOException;
     
     boolean isAvailableEmail(String email);

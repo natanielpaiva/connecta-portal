@@ -81,12 +81,26 @@ public class UserController {
         IOUtils.copy(inputStream, response.getOutputStream());
         response.flushBuffer();
     }
+    
+    @RequestMapping(value = "get/{length}", method = RequestMethod.GET)
+    public ResponseEntity get(@PathVariable("length") int length) {
+        Object[] users = userService.get(length);
+        
+        return new ResponseEntity(users, HttpStatus.OK);
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity getByEmail(@RequestParam String email) {
         userService.getByEmail(email);
 
         return new ResponseEntity(HttpStatus.OK);
+    }
+    
+    @RequestMapping(value = "search", method = RequestMethod.GET)
+    public ResponseEntity getByRegex(@RequestParam("regex") String regex) {
+        List<User> users = userService.getByRegex(regex);
+
+        return new ResponseEntity(users, HttpStatus.OK);
     }
 
     @RequestMapping(value = "hash", method = RequestMethod.GET)
@@ -102,7 +116,7 @@ public class UserController {
 
         return new ResponseEntity(users, HttpStatus.OK);
     }
-
+    
     @RequestMapping(value = "mail", method = RequestMethod.GET)
     public ResponseEntity isAvailableEmail(@RequestParam String email) {
         userService.isAvailableEmail(email);

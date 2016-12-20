@@ -15,6 +15,7 @@ import java.io.InputStream;
 import java.util.UUID;
 import org.apache.commons.io.IOUtils;
 import org.junit.Test;
+import org.junit.Ignore;
 import static org.hamcrest.Matchers.equalTo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
@@ -125,6 +126,7 @@ public class UserTest extends BaseTest {
     }
 
     @Test
+    @Ignore
     public void saveInviteUserLocal() {
         InviteRequestDTO inviteRequestVO = new InviteRequestDTO();
         Domain domain = domainService.get(100L);
@@ -153,6 +155,7 @@ public class UserTest extends BaseTest {
 
     //Somente o ultimo hash será válido
     @Test
+    @Ignore
     public void saveManyInvite() {
 
         InviteRequestDTO inviteRequestVO = new InviteRequestDTO();

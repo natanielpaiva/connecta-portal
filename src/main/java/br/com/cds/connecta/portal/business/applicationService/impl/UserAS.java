@@ -123,8 +123,8 @@ public class UserAS implements IUserAS {
 
         Pageable limit = new PageRequest(0, length);
         
-        List<User> users = userRepository.findAllByOrderByNameAsc(limit);
-//        List<User> users = userRepository.findByDomainsNotInOrder(idDomain, limit);
+//        List<User> users = userRepository.findAllByOrderByNameAsc(limit);
+        List<User> users = userRepository.findByDomainsNotInOrder(domainAS.get(idDomain), limit);
         
         return users;
     }

@@ -28,7 +28,7 @@ import java.util.List;
 
 /**
  *
- * @author heloisa
+ * @author Heloisa Alves
  */
 @RestController
 @RequestMapping("user")
@@ -82,9 +82,10 @@ public class UserController {
         response.flushBuffer();
     }
     
-    @RequestMapping(value = "get/{length}", method = RequestMethod.GET)
-    public ResponseEntity get(@PathVariable("length") int length) {
-        List<User> users = userService.get(length);
+    @RequestMapping(value = "get/{length}/{idDomain}", method = RequestMethod.GET)
+    public ResponseEntity get(@PathVariable("length") int length, 
+                              @PathVariable("idDomain") Long idDomain) {
+        List<User> users = userService.get(length,idDomain);
         
         return new ResponseEntity(users, HttpStatus.OK);
     }
@@ -96,9 +97,10 @@ public class UserController {
         return new ResponseEntity(HttpStatus.OK);
     }
     
-    @RequestMapping(value = "search", method = RequestMethod.GET)
-    public ResponseEntity getByRegex(@RequestParam("regex") String regex) {
-        List<User> users = userService.getByRegex(regex);
+    @RequestMapping(value = "search/{idDomain}", method = RequestMethod.GET)
+    public ResponseEntity getByRegex(@PathVariable("idDomain") Long idDomain, 
+                                     @RequestParam("regex") String regex) {
+        List<User> users = userService.getByRegex(regex,idDomain);
 
         return new ResponseEntity(users, HttpStatus.OK);
     }

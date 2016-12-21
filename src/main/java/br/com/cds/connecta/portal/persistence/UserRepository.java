@@ -22,12 +22,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     List<User> findByName(String name);
     
-//    @Query("SELECT u FROM User u INNER JOIN u.domains d WHERE "
-//            + ":domains NOT MEMBER OF d.id "
-//            + "ORDER BY u.name, u.email")
-//    List<User> findByDomainsNotInOrder(@Param("domains")Long domains, Pageable pageable);
+    @Query("SELECT u FROM User u WHERE "
+            + ":domain NOT MEMBER OF u.domains "
+            + "ORDER BY u.name, u.email")
+    List<User> findByDomainsNotInOrder(@Param("domain")Domain domain, Pageable pageable);
     
-    List<User> findAllByOrderByNameAsc(Pageable limit);
+//    List<User> findAllByOrderByNameAsc(Pageable limit);
     
     @Query("SELECT u FROM User u WHERE "
             + "(u.name LIKE CONCAT('%',:regex,'%') OR "

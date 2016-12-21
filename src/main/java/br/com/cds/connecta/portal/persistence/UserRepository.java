@@ -1,5 +1,6 @@
 package br.com.cds.connecta.portal.persistence;
 
+import br.com.cds.connecta.portal.entity.Domain;
 import br.com.cds.connecta.portal.entity.User;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
@@ -9,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 /**
  *
- * @author Heloisa
+ * @author Heloisa Alves
  */
 public interface UserRepository extends JpaRepository<User, Long> {
 
@@ -20,12 +21,17 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByHashInvited(String hashInvited);
 
     List<User> findByName(String name);
-
+    
+//    @Query("SELECT u FROM User u INNER JOIN u.domains d WHERE "
+//            + ":domains NOT MEMBER OF d.id "
+//            + "ORDER BY u.name, u.email")
+//    List<User> findByDomainsNotInOrder(@Param("domains")Long domains, Pageable pageable);
+    
     List<User> findAllByOrderByNameAsc(Pageable limit);
-
+    
     @Query("SELECT u FROM User u WHERE "
-            + "u.name LIKE CONCAT('%',:regex,'%') OR "
-            + "u.email LIKE CONCAT('%',:regex,'%') "
+            + "(u.name LIKE CONCAT('%',:regex,'%') OR "
+            + "u.email LIKE CONCAT('%',:regex,'%')) "
             + "ORDER BY u.name, u.email")
     List<User> findByRegexOrderByNameAsc(@Param("regex") String regex);
 }

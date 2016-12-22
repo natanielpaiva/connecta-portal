@@ -52,6 +52,8 @@ public class LdapCustomProvider implements AuthenticationProvider {
     }
 
     private Authentication createAutentication(User user) {
+    	user.setDomains(null);
+    	user.setImage(null);
 
         UserRepositoryUserDetails userDetails = new UserRepositoryUserDetails(user);
 

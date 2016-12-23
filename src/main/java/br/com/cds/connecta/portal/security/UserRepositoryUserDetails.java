@@ -16,6 +16,8 @@ public class UserRepositoryUserDetails implements UserDetails {
 
     public UserRepositoryUserDetails(User user) {
         this.user = user;
+        this.user.setDomains(null);
+        this.user.setImage(null);
     }
 
     @Override

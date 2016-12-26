@@ -23,8 +23,6 @@ import br.com.cds.connecta.portal.business.applicationService.ILdapAS;
 import br.com.cds.connecta.portal.business.applicationService.IMailAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.domain.UserProviderEnum;
-import br.com.cds.connecta.portal.entity.Domain;
-import br.com.cds.connecta.portal.entity.Role;
 import br.com.cds.connecta.portal.entity.User;
 import br.com.cds.connecta.portal.persistence.RoleRepository;
 import br.com.cds.connecta.portal.persistence.UserRepository;
@@ -34,7 +32,6 @@ import br.com.cds.connecta.portal.security.ldap.LdapUser;
 import br.com.cds.connecta.portal.dto.InviteRequestDTO;
 import java.security.Principal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.data.domain.PageRequest;
@@ -57,19 +54,20 @@ public class UserAS implements IUserAS {
     private UserRepository userRepository;
 
     @Autowired
+    private RoleRepository roleRepository;
+    
+    @Autowired
     private IDomainAS domainAS;
 
     @Autowired
     private IMailAS mailAS;
 
     @Autowired
-    private RoleRepository roleRepository;
-
+    private ILdapAS ldapAS;
+    
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    private ILdapAS ldapAS;
 
     @Override
     public User get(Long id) {
@@ -109,7 +107,7 @@ public class UserAS implements IUserAS {
 
     @Override
     public List<User> getByRegex(String regex, Long idDomain) {
-        List<User> users = userRepository.findByRegexOrderByNameAsc(regex);
+        List<User> users = userRepository.findByRegexOrderByNameAsc(regex, domainAS.get(idDomain));
 
         if (isNull(users)) {
             throw new ResourceNotFoundException(User.class.getSimpleName());
@@ -120,10 +118,9 @@ public class UserAS implements IUserAS {
     
     @Override
     public List<User> get(int length, Long idDomain) {
-
+        
         Pageable limit = new PageRequest(0, length);
         
-//        List<User> users = userRepository.findAllByOrderByNameAsc(limit);
         List<User> users = userRepository.findByDomainsNotInOrder(domainAS.get(idDomain), limit);
         
         return users;
@@ -205,7 +202,7 @@ public class UserAS implements IUserAS {
     @Override
     public User save(User user) {
 
-        user.setRoles(new ArrayList<Role>());
+        user.setRoles(new ArrayList<>());
         user.getRoles().add(roleRepository.findOne(RoleSpecification.byName("ROLE_USER")));
 
         user.setImage(null);
@@ -256,15 +253,10 @@ public class UserAS implements IUserAS {
             inviteRequestVO.setReceiver(email);
         }
 
-        //caso exista o usuário, verifica se ele ja possui o domínio que está sendo convidado
-        if (isNotNull(user) && user.getDomains().contains(inviteRequestVO.getDomain())) {
-            throw new AlreadyExistsException(User.class.getSimpleName(), Domain.class.getSimpleName());
-        }
-
         //Usuario inexistente
         if (isNull(user)) {
             user = new User();
-            user.setDomains(new ArrayList<Domain>());
+            user.setDomains(new ArrayList<>());
             user.setHashInvited(hash.toString());
             user.setEmail(inviteRequestVO.getReceiver());
             inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "?hash=" + hash.toString() + "&flow=" + SECTION_FORM_INVITED);
@@ -274,7 +266,6 @@ public class UserAS implements IUserAS {
             inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "?hash=" + hash.toString() + "&flow=" + SECTION_FORM_INVITED);
         }
 
-        //Usuario já confirmado somente adiciona o dominio.
         user.getDomains().add(inviteRequestVO.getDomain());
 
         return userRepository.save(user);

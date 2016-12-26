@@ -27,11 +27,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
             + "ORDER BY u.name, u.email")
     List<User> findByDomainsNotInOrder(@Param("domain")Domain domain, Pageable pageable);
     
-//    List<User> findAllByOrderByNameAsc(Pageable limit);
-    
     @Query("SELECT u FROM User u WHERE "
+            + ":domain NOT MEMBER OF u.domains AND "
             + "(u.name LIKE CONCAT('%',:regex,'%') OR "
-            + "u.email LIKE CONCAT('%',:regex,'%')) "
+            + "u.email LIKE CONCAT('%',:regex,'%')) "  
             + "ORDER BY u.name, u.email")
-    List<User> findByRegexOrderByNameAsc(@Param("regex") String regex);
+    List<User> findByRegexOrderByNameAsc(@Param("regex") String regex, @Param("domain")Domain domain);
 }

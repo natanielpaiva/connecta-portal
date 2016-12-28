@@ -12,7 +12,9 @@ import java.util.UUID;
 
 /**
  *
- * @author heloisa
+
+ * @author Heloisa Alves
+
  */
 public interface IUserAS {
 
@@ -20,12 +22,19 @@ public interface IUserAS {
 
     User get(Principal user);
 
+
+    List<User> get(int length,Long idDomain);
+    
+
     User getByEmail(String username);
 
     List<User> getByName(String name);
 
     User getByHashInvited(String hash);
     
+
+    List<User> getByRegex(String regex, Long iDomains);
+  
     User getByHashPassword(String hash);
 
     List<User> getAll();

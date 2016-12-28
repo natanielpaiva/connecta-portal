@@ -28,7 +28,9 @@ import java.util.List;
 
 /**
  *
- * @author heloisa
+
+ * @author Heloisa Alves
+
  */
 @RestController
 @RequestMapping("user")
@@ -81,6 +83,14 @@ public class UserController {
         IOUtils.copy(inputStream, response.getOutputStream());
         response.flushBuffer();
     }
+    
+    @RequestMapping(value = "get/{length}/{idDomain}", method = RequestMethod.GET)
+    public ResponseEntity get(@PathVariable("length") int length, 
+                              @PathVariable("idDomain") Long idDomain) {
+        List<User> users = userService.get(length,idDomain);
+        
+        return new ResponseEntity(users, HttpStatus.OK);
+    }
 
     @RequestMapping(method = RequestMethod.GET)
     public ResponseEntity getByEmail(@RequestParam String email) {
@@ -88,6 +98,16 @@ public class UserController {
 
         return new ResponseEntity(HttpStatus.OK);
     }
+
+    
+    @RequestMapping(value = "search/{idDomain}", method = RequestMethod.GET)
+    public ResponseEntity getByRegex(@PathVariable("idDomain") Long idDomain, 
+                                     @RequestParam("regex") String regex) {
+        List<User> users = userService.getByRegex(regex,idDomain);
+
+        return new ResponseEntity(users, HttpStatus.OK);
+    }
+
 
     @RequestMapping(value = "hash", method = RequestMethod.GET)
     public ResponseEntity getByHashInvited(@RequestParam String hash) {

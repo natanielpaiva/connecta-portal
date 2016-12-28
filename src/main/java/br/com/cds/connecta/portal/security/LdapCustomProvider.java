@@ -100,9 +100,11 @@ public class LdapCustomProvider implements AuthenticationProvider {
         user.setProvider(UserProviderEnum.LDAP);
         Role roleUsr = roleRepository.findOne(RoleSpecification.byName("ROLE_USER"));
 
+
         List<Role> roles = new ArrayList<Role>();
         roles.add(roleUsr);
         user.setRoles(roles);
+
 
         //retira o hashInvited
         user.setHashInvited(null);

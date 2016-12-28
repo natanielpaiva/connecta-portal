@@ -28,7 +28,9 @@ import java.util.List;
 
 /**
  *
+
  * @author Heloisa Alves
+
  */
 @RestController
 @RequestMapping("user")
@@ -96,6 +98,7 @@ public class UserController {
 
         return new ResponseEntity(HttpStatus.OK);
     }
+
     
     @RequestMapping(value = "search/{idDomain}", method = RequestMethod.GET)
     public ResponseEntity getByRegex(@PathVariable("idDomain") Long idDomain, 
@@ -104,6 +107,7 @@ public class UserController {
 
         return new ResponseEntity(users, HttpStatus.OK);
     }
+
 
     @RequestMapping(value = "hash", method = RequestMethod.GET)
     public ResponseEntity getByHashInvited(@RequestParam String hash) {
@@ -118,7 +122,7 @@ public class UserController {
 
         return new ResponseEntity(users, HttpStatus.OK);
     }
-    
+
     @RequestMapping(value = "mail", method = RequestMethod.GET)
     public ResponseEntity isAvailableEmail(@RequestParam String email) {
         userService.isAvailableEmail(email);

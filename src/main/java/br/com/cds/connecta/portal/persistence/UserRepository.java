@@ -16,6 +16,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     User findByEmail(String login);
 
+
     User findByHashPassword(String hashPassword);
 
     User findByHashInvited(String hashInvited);
@@ -34,3 +35,4 @@ public interface UserRepository extends JpaRepository<User, Long> {
             + "ORDER BY u.name, u.email")
     List<User> findByRegexOrderByNameAsc(@Param("regex") String regex, @Param("domain")Domain domain);
 }
+

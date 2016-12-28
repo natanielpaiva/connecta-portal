@@ -23,6 +23,7 @@ import br.com.cds.connecta.portal.business.applicationService.ILdapAS;
 import br.com.cds.connecta.portal.business.applicationService.IMailAS;
 import br.com.cds.connecta.portal.business.applicationService.IUserAS;
 import br.com.cds.connecta.portal.domain.UserProviderEnum;
+
 import br.com.cds.connecta.portal.entity.User;
 import br.com.cds.connecta.portal.persistence.RoleRepository;
 import br.com.cds.connecta.portal.persistence.UserRepository;
@@ -54,6 +55,7 @@ public class UserAS implements IUserAS {
     private UserRepository userRepository;
 
     @Autowired
+
     private RoleRepository roleRepository;
     
     @Autowired
@@ -100,10 +102,12 @@ public class UserAS implements IUserAS {
 
         if (isNull(user)) {
             throw new ResourceNotFoundException(User.class.getSimpleName());
+
         }
 
         return user;
     }
+
 
     @Override
     public List<User> getByRegex(String regex, Long idDomain) {
@@ -130,12 +134,14 @@ public class UserAS implements IUserAS {
     public User getByHashInvited(String hashInvited) {
         User user = userRepository.findByHashInvited(hashInvited);
 
+
         if (isNull(user)) {
             throw new ResourceNotFoundException(User.class.getCanonicalName());
         }
 
         return user;
     }
+
 
     @Override
     public User getByHashPassword(String hashPassword) {
@@ -147,6 +153,7 @@ public class UserAS implements IUserAS {
 
         return user;
     }
+
 
     @Override
     public List<User> getAll() {
@@ -202,7 +209,9 @@ public class UserAS implements IUserAS {
     @Override
     public User save(User user) {
 
+
         user.setRoles(new ArrayList<>());
+
         user.getRoles().add(roleRepository.findOne(RoleSpecification.byName("ROLE_USER")));
 
         user.setImage(null);
@@ -253,10 +262,12 @@ public class UserAS implements IUserAS {
             inviteRequestVO.setReceiver(email);
         }
 
+
         //Usuario inexistente
         if (isNull(user)) {
             user = new User();
             user.setDomains(new ArrayList<>());
+
             user.setHashInvited(hash.toString());
             user.setEmail(inviteRequestVO.getReceiver());
             inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "?hash=" + hash.toString() + "&flow=" + SECTION_FORM_INVITED);
@@ -265,6 +276,7 @@ public class UserAS implements IUserAS {
             user.setHashInvited(hash.toString());
             inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "?hash=" + hash.toString() + "&flow=" + SECTION_FORM_INVITED);
         }
+
 
         user.getDomains().add(inviteRequestVO.getDomain());
 
@@ -310,7 +322,9 @@ public class UserAS implements IUserAS {
     public void sendRecoveryPassword(String login) {
         User user = getByEmail(login);
 
+
         if (isNotNull(user.getProvider()) && user.getProvider().equals(UserProviderEnum.LDAP)) {
+
             throw new BusinessException(MessageEnum.REJECTED);
         }
 
@@ -337,4 +351,6 @@ public class UserAS implements IUserAS {
         return userRepository.save(user);
     }
 
+
 }
+

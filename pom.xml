@@ -42,6 +42,14 @@
 			<name>Spring Milestone Repository</name>
 			<url>http://repo.springsource.org/milestone</url>
 		</repository>
+		<repository>
+			<id>connecta-framework-mvn-repo</id>
+			<url>https://raw.github.com/connecta-solutions/connecta-framework/mvn-repo/</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
 	</repositories>
 
 	<build>

@@ -47,6 +47,12 @@ public class LdapCustomProvider implements AuthenticationProvider {
         user.setEmail(username);
         user.setPassword(encoder.encode("044063c23354128b336df86f11872e68")); //md5 for ldap
         user.setProvider(UserProviderEnum.LDAP);
+        
+		Role roleUsr = roleRepository.findOne(RoleSpecification.byName("ROLE_USER"));
+
+		List<Role> roles = new ArrayList<Role>();
+		roles.add(roleUsr);
+		user.setRoles(roles);
 
         return userService.save(user);
     }
@@ -100,11 +106,9 @@ public class LdapCustomProvider implements AuthenticationProvider {
         user.setProvider(UserProviderEnum.LDAP);
         Role roleUsr = roleRepository.findOne(RoleSpecification.byName("ROLE_USER"));
 
-
         List<Role> roles = new ArrayList<Role>();
         roles.add(roleUsr);
         user.setRoles(roles);
-
 
         //retira o hashInvited
         user.setHashInvited(null);

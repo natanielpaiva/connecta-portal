@@ -8,7 +8,9 @@ os: linux
 cache:
   directories:
     - $HOME/.m2/repository
-
+before_install:
+  - wget -P . https://github.com/connecta-solutions/connecta-framework/blob/master/connecta-connectors/lib/ojdbc7.jar
+  - mvn install:install-file -Dfile=ojdbc7.jar -DgroupId=com.oracle -DartifactId=ojdbc7 -Dversion=12.1.0.2 -Dpackaging=jar
 after_success:
   - mvn clean test jacoco:report coveralls:report
 

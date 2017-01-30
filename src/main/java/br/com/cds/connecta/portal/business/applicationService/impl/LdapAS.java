@@ -4,6 +4,7 @@ package br.com.cds.connecta.portal.business.applicationService.impl;
 import java.util.Observable;
 import java.util.Observer;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +23,8 @@ public class LdapAS implements ILdapAS, Observer {
 	private ConnectaConfigurationService connectaConfigurationService;
 	
 	private LdapConfiguration ldapConfiguration = new LdapConfiguration();
+	
+	private final Logger logger = Logger.getLogger(LdapAS.class);
 
 	public LdapUser verifyLogin(String username, String password ){
 		LdapProvider ldapProvider = getLdapProvider();
@@ -31,16 +34,15 @@ public class LdapAS implements ILdapAS, Observer {
 		filter.addFilter("objectClass", "organizationalPerson");
 		filter.addFilter("sAMAccountName", username);
 
-		LdapUser ldapUser=null;
+		LdapUser ldapUser = null;
 
 		try {
 			ldapUser = ldapProvider.authenticate(username, password, filter);
 		} catch (LdapProviderException e) {
-			throw new ResourceNotFoundException(LdapUser.class.getCanonicalName());
+			logger.error(e.getMessage(), e.getCause());
 		}
 
 		return ldapUser;
-
 	}
 	
 	@Override
@@ -52,7 +54,7 @@ public class LdapAS implements ILdapAS, Observer {
 		filter.addFilter("objectClass", "organizationalPerson");
 		filter.addFilter("mail", email);
 		
-		LdapUser ldapUser=null;
+		LdapUser ldapUser = null;
 
 		try {
 			ldapUser = ldapProvider.returnUserByEmail(filter);

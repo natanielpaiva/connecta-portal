@@ -63,7 +63,7 @@ public interface IUserAS {
 
     User removeDomain(Long idUser, Long idDomain);
 
-    void sendRecoveryPassword(String email);
+    void sendRecoveryPassword(String email, String url);
 
     User resetPassword(String hash, String newPasss);
 

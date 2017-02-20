@@ -94,7 +94,7 @@ public class DomainController {
     }
 
     @RequestMapping(value = "invite", method = RequestMethod.POST)
-    public ResponseEntity inviteUser(@RequestParam("listEmails") List<String> emails,
+    public ResponseEntity inviteUser(@RequestBody List<String> emails,
             @RequestParam("idDomain") Long idDomain,
             @RequestParam("url") String url,
             Principal userLogged) {

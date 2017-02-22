@@ -45,7 +45,7 @@ public class DomainAS implements IDomainAS {
 
     @Override
     public Domain update(Domain domain) {
-        return (Domain) domainRepository.save(domain);
+        return  domainRepository.save(domain);
     }
     
     @Override

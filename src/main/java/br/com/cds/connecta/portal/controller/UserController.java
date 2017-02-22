@@ -183,9 +183,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "recover", method = RequestMethod.POST)
-    public ResponseEntity recoveryPassword(@RequestParam String email) {
+    public ResponseEntity recoveryPassword(@RequestParam("email") String email, @RequestParam("url") String url) {
 
-        userService.sendRecoveryPassword(email);
+        userService.sendRecoveryPassword(email, url);
         return new ResponseEntity(HttpStatus.OK);
     }
 }

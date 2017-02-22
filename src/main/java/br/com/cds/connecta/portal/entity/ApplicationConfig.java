@@ -4,8 +4,6 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 /**
@@ -15,9 +13,6 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "TB_APPLICATION_CONFIG")
-@NamedQueries({
-    @NamedQuery(name = "ApplicationConfig.findByName", query = "SELECT p FROM ApplicationConfig p WHERE p.param = :param")
-})
 public class ApplicationConfig implements Serializable {
 
     @Id
@@ -27,6 +22,7 @@ public class ApplicationConfig implements Serializable {
     @Column(name = "CONFIG_VALUE")
     private String value;
 
+    
     public String getParam() {
         return param;
     }

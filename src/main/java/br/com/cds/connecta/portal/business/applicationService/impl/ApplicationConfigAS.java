@@ -15,12 +15,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class ApplicationConfigAS implements IApplicationConfigAS {
 
-    @Autowired ApplicationConfigRepository dao;
-    
+    @Autowired
+    private ApplicationConfigRepository configRepository;
+
     @Override
     public String getByName(ApplicationConfigEnum config) {
-        ApplicationConfig appConfig = dao.findByName(config.name());
+        ApplicationConfig appConfig = configRepository.findByParam(config.name());
         return appConfig.getValue();
     }
-    
+
 }

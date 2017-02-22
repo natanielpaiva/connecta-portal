@@ -10,5 +10,6 @@ import br.com.cds.connecta.portal.domain.ApplicationConfigEnum;
 public interface IApplicationConfigAS {
 
     String getByName(ApplicationConfigEnum config);
-    
+
+
 }

@@ -47,7 +47,6 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 public class UserAS implements IUserAS {
 
     private final static String DEFAULT_USER_IMAGE = "./user-default.jpg";
-    private final static String URL = "http://localhost:9001/#/";
     private final static String SECTION_FORGOT_FORM = "forgot-password";
     private final static String SECTION_FORM_INVITED = "create-account";
 
@@ -270,11 +269,11 @@ public class UserAS implements IUserAS {
 
             user.setHashInvited(hash.toString());
             user.setEmail(inviteRequestVO.getReceiver());
-            inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "?hash=" + hash.toString() + "&flow=" + SECTION_FORM_INVITED);
+            inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "#/?hash=" + hash.toString() + "&flow=" + SECTION_FORM_INVITED);
             //Usuario não confirmado.
         } else if (isNotNull(user.getHashInvited())) {
             user.setHashInvited(hash.toString());
-            inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "?hash=" + hash.toString() + "&flow=" + SECTION_FORM_INVITED);
+            inviteRequestVO.setUrl(inviteRequestVO.getUrl() + "#/?hash=" + hash.toString() + "&flow=" + SECTION_FORM_INVITED);
         }
 
 
@@ -319,9 +318,8 @@ public class UserAS implements IUserAS {
     }
 
     @Override
-    public void sendRecoveryPassword(String login) {
+    public void sendRecoveryPassword(String login, String url) {
         User user = getByEmail(login);
-
 
         if (isNotNull(user.getProvider()) && user.getProvider().equals(UserProviderEnum.LDAP)) {
 
@@ -329,12 +327,12 @@ public class UserAS implements IUserAS {
         }
 
         if (isNotNull(user.getHashInvited())) {
-            mailAS.sendRememberInvite(user, URL + "?hash=" + user.getHashInvited()
+            mailAS.sendRememberInvite(user, url + "#/?hash=" + user.getHashInvited()
                     + "&flow=" + SECTION_FORM_INVITED);
 
         } else {
             user.setHashPassword(UUID.randomUUID().toString());
-            mailAS.sendRecovery(user, URL + "?hash=" + user.getHashPassword()
+            mailAS.sendRecovery(user, url + "#/?hash=" + user.getHashPassword()
                     + "&flow=" + SECTION_FORGOT_FORM);
 
             userRepository.save(user);

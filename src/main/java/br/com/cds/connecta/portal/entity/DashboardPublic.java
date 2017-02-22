@@ -29,6 +29,7 @@ public class DashboardPublic extends AbstractBaseEntity {
     @Column
     private byte[] publicKey;
     
+    @Column(updatable=false, nullable=false)
     @JsonIgnore
     private byte[] privateKeyEncodedString;
     
